@@ -53,41 +53,35 @@ class EmployeeVacationSetting extends Component {
             // sort:''
         };
     }
-    
+
     AddHandleOpen = (count, employeeId) => {
-    this.setState((prevState) => {
-        const updatedCombineData = prevState.combineData.map((data) => {
-            if (data.employeeId === employeeId) {
-                // 해당하는 employeeId의 데이터를 찾아 count를 더한 값으로 업데이트
-                return {
-                    ...data,
-                    remainVacation: data.remainVacation + count,
-                };
-            }
-            return data;
-        });
-    
-        return {
-            ...prevState,
+        this.setState((prevState) => {
+            const updatedCombineData = prevState.combineData.map((data) => {
+                if (data.employeeId === employeeId) {
+                    // 해당하는 employeeId의 데이터를 찾아 count를 더한 값으로 업데이트
+                    return {
+                        ...data,
+                        remainVacation: data.remainVacation + count,
+                    };
+                }
+                return data;
+            });
+
+            return {
+                ...prevState,
                 addOpen: true,
                 combineData: updatedCombineData,
                 vacationType: { ...prevState.vacationType, [employeeId]: '' },
                 countInput: { ...prevState.countInput, [employeeId]: '' },
                 reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
-        };
-    }, () => {
-        // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력합니다.
-    
-        console.log("state 최종 : ", this.state);
-    });
-    
-    
-    
-        // this.setState({ ...this.state, addOpen: true }, () => {
-        //    
-        //     // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력합니다.
-        //     console.log("state : ", this.state);
-        // });
+            };
+        }, () => {
+
+            // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력합니다.
+            console.log("state 최종 : ", this.state);
+
+        });
+
     };
 
 
@@ -114,45 +108,17 @@ class EmployeeVacationSetting extends Component {
                 reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
             };
         }, () => {
-            // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력합니다.
+            // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력
 
             console.log("state 최종 : ", this.state);
         });
 
-
-
-        // this.setState({ ...this.state, deleteOpen: true });
     };
 
     handleClose = (count, employeeId) => {
-        
+
         this.setState({...this.state,addOpen:false,deleteOpen:false})
-        // this.setState((prevState) => {
-        //     const updatedCombineData = prevState.combineData.map((data) => {
-        //         if (data.employeeId === employeeId) {
-        //             // 해당하는 employeeId의 데이터를 찾아 count를 더한 값으로 업데이트
-        //             return {
-        //                 ...data,
-        //                 remainVacation: data.remainVacation + count,
-        //             };
-        //         }
-        //         return data;
-        //     });
-        //    
-        //     return {
-        //         ...prevState,
-        //         addOpen: false,
-        //         deleteOpen: false,
-        //         combineData: updatedCombineData,
-        //         vacationType: { ...prevState.vacationType, [employeeId]: '' },
-        //         countInput: { ...prevState.countInput, [employeeId]: '' },
-        //         reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
-        //     };
-        // }, () => {
-        //     // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력합니다.
-        //    
-        //     console.log("state 최종 : ", this.state);
-        // });
+
     };
 
     async login(){
@@ -170,8 +136,9 @@ class EmployeeVacationSetting extends Component {
 
     async fetchData(page) {
         if(page!=''){
-            page+='?page='
+            page='?page='+page
         }
+
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + page);
             const empPageData = employeeData.data //페이지 객체 데이터
@@ -236,13 +203,11 @@ class EmployeeVacationSetting extends Component {
             }));
         };
 
-        // const sortChange=(event)=>{
-        //     this.setState({ sort: event.target.value }, () => {
-        //         this.fetchData("?sort=" + this.state.sort);
-        //     });
-        // }
-         const handleSearchButtonClick = async(e) => {
-            // const searchKeyword = document.getElementById('outlined-basic').value; // 검색 데이터
+        const descChange = (event) =>{
+
+        }
+
+        const handleSearchButtonClick = async(e) => {
             console.log("searchKeyword : ", searchKeyword);
             if(searchKeyword == ""){
                 const page="";
@@ -288,14 +253,14 @@ class EmployeeVacationSetting extends Component {
                     return;
                 }
             }
-             
+
         };
 
-        
+
         // form 전송에 필요한 데이터를 받아와 sendData 함수에 전달
         const handleButtonClick = (event, employeeId,action) => {
             const isAddButton = action === 'add';
-            
+
             const countValue  = countInput[employeeId];
             // 숫자가 아닌 경우 메시지 표시
             if (!/^\d+$/.test(countValue)) {
@@ -303,7 +268,7 @@ class EmployeeVacationSetting extends Component {
                 return;
             }
             const count = isAddButton ? parseInt(countValue, 10) : -parseInt(countValue, 10);
-            
+
             if(reasonInput[employeeId] === ""||reasonInput[employeeId]==null){
                 alert("사유를 입력하세요!");
                 return;
@@ -321,8 +286,7 @@ class EmployeeVacationSetting extends Component {
             (async () => {
                 await sendData(count, reason, vacationType, employeeId,isAddButton);
             })();
-            
-             // this.handleClose(count,employeeId);
+
         };
 
         const sendData = async(count,reason,vacationType,employeeId,isAddButton) => {
@@ -341,12 +305,12 @@ class EmployeeVacationSetting extends Component {
                 if(isAddButton===true){
                     this.AddHandleOpen(count,employeeId);
                 }
-                
+
                 if(isAddButton===false){
                     this.DeleteHandleOpen(count,employeeId);
                 }
 
-                
+
                 console.log("전송 성공");
             }catch(error) {
                 if (error.response.status === 400) {
@@ -393,7 +357,7 @@ class EmployeeVacationSetting extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                
+
                 <div className={classes.outerContainer}>
                     <Box component="section" width="80%" >
                         <Typography variant="h3" style={{ margin: '50px', textAlign: 'center' }}>
@@ -410,19 +374,20 @@ class EmployeeVacationSetting extends Component {
                             </Box>
                         </div>
 
-                        {/*<FormControl className={classes.formControl}>*/}
-                        {/*    <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>*/}
-                        {/*    <Select*/}
-                        {/*        labelId={`demo-simple-select-label`}*/}
-                        {/*        id={`demo-simple-select`}*/}
-                        {/*        value={this.state.sort}*/}
-                        {/*        onChange={(e) => sortChange(e)}>*/}
-                        {/*        <MenuItem value={"asc"}>오름차순</MenuItem>*/}
-                        {/*        <MenuItem value={"내림차순"}>내림차순</MenuItem>*/}
-                        {/*    </Select>*/}
-                        {/*</FormControl>*/}
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.desc}
+                                onChange={(e) => descChange(e)}>
+                                <MenuItem value={"asc"}>오름차순</MenuItem>
+                                <MenuItem value={"내림차순"}>내림차순</MenuItem>
+                            </Select>
+                        </FormControl>
+
                     </Box>
-                    
+
 
                     <Box component="section" width="80%" sx={{ alignItems: 'center',marginBottom:'20px'}}>
                         <Box component="section" sx={{ p: 3, border: '1px solid black', display: 'flex', justifyContent: 'space-between',  textAlign: 'center' }}>
@@ -435,7 +400,7 @@ class EmployeeVacationSetting extends Component {
                             <Box component="span" width='5%' margin='auto'> 추가 버튼</Box>
                             <Box component="span" width='5%' margin='auto'> 삭제 버튼</Box>
                         </Box>
-    
+
                         {combineData.map((data) => (
                             <div key={data.employeeId}>
                                 <Box component="section" sx={{ p: 3, border: '1px solid black', display: 'flex', justifyContent: 'space-between',  textAlign: 'center'}}>
@@ -464,7 +429,7 @@ class EmployeeVacationSetting extends Component {
                                             this.setState({countInput: updateCountInput});
                                         }} />
                                     </Box>
-                                    
+
                                     <Box component="span" width='20%' margin='auto'>
                                         <TextField id={`standard-basic-reason-${data.employeeId}`} label="사유" value={reasonInput[data.employeeId]||''} onChange={(e) => {
                                             const updateReasonInput={...reasonInput,[data.employeeId]:e.target.value};
@@ -472,16 +437,16 @@ class EmployeeVacationSetting extends Component {
                                             this.setState({ reasonInput: updateReasonInput });
                                         }}/>
                                     </Box>
-    
+
                                     <Box component="span" width='5%' margin='auto'>
                                         <Button variant="contained" color="primary" onClick={(e) => handleButtonClick(e, data.employeeId,'add')}>추가</Button>
                                     </Box>
-    
+
                                     <Box component="span" width='5%' margin='auto'>
                                         <Button variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>
                                     </Box>
                                 </Box>
-    
+
                             </div>
                         ))}
                     </Box>
@@ -494,10 +459,10 @@ class EmployeeVacationSetting extends Component {
                                 pageRangeDisplayed={10} //Paginator 내에서 보여줄 페이지의 범위
                                 onChange={(page)=>this.fetchData(page)} //페이지 바뀔때 핸들링할 함수
                             />
-                         </div>
+                        </div>
                     </Box>
                 </div>
-            </div>    
+            </div>
         );
     }
 }
