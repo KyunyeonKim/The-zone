@@ -1,13 +1,7 @@
-import React from 'react'
-import { render } from 'react-dom'
-
-import './index.css'
-import MainEndPoint from "./jang/MainEndPoint";
-
-export const stateStore=[]
-document.addEventListener('DOMContentLoaded', function() {
-  render(
-    <MainEndPoint/>,
-    document.body.appendChild(document.createElement('div'))
-  )
+import React from 'react';
+import CreateEmployee from "./component/kim/component/CreateEmployee";
+import {render} from "react-dom";
+document.addEventListener('DOMContentLoaded', function () {
+    render(<CreateEmployee/>, document.body.appendChild(document.createElement('div')))
 })
+
