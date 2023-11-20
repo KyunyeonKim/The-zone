@@ -1,13 +1,9 @@
-import React from 'react'
-import { render } from 'react-dom'
+import React from 'react';
 
-import './index.css'
-import MainEndPoint from "./jang/MainEndPoint";
+import EmployeeVacationSetting from "./component/chun/Component/EmployeeVacationSetting";
+import {render} from "react-dom";
 
-export const stateStore=[]
-document.addEventListener('DOMContentLoaded', function() {
-  render(
-    <MainEndPoint/>,
-    document.body.appendChild(document.createElement('div'))
-  )
+
+document.addEventListener('DOMContentLoaded', function () {
+    render(<EmployeeVacationSetting/>, document.body.appendChild(document.createElement('div')))
 })
