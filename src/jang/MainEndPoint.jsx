@@ -1,15 +1,10 @@
-// Install required packages
-// npm install react-router-dom axios
-
-// App.js
-
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Routes, Navigate, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import Login from './Login';
-import EmployeeMain from './main/EmployeeMainContainer';
-import AdminMain from './main/EmployeeMainContainer';
+import EmployeeMain from '../jang/main/EmployeeMainContainer';
+import AdminMain from '../jang/main/EmployeeMainContainer';
 
 class MainEndPoint extends Component {
   loginData;

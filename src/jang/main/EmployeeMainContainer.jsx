@@ -1,7 +1,6 @@
 import React from 'react'
-import CalendarContainer from "../CalendarContainer";
-import axios from "axios";
-import {stateStore} from "../index";
+
+import {stateStore} from "../../index";
 import ModalContainer from "../ModalContainer";
 import Dashboard from "../../dashboard/Dashboard";
 
