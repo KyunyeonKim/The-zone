@@ -127,13 +127,13 @@ class GetHistoryOfVacationDefaultSetting extends Component {
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
-                        alert("400 Bad Request Error!");
+                        alert("400 Bad Request 에러!");
                         break;
                     case 500:
-                        alert("500 Internal Server Error!");
+                        alert("500 Internal Server 에러!");
                         break;
                     case 403:
-                        alert("403 Forbidden - Access denied!");
+                        alert("403 Forbidden - 에러!");
                         break;
                     default:
                         alert("An error occurred!");
