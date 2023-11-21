@@ -368,14 +368,29 @@ class EmployeeVacationSetting extends Component {
         // form 전송에 필요한 데이터를 받아와 sendData 함수에 전달
         const handleButtonClick =  (event, employeeId,action) => {
             const isAddButton = action === 'add';
+            console.log("combine : ",this.state.combineData);
 
             const countValue  = countInput[employeeId];
+
             // 숫자가 아닌 경우 메시지 표시
             if (!/^\d+$/.test(countValue)) {
                 alert("개수에 0이상의 숫자 데이터를 입력하세요!");
                 return;
             }
+
+            const remainingVacation = this.state.combineData.find(data => data.employeeId === employeeId)?.remainVacation;
+            console.log("countValue:", parseInt(countValue,10));
+            console.log("Remaining Vacation:", remainingVacation);
+
+            if (parseInt(countValue,10) > remainingVacation) {
+                console.log("남은 연차 개수보다 많은 개수입니다!");
+                alert("남은 연차 개수보다 많은 개수를 입력할 수 없습니다!");
+                return;
+            }
+
             const count = isAddButton ? parseInt(countValue, 10) : -parseInt(countValue, 10);
+
+
 
             if(reasonInput[employeeId] === ""||reasonInput[employeeId]==null){
                 alert("사유를 입력하세요!");
@@ -390,6 +405,12 @@ class EmployeeVacationSetting extends Component {
                 alert("연차 종류를 입력하세요!");
                 return;
             }
+
+            if(isAddButton===true && vacationType==="근태 불량"){
+                alert("연차 추가가 불가능한 사유입니다.");
+                return;
+            }
+
             // form 데이터 post 요청하는 함수 호출
             (async () => {
                 await sendData(count, reason, vacationType, employeeId,isAddButton);
