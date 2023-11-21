@@ -91,7 +91,8 @@ class EmployeeVacationSetting extends Component {
             countInput: {},
             reasonInput:{},
             desc:'',
-            sort:''
+            sort:'',
+            isSearch:false
         };
     }
 
@@ -184,15 +185,16 @@ class EmployeeVacationSetting extends Component {
         if(page!=''){
             getPage='?page='+getPage
         }
+        else{
+            await this.setState({sort:'',desc:''});
+        }
         console.log("합치기 전 getPage : ",getPage);
         console.log("this.state.desc : ",this.state.desc);
-        if(this.state.desc !==''&& this.state.sort!==''){
-            getPage = getPage+(getPage.includes('?')?'&':'?')+'desc=' + this.state.desc+'&sort='+this.state.sort;
-            console.log("getPage : ",getPage);
+
+        if(this.state.desc !==''&& this.state.sort!=='') {
+            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.state.desc + '&sort=' + this.state.sort;
+            console.log("getPage : ", getPage);
         }
-
-
-
 
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
@@ -219,7 +221,8 @@ class EmployeeVacationSetting extends Component {
                 combineData: combineData,
                 empPageData:empPageData,
                 activePage: page,
-                showPagiNation:'flex'
+                showPagiNation:'flex',
+                isSearch:false
             });
 
             console.log(this.state);
@@ -272,16 +275,44 @@ class EmployeeVacationSetting extends Component {
 
         }
 
-        const descChange = async (event) =>{
-            await this.setState(prevState=>({
-                desc:event.target.value
+        const descChange = async (event) => {
+            await this.setState((prevState) => ({
+                desc: event.target.value,
+            }), () => {
+                if (!this.state.isSearch) {
+                    this.fetchData(1);
+                } else {
+                    let empData = "";
 
-            }),()=>{
-                console.log("descChange의 값 : ",event.target.value);
-                this.fetchData(1);
+                    if (this.state.desc === "asc") {
+                        empData = this.state.empData.sort((a, b) => {
+                            if (this.state.sort === "employee_id") {
+                                return a.employeeId - b.employeeId;
+                            } else {
+                                return a.name.localeCompare(b.name);
+                            }
+                        });
+                        console.log("empData - asc 정렬 : ", empData);
+                    } else {
+                        empData = this.state.empData.sort((a, b) => {
+                            if (this.state.sort === "employee_id") {
+                                return b.employeeId - a.employeeId;
+                            } else {
+                                return b.name.localeCompare(a.name);
+                            }
+                        });
+                        console.log("empData - desc 정렬 : ", empData);
+                    }
+
+                    const combineData = empData.map((first, index) => ({
+                        ...first,
+                        remainVacation: this.state.remainVacation[index],
+                    }));
+
+                    this.setState({ empData: empData, combineData: combineData });
+                }
             });
-
-        }
+        };
 
         const handleSearchButtonClick = async(e) => {
             console.log("searchKeyword : ", searchKeyword);
@@ -313,6 +344,7 @@ class EmployeeVacationSetting extends Component {
                         remainVacation: remainVacation,
                         combineData: combineData,
                         showPagiNation:"None",
+                        isSearch:true
                     });
                     console.log("this.state",this.state);
 
