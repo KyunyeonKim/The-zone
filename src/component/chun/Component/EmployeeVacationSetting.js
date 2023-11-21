@@ -9,6 +9,13 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import {
     Dialog,
     DialogActions,
@@ -17,19 +24,53 @@ import {
     DialogTitle,
 } from '@material-ui/core';
 import Pagination from "react-js-pagination";
-import './EmployeeVacationSetting.css';
 
 const styles = (theme) => ({
-    outerContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-    }
+    },
+    text :{
+        fontSize:'1.2rem'
+    },
+    button :{
+        height:"90%",
+        fontSize:'1rem'
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '10px',
+        listStyle: 'none',
+        padding: 0,
+    },
+    pageItem: {
+        margin: '0 8px',
+        '& a': {
+            textDecoration: 'none',
+            color: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '35px',
+            width: '35px',
+            borderRadius: '50%',
+        },
+        '&:hover': {
+            border: '1px solid #ddd',
+        },
+    },
+    activePageItem: {
+        '& a': {
+            color: '#007bff', // 번호 색상을 파란색으로 변경
+        },
+        '&:hover': {
+            border: '1px solid #ddd',
+        },
+    },
+
+
 
 });
 
@@ -45,12 +86,12 @@ class EmployeeVacationSetting extends Component {
             empPageData : {},
             addOpen:false,
             deleteOpen:false,
-            // open : false,
-            showPageNation:'flex',
+            showPagiNation:'flex',
             searchKeyword:'',
             countInput: {},
             reasonInput:{},
-            // sort:''
+            desc:'',
+            sort:''
         };
     }
 
@@ -135,12 +176,27 @@ class EmployeeVacationSetting extends Component {
     }
 
     async fetchData(page) {
+        // console.log("PageNationStyle",PageNationStyle);
+
+        let getPage = page;
+        console.log("page : ",page);
+
         if(page!=''){
-            page='?page='+page
+            getPage='?page='+getPage
+        }
+        console.log("합치기 전 getPage : ",getPage);
+        console.log("this.state.desc : ",this.state.desc);
+        if(this.state.desc !==''&& this.state.sort!==''){
+            getPage = getPage+(getPage.includes('?')?'&':'?')+'desc=' + this.state.desc+'&sort='+this.state.sort;
+            console.log("getPage : ",getPage);
         }
 
+
+
+
         try {
-            const employeeData = await axios.get('http://localhost:8080/manager/employees' + page);
+            const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
+            console.log("employeeData.data : ",employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data; //사원정보 데이터
 
@@ -163,7 +219,7 @@ class EmployeeVacationSetting extends Component {
                 combineData: combineData,
                 empPageData:empPageData,
                 activePage: page,
-                showPageNation:'flex'
+                showPagiNation:'flex'
             });
 
             console.log(this.state);
@@ -194,8 +250,8 @@ class EmployeeVacationSetting extends Component {
         const { combineData,vacationType,searchKeyword,countInput,reasonInput} = this.state; // render() 안에 있는 vacationType를 사용 하는 함수는 render 함수 내에 정의
 
         // vacationType state 값을 업데이트
-        const handleChange = (event, employeeId) => {
-            this.setState(prevState => ({
+        const handleChange = async (event, employeeId) => {
+            await this.setState(prevState => ({
                 vacationType: {
                     ...prevState.vacationType,
                     [employeeId]: event.target.value
@@ -203,7 +259,27 @@ class EmployeeVacationSetting extends Component {
             }));
         };
 
-        const descChange = (event) =>{
+        const sortChange = async (event) =>{
+            await this.setState(prevState=>({
+                    sort:event.target.value
+
+                })
+                //     ,()=>{
+                //     console.log("sortChange의 값 : ",event.target.value);
+                //     this.fetchData(1);
+                // }
+            );
+
+        }
+
+        const descChange = async (event) =>{
+            await this.setState(prevState=>({
+                desc:event.target.value
+
+            }),()=>{
+                console.log("descChange의 값 : ",event.target.value);
+                this.fetchData(1);
+            });
 
         }
 
@@ -236,7 +312,7 @@ class EmployeeVacationSetting extends Component {
                         empData: searchResponse,
                         remainVacation: remainVacation,
                         combineData: combineData,
-                        showPageNation:"None",
+                        showPagiNation:"None",
                     });
                     console.log("this.state",this.state);
 
@@ -258,7 +334,7 @@ class EmployeeVacationSetting extends Component {
 
 
         // form 전송에 필요한 데이터를 받아와 sendData 함수에 전달
-        const handleButtonClick = (event, employeeId,action) => {
+        const handleButtonClick =  (event, employeeId,action) => {
             const isAddButton = action === 'add';
 
             const countValue  = countInput[employeeId];
@@ -328,13 +404,49 @@ class EmployeeVacationSetting extends Component {
             }
         }
 
+        const PagiNationStyle = {
+            pagination: {
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '10px',
+            },
+            ul: {
+                listStyle: 'none',
+                padding: '0',
+            },
+            'ul.pagination li': {
+                width: '35px',
+                height: '35px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '1rem',
+            },
+            'ul.pagination li a': {
+                textDecoration: 'none',
+                color: 'black',
+                fontSize: '1rem',
+            },
+            'ul.pagination li.active a': {
+                fontWeight: 'bold',
+                color: '#87b8e3',
+            },
+            'ul.pagination li:hover, ul.pagination li.active': {
+                border: '1px solid grey',
+            },
+            MuiButtonRoot: {
+                height: '55px',
+            },
+        };
+
+
         return (
             <div>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 개수 추가</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            추가 완료하였습니다!
+                            추가 완료 하였습니다!
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -348,7 +460,7 @@ class EmployeeVacationSetting extends Component {
                     <DialogTitle>연차 개수 삭제</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            삭제 완료하였습니다!
+                            삭제 완료 하였습니다!
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -358,106 +470,123 @@ class EmployeeVacationSetting extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <div className={classes.outerContainer}>
-                    <Box component="section" width="80%" >
+
+                <div  style={{ width: '80%', margin: 'auto' }}>
+                    <Box component="section" >
                         <Typography variant="h3" style={{ margin: '50px', textAlign: 'center' }}>
                             사원의 연차 직접 부여
                         </Typography>
                     </Box>
-                    <Box component="section" width="80%"sx={{ marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
+                    <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
                         <div>
                             <Box component="span" sx={{ marginRight: '10px'}}>
                                 <TextField id="outlined-basic" label="검색할 사원 명/사원번호" variant="outlined" value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value })}/>
                             </Box>
                             <Box component="span">
-                                <Button variant="outlined" onClick={(e)=>handleSearchButtonClick(e)}>검색</Button>
+                                <Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick(e)}>검색</Button>
                             </Box>
                         </div>
-
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.desc}
-                                onChange={(e) => descChange(e)}>
-                                <MenuItem value={"asc"}>오름차순</MenuItem>
-                                <MenuItem value={"내림차순"}>내림차순</MenuItem>
-                            </Select>
-                        </FormControl>
-
-                    </Box>
-
-
-                    <Box component="section" width="80%" sx={{ alignItems: 'center',marginBottom:'20px'}}>
-                        <Box component="section" sx={{ p: 3, border: '1px solid black', display: 'flex', justifyContent: 'space-between',  textAlign: 'center' }}>
-                            <Box component="span" width='10%' margin='auto'> 사원 번호 </Box>
-                            <Box component="span" width='10%' margin='auto'> 사원 명 </Box>
-                            <Box component="span" width='10%' margin='auto'> 남은 연차 개수 </Box>
-                            <Box component="span" width='10%' margin='auto'> 연차 종류 </Box>
-                            <Box component="span" width='10%' margin='auto'> 추가 및 삭제 개수 </Box>
-                            <Box component="span" width='20%' margin='auto'> 사유</Box>
-                            <Box component="span" width='5%' margin='auto'> 추가 버튼</Box>
-                            <Box component="span" width='5%' margin='auto'> 삭제 버튼</Box>
-                        </Box>
-
-                        {combineData.map((data) => (
-                            <div key={data.employeeId}>
-                                <Box component="section" sx={{ p: 3, border: '1px solid black', display: 'flex', justifyContent: 'space-between',  textAlign: 'center'}}>
-                                    <Box component="span" width='10%' margin='auto' > {data.employeeId} </Box>
-                                    <Box component="span" width='10%' margin='auto'> {data.name} </Box>
-                                    <Box component="span" width='10%' margin='auto'> {data.remainVacation} </Box>
-                                    <Box component="span" width='10%' margin='auto'>
-                                        <FormControl className={classes.formControl}>
-                                            <InputLabel id={`demo-simple-select-label-${data.employeeId}`}>연차 종류</InputLabel>
-                                            <Select
-                                                labelId={`demo-simple-select-label-${data.employeeId}`}
-                                                id={`demo-simple-select-${data.employeeId}`}
-                                                value={vacationType[data.employeeId]||''}
-                                                onChange={(e) => handleChange(e, data.employeeId)}
-                                            >
-                                                <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
-                                                <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
-                                                <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                    <Box component="span" width='10%' margin='auto'>
-                                        <TextField id={`standard-basic-${data.employeeId}`} label="추가 및 삭제 개수" value={countInput[data.employeeId]||''} onChange={(e) => {
-                                            const updateCountInput={...countInput,[data.employeeId]:e.target.value};
-                                            console.log("updateCountInput : ",updateCountInput);
-                                            this.setState({countInput: updateCountInput});
-                                        }} />
-                                    </Box>
-
-                                    <Box component="span" width='20%' margin='auto'>
-                                        <TextField id={`standard-basic-reason-${data.employeeId}`} label="사유" value={reasonInput[data.employeeId]||''} onChange={(e) => {
-                                            const updateReasonInput={...reasonInput,[data.employeeId]:e.target.value};
-                                            console.log("updateReasonInput : ",updateReasonInput);
-                                            this.setState({ reasonInput: updateReasonInput });
-                                        }}/>
-                                    </Box>
-
-                                    <Box component="span" width='5%' margin='auto'>
-                                        <Button variant="contained" color="primary" onClick={(e) => handleButtonClick(e, data.employeeId,'add')}>추가</Button>
-                                    </Box>
-
-                                    <Box component="span" width='5%' margin='auto'>
-                                        <Button variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>
-                                    </Box>
-                                </Box>
-
-                            </div>
-                        ))}
-                    </Box>
-                    <Box component="section" sx={{display: this.state.showPageNation}}>
                         <div>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.sort}
+                                    onChange={(e) => sortChange(e)}>
+                                    <MenuItem value={"employee_id"}>사원 번호</MenuItem>
+                                    <MenuItem value={"name"}>사원 명</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.desc}
+                                    onChange={(e) => descChange(e)}>
+                                    <MenuItem value={"asc"}>오름차순</MenuItem>
+                                    <MenuItem value={"desc"}>내림차순</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </div>
+
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} stickyHeader="true" >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" className={classes.text}>사원 번호</TableCell>
+                                    <TableCell align="center" className={classes.text}>사원 명</TableCell>
+                                    <TableCell align="center" className={classes.text}>남은 연차 개수</TableCell>
+                                    <TableCell align="center" className={classes.text}>연차 종류</TableCell>
+                                    <TableCell align="center" className={classes.text}>추가 및 삭제 개수</TableCell>
+                                    <TableCell align="center" className={classes.text}>사유</TableCell>
+                                    <TableCell align="center" className={classes.text}>추가</TableCell>
+                                    <TableCell align="center" className={classes.text}>삭제</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {combineData.map((data) => (
+                                    <TableRow key={data.employeeId}>
+                                        <TableCell align="center" className={classes.text}>
+                                            {data.employeeId}
+                                        </TableCell>
+                                        <TableCell align="center" className={classes.text}>{data.name}</TableCell>
+                                        <TableCell align="center" className={classes.text}> {data.remainVacation}</TableCell>
+                                        <TableCell align="center" className={classes.text}>
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel id={`demo-simple-select-label-${data.employeeId}`}>연차 종류</InputLabel>
+                                                <Select
+                                                    labelId={`demo-simple-select-label-${data.employeeId}`}
+                                                    id={`demo-simple-select-${data.employeeId}`}
+                                                    value={vacationType[data.employeeId]||''}
+                                                    onChange={(e) => handleChange(e, data.employeeId)}
+                                                >
+                                                    <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
+                                                    <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
+                                                    <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField id={`standard-basic-${data.employeeId}`} label="추가 및 삭제 개수" value={countInput[data.employeeId]||''} onChange={(e) => {
+                                                const updateCountInput={...countInput,[data.employeeId]:e.target.value};
+                                                console.log("updateCountInput : ",updateCountInput);
+                                                this.setState({countInput: updateCountInput});
+                                            }} />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField id={`standard-basic-reason-${data.employeeId}`} label="사유" value={reasonInput[data.employeeId]||''} onChange={(e) => {
+                                                const updateReasonInput={...reasonInput,[data.employeeId]:e.target.value};
+                                                console.log("updateReasonInput : ",updateReasonInput);
+                                                this.setState({ reasonInput: updateReasonInput });
+                                            }}/>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Button className={classes.button} variant="contained" color="primary" onClick={(e) => handleButtonClick(e, data.employeeId,'add')}>추가</Button>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={PagiNationStyle.pagination}>
                             <Pagination
-                                activePage={this.state.activePage} //현재 페이지
-                                itemsCountPerPage={this.state.empPageData['size']} //한 페이지당 보여줄 리스트 아이템 개수
-                                totalItemsCount={this.state.empPageData['totalElement']} //총 아이템 개수
-                                pageRangeDisplayed={10} //Paginator 내에서 보여줄 페이지의 범위
-                                onChange={(page)=>this.fetchData(page)} //페이지 바뀔때 핸들링할 함수
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.empPageData['size']}
+                                totalItemsCount={this.state.empPageData['totalElement']}
+                                pageRangeDisplayed={10}
+                                onChange={(page) => this.fetchData(page)}
+                                innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                                itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                                activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+
                             />
                         </div>
                     </Box>
