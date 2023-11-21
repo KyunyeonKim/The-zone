@@ -9,8 +9,9 @@ import {
     Typography,
 } from "@material-ui/core";
 import axios from "axios";
-import "../static/CreateEmployee.css";
+// import "../static/CreateEmployee.css";
 import CreateModalComponent from "./CreateModalComponent";
+// import CreateModalComponent from "./CreateModalComponent";
 
 class CreateEmployee extends Component {
     constructor(props) {
@@ -148,6 +149,101 @@ class CreateEmployee extends Component {
         } = this.state;
 
         return (
+
+            <>
+                <style>{`
+                    .items-center {
+                        align-items: center;
+                    }
+                    .justify-center {
+                        justify-content: center;
+                    }
+                    .min-h-screen {
+                        min-height: 100vh;
+                    }
+                    .bg-gray-100 {
+                        background-color: #f0f0f0;
+                    }
+                    .bg-white {
+                        background-color: #fff;
+                    }
+                    .shadow-md {
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+                    .rounded {
+                        border-radius: 8px;
+                    }
+                    .px-8 {
+                        padding-left: 2rem;
+                        padding-right: 2rem;
+                    }
+                    .py-10 {
+                        padding-top: 2.5rem;
+                        padding-bottom: 2.5rem;
+                    }
+                    .w-96 {
+                        width: 24rem;
+                    }
+                    .py-2 {
+                        padding-top: 0.5rem;
+                        padding-bottom: 0.5rem;
+                    }
+                    .px-4 {
+                        padding-left: 1rem;
+                        padding-right: 1rem;
+                    }
+                    .rounded {
+                        border-radius: 0.25rem;
+                    }
+                    .cursor-pointer {
+                        cursor: pointer;
+                    }
+                    .file-upload-container {
+                        text-align: center;
+                        display: flex;
+                        flex-direction: column;
+                        position: relative;
+                    }
+                    .file-upload-label {
+                        display: block;
+                        background-color: #3498db;
+                        color: #fff;
+                        font-weight: bold;
+                        padding: 10px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin-top: 16px;
+                    }
+                    .file-input {
+                        display: none;
+                    }
+                    .placeholder-container {
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 250px;
+                        border: 2px dashed #3498db;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 4px;
+                        background-color: #fff;
+                    }
+                    .preview-container {
+                        margin-top: 38px;
+                        position: relative;
+                    }
+                    .preview-image {
+                        width: 100%;
+                        height: auto;
+                        max-width: 100%;
+                        max-height: 100%;
+                        border-radius: 6px;
+                        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                    }
+                `}</style>
+
             <div className="flex items-center min-h-screen bg-gray-100">
                 <div className="flex justify-center w-full">
                     <div className="flex w-1/2">
@@ -265,6 +361,7 @@ class CreateEmployee extends Component {
                     onConfirm={this.handleCreateEmployee}
                 />
             </div>
+            </>
         );
     }
 }

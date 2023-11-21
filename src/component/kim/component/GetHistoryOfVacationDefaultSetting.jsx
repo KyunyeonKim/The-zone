@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, MenuItem, Select } from "@material-ui/core";
 import axios from "axios";
-import Pagination from "react-js-pagination"; // react-js-pagination 라이브러리를 import
+import Pagination from "react-js-pagination";
 import { withStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const styles = (theme) => ({
     root: {
@@ -11,19 +14,44 @@ const styles = (theme) => ({
         alignItems: "center",
         padding: theme.spacing(2),
     },
+    title: {
+        fontSize: '40px',
+        marginBottom: theme.spacing(8),
+    },
     tableContainer: {
         maxWidth: "80%",
         marginTop: theme.spacing(2),
     },
-    tableHeaderCell: {
-        backgroundColor: "lightblue",
-        color: "white",
-        fontWeight: "bold",
-    },
     pagination: {
-        display: "flex",
-        justifyContent: "center",
-        marginTop: theme.spacing(2),
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '10px',
+        listStyle: 'none',
+        padding: 0,
+    },
+    pageItem: {
+        margin: '0 8px',
+        '& a': {
+            textDecoration: 'none',
+            color: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '35px',
+            width: '35px',
+            borderRadius: '50%',
+        },
+        '&:hover': {
+            border: '1px solid #ddd',
+        },
+    },
+    activePageItem: {
+        '& a': {
+            color: '#007bff',
+        },
+        '&:hover': {
+            border: '1px solid #ddd',
+        },
     },
 });
 
@@ -31,77 +59,156 @@ class GetHistoryOfVacationDefaultSetting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            historyOfVacation: [], // 페이지별 데이터를 저장할 배열
-            totalElements: 0, // 전체 데이터 개수
-            currentPage: 1, // 현재 페이지 번호
-            pageSize: 10, // 페이지 크기 (한 페이지에 보여질 아이템 수)
+            historyOfVacation: [],
+            totalElements: 0,
+            currentPage: 1,
+            pageSize: 10,
+            orderBy: "settingTime",
+            order: "asc",
+            searchPerormed:"false",
         };
-
-        // 페이지 변경 핸들러 함수 바인딩
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.handleChangeOrderBy = this.handleChangeOrderBy.bind(this);
+        this.handleChangeOrder = this.handleChangeOrder.bind(this);
     }
 
 
+    handleChangeOrderBy(event) {
+        this.setState({ orderBy: event.target.value, searchPerformed: false, }, () => {
+            this.fetchPagedData(this.state.currentPage, this.state.pageSize);
+        });
+    }
 
+    handleChangeOrder(event) {
+        this.setState({ order: event.target.value,searchPerformed: false, }, () => {
+            this.fetchPagedData(this.state.currentPage, this.state.pageSize);
 
-    // 페이지 번호 변경 처리 함수
+        });
+    }
+
     async handlePageChange(pageNumber) {
-        // 새로운 페이지로 데이터 요청
         await this.fetchPagedData(pageNumber, this.state.pageSize);
     }
 
-    // 서버에서 페이징된 데이터를 요청하는 함수
     async fetchPagedData(pageNumber, pageSize) {
+        axios.defaults.withCredentials = true;
+        let loginForm = new FormData();
+        loginForm.append("loginId", "200001012");
+        loginForm.append("password", "test");
+
         try {
-            axios.defaults.withCredentials = true;
-            let loginForm = new FormData();
-            // await axios.get("http://localhost:8080/logout");
-            loginForm.append("loginId", "200001012");
-            loginForm.append("password", "test");
             await axios.post("http://localhost:8080/login", loginForm);
 
             const response = await axios.get(
-                `http://localhost:8080/manager/vacation/setting_history/vacation_default?page=${pageNumber}&size=${pageSize}`
+                `http://localhost:8080/manager/vacation/setting_history/vacation_default`, {
+                    params: {
+                        page: pageNumber,
+                        size: pageSize,
+                        sort: this.state.orderBy,
+                        desc: this.state.order === 'asc' ? 'asc' : 'desc'
+                    }
+                }
             );
-            console.log("페이징 데이터", response);
 
-            const pagedData = response.data.data; // 페이지별 데이터
-            const totalElements = response.data.totalElement; // 전체 데이터 개수
+            const pagedData = response.data.data.map(item => ({
+                ...item,
+                settingTime: this.formatDate(item.settingTime),
+                targetDate: this.formatDate(item.targetDate)
+            }));
+            const totalElements = response.data.totalElement;
 
             this.setState({
                 historyOfVacation: pagedData,
                 totalElements: totalElements,
-                currentPage: pageNumber, // 현재 페이지 번호 설정
+                currentPage: pageNumber,
             });
+            console.log(response);
         } catch (error) {
-            console.error("데이터를 가져오지 못함", error);
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        alert("400 Bad Request Error!");
+                        break;
+                    case 500:
+                        alert("500 Internal Server Error!");
+                        break;
+                    case 403:
+                        alert("403 Forbidden - Access denied!");
+                        break;
+                    default:
+                        alert("An error occurred!");
+                        break;
+                }
+            } else {
+                console.error("Error fetching data: ", error);
+                alert("An error occurred while fetching data!");
+            }
         }
     }
 
-    // 컴포넌트가 처음 마운트될 때 초기 데이터 요청
+
+    resetSearch = () => {
+        this.setState({
+            searchPerformed: false,
+        });
+    };
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        };
+        return new Intl.DateTimeFormat('ko-KR', options).format(date);
+    }
+
     async componentDidMount() {
-        await this.fetchPagedData(1, this.state.pageSize);
+        await this.fetchPagedData(this.state.currentPage, this.state.pageSize);
     }
 
     render() {
-        const { historyOfVacation, totalElements, currentPage } = this.state;
-
-        // 전체 페이지 수 계산
-        const totalPages = Math.ceil(totalElements / this.state.pageSize);
+        const { classes } = this.props;
+        const { searchPerformed,historyOfVacation, totalElements, currentPage, pageSize, orderBy, order , searchParameter } = this.state;
 
         return (
-            <div>
-                <h2>근속년수 기준 연차 개수 조정 내역</h2>
-                <TableContainer component={Paper}>
-                    <Table>
+            <div className={classes.root}>
+                <h2 className={classes.title}>근속년수 기준 연차 개수 조정 내역</h2>
+                <Box display="flex" justifyContent="flex-end" width="80%">
+                    <Select
+                        value={orderBy}
+                        onChange={this.handleChangeOrderBy}
+                        displayEmpty
+                        inputProps={{'aria-label': 'Without label'}}
+                    >
+                        <MenuItem value="settingTime">설정 시간 순</MenuItem>
+                        <MenuItem value="targetDate">적용 시간 순</MenuItem>
+                    </Select>
+                    <Select
+                        value={order}
+                        onChange={this.handleChangeOrder}
+                        displayEmpty
+                        inputProps={{'aria-label': 'Without label'}}
+                        style={{marginLeft: 10}}
+                    >
+                        <MenuItem value="asc">오름차순</MenuItem>
+                        <MenuItem value="desc">내림차순</MenuItem>
+                    </Select>
+                </Box>
+
+                <TableContainer component={Paper} className={classes.tableContainer}>
+                    <Table stickyHeader={true}>
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{ backgroundColor: "lightblue", color: "white" }}>사원이름</TableCell>
-                                <TableCell style={{ backgroundColor: "lightblue", color: "white" }}>사원번호</TableCell>
-                                <TableCell style={{ backgroundColor: "lightblue", color: "white" }}>1년이하</TableCell>
-                                <TableCell style={{ backgroundColor: "lightblue", color: "white" }}>1년이싱</TableCell>
-                                <TableCell style={{ backgroundColor: "lightblue", color: "white" }}>설정한시간</TableCell>
-                                <TableCell style={{ backgroundColor: "lightblue", color: "white" }}>적용시간</TableCell>
+                                <TableCell>사원이름</TableCell>
+                                <TableCell>사원번호</TableCell>
+                                <TableCell>1년이하</TableCell>
+                                <TableCell>1년이상</TableCell>
+                                <TableCell>설정한 시간</TableCell>
+                                <TableCell>적용 시간</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -118,25 +225,21 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {/* 페이징 컴포넌트 추가 */}
-                <Pagination
-                    activePage={currentPage}
-                    itemsCountPerPage={this.state.pageSize}
-                    totalItemsCount={totalElements}
-                    pageRangeDisplayed={5}
-                    onChange={this.handlePageChange}
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        listStyle: 'none',
-                        padding: 0,
-                    }}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                />
+                {!searchPerformed && (
+                    <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={pageSize}
+                        totalItemsCount={totalElements}
+                        pageRangeDisplayed={5}
+                        onChange={this.handlePageChange}
+                        innerClass={classes.pagination}
+                        itemClass={classes.pageItem}
+                        activeClass={classes.activePageItem}
+                    />
+                )}
             </div>
         );
     }
 }
 
-export default GetHistoryOfVacationDefaultSetting;
+export default withStyles(styles)(GetHistoryOfVacationDefaultSetting);
