@@ -25,6 +25,10 @@ import {
 } from '@material-ui/core';
 import Pagination from "react-js-pagination";
 
+// 추후 변경 하는 기능
+// onchange 바꾸기
+// 드롭다운 데이터 받아올때 삭제용인지 추가용인지 구별해서 받아오도록 할 것
+
 const styles = (theme) => ({
 
     formControl: {
@@ -69,8 +73,6 @@ const styles = (theme) => ({
             border: '1px solid #ddd',
         },
     },
-
-
 
 });
 
@@ -164,12 +166,15 @@ class EmployeeVacationSetting extends Component {
     };
 
     async login(){
+
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
         loginForm.append('loginId', '200001012');
         loginForm.append('password', 'test');
         try{
             const login = await axios.post('http://localhost:8080/login', loginForm);
+            const loginId = login.data.loginId; // 추후, 로그인과 관련된 내용 제거후 props로 받아온 employeeId를 sessionstorage에 저장하도록 대체해야함
+            sessionStorage.setItem('loginId',loginId);
         }
         catch(error){
             console.log("error 발생 !");
@@ -243,7 +248,8 @@ class EmployeeVacationSetting extends Component {
     }
 
     async componentDidMount() {
-        await this.login();
+        // const { employeeId } = this.props; -> 추후 props의 로그인 아이디 들고오기
+        await this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
         const page='';
         this.fetchData(page);
     }
@@ -265,12 +271,7 @@ class EmployeeVacationSetting extends Component {
         const sortChange = async (event) =>{
             await this.setState(prevState=>({
                     sort:event.target.value
-
                 })
-                //     ,()=>{
-                //     console.log("sortChange의 값 : ",event.target.value);
-                //     this.fetchData(1);
-                // }
             );
 
         }
@@ -364,9 +365,13 @@ class EmployeeVacationSetting extends Component {
 
         };
 
-
         // form 전송에 필요한 데이터를 받아와 sendData 함수에 전달
         const handleButtonClick =  (event, employeeId,action) => {
+            if(employeeId===sessionStorage.getItem("loginId")){
+                alert("본인에 대한 처리는 불가능합니다.");
+                return;
+            }
+
             const isAddButton = action === 'add';
             console.log("combine : ",this.state.combineData);
 
@@ -374,7 +379,7 @@ class EmployeeVacationSetting extends Component {
 
             // 숫자가 아닌 경우 메시지 표시
             if (!/^\d+$/.test(countValue)) {
-                alert("개수에 0이상의 숫자 데이터를 입력하세요!");
+                alert("개수에 0이상의 정수 데이터를 입력하세요!");
                 return;
             }
 
@@ -407,7 +412,12 @@ class EmployeeVacationSetting extends Component {
             }
 
             if(isAddButton===true && vacationType==="근태 불량"){
-                alert("연차 추가가 불가능한 사유입니다.");
+                alert("연차 추가 불가능한 연차 종류입니다.");
+                return;
+            }
+
+            if(isAddButton===false && vacationType!=="근태 불량"){
+                alert("연차 삭제 불가능한 연차 종류입니다.");
                 return;
             }
 
@@ -438,7 +448,6 @@ class EmployeeVacationSetting extends Component {
                 if(isAddButton===false){
                     this.DeleteHandleOpen(count,employeeId);
                 }
-
 
                 console.log("전송 성공");
             }catch(error) {
@@ -593,28 +602,32 @@ class EmployeeVacationSetting extends Component {
                                                 <Select
                                                     labelId={`demo-simple-select-label-${data.employeeId}`}
                                                     id={`demo-simple-select-${data.employeeId}`}
-                                                    value={vacationType[data.employeeId]||''}
+                                                    // value={vacationType[data.employeeId]||''}
+                                                    value={vacationType[data.employeeId] || ''}
                                                     onChange={(e) => handleChange(e, data.employeeId)}
+                                                    disabled={data.employeeId === sessionStorage.getItem("loginId")} // 본인 아이디와 비교하여 비활성화
                                                 >
                                                     <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
                                                     <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
                                                     <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
+
                                                 </Select>
                                             </FormControl>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <TextField id={`standard-basic-${data.employeeId}`} label="추가 및 삭제 개수" value={countInput[data.employeeId]||''} onChange={(e) => {
+                                            <TextField id={`standard-basic-${data.employeeId}`} label={data.employeeId === sessionStorage.getItem("loginId")===true?"본인의 정보 처리 불가":"추가 및 삭제 개수"} value={countInput[data.employeeId]||''} onChange={(e) => {
                                                 const updateCountInput={...countInput,[data.employeeId]:e.target.value};
                                                 console.log("updateCountInput : ",updateCountInput);
                                                 this.setState({countInput: updateCountInput});
-                                            }} />
+
+                                            }} disabled={data.employeeId === sessionStorage.getItem("loginId")} />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <TextField id={`standard-basic-reason-${data.employeeId}`} label="사유" value={reasonInput[data.employeeId]||''} onChange={(e) => {
+                                            <TextField id={`standard-basic-reason-${data.employeeId}`} label={data.employeeId === sessionStorage.getItem("loginId")===true?"본인의 정보 처리 불가":"사유"} value={reasonInput[data.employeeId]||''} onChange={(e) => {
                                                 const updateReasonInput={...reasonInput,[data.employeeId]:e.target.value};
                                                 console.log("updateReasonInput : ",updateReasonInput);
                                                 this.setState({ reasonInput: updateReasonInput });
-                                            }}/>
+                                            }} disabled={data.employeeId === sessionStorage.getItem("loginId")} />
                                         </TableCell>
                                         <TableCell align="center">
                                             <Button className={classes.button} variant="contained" color="primary" onClick={(e) => handleButtonClick(e, data.employeeId,'add')}>추가</Button>
