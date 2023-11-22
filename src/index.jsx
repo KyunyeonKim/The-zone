@@ -6,5 +6,5 @@ import VacationRequest from "./component/chun/Component/VacationRequest";
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    render(<EmployeeVacationSetting/>, document.body.appendChild(document.createElement('div')))
+    render(<VacationRequest/>, document.body.appendChild(document.createElement('div')))
 })
