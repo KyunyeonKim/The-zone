@@ -129,6 +129,7 @@ class CreateEmployee extends Component {
     onChange = (e) => {
         const { name, value } = e.target;
         this.setState({ [name]: value });
+        console.log(value);
     };
 
     onToggleChange = () => {
