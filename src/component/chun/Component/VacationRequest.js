@@ -1,3 +1,5 @@
+VacationRequest.js
+
 import React, { Component } from "react";
 import {
     Button,
@@ -157,7 +159,8 @@ class VacationRequest extends Component {
                 }
             });
             this.buttonClick();
-            this.setState({vacationType:"",vacationCount:"",reason:"",endDate:"",remainVacation:this.state.remainVacation-this.state.vacationCount});
+            const getRemainVacation = await axios.get(`http://localhost:8080/employee/vacation/remain/request`);
+            this.setState({vacationType:"",vacationCount:"",reason:"",endDate:"",remainVacation: getRemainVacation.data});
         }catch (error){
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
@@ -177,6 +180,15 @@ class VacationRequest extends Component {
 
     render() {
         const { classes } = this.props;
+
+        const changeReason = async(e)=>{
+            const regex = /[!@#$%^&*(),.?":{}|<>]/;
+            if(regex.test(e.target.value)){
+                alert("사유에 특수문자는 불가능합니다.");
+                return;
+            }
+            await this.setState({reason:e.target.value});
+        };
         const vacationTypeChange = async (event) => {
             await this.setState({ vacationType: event.target.value });
         };
@@ -203,6 +215,7 @@ class VacationRequest extends Component {
 
             if (inputValue > this.state.remainVacation) {
                 alert("존재 연차 개수보다 작게 입력해주세요");
+                return;
             }
 
             if(inputValue>0){
@@ -292,9 +305,7 @@ class VacationRequest extends Component {
                                     className={classes.textField}
                                     label="사유"
                                     value={this.state.reason}
-                                    onChange={(e) => {
-                                        this.setState({ reason: e.target.value });
-                                    }}
+                                    onChange={(e) => changeReason(e)}
                                 />
                             </td>
                         </tr>
