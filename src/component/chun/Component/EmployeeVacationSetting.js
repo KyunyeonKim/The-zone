@@ -25,10 +25,7 @@ import {
 } from '@material-ui/core';
 import Pagination from "react-js-pagination";
 
-// 추후 변경 하는 기능
-// onchange 바꾸기
-// 드롭다운 데이터 받아올때 삭제용인지 추가용인지 구별해서 받아오도록 할 것
-
+/*TODO : 리스트 한줄을 컴포넌트로 변경할 것*/
 const styles = (theme) => ({
 
     formControl: {
@@ -98,72 +95,83 @@ class EmployeeVacationSetting extends Component {
         };
     }
 
-    AddHandleOpen = (count, employeeId) => {
-        this.setState((prevState) => {
-            const updatedCombineData = prevState.combineData.map((data) => {
-                if (data.employeeId === employeeId) {
-                    // 해당하는 employeeId의 데이터를 찾아 count를 더한 값으로 업데이트
-                    return {
-                        ...data,
-                        remainVacation: data.remainVacation + count,
-                    };
-                }
-                return data;
+    AddHandleOpen = async(employeeId) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/manager/vacation/remain/${employeeId}`);
+            this.setState(prevState => {
+                const updatedCombineData = prevState.combineData.map(data => {
+                    if (data.employeeId === employeeId) {
+                        return {
+                            ...data,
+                            remainVacation: response.data // assuming response is an object and you want to access its data property
+                        };
+                    }
+                    return data; // if employeeId doesn't match, return the original data
+                });
+                console.log("updateCombineData : ",updatedCombineData);
+
+                return {
+                    ...prevState,
+                    combineData: updatedCombineData,
+                    addOpen:true,
+                    vacationType: { ...prevState.vacationType, [employeeId]: '' },
+                    countInput: { ...prevState.countInput, [employeeId]: '' },
+                    reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
+                };
             });
-
-            return {
-                ...prevState,
-                addOpen: true,
-                combineData: updatedCombineData,
-                vacationType: { ...prevState.vacationType, [employeeId]: '' },
-                countInput: { ...prevState.countInput, [employeeId]: '' },
-                reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
-            };
-        }, () => {
-
-            // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력합니다.
-            console.log("state 최종 : ", this.state);
-
-        });
-
+        } catch (error) {
+            if (error.response.status === 400) {
+                alert("400 Bad Request Error!");
+            } else if (error.response.status === 500) {
+                alert("500 Internal Server Error !");
+            } else if (error.response.status === 403) {
+                alert("403 Forbidden - Access denied !");
+            }
+        }
     };
 
 
 
-    DeleteHandleOpen = (count, employeeId) => {
-        this.setState((prevState) => {
-            const updatedCombineData = prevState.combineData.map((data) => {
-                if (data.employeeId === employeeId) {
-                    // 해당하는 employeeId의 데이터를 찾아 count를 더한 값으로 업데이트
-                    return {
-                        ...data,
-                        remainVacation: data.remainVacation + count,
-                    };
-                }
-                return data;
+    DeleteHandleOpen = async(employeeId) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/manager/vacation/remain/${employeeId}`);
+            this.setState(prevState => {
+                const updatedCombineData = prevState.combineData.map(data => {
+                    if (data.employeeId === employeeId) {
+                        return {
+                            ...data,
+                            remainVacation: response.data // assuming response is an object and you want to access its data property
+                        };
+                    }
+                    return data; // if employeeId doesn't match, return the original data
+                });
+                console.log("updateCombineData : ",updatedCombineData);
+
+                return {
+                    ...prevState,
+                    combineData: updatedCombineData,
+                    deleteOpen:true,
+                    vacationType: { ...prevState.vacationType, [employeeId]: '' },
+                    countInput: { ...prevState.countInput, [employeeId]: '' },
+                    reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
+                };
             });
+        } catch (error) {
+            if (error.response.status === 400) {
+                alert("400 Bad Request Error!");
+            } else if (error.response.status === 500) {
+                alert("500 Internal Server Error !");
+            } else if (error.response.status === 403) {
+                alert("403 Forbidden - Access denied !");
+            }
+        }
+    };
 
-            return {
-                ...prevState,
-                deleteOpen: true,
-                combineData: updatedCombineData,
-                vacationType: { ...prevState.vacationType, [employeeId]: '' },
-                countInput: { ...prevState.countInput, [employeeId]: '' },
-                reasonInput: { ...prevState.reasonInput, [employeeId]: '' }
-            };
-        }, () => {
-            // 콜백 함수에서 상태가 업데이트된 후의 로그를 출력
-
-            console.log("state 최종 : ", this.state);
-        });
+    handleClose = async (employeeId) => {
+        this.setState({addOpen: false, deleteOpen: false})
 
     };
 
-    handleClose = (count, employeeId) => {
-
-        this.setState({...this.state,addOpen:false,deleteOpen:false})
-
-    };
 
     async login(){
 
@@ -185,25 +193,24 @@ class EmployeeVacationSetting extends Component {
         // console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
-        console.log("page : ",page);
+        console.log("page : ", page);
 
-        if(page!=''){
-            getPage='?page='+getPage
+        if (page != '') {
+            getPage = '?page=' + getPage
+        } else {
+            await this.setState({sort: '', desc: ''});
         }
-        else{
-            await this.setState({sort:'',desc:''});
-        }
-        console.log("합치기 전 getPage : ",getPage);
-        console.log("this.state.desc : ",this.state.desc);
+        console.log("합치기 전 getPage : ", getPage);
+        console.log("this.state.desc : ", this.state.desc);
 
-        if(this.state.desc !==''&& this.state.sort!=='') {
+        if (this.state.desc !== '' && this.state.sort !== '') {
             getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.state.desc + '&sort=' + this.state.sort;
             console.log("getPage : ", getPage);
         }
 
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
-            console.log("employeeData.data : ",employeeData.data)
+            console.log("employeeData.data : ", employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data; //사원정보 데이터
 
@@ -211,28 +218,29 @@ class EmployeeVacationSetting extends Component {
             const remainVacation = await Promise.all( //id에 대해서 남은 연차 수를 병렬로 모두 계산-> 결과는 배열
                 employeeIds.map(async (employeeId) => {
                     const response = await axios.get(`http://localhost:8080/manager/vacation/remain/${employeeId}`);
-                    return response.data;
+                    return {[employeeId]:response.data};
                 })
             );
 
-            const combineData = empData.map((first, index) => ({
+            const combineData = empData.map((first) => ({
                 ...first,
-                remainVacation: remainVacation[index],
+                remainVacation :remainVacation.find((data) => Object.keys(data)[0] === first.employeeId)[first.employeeId]
             })); // 사원정보 테이블의 사원명, 사원번호 데이터와 남은연차수 데이터를 합쳐서 또다른 객체 생성
+
+
 
             this.setState({
                 empData: empData,
                 remainVacation: remainVacation,
                 combineData: combineData,
-                empPageData:empPageData,
+                empPageData: empPageData,
                 activePage: page,
-                showPagiNation:'flex',
-                isSearch:false
+                showPagiNation: 'flex',
+                isSearch: false
             });
 
             console.log(this.state);
-        }
-        catch(error) {
+        } catch (error) {
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
             }
@@ -305,23 +313,34 @@ class EmployeeVacationSetting extends Component {
                         console.log("empData - desc 정렬 : ", empData);
                     }
 
-                    const combineData = empData.map((first, index) => ({
+                    console.log("정렬 - this.state.remainVacation : ", this.state.remainVacation);
+                    const combineData = empData.map((first) => ({
                         ...first,
-                        remainVacation: this.state.remainVacation[index],
+                        // remainVacation: this.state.remainVacation[first.employeeId],
+                        remainVacation :this.state.remainVacation.find((data) => Object.keys(data)[0] === first.employeeId)[first.employeeId]
+
                     }));
+                    console.log("정렬 - combineData : ", combineData);
 
                     this.setState({ empData: empData, combineData: combineData });
                 }
             });
         };
 
+
         const handleSearchButtonClick = async(e) => {
             console.log("searchKeyword : ", searchKeyword);
-            if(searchKeyword == ""){
+
+            const regex = /^[a-zA-Z0-9]{0,12}$/;
+            if (!regex.test(searchKeyword)) {
+                alert("검색어는 영,숫자 12글자 이하로 가능합니다.");
+                return;
+            }
+
+            if(searchKeyword === ""){
                 const page="";
                 this.fetchData(page);
-            }
-            else{
+            }else{
                 try {
                     // 가져온 검색 결과에서 데이터가 들어있는 객체 배열만 들고옴
                     const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
@@ -331,13 +350,14 @@ class EmployeeVacationSetting extends Component {
                     const remainVacation = await Promise.all( //id에 대해서 남은 연차 수를 병렬로 모두 계산-> 결과는 배열
                         employeeIds.map(async (employeeId) => {
                             const response = await axios.get(`http://localhost:8080/manager/vacation/remain/${employeeId}`);
-                            return response.data;
+                            return {[employeeId]:response.data};
                         })
                     );
+                    console.log("remainVacation : ",remainVacation);
 
-                    const combineData = searchResponse.map((first, index) => ({
+                    const combineData = searchResponse.map((first) => ({
                         ...first,
-                        remainVacation: remainVacation[index],
+                        remainVacation :remainVacation.find((data) => Object.keys(data)[0] === first.employeeId)[first.employeeId]
                     })); // 사원정보 테이블의 사원명, 사원번호 데이터와 남은연차수 데이터를 합쳐서 또다른 객체 생성
 
                     this.setState({
@@ -366,38 +386,37 @@ class EmployeeVacationSetting extends Component {
         };
 
         // form 전송에 필요한 데이터를 받아와 sendData 함수에 전달
-        const handleButtonClick =  (event, employeeId,action) => {
-            if(employeeId===sessionStorage.getItem("loginId")){
+        const handleButtonClick =  async (event, employeeId, action) => {
+            if (employeeId === sessionStorage.getItem("loginId")) {
                 alert("본인에 대한 처리는 불가능합니다.");
                 return;
             }
 
             const isAddButton = action === 'add';
-            console.log("combine : ",this.state.combineData);
+            console.log("combine : ", this.state.combineData);
 
-            const countValue  = countInput[employeeId];
+            const countValue = countInput[employeeId];
 
             // 숫자가 아닌 경우 메시지 표시
-            if (!/^\d+$/.test(countValue)) {
-                alert("개수에 0이상의 정수 데이터를 입력하세요!");
+            if (!/^\d{1,3}$/.test(countValue)) {
+                alert("입력개수는 0에서 세자리 까지 가능합니다!");
                 return;
             }
 
             const remainingVacation = this.state.combineData.find(data => data.employeeId === employeeId)?.remainVacation;
-            console.log("countValue:", parseInt(countValue,10));
+            console.log("countValue:", parseInt(countValue, 10));
             console.log("Remaining Vacation:", remainingVacation);
 
-            if (parseInt(countValue,10) > remainingVacation) {
+            if (isAddButton === false && parseInt(countValue, 10) > remainingVacation) {
                 console.log("남은 연차 개수보다 많은 개수입니다!");
-                alert("남은 연차 개수보다 많은 개수를 입력할 수 없습니다!");
+                alert("남은 연차 개수보다 많이 입력할 수 없습니다!");
                 return;
             }
 
             const count = isAddButton ? parseInt(countValue, 10) : -parseInt(countValue, 10);
 
 
-
-            if(reasonInput[employeeId] === ""||reasonInput[employeeId]==null){
+            if (reasonInput[employeeId] === "" || reasonInput[employeeId] == null) {
                 alert("사유를 입력하세요!");
                 return;
             }
@@ -406,25 +425,25 @@ class EmployeeVacationSetting extends Component {
 
             // 연차 종류 가져오기
             const vacationType = this.state.vacationType[employeeId];
-            if(vacationType===""||vacationType==null){
+            if (vacationType === "" || vacationType == null) {
                 alert("연차 종류를 입력하세요!");
                 return;
             }
 
-            if(isAddButton===true && vacationType==="근태 불량"){
+            if (isAddButton === true && vacationType === "근태 불량") {
                 alert("연차 추가 불가능한 연차 종류입니다.");
                 return;
             }
 
-            if(isAddButton===false && vacationType!=="근태 불량"){
+            if (isAddButton === false && vacationType !== "근태 불량") {
                 alert("연차 삭제 불가능한 연차 종류입니다.");
                 return;
             }
 
-            // form 데이터 post 요청하는 함수 호출
-            (async () => {
-                await sendData(count, reason, vacationType, employeeId,isAddButton);
-            })();
+            await sendData(count, reason, vacationType, employeeId, isAddButton);
+
+
+
 
         };
 
@@ -442,11 +461,12 @@ class EmployeeVacationSetting extends Component {
                 });
 
                 if(isAddButton===true){
-                    this.AddHandleOpen(count,employeeId);
+                    this.AddHandleOpen(employeeId);
+
                 }
 
                 if(isAddButton===false){
-                    this.DeleteHandleOpen(count,employeeId);
+                    this.DeleteHandleOpen(employeeId);
                 }
 
                 console.log("전송 성공");
