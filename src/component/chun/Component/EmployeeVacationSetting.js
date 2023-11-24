@@ -331,9 +331,9 @@ class EmployeeVacationSetting extends Component {
         const handleSearchButtonClick = async(e) => {
             console.log("searchKeyword : ", searchKeyword);
 
-            const regex = /^[a-zA-Z0-9]{0,12}$/;
+            const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
             if (!regex.test(searchKeyword)) {
-                alert("검색어는 영,숫자 12글자 이하로 가능합니다.");
+                alert("올바르지 않은 입력입니다.");
                 return;
             }
 
@@ -562,7 +562,7 @@ class EmployeeVacationSetting extends Component {
                     <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
                         <div>
                             <Box component="span" sx={{ marginRight: '10px'}}>
-                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호" variant="outlined" value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value })}/>
+                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value })}/>
                             </Box>
                             <Box component="span">
                                 <Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick(e)}>검색</Button>
