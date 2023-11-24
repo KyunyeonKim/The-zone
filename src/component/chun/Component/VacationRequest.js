@@ -108,7 +108,6 @@ class VacationRequest extends Component {
             if (error.response.status === 403) {
                 alert("403 Forbidden - Access denied !");
             }
-            return;
         }
     };
 
@@ -263,9 +262,14 @@ class VacationRequest extends Component {
                                         value={this.state.vacationType}
                                         onChange={(e) => vacationTypeChange(e)}
                                     >
+
+
+                                        {/*TODO: 백엔드의 연차 종류 데이터를 value 등에 넣도록 수정할것*/}
                                         <MenuItem value={"a"}>경조사</MenuItem>
                                         <MenuItem value={"medical"}>병가</MenuItem>
                                         <MenuItem value={"vacation"}>휴가</MenuItem>
+
+
                                     </Select>
                                 </FormControl>
                             </td>
