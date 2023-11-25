@@ -22,7 +22,6 @@ const styles = (theme) => ({
     root: {
         padding: theme.spacing(4),
         textAlign: "center",
-        background: "#f0f0f0",
         minHeight: "100vh",
         fontSize: "1rem"
     },

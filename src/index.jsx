@@ -9,5 +9,5 @@ import AttendanceApprovalAllEmployees from "./component/chun/Component/Attendanc
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    render(<EmployeeVacationSetting/>, document.body.appendChild(document.createElement('div')))
+    render(<AttendanceApprovalAllEmployees/>, document.body.appendChild(document.createElement('div')))
 })
