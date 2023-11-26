@@ -70,12 +70,7 @@ class AppealRequest extends Component {
         };
     }
 
-    async componentDidMount() {
-        await this.login();
-        console.log("로그인함");
-    }
-
-    async login() {
+    login=async ()=> {
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
         loginForm.append("loginId", "200001012");
@@ -154,8 +149,13 @@ class AppealRequest extends Component {
 
     };
 
+    componentDidMount() {
+        this.login();
+        console.log("로그인함");
+    }
 
     render() {
+
         const { classes } = this.props;
 
         const reasonChange = (e)=>{

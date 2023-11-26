@@ -173,7 +173,7 @@ class EmployeeVacationSetting extends Component {
     };
 
 
-    async login(){
+    login=async ()=>{
 
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
@@ -189,7 +189,7 @@ class EmployeeVacationSetting extends Component {
         }
     }
 
-    async fetchData(page) {
+    fetchData=async(page)=> {
         // console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
@@ -255,9 +255,9 @@ class EmployeeVacationSetting extends Component {
 
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         // const { employeeId } = this.props; -> 추후 props의 로그인 아이디 들고오기
-        await this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
+        this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
         const page='';
         this.fetchData(page);
     }

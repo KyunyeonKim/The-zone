@@ -6,8 +6,9 @@ import VacationRequest from "./component/chun/Component/VacationRequest";
 import AppealRequest from "./component/chun/Component/AppealRequest";
 import VacationDefaultSetting from "./component/chun/Component/VacationDefaultSetting";
 import AttendanceApprovalAllEmployees from "./component/chun/Component/AttendanceApprovalAllEmployees";
+import AttendanceApprovalEmployee from "./component/chun/Component/AttendanceApprovalEmployee";
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    render(<AttendanceApprovalAllEmployees/>, document.body.appendChild(document.createElement('div')))
+    render(<AttendanceApprovalEmployee/>, document.body.appendChild(document.createElement('div')))
 })

@@ -68,16 +68,7 @@ class VacationRequest extends Component {
         };
     }
 
-    async componentDidMount() {
-        await this.login();
-        console.log("로그인함");
-
-        // 데이터를 가져오는 것은 componentDidMount에서 수행
-        await this.getRemainVacationCount();
-
-    }
-
-    async login() {
+    login=async()=> {
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
         loginForm.append("loginId", "200001012");
@@ -173,6 +164,12 @@ class VacationRequest extends Component {
         }
 
     };
+
+    componentDidMount() {
+        this.login();
+        console.log("로그인함");
+        this.getRemainVacationCount();
+    }
 
     render() {
         const { classes } = this.props;

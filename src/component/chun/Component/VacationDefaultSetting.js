@@ -80,16 +80,16 @@ class VacationDefaultSetting extends Component{
 
     }
 
-    async componentDidMount() {
-        await this.login();
+    componentDidMount() {
+        this.login();
         console.log("로그인함");
 
         // 데이터를 가져오는 것은 componentDidMount에서 수행
-        await this.oldVacationCountAndYearSetting();
+        this.oldVacationCountAndYearSetting();
 
     }
 
-    async login() {
+    login=async()=> {
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
         loginForm.append("loginId", "200001012");
