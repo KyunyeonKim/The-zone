@@ -14,7 +14,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import axios from "axios";
-import ListComponent from "./ListComponent";
+import ButtonInListComponent from "./ButtonInListComponent";
 import TableCell from "@material-ui/core/TableCell";
 import Pagination from "react-js-pagination";
 
@@ -24,7 +24,8 @@ const styles = (theme) => ({
             padding: theme.spacing(4),
             textAlign: "center",
             minHeight: "100vh",
-            fontSize: "1rem"
+            fontSize: "1rem",
+
         },
         formControl: {
             margin: theme.spacing(1),
@@ -69,6 +70,9 @@ const styles = (theme) => ({
             },
         },table: {
         minWidth: 650,
+    },
+    searchAndSort:{
+        marginBottom: '15px',display: 'flex', justifyContent: 'space-between'
     }
 
     });
@@ -89,7 +93,7 @@ class AttendanceApprovalAllEmployees extends Component{
         };
     }
 
-    async login(){
+        login= async() =>{
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
         loginForm.append('loginId', '200001012');
@@ -100,10 +104,10 @@ class AttendanceApprovalAllEmployees extends Component{
         }
         catch(error){
             console.log("error 발생 !");
+            }
         }
-    }
 
-    async fetchData(page) {
+     fetchData=async(page)=> {
         // console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
@@ -127,12 +131,14 @@ class AttendanceApprovalAllEmployees extends Component{
             console.log("employeeData.data : ", employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data; //사원정보 데이터
-            console.log("empData : ",empData);
+
+            const newData = empData.map(({employeeId,name})=>({employeeId,name}))
+            console.log("newData : ",newData);
 
 
             await this.setState({
                 empPageData:empPageData,
-                data: empData,
+                data: newData,
                 activePage: page,
                 showPagiNation: 'flex',
                 isSearch: false
@@ -149,24 +155,24 @@ class AttendanceApprovalAllEmployees extends Component{
             if (error.response.status === 403) {
                 alert("403 Forbidden - Access denied !");
             }
-            return;
         }
 
     }
 
-    async componentDidMount() {
-        console.log("componentDidMount");
+    componentDidMount() {
         // const { employeeId } = this.props; -> 추후 props의 로그인 아이디 들고오기
-        await this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
+        this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
         const page='';
-        await this.fetchData(page);
+        this.fetchData(page);
+        console.log("fetchData");
     }
 
 
-
-    render(){
+    render() {
         const {searchKeyword,data} = this.state;
         const {classes} = this.props;
+
+
 
         const handleSearchButtonClick = async(e) => {
             // 검색 버튼 클릭 시 수행할 로직
@@ -186,10 +192,12 @@ class AttendanceApprovalAllEmployees extends Component{
             }else{
                 try{
                     const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
-                    console.log("searchResponse : ",searchResponse);
+                    const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
+
+                    console.log("newData : ",newData);
 
                     this.setState({
-                        data: searchResponse,
+                        data: newData,
                         showPagiNation:"None",
                         isSearch:true
                     });
@@ -204,7 +212,6 @@ class AttendanceApprovalAllEmployees extends Component{
                     if (error.response.status === 403) {
                         alert("403 Forbidden - Access denied !");
                     }
-                    return;
                 }
             }
         };
@@ -250,41 +257,6 @@ class AttendanceApprovalAllEmployees extends Component{
             });
         };
 
-        const PagiNationStyle = {
-            pagination: {
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '10px',
-            },
-            ul: {
-                listStyle: 'none',
-                padding: '0',
-            },
-            'ul.pagination li': {
-                width: '35px',
-                height: '35px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '1rem',
-            },
-            'ul.pagination li a': {
-                textDecoration: 'none',
-                color: 'black',
-                fontSize: '1rem',
-            },
-            'ul.pagination li.active a': {
-                fontWeight: 'bold',
-                color: '#87b8e3',
-            },
-            'ul.pagination li:hover, ul.pagination li.active': {
-                border: '1px solid grey',
-            },
-            MuiButtonRoot: {
-                height: '55px',
-            },
-        };
-
 
         return(
             <div className={classes.root}>
@@ -298,72 +270,72 @@ class AttendanceApprovalAllEmployees extends Component{
                         전 사원 근태 승인 내역
                     </Typography>
                 </Box>
-                <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
-                    <div>
-                        <Box component="span" sx={{ marginRight: '10px'}}>
-                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value })}/>
-                        </Box>
-                        <Box component="span">
-                            <Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick (e)}>검색</Button>
-                        </Box>
+                <Box component="section">
+                    <div className={classes.searchAndSort}>
+                        <div>
+                            <Box component="span" sx={{ marginRight: '10px'}}>
+                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value })}/>
+                            </Box>
+                            <Box component="span">
+                                <Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick (e)}>검색</Button>
+                            </Box>
+                        </div>
+                        <div>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.sort}
+                                    onChange={(e) => sortChange(e)}>
+                                    <MenuItem value={"employee_id"}>사원 번호</MenuItem>
+                                    <MenuItem value={"name"}>사원 명</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.desc}
+                                    onChange={(e) => descChange(e)}>
+                                    <MenuItem value={"asc"}>오름차순</MenuItem>
+                                    <MenuItem value={"desc"}>내림차순</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
                     </div>
-                    <div>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.sort}
-                                onChange={(e) => sortChange(e)}>
-                                <MenuItem value={"employee_id"}>사원 번호</MenuItem>
-                                <MenuItem value={"name"}>사원 명</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.desc}
-                                onChange={(e) => descChange(e)}>
-                                <MenuItem value={"asc"}>오름차순</MenuItem>
-                                <MenuItem value={"desc"}>내림차순</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                </div>
 
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>사원 번호</TableCell>
-                                <TableCell>사원 이름</TableCell>
-                                <TableCell>승인 내역 조회</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.map((row) => (
-                                <ListComponent key={row.employeeId} row={row} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>사원 번호</TableCell>
+                                    <TableCell>사원 이름</TableCell>
+                                    <TableCell>승인 내역 조회</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.map((row) => (
+                                    <ButtonInListComponent key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
 
-                <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={PagiNationStyle.pagination}>
-                        <Pagination
-                            activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.empPageData['size']}
-                            totalItemsCount={this.state.empPageData['totalElement']}
-                            pageRangeDisplayed={10}
-                            onChange={(page) => this.fetchData(page)}
-                            innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
-                            itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                    <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
+                            <Pagination
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.empPageData['size']}
+                                totalItemsCount={this.state.empPageData['totalElement']}
+                                pageRangeDisplayed={10}
+                                onChange={(page) => this.fetchData(page)}
+                                innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                                itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                                activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
 
-                        />
-                    </div>
+                            />
+                    </Box>
                 </Box>
             </div>
         )
