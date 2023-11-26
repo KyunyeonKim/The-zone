@@ -4,8 +4,6 @@ import axios from "axios";
 import Pagination from "react-js-pagination";
 import { withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 
 const styles = (theme) => ({
     root: {

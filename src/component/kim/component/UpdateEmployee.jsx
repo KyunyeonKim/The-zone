@@ -16,7 +16,7 @@ class UpdateEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employeeId: "",
+            employeeId: this.props.employeeId,
             passWord: "",
             name: "",
             attendanceManager: false,
