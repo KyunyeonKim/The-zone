@@ -8,6 +8,7 @@ import GetHistoryOfVacationDefaultSetting from "./component/kim/component/GetHis
 import UpdateEmployee from "./component/kim/component/UpdateEmployee";
 import CreateEmployee from "./component/kim/component/CreateEmployee";
 import SetWorkTime from "./component/kim/component/SetWorkTime";
+import GetVacationHistory from "./component/kim/component/GetVacationHistory";
 
 
 
@@ -17,9 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // <MainEndPoint/>,
     //   <GetHistoryOfVacationDefaultSetting/>,
-      // <UpdateEmployee/>,
-      <SetWorkTime/>,
+    //   <UpdateEmployee/>,
+    //   <SetWorkTime/>,
+
       // <CreateEmployee/>,
+      <GetVacationHistory/>,
     document.body.appendChild(document.createElement('div'))
   )
 })

@@ -86,6 +86,7 @@ class SetWorkTime extends Component {
 
     async fetchPagedDataWorkTime(pageNumber, pageSize) {
         axios.defaults.withCredentials = true;
+        await axios.get("http://localhost:8080/logout");
         let loginForm = new FormData();
         loginForm.append("loginId", "200001012");
         loginForm.append("password", "test");
