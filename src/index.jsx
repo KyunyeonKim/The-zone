@@ -9,6 +9,7 @@ import UpdateEmployee from "./component/kim/component/UpdateEmployee";
 import CreateEmployee from "./component/kim/component/CreateEmployee";
 import SetWorkTime from "./component/kim/component/SetWorkTime";
 import GetVacationHistory from "./component/kim/component/GetVacationHistory";
+import PostSetWorkTime from "./component/kim/component/PostSetWorkTime";
 
 
 
@@ -22,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     //   <SetWorkTime/>,
 
       // <CreateEmployee/>,
-      <GetVacationHistory/>,
+      // <GetVacationHistory/>,
+      <PostSetWorkTime/>,
     document.body.appendChild(document.createElement('div'))
   )
 })
