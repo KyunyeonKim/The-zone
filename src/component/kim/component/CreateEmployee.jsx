@@ -45,7 +45,6 @@ class CreateEmployee extends Component {
         } = this.state;
 
         axios.defaults.withCredentials = true;
-        await axios.get("http://localhost:8080/logout");
         let loginForm = new FormData();
         loginForm.append("loginId", "admin");
         loginForm.append("password", "admin");
