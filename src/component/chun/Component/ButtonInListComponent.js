@@ -4,6 +4,10 @@ import TableCell from "@material-ui/core/TableCell";
 import ButtonComponent from "./ButtonComponent";
 
 class ButtonInListComponent extends Component {
+    shouldComponentUpdate(nextProps) {
+        // props에서 검색 버튼 클릭 여부를 확인하여 리렌더링 결정
+        return nextProps.isButtonClicked;
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -14,12 +18,13 @@ class ButtonInListComponent extends Component {
     render() {
         const {row,keyData,classes,title} = this.props;
 
-        const onButtonClick=async(e)=>{
-            await this.setState({employeeId:row.employeeId});
-            console.log("employeeId : ",row.employeeId);
-            console.log("this.state : ",this.state);
-            /* TODO :  여기서 특정 사원의 근태 승인 내역 확인하는 모달 띄우도록 수정해야함 */
-        }
+        const onButtonClick = (e) => {
+            this.setState({ employeeId: row.employeeId }, () => {
+                // console.log("employeeId : ", row.employeeId);
+                // console.log("this.state : ", this.state);
+                /* TODO: 특정 사원의 근태 승인 내역 확인하는 모달 띄우도록 수정해야함 */
+            });
+        };
 
 
         return (
