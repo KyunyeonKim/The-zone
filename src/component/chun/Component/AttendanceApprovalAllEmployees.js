@@ -17,6 +17,7 @@ import axios from "axios";
 import ButtonInListComponent from "./ButtonInListComponent";
 import TableCell from "@material-ui/core/TableCell";
 import Pagination from "react-js-pagination";
+import ButtonComponent from "./ButtonComponent";
 
 
 const styles = (theme) => ({
@@ -69,7 +70,7 @@ const styles = (theme) => ({
                 border: '1px solid #ddd',
             },
         },table: {
-        minWidth: 650,
+        minWidth: 650
     },
     searchAndSort:{
         marginBottom: '15px',display: 'flex', justifyContent: 'space-between'
@@ -85,15 +86,16 @@ class AttendanceApprovalAllEmployees extends Component{
             searchKeyword: '',
             desc:'',
             sort:'',
-            isSearch:'',
+            isSearch:false,
             activePage:1,
             showPagiNation: 'flex',
             data:[],
-            empPageData:{}
+            empPageData:{},
+            isSearchBtn:false
         };
     }
 
-        login= async() =>{
+    login= async() =>{
         axios.defaults.withCredentials = true;
         let loginForm = new FormData();
         loginForm.append('loginId', '200001012');
@@ -105,7 +107,7 @@ class AttendanceApprovalAllEmployees extends Component{
         catch(error){
             console.log("error 발생 !");
             }
-        }
+    }
 
      fetchData=async(page)=> {
         // console.log("PageNationStyle",PageNationStyle);
@@ -159,6 +161,90 @@ class AttendanceApprovalAllEmployees extends Component{
 
     }
 
+    handleSearchButtonClick = async(e) => {
+        // 검색 버튼 클릭 시 수행할 로직
+        const searchKeyword = this.state.searchKeyword;
+        console.log("searchKeyword : ", searchKeyword);
+
+        const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
+        if (!regex.test(searchKeyword)) {
+            alert("올바르지 않은 입력입니다!");
+            return;
+        }
+
+
+        if(searchKeyword === ""){
+            const page="";
+            this.fetchData(page);
+        }else{
+            try{
+                const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
+                const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
+
+                console.log("newData : ",newData);
+
+                this.setState({
+                    data: newData,
+                    showPagiNation:"None",
+                    isSearch:true,
+                    isSearchBtn:true
+                });
+                console.log("this.state",this.state);
+            } catch (error) {
+                if (error.response.status === 400) {
+                    alert("400 Bad Request Error!");
+                }
+                if (error.response.status === 500) {
+                    alert("500 Internal Server Error !");
+                }
+                if (error.response.status === 403) {
+                    alert("403 Forbidden - Access denied !");
+                }
+            }
+        }
+    };
+
+    sortChange = async (event) =>{
+        await this.setState({
+                sort:event.target.value
+            });
+
+    }
+
+    descChange = async (event) => {
+        await this.setState((prevState) => ({
+            desc: event.target.value,
+            isSearchBtn:true
+        }), () => {
+            if (!this.state.isSearch) {
+                this.fetchData(1);
+            } else {
+                let empData = "";
+
+                if (this.state.desc === "asc") {
+                    empData = this.state.data.sort((a, b) => {
+                        if (this.state.sort === "employee_id") {
+                            return a.employeeId - b.employeeId;
+                        } else {
+                            return a.name.localeCompare(b.name);
+                        }
+                    });
+                    console.log("empData - asc 정렬 : ", empData);
+                } else {
+                    empData = this.state.data.sort((a, b) => {
+                        if (this.state.sort === "employee_id") {
+                            return b.employeeId - a.employeeId;
+                        } else {
+                            return b.name.localeCompare(a.name);
+                        }
+                    });
+                    console.log("empData - desc 정렬 : ", empData);
+                }
+                this.setState({data: empData});
+            }
+        });
+    };
+
     componentDidMount() {
         // const { employeeId } = this.props; -> 추후 props의 로그인 아이디 들고오기
         this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
@@ -169,94 +255,8 @@ class AttendanceApprovalAllEmployees extends Component{
 
 
     render() {
-        const {searchKeyword,data} = this.state;
+        const {searchKeyword,data,isSearchBtn} = this.state;
         const {classes} = this.props;
-
-
-
-        const handleSearchButtonClick = async(e) => {
-            // 검색 버튼 클릭 시 수행할 로직
-            const searchKeyword = this.state.searchKeyword;
-            console.log("searchKeyword : ", searchKeyword);
-
-            const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
-            if (!regex.test(searchKeyword)) {
-                alert("올바르지 않은 입력입니다!");
-                return;
-            }
-
-
-            if(searchKeyword === ""){
-                const page="";
-                this.fetchData(page);
-            }else{
-                try{
-                    const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
-                    const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
-
-                    console.log("newData : ",newData);
-
-                    this.setState({
-                        data: newData,
-                        showPagiNation:"None",
-                        isSearch:true
-                    });
-                    console.log("this.state",this.state);
-                } catch (error) {
-                    if (error.response.status === 400) {
-                        alert("400 Bad Request Error!");
-                    }
-                    if (error.response.status === 500) {
-                        alert("500 Internal Server Error !");
-                    }
-                    if (error.response.status === 403) {
-                        alert("403 Forbidden - Access denied !");
-                    }
-                }
-            }
-        };
-
-        const sortChange = async (event) =>{
-            await this.setState(prevState=>({
-                    sort:event.target.value
-                })
-            );
-
-        }
-
-        const descChange = async (event) => {
-            await this.setState((prevState) => ({
-                desc: event.target.value,
-            }), () => {
-                if (!this.state.isSearch) {
-                    this.fetchData(1);
-                } else {
-                    let empData = "";
-
-                    if (this.state.desc === "asc") {
-                        empData = this.state.data.sort((a, b) => {
-                            if (this.state.sort === "employee_id") {
-                                return a.employeeId - b.employeeId;
-                            } else {
-                                return a.name.localeCompare(b.name);
-                            }
-                        });
-                        console.log("empData - asc 정렬 : ", empData);
-                    } else {
-                        empData = this.state.data.sort((a, b) => {
-                            if (this.state.sort === "employee_id") {
-                                return b.employeeId - a.employeeId;
-                            } else {
-                                return b.name.localeCompare(a.name);
-                            }
-                        });
-                        console.log("empData - desc 정렬 : ", empData);
-                    }
-                    this.setState({data: empData});
-                }
-            });
-        };
-
 
         return(
             <div className={classes.root}>
@@ -274,10 +274,11 @@ class AttendanceApprovalAllEmployees extends Component{
                     <div className={classes.searchAndSort}>
                         <div>
                             <Box component="span" sx={{ marginRight: '10px'}}>
-                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value })}/>
+                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value,isSearchBtn: false })}/>
                             </Box>
                             <Box component="span">
-                                <Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick (e)}>검색</Button>
+                                <ButtonComponent onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
+                                {/*<Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick (e)}>검색</Button>*/}
                             </Box>
                         </div>
                         <div>
@@ -287,7 +288,7 @@ class AttendanceApprovalAllEmployees extends Component{
                                     labelId={`demo-simple-select-label`}
                                     id={`demo-simple-select`}
                                     value={this.state.sort}
-                                    onChange={(e) => sortChange(e)}>
+                                    onChange={(e) => this.sortChange(e)}>
                                     <MenuItem value={"employee_id"}>사원 번호</MenuItem>
                                     <MenuItem value={"name"}>사원 명</MenuItem>
                                 </Select>
@@ -298,7 +299,7 @@ class AttendanceApprovalAllEmployees extends Component{
                                     labelId={`demo-simple-select-label`}
                                     id={`demo-simple-select`}
                                     value={this.state.desc}
-                                    onChange={(e) => descChange(e)}>
+                                    onChange={(e) => this.descChange(e)}>
                                     <MenuItem value={"asc"}>오름차순</MenuItem>
                                     <MenuItem value={"desc"}>내림차순</MenuItem>
                                 </Select>
@@ -316,8 +317,9 @@ class AttendanceApprovalAllEmployees extends Component{
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                                {console.log("this.state.isSearchBtn : ",isSearchBtn)}
                                 {data.map((row) => (
-                                    <ButtonInListComponent key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
+                                    <ButtonInListComponent isButtonClicked={isSearchBtn} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
                                 ))}
                             </TableBody>
                         </Table>
