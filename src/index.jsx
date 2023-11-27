@@ -11,6 +11,7 @@ import SetWorkTime from "./component/kim/component/SetWorkTime";
 import GetVacationHistory from "./component/kim/component/GetVacationHistory";
 import PostSetWorkTime from "./component/kim/component/PostSetWorkTime";
 import EmployeeMine from "./component/kim/component/EmployeeMine";
+import GetAttendanceHistory from "./component/kim/component/GetAttendanceHistory";
 
 
 
@@ -26,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // <GetVacationHistory/>,
       // <PostSetWorkTime/>,
-      <EmployeeMine/>,
+      // <EmployeeMine/>,
+      <GetAttendanceHistory/>,
     document.body.appendChild(document.createElement('div'))
   )
 })

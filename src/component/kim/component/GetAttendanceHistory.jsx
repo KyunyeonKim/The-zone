@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import SearchYearMonthDay from "./Search/SearchYearMonthDay";
-import ListVacationYearMonthDay from "./List/ListVacationYearMonthDay";
-import {Typography} from "@material-ui/core";
-
-class GetVacationHistory extends Component {
+import ListAttendanceYearMonthDay from "./List/ListAttendanceYearMonthDay";
+import { Typography } from "@material-ui/core";
+class GetAttendanceHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,8 +33,7 @@ class GetVacationHistory extends Component {
 
     fetchData = async () => {
         const { year, month, day, page, searchParameter } = this.state;
-        const url = `http://localhost:8080/manager/vacation/history`;
-
+        const url = `http://localhost:8080/manager/attendance/history`;
 
         try {
             const response = await axios.get(url, {
@@ -44,14 +42,22 @@ class GetVacationHistory extends Component {
                     month: month,
                     day: day,
                     page: page,
-                    sort: 'vacationRequestTime',
+                    sort: 'attendanceAppealRequestTime',
                     desc: 'desc',
                     searchParameter: searchParameter
                 }
             });
 
+            const formattedData = response.data.data.map(item => {
+                return {
+                    ...item,
+                    attendanceAppealRequestTime: item.attendanceAppealRequestTime ? new Date(item.attendanceAppealRequestTime).toISOString().split("T")[0] : ''
+                    // 여기서 필요한 다른 필드들도 포매팅할 수 있습니다.
+                };
+            });
+
             this.setState({
-                data: response.data.data,
+                data: formattedData,
                 totalElement: response.data.totalElement,
                 size: response.data.size,
                 page: response.data.page
@@ -84,12 +90,12 @@ class GetVacationHistory extends Component {
         return (
             <div>
                 <Typography variant="h4" align="center" gutterBottom>
-                  연차사용요청이력조회
+                    조정요청내역조회
                 </Typography>
                 <SearchYearMonthDay
                     onSearch={this.handleSearchSubmit}
                 />
-                <ListVacationYearMonthDay
+                <ListAttendanceYearMonthDay
                     data={data}
                     totalElement={totalElement}
                     size={size}
@@ -101,4 +107,4 @@ class GetVacationHistory extends Component {
     }
 }
 
-export default GetVacationHistory;
+export default GetAttendanceHistory;

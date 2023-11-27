@@ -45,7 +45,7 @@ const styles = theme => ({
     },
 });
 
-class ListYearMonthDay extends Component {
+class ListVacationYearMonthDay extends Component {
     render() {
         const { data, totalElement, size, page, onPageChange, classes } = this.props;
 
@@ -98,4 +98,4 @@ class ListYearMonthDay extends Component {
     }
 }
 
-export default withStyles(styles)(ListYearMonthDay);
+export default withStyles(styles)(ListVacationYearMonthDay);

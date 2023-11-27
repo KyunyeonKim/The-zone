@@ -17,7 +17,14 @@ class SearchYearMonthDay extends Component {
         let { year, month, day } = this.state;
         const searchParameter = event.target.elements.search.value;
 
-        // "월별 검색"이 선택되었을 때, day 값을 '0'으로 설정
+        // 특수문자 검증을 위한 정규 표현식
+        const specialCharRegex = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+
+        if (specialCharRegex.test(searchParameter)) {
+            alert("검색어에 특수문자를 사용할 수 없습니다.");
+            return;
+        }
+
         if (day === "월별 검색") {
             day = '0';
         }
