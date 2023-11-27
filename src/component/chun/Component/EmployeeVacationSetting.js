@@ -69,7 +69,7 @@ const styles = (theme) => ({
         '&:hover': {
             border: '1px solid #ddd',
         },
-    },
+    }
 
 });
 
@@ -314,8 +314,7 @@ class EmployeeVacationSetting extends Component {
                     }
 
                     console.log("정렬 - this.state.remainVacation : ", this.state.remainVacation);
-                    const combineData = empData.map((first) => ({
-                        ...first,
+                    const combineData = empData.map((first) => ({...first,
                         // remainVacation: this.state.remainVacation[first.employeeId],
                         remainVacation :this.state.remainVacation.find((data) => Object.keys(data)[0] === first.employeeId)[first.employeeId]
 
@@ -440,7 +439,7 @@ class EmployeeVacationSetting extends Component {
                 return;
             }
 
-            await sendData(count, reason, vacationType, employeeId, isAddButton);
+            sendData(count, reason, vacationType, employeeId, isAddButton);
 
 
 
@@ -485,42 +484,6 @@ class EmployeeVacationSetting extends Component {
                 }
             }
         }
-
-        const PagiNationStyle = {
-            pagination: {
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '10px',
-            },
-            ul: {
-                listStyle: 'none',
-                padding: '0',
-            },
-            'ul.pagination li': {
-                width: '35px',
-                height: '35px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '1rem',
-            },
-            'ul.pagination li a': {
-                textDecoration: 'none',
-                color: 'black',
-                fontSize: '1rem',
-            },
-            'ul.pagination li.active a': {
-                fontWeight: 'bold',
-                color: '#87b8e3',
-            },
-            'ul.pagination li:hover, ul.pagination li.active': {
-                border: '1px solid grey',
-            },
-            MuiButtonRoot: {
-                height: '55px',
-            },
-        };
-
 
         return (
             <div>
@@ -662,19 +625,17 @@ class EmployeeVacationSetting extends Component {
                     </TableContainer>
 
                     <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={PagiNationStyle.pagination}>
-                            <Pagination
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={this.state.empPageData['size']}
-                                totalItemsCount={this.state.empPageData['totalElement']}
-                                pageRangeDisplayed={10}
-                                onChange={(page) => this.fetchData(page)}
-                                innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
-                                itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                                activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                        <Pagination
+                            activePage={this.state.activePage}
+                            itemsCountPerPage={this.state.empPageData['size']}
+                            totalItemsCount={this.state.empPageData['totalElement']}
+                            pageRangeDisplayed={10}
+                            onChange={(page) => this.fetchData(page)}
+                            innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                            itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
 
-                            />
-                        </div>
+                        />
                     </Box>
                 </div>
             </div>
