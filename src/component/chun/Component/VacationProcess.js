@@ -181,8 +181,8 @@ class VacationProcess extends Component{
                 const empIds = searchRawData.data.map((employee) => employee.employeeId);
                 const getVacationAllRequest = await axios.get('http://localhost:8080/manager/vacation/all/requested');
 
-                const getVacationRequest = await Promise.all(
-                    empIds.map(async (id) => {
+                const getVacationRequest =
+                    empIds.map( (id) => {
 
                         const employeeData = searchRawData.data.find((employee) => employee.employeeId === id);
                         const employeeRequests = getVacationAllRequest.data.data.filter((request) => request.employeeId === id);
@@ -197,7 +197,7 @@ class VacationProcess extends Component{
                             return null; // 데이터가 없는 경우 null 반환
                         }
 
-                    })
+                    }
                 );
                 const filteredVacationRequest = getVacationRequest.filter((data) => data !== null);
                 // concat, map 합친 것 -> flatMap
@@ -311,7 +311,7 @@ class VacationProcess extends Component{
         return(
             <div>
                 <Dialog open={this.state.approveOpen} onClose={this.handleClose}>
-                    <DialogTitle>연차 개수 추가</DialogTitle>
+                    <DialogTitle>연차 신청 승인</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             승인 완료 하였습니다!
@@ -325,7 +325,7 @@ class VacationProcess extends Component{
                 </Dialog>
 
                 <Dialog open={this.state.rejectOpen} onClose={this.handleClose}>
-                    <DialogTitle>연차 개수 삭제</DialogTitle>
+                    <DialogTitle>연차 신청 반려</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             반려 완료 하였습니다!
