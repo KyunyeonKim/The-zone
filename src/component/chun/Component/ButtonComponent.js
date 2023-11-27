@@ -17,15 +17,11 @@ class ButtonComponent extends Component{
         super(props);
     }
 
-    buttonClick=(e)=>{
-        const {getData,onButtonClick,state} = this.props;
-        onButtonClick();
-
-    }
     render(){
-        const {classes,title} = this.props;
+        const {classes,title,onButtonClick,disabled} = this.props;
+        console.log("disabled : ",disabled);
         return(
-                <Button className={classes.button} variant="outlined" color="primary"  onClick={(e)=>this.buttonClick(e)}> {title} </Button>
+                <Button className={classes.button} variant="outlined" color="primary"  onClick={onButtonClick} disabled={disabled}> {title} </Button>
         )
     }
 }
