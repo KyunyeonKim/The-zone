@@ -6,7 +6,8 @@ const styles = (theme) => ({
 
     button :{
         height:"90%",
-        fontSize:'1rem'
+        fontSize:'1rem',
+        whiteSpace: 'nowrap'
     }
 
 });

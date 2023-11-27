@@ -8,8 +8,9 @@ import VacationDefaultSetting from "./component/chun/Component/VacationDefaultSe
 import AttendanceApprovalAllEmployees from "./component/chun/Component/AttendanceApprovalAllEmployees";
 import AttendanceApprovalEmployee from "./component/chun/Component/AttendanceApprovalEmployee";
 import VacationProcess from "./component/chun/Component/VacationProcess";
+import ProcessAppealRequest from "./component/chun/Component/ProcessAppealRequest";
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    render(<VacationProcess/>, document.body.appendChild(document.createElement('div')))
+    render(<ProcessAppealRequest/>, document.body.appendChild(document.createElement('div')))
 })

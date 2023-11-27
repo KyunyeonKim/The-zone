@@ -4,7 +4,7 @@ import {withStyles} from "@material-ui/core/styles";
 
 const styles=(theme)=>({
     textField: {
-        width: "60%",
+        width: "95%",
         marginBottom: theme.spacing(2),
     },
 });
@@ -16,7 +16,6 @@ class TextFieldComponent extends Component{
 
         return(
             <div>
-                {console.log("textfieldcomponent의 disabled : ",disabled)}
                 <TextField
                     className={classes.textField}
                     label="반려 사유"
@@ -25,7 +24,6 @@ class TextFieldComponent extends Component{
                     // onChange={(e) => reasonChange(e)}
                     onChange={reasonChange}
                     disabled={disabled}
-
                 />
             </div>
         )

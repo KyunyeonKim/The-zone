@@ -328,6 +328,7 @@ class EmployeeVacationSetting extends Component {
 
 
         const handleSearchButtonClick = async(e) => {
+            const searchKeyword = this.state.searchKeyword;
             console.log("searchKeyword : ", searchKeyword);
 
             const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
