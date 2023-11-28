@@ -2,17 +2,80 @@ import React, { Component } from "react";
 import {
     Button,
     Checkbox,
-    FormControlLabel,
-    Grid,
-    Input,
-    InputLabel,
+    FormControlLabel, FormGroup,
+    Paper, TextField,
     Typography,
+    Box,
 } from "@material-ui/core";
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 import axios from "axios";
-// import "../static/CreateEmployee.css";
-import CreateModalComponent from "./CreateModalComponent";
-// import CreateModalComponent from "./CreateModalComponent";
+import DateFnsUtils from '@date-io/date-fns';
+import defaultPersonImage from '../static/defaultPersonImage.png'
+import { withStyles } from '@material-ui/core/styles';
+const styles = theme => ({
 
+    paper: {
+        maxWidth: 1000,
+        margin: theme.spacing(30),
+        display: 'flex',
+        flexDirection: 'height',
+        boxShadow: theme.shadows[5],
+        borderRadius: theme.shape.borderRadius
+    },
+    gridContainer: {
+        width: '100%',
+        margin: 0,
+    },
+    gridItem: {
+        flex: 1,
+    },
+    formContainer: {
+        padding: theme.spacing(11), // padding 조정
+        backgroundColor: '#BBDEFB',
+        width:'300%',
+        maxWidth: 'none',// 최대 가로 길이 제한 없음
+
+    },
+    uploadContainer: {
+        padding: theme.spacing(3)
+    },
+    uploadInput: {
+        display: 'none'
+    },
+    uploadLabel: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: theme.spacing(1),
+        padding: theme.spacing(2),
+        border: `1px dashed ${theme.palette.divider}`,
+        borderRadius: '50%',
+        width: 230,
+        height: 230,
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: theme.palette.action.hover
+        }
+    },
+    uploadIcon: {
+        borderRadius: '50%', // 이미지를 원형으로 만들기 위한 속성
+        width: 240,         // 이미지 너비
+        height: 1000,        // 이미지 높이
+        objectFit: 'cover', // 이미지가 원형 내에 꽉 차도록 조정
+    },
+    submitButton: {
+        marginTop: theme.spacing(3)
+    },
+    errorMessage: {
+        color: theme.palette.error.main,
+        marginTop: theme.spacing(2)
+    }
+
+});
 class CreateEmployee extends Component {
     constructor(props) {
         super(props);
@@ -21,19 +84,19 @@ class CreateEmployee extends Component {
             passWord: "",
             name: "",
             attendanceManager: false,
+            hireDate: new Date(),
             uploadFile: null,
             isModalOpen: false,
             formError: "",
+            defaultPersonImage:defaultPersonImage,
         };
     }
 
-    openModal = () => {
-        this.setState({ isModalOpen: true });
-    };
+    // ... 기존 메소드들 (handleDateChange, openModal, closeModal, handleCreateEmployee, etc.)
+    handleDateChange = (date) => {
+        this.setState({hireDate:date});
+    }
 
-    closeModal = () => {
-        this.setState({ isModalOpen: false });
-    };
 
     handleCreateEmployee = async () => {
         const {
@@ -42,44 +105,97 @@ class CreateEmployee extends Component {
             name,
             attendanceManager,
             uploadFile,
+            hireDate,
         } = this.state;
 
-        axios.defaults.withCredentials = true;
-        let loginForm = new FormData();
-        loginForm.append("loginId", "admin");
-        loginForm.append("password", "admin");
-        await axios.post("http://localhost:8080/login", loginForm);
 
-        if (!uploadFile) {
+        if (!name.trim()) {
             this.setState({
-                formError: "이미지 파일을 선택해주세요.",
+                formError: "이름을 입력해주세요.",
+                isModalOpen: false,
+            });
+            return;
+        } else if (/\d/.test(name) || /[^a-zA-Z\s가-힣]/.test(name)) {
+            this.setState({
+                formError: "이름에는 숫자나 특수문자를 입력할 수 없습니다.",
+                isModalOpen: false,
+            });
+            return;
+        } else if (name.length > 10) {
+            this.setState({
+                formError: "이름은 10자 이내로 입력해야 합니다.",
                 isModalOpen: false,
             });
             return;
         }
-        if (/\d/.test(name)) {
+
+// 사원ID 검증
+        if (!employeeId.trim()) {
             this.setState({
-                formError: "이름에는 숫자를 입력할 수 없습니다.",
+                formError: "사원ID를 입력해주세요.",
                 isModalOpen: false,
             });
             return;
-        }
-
-        if (!/^\d+$/.test(employeeId)) {
+        } else if (!/^\d+$/.test(employeeId)) {
             this.setState({
                 formError: "사원ID는 숫자만 입력할 수 있습니다.",
                 isModalOpen: false,
             });
             return;
+        } else if (employeeId.length > 10) {
+            this.setState({
+                formError: "사원ID는 10자 이내로 입력해야 합니다.",
+                isModalOpen: false,
+            });
+            return;
         }
 
+// 비밀번호 검증
+        if (!passWord.trim()) {
+            this.setState({
+                formError: "비밀번호를 입력해주세요.",
+                isModalOpen: false,
+            });
+            return;
+        } else if (passWord.length > 10) {
+            this.setState({
+                formError: "비밀번호는 10자 이내로 입력해야 합니다.",
+                isModalOpen: false,
+            });
+            return;
+        } else if (/[^a-zA-Z0-9\s]/.test(passWord)) {
+            this.setState({
+                formError: "비밀번호에는 특수문자를 입력할 수 없습니다.",
+                isModalOpen: false,
+            });
+            return;
+        }
+
+        if (!this.state.uploadFile) {
+            this.setState({
+                formError: "이미지를 업로드해주세요.",
+                isModalOpen: false,
+            });
+            return;
+        }
+        const hireYear = hireDate ? `${hireDate.getFullYear()}-${String(hireDate.getMonth() + 1).padStart(2, '0')}-${String(hireDate.getDate()).padStart(2, '0')}` : '';
+
         try {
+
+            axios.defaults.withCredentials = true;
+            let loginForm = new FormData();
+            await axios.get("http://localhost:8080/logout");
+           loginForm.append("loginId", "admin");
+            loginForm.append("password", "admin");
+            await axios.post("http://localhost:8080/login", loginForm);
+
             const employeeAddUrl = "http://localhost:8080/admin/register";
             const createForm = new FormData();
             createForm.append("employeeId", employeeId);
             createForm.append("passWord", passWord);
             createForm.append("name", name);
             createForm.append("attendanceManager", attendanceManager);
+            createForm.append("hireYear", hireYear);
 
             const response = await axios.post(employeeAddUrl, createForm);
             console.log("직원 생성 결과", response.data);
@@ -94,13 +210,36 @@ class CreateEmployee extends Component {
                 console.log("이미지 업로드 결과", uploadResponse.data);
             }
 
+            alert("요청이 성공적으로 처리되었습니다.");
+            this.setState({
+                formError: "", // 폼 에러 메시지 초기화
+            });
+
             this.closeModal();
         } catch (error) {
-            console.error("중복된사원번호가 존재합니다", error);
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        alert("400 Bad Request 에러!");
+                        break;
+                    case 403:
+                        alert("403 Forbidden - 권한이 없습니다!");
+                        break;
+                    case 409:
+                        alert("409 Conflict - 중복된 사원번호가 존재합니다.");
+                        break;
+                    case 500:
+                        alert("500 Internal Server Error - 서버 에러 발생!");
+                        break;
+                    default:
+                        alert("An error occurred! - 알 수 없는 에러 발생!");
+                        break;
+                }
+            }
             this.setState({
-                formError: "중복된사원번호가 존재합니다.",
                 isModalOpen: false,
             });
+
         }
     };
 
@@ -120,9 +259,14 @@ class CreateEmployee extends Component {
         if (file && this.checkFileFormat(file)) {
             var reader = new FileReader();
             reader.onload = () => {
-                this.setState({ uploadFile: file });
+                this.setState({ uploadFile: file, formError: "" }); // 기존 오류 메시지 초기화
             };
             reader.readAsDataURL(file);
+        } else {
+            this.setState({
+                uploadFile: null,
+                formError: "올바른 이미지 형식이 아닙니다. (jpeg, png, gif 중 하나를 선택하세요.)",
+            });
         }
     };
 
@@ -138,233 +282,112 @@ class CreateEmployee extends Component {
         }));
     };
 
+
+
+    handleImageUpload = (e) => {
+        const imageFile = e.target.files[0];
+        this.setState({ uploadFile: imageFile });
+    };
+
     render() {
-        const {
-            employeeId,
-            passWord,
-            name,
-            attendanceManager,
-            uploadFile,
-            isModalOpen,
-            formError,
-        } = this.state;
+        const { classes } = this.props;
+        const { employeeId, passWord, name, attendanceManager, hireDate, uploadFile, formError } = this.state;
 
         return (
-
-            <>
-                <style>{`
-                    .items-center {
-                        align-items: center;
-                    }
-                    .justify-center {
-                        justify-content: center;
-                    }
-                    .min-h-screen {
-                        min-height: 100vh;
-                    }
-                    .bg-gray-100 {
-                        background-color: #f0f0f0;
-                    }
-                    .bg-white {
-                        background-color: #fff;
-                    }
-                    .shadow-md {
-                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    }
-                    .rounded {
-                        border-radius: 8px;
-                    }
-                    .px-8 {
-                        padding-left: 2rem;
-                        padding-right: 2rem;
-                    }
-                    .py-10 {
-                        padding-top: 2.5rem;
-                        padding-bottom: 2.5rem;
-                    }
-                    .w-96 {
-                        width: 24rem;
-                    }
-                    .py-2 {
-                        padding-top: 0.5rem;
-                        padding-bottom: 0.5rem;
-                    }
-                    .px-4 {
-                        padding-left: 1rem;
-                        padding-right: 1rem;
-                    }
-                    .rounded {
-                        border-radius: 0.25rem;
-                    }
-                    .cursor-pointer {
-                        cursor: pointer;
-                    }
-                    .file-upload-container {
-                        text-align: center;
-                        display: flex;
-                        flex-direction: column;
-                        position: relative;
-                    }
-                    .file-upload-label {
-                        display: block;
-                        background-color: #3498db;
-                        color: #fff;
-                        font-weight: bold;
-                        padding: 10px;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        margin-top: 16px;
-                    }
-                    .file-input {
-                        display: none;
-                    }
-                    .placeholder-container {
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 250px;
-                        border: 2px dashed #3498db;
-                        box-sizing: border-box;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        border-radius: 4px;
-                        background-color: #fff;
-                    }
-                    .preview-container {
-                        margin-top: 38px;
-                        position: relative;
-                    }
-                    .preview-image {
-                        width: 100%;
-                        height: auto;
-                        max-width: 100%;
-                        max-height: 100%;
-                        border-radius: 6px;
-                        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                    }
-                `}</style>
-
-            <div className="flex items-center min-h-screen bg-gray-100">
-                <div className="flex justify-center w-full">
-                    <div className="flex w-1/2">
-                        <div className="bg-white shadow-md rounded px-8 py-10 max-w-md w-96">
-                            <Typography variant="h5" align="center">
-                                직원 생성 페이지
-                            </Typography>
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                {/* 입력 필드 */}
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12}>
-                                        <InputLabel htmlFor="employeeId">사원번호</InputLabel>
-                                        <Input
-                                            id="employeeId"
-                                            name="employeeId"
-                                            value={employeeId}
-                                            onChange={this.onChange}
-                                            fullWidth
-                                            required
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <InputLabel htmlFor="passWord">비밀번호</InputLabel>
-                                        <Input
-                                            id="passWord"
-                                            name="passWord"
-                                            type="password"
-                                            value={passWord}
-                                            onChange={this.onChange}
-                                            fullWidth
-                                            required
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <InputLabel htmlFor="name">사원이름</InputLabel>
-                                        <Input
-                                            id="name"
-                                            type="name"
-                                            name="name"
-                                            value={name}
-                                            onChange={this.onChange}
-                                            fullWidth
-                                            required
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={attendanceManager}
-                                                    onChange={this.onToggleChange}
-                                                    name="attendanceManager"
-                                                />
-                                            }
-                                            label="근태담당자여부"
-                                        />
-                                    </Grid>
-                                </Grid>
-
-                                <Button
-                                    type="submit"
-                                    color="primary"
-                                    fullWidth
-                                    style={{ marginTop: "16px" }}
-                                    onClick={this.openModal}
-                                >
-                                    생성
-                                </Button>
-                            </form>
-                            {formError && (
-                                <div style={{ color: "red", marginTop: "8px" }}>
-                                    {formError}
-                                </div>
+            <Box className={classes.container}>
+                <Paper className={classes.paper}>
+                    <Box className={classes.uploadContainer}>
+                        <input
+                            accept="image/*"
+                            className={classes.uploadInput}
+                            id="upload-file"
+                            type="file"
+                            onChange={this.handleImageUpload}
+                        />
+                        <label htmlFor="upload-file" className={classes.uploadLabel}>
+                            {uploadFile ? (
+                                <img
+                                    src={URL.createObjectURL(uploadFile)}
+                                    alt="Employee"
+                                    className={classes.uploadIcon}
+                                />
+                            ) : (
+                                <img
+                                    src={this.state.defaultPersonImage}
+                                    alt="Default"
+                                    className={classes.uploadIcon}
+                                />
                             )}
-                        </div>
+                        </label>
+                        <Typography variant="h5"style={{ marginLeft: '40px' }}>이미지를 설정하시오</Typography>
+                    </Box>
 
-                        <div className="bg-white shadow-md rounded px-8 py-10 max-w-md w-96 file-upload-container">
-                            <div className="preview-container">
-                                <div className="placeholder-container">
-                                    {!uploadFile && <p>파일을 선택해주세요</p>}
-                                    {uploadFile && (
-                                        <img
-                                            src={
-                                                uploadFile instanceof File
-                                                    ? URL.createObjectURL(uploadFile)
-                                                    : uploadFile
-                                            }
-                                            alt="미리보기"
-                                            className="preview-image"
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                            <label
-                                htmlFor="file"
-                                className="flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer file-upload-label"
-                            >
-                                파일 선택해주세요
-                            </label>
-                            <input
-                                type="file"
-                                id="file"
-                                onChange={this.setPreviewImg}
-                                className="file-input"
+                    <Box className={classes.formContainer}>
+                        <Typography variant="h6">사원생성 페이지</Typography>
+                        <FormGroup>
+                            <TextField
+                                label="Employee ID"
+                                variant="outlined"
+                                value={employeeId}
+                                onChange={e => this.setState({ employeeId: e.target.value })}
+                                margin="normal"
+                                fullWidth
                             />
-                        </div>
-                    </div>
-                </div>
-                <CreateModalComponent
-                    isOpen={isModalOpen}
-                    onClose={this.closeModal}
-                    onConfirm={this.handleCreateEmployee}
-                />
-            </div>
-            </>
+                            <TextField
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                value={passWord}
+                                onChange={e => this.setState({ passWord: e.target.value })}
+                                margin="normal"
+                                fullWidth
+                            />
+                            <TextField
+                                label="Name"
+                                variant="outlined"
+                                value={name}
+                                onChange={e => this.setState({ name: e.target.value })}
+                                margin="normal"
+                                fullWidth
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={attendanceManager}
+                                        onChange={e => this.setState({ attendanceManager: e.target.checked })}
+                                    />
+                                }
+                                label="Attendance Manager"
+                            />
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    label="Hire Date"
+                                    format="yyyy/MM/dd"
+                                    value={hireDate}
+                                    onChange={date => this.setState({ hireDate: date })}
+                                    KeyboardButtonProps={{ 'aria-label': 'change date' }}
+                                    fullWidth
+                                />
+                            </MuiPickersUtilsProvider>
+                            {formError && (
+                                <Typography className={classes.errorMessage}>{formError}</Typography>
+                            )}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.submitButton}
+                                onClick={this.handleCreateEmployee}
+                                fullWidth
+                            >
+                                Submit
+                            </Button>
+                        </FormGroup>
+                    </Box>
+                </Paper>
+            </Box>
         );
     }
 }
 
-export default CreateEmployee;
+export default withStyles(styles)(CreateEmployee);

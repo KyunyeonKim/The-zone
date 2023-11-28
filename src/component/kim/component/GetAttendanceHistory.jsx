@@ -18,10 +18,6 @@ class GetAttendanceHistory extends Component {
         };
     }
 
-    // componentDidMount() 메소드를 제거
-    // componentDidMount() {
-    //     this.fetchData();
-    // }
 
     handleSearchSubmit = ({ year, month, day, searchParameter }) => {
         this.setState({ year, month, day, searchParameter, page: 1 }, this.fetchData);

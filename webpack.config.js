@@ -6,6 +6,7 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   entry: './src/index.jsx',
+
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -23,12 +24,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource', // 'asset/resource' 사용
+      },
     ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'index.js'
+    filename: 'index.js',
+    publicPath: '/', // 'publicPath' 추가
+    assetModuleFilename: 'images/[hash][ext][query]' // 자산 파일 이름 형식
   },
   plugins: [
     new HtmlWebpackPlugin({
