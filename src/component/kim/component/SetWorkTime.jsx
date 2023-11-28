@@ -86,10 +86,9 @@ class SetWorkTime extends Component {
 
     async fetchPagedDataWorkTime(pageNumber, pageSize) {
         axios.defaults.withCredentials = true;
-        await axios.get("http://localhost:8080/logout");
         let loginForm = new FormData();
-        loginForm.append("loginId", "200001012");
-        loginForm.append("password", "test");
+        loginForm.append("loginId", "123");
+        loginForm.append("password", "12345");
 
         try{
         await axios.post("http://localhost:8080/login", loginForm);
@@ -135,7 +134,7 @@ class SetWorkTime extends Component {
                 }
             }else{
                 console.error("Error fetching data:" , error);
-                alert("An error occurred while fetching data!");
+                alert("데이터가 존재하지 않습니다!");
             }
         }
     }
@@ -232,7 +231,7 @@ class SetWorkTime extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {workTime.map((item, index) => (
+                            {workTime.length >0 ?workTime.map((item, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.employeeId}</TableCell>
@@ -242,7 +241,11 @@ class SetWorkTime extends Component {
                                     <TableCell>{item.regularTimeAdjustmentTime}</TableCell>
                                     <TableCell>{item.targetDate}</TableCell>
                                 </TableRow>
-                            ))}
+                            )) : (
+                                <TableRow>
+                                    <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

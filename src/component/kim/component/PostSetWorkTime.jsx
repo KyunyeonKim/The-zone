@@ -47,6 +47,20 @@ class PostSetWorkTime extends Component {
         formData.append("adjustedEndTime", formattedEndTime);
         formData.append("reason", reason);
         formData.append("targetDate", formattedDate);
+        if (/[^a-zA-Z0-9가-힣\s]/.test(reason)) {
+            alert("사유에 특수 문자를 포함할 수 없습니다.");
+            return;
+        }
+
+        if(formattedStartTime>formattedEndTime){
+            alert("시작출근시간보다 퇴근시간이 시간이 더 큽니다. 다시 입력해주세요")
+            return;
+        }
+        if (!adjustedStartHour || !adjustedStartMinute || !adjustedEndHour || !adjustedEndMinute) {
+            alert("시작 및 종료 시간을 모두 선택해주세요.");
+            return;
+        }
+
 
         try {
             const response = await axios.post('http://localhost:8080/manager/adjustment', formData, {
@@ -86,10 +100,15 @@ class PostSetWorkTime extends Component {
 
     renderMinuteOptions = () => {
         const minutes = [0, 10, 20, 30, 40, 50];
+
         return minutes.map(minute => (
             <MenuItem key={minute} value={minute}>{minute}</MenuItem>
+
         ));
+
     };
+
+
 
     render() {
         const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;

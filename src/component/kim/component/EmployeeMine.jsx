@@ -2,16 +2,78 @@ import React, { Component } from "react";
 import {
     Button,
     Checkbox,
-    FormControlLabel,
-    Grid,
-    Input,
-    InputLabel,
+    FormControlLabel, FormGroup,
+    Paper, TextField,
     Typography,
+    Box,
 } from "@material-ui/core";
 import axios from "axios";
 import "../static/UpdateEmployee.css";
 import PasswordChangeModal from "./PasswordChangeModal";
+import { withStyles } from '@material-ui/core/styles';
 
+
+const styles = theme => ({
+
+    paper: {
+        maxWidth: 1000,
+        margin: theme.spacing(30),
+        display: 'flex',
+        flexDirection: 'height',
+        boxShadow: theme.shadows[5],
+        borderRadius: theme.shape.borderRadius
+    },
+    gridContainer: {
+        width: '100%',
+        margin: 0,
+    },
+    gridItem: {
+        flex: 1,
+    },
+    formContainer: {
+        padding: theme.spacing(11), // padding 조정
+        backgroundColor: '#BBDEFB',
+        width:'300%',
+        maxWidth: 'none',// 최대 가로 길이 제한 없음
+
+    },
+    uploadContainer: {
+        padding: theme.spacing(3)
+    },
+    uploadInput: {
+        display: 'none'
+    },
+    uploadLabel: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: theme.spacing(1),
+        padding: theme.spacing(2),
+        border: `1px dashed ${theme.palette.divider}`,
+        borderRadius: '50%',
+        width: 230,
+        height: 230,
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: theme.palette.action.hover
+        }
+    },
+    uploadIcon: {
+        borderRadius: '50%', // 이미지를 원형으로 만들기 위한 속성
+        width: 240,         // 이미지 너비
+        height: 1000,        // 이미지 높이
+        objectFit: 'cover', // 이미지가 원형 내에 꽉 차도록 조정
+    },
+    submitButton: {
+        marginTop: theme.spacing(3)
+    },
+    errorMessage: {
+        color: theme.palette.error.main,
+        marginTop: theme.spacing(2)
+    }
+
+});
 
 
 class EmployeeMine extends Component {
@@ -51,10 +113,9 @@ class EmployeeMine extends Component {
     async componentDidMount() {
         try {
             axios.defaults.withCredentials = true;
-            await axios.get("http://localhost:8080/logout");
             let loginForm = new FormData();
             loginForm.append("loginId", "123");
-            loginForm.append("password", "12345");
+            loginForm.append("password", "123456");
             await axios.post("http://localhost:8080/login", loginForm);
 
             const response = await axios.get("http://localhost:8080/employee/information");
@@ -91,6 +152,12 @@ class EmployeeMine extends Component {
             [name]: value,
         });
     };
+    handleImageClick = (event) => {
+        // 기본 이벤트(파일 선택 창 열기)를 막음
+        event.preventDefault();
+        alert('이미지 변경 기능이 비활성화되었습니다.');
+    };
+
 
 
     render() {
@@ -104,104 +171,124 @@ class EmployeeMine extends Component {
             formError,
             uploadFile,
         } = this.state;
-
+        const { classes } = this.props;
         return (
-            <div className="flex items-center min-h-screen bg-gray-100">
-                <div className="flex justify-center w-full">
-                    <div className="flex w-1/2">
-                        <div className="bg-white shadow-md rounded px-8 py-10 max-w-md w-96">
-                            <Typography variant="h5" align="center">
-                                사원 정보 페이지
-                            </Typography>
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12}>
-                                        <InputLabel htmlFor="employeeId">사원번호</InputLabel>
-                                        <Input
-                                            id="employeeId"
-                                            name="employeeId"
-                                            value={employeeId}
-                                            readOnly
-                                            fullWidth
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-
-
-
-                                    <Grid item xs={12}>
-                                        <InputLabel htmlFor="name">사원이름</InputLabel>
-                                        <Input
-                                            id="name"
-                                            type="name"
-                                            name="name"
-                                            value={name}
-                                            onChange={this.onChange}
-                                            fullWidth
-                                            required
-                                            variant="outlined"
-                                            readOnly
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={12}>
-                                        <InputLabel htmlFor="hireYear">입사연도</InputLabel>
-                                        <Input
-                                            id="hireYear"
-                                            name="hireYear"
-                                            type="hireYear"
-                                            value={hireYear}
-                                            onChange={this.onChange}
-                                            fullWidth
-                                            required
-                                            variant="outlined"
-                                            readOnly
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={12}>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={attendanceManager}
-                                                    name="attendanceManager"
-                                                />
-                                            }
-                                            label="근태담당자여부"
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </form>
-                            {formError && (
-                                <div style={{ color: "red", marginTop: "8px" }}>
-                                    {formError}
-                                </div>
+            <div>
+                <Paper className={classes.paper}>
+                    <Box className={classes.uploadContainer}>
+                        {/* 이미지 업로드 부분 */}
+                        <input
+                            accept="image/*"
+                            className={classes.uploadInput}
+                            id="upload-file"
+                            type="file"
+                            onClick={this.handleImageClick} // 이벤트 핸들러 추가
+                        />
+                        <label htmlFor="upload-file" className={classes.uploadLabel}>
+                            {/* 이미지 미리보기 */}
+                            {uploadFile ? (
+                                <img
+                                    src={
+                                        uploadFile && uploadFile instanceof File
+                                            ? URL.createObjectURL(uploadFile)
+                                            : uploadFile
+                                    }
+                                    alt="Employee"
+                                    className={classes.uploadIcon}
+                                    onError={() => {
+                                        this.setState({ uploadFile: null });
+                                    }}
+                                />
+                            ) : (
+                                <img
+                                    src={this.state.defaultPersonImage}
+                                    alt="Default"
+                                    className={classes.uploadIcon}
+                                />
                             )}
+                        </label>
+                        <Typography variant="h5" style={{ marginLeft: "40px" }}>
+                            사원 이미지
+                        </Typography>
+                    </Box>
+
+                    <Box className={classes.formContainer}>
+                        <Typography variant="h6">사원 정보 페이지</Typography>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            <FormGroup>
+                                {/* 사원번호 */}
+                                <TextField
+                                    label="사원번호"
+                                    variant="outlined"
+                                    value={employeeId}
+                                    fullWidth
+                                    readOnly
+                                />
+
+                                {/* 사원이름 */}
+                                <TextField
+                                    label="사원이름"
+                                    variant="outlined"
+                                    type="name"
+                                    name="name"
+                                    value={name}
+                                    onChange={this.onChange}
+                                    fullWidth
+                                    required
+                                    readOnly
+                                />
+
+                                {/* 입사연도 */}
+                                <TextField
+                                    label="입사연도"
+                                    variant="outlined"
+                                    name="hireYear"
+                                    type="hireYear"
+                                    value={hireYear}
+                                    onChange={this.onChange}
+                                    fullWidth
+                                    required
+                                    readOnly
+                                />
+
+                                {/* 근태담당자여부 */}
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={attendanceManager}
+                                            name="attendanceManager"
+                                            onChange={this.onToggleChange}
+                                        />
+                                    }
+                                    label="근태담당자여부"
+                                />
+                            </FormGroup>
+
+                            {/* 오류 메시지 */}
+                            {formError && (
+                                <div style={{ color: "red", marginTop: "8px" }}>{formError}</div>
+                            )}
+
+                            {/* 비밀번호 변경 버튼 */}
                             <Button
                                 color="secondary"
                                 style={{ marginTop: "16px" }}
-                                onClick={this.openPasswordModal} // 비밀번호 변경 모달 열기
+                                onClick={this.openPasswordModal}
                             >
                                 비밀번호 변경
                             </Button>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex items-center min-h-screen bg-gray-150">
-                    {uploadFile && (
-                        <div className="image-preview">
-                            <img src={uploadFile} alt="미리보기" />
-                        </div>
-                    )}
-                </div>
+                        </form>
+                    </Box>
+                </Paper>
+
+
                 <PasswordChangeModal
                     isOpen={isPasswordModalOpen}
                     onClose={this.closePasswordModal}
-
                 />
             </div>
         );
     }
-}
+    }
 
-export default EmployeeMine;
+export default withStyles(styles)(EmployeeMine);
