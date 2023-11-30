@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
 import {withStyles} from "@material-ui/core/styles";
 
+
 const styles=(theme)=>({
     textField: {
         width: "95%",
@@ -12,18 +13,16 @@ const styles=(theme)=>({
 class TextFieldComponent extends Component{
 
     render(){
-        const {classes,reasonChange,reasonState,disabled}=this.props;
-
+        let {id,classes,onChange,value,disabled,label}=this.props;
         return(
             <div>
                 <TextField
+                    id={id}
                     className={classes.textField}
-                    label="반려 사유"
-                    // value={this.state.reason}
-                    value={reasonState}
-                    // onChange={(e) => reasonChange(e)}
-                    onChange={reasonChange}
+                    label={label}
+                    onChange={onChange}
                     disabled={disabled}
+                    value={value}
                 />
             </div>
         )

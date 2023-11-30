@@ -12,5 +12,6 @@ import ProcessAppealRequest from "./component/chun/Component/ProcessAppealReques
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    render(<ProcessAppealRequest/>, document.body.appendChild(document.createElement('div')))
+    render(<VacationRequest/>, document.body.appendChild(document.createElement('div')))
+
 })

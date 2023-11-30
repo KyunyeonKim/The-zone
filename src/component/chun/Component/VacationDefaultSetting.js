@@ -71,14 +71,19 @@ class VacationDefaultSetting extends Component{
             open:false
 
         };
-    }
+        this.targetYear=""
 
-    getDay=(year, month)=>{
-        const isLeapYear = (year%4===0&&year%100!==0)||(year%400 ===0);
-        const days=[31,isLeapYear?29:28,31,30,31,30,31,31,30,31,30,31];
-        return days[month-1];
 
+        this.login=this.login.bind(this);
+        this.oldVacationCountAndYearSetting=this.oldVacationCountAndYearSetting.bind(this);
+        this.submitForm=this.submitForm.bind(this);
+        this.buttonClick=this.buttonClick.bind(this);
+        this.handleClose=this.handleClose.bind(this);
+        this.getNewFreshManChange=this.getNewFreshManChange.bind(this);
+        this.getNewSeniorChange=this.getNewSeniorChange.bind(this);
     }
+    targetYear
+
 
     componentDidMount() {
         this.login();
@@ -96,7 +101,6 @@ class VacationDefaultSetting extends Component{
         loginForm.append("password", "test");
         try {
             const login = await axios.post("http://localhost:8080/login", loginForm);
-            this.setState({ startDate:"2023-11-21" }); //startDate를 하드코딩
         } catch (error) {
             console.log("error 발생 !");
         }
@@ -114,8 +118,9 @@ class VacationDefaultSetting extends Component{
                     info: "senior"
                 }
             });
-            const nextYear = new Date().getFullYear()+1;
-            await this.setState({targetYear:nextYear,oldFreshManCount:oldFreshManCount.data,oldSeniorCount:oldSeniorCount.data});
+            this.targetYear = new Date().getFullYear()+1;
+            console.log("이전 oldFreshManCount : ",oldFreshManCount);
+            await this.setState({...this.state,oldFreshManCount:oldFreshManCount.data,oldSeniorCount:oldSeniorCount.data});
         }catch (error) {
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
@@ -130,7 +135,6 @@ class VacationDefaultSetting extends Component{
     };
 
     submitForm = async(e) => {
-
         if (!(/^[1-9]\d*$/).test(this.state.newFreshManCount) || !(/^[1-9]\d*$/).test(this.state.newSeniorCount)) {
             alert("입력된 개수를 다시 확인하세요!");
             return;
@@ -141,9 +145,9 @@ class VacationDefaultSetting extends Component{
         const formData = new FormData();
         formData.append("freshman", this.state.newFreshManCount);
         formData.append("senior", this.state.newSeniorCount);
-        formData.append("targetDate", this.state.targetYear+"-01-01");
+        formData.append("targetDate", this.targetYear+"-01-01");
 
-        console.log("Form data:", this.state.newFreshManCount,this.state.newSeniorCount,this.state.targetYear+"-01-01");
+        console.log("Form data:", this.state.newFreshManCount,this.state.newSeniorCount,this.targetYear+"-01-01");
         //서버 요청 보낼 것
 
         try{
@@ -152,19 +156,32 @@ class VacationDefaultSetting extends Component{
                     'Content-Type': 'multipart/form-data',
                 }
             });
+            console.log("response : ",response);
+
             const oldFreshManCount = await axios.get("http://localhost:8080/manager/vacation/defaultSetting/latestInfo",
                 {
                 params: {
                     info: "freshman"
                 }
             });
+
+            console.log("oldFreshManCount입니다 : ",oldFreshManCount);
+
             const oldSeniorCount = await axios.get("http://localhost:8080/manager/vacation/defaultSetting/latestInfo",{
                 params: {
                     info: "senior"
                 }
             });
+
+            // this.newFreshManCount=""
+            // this.newSeniorCount=""
+            // document.getElementById("getNewFreshManData").value="";
+            // document.getElementById("getNewSeniorData").value="";
+
             this.buttonClick();
-            this.setState({newFreshManCount:"",newSeniorCount:"",oldFreshManCount:oldFreshManCount.data,oldSeniorCount:oldSeniorCount.data});
+            // console.log("oldFreshManCount : ",oldFreshManCount);
+            // console.log("oldSeniorCount : ",oldSeniorCount);
+            this.setState({...this.state,oldFreshManCount:oldFreshManCount.data,oldSeniorCount:oldSeniorCount.data,newFreshManCount:"",newSeniorCount:""});
         }catch (error){
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
@@ -183,12 +200,20 @@ class VacationDefaultSetting extends Component{
     };
 
     buttonClick = ()=>{
-        this.setState({open:true});
+        this.setState({...this.state,open:true});
     }
 
     handleClose = ()=>{
-        this.setState({open:false});
+        this.setState({...this.state,open:false});
     }
+
+    getNewFreshManChange = (e)=>{
+        this.setState({...this.state,newFreshManCount:e.target.value});
+    }
+    getNewSeniorChange = (e)=>{
+        this.setState({...this.state,newSeniorCount:e.target.value});
+    }
+
 
 render(){
     const { classes } = this.props;
@@ -221,7 +246,7 @@ render(){
                     <tr>
                         <td className={classes.formCell}>설정 적용 년도</td>
                         <td className={classes.formCell}>
-                            {this.state.targetYear}
+                            {this.targetYear}
                         </td>
 
                     </tr>
@@ -236,9 +261,10 @@ render(){
                         <td className={classes.formCellLeft}>변경된 1년 미만 연차 개수</td>
                         <td className={classes.formCell}>
                             <TextField
+                                id={"getNewFreshManData"}
                                 className={classes.textField}
-                                label="변경된 1년 미만연차 개수"
                                 value={this.state.newFreshManCount}
+                                label="변경된 1년 미만연차 개수"
                                 onChange={(e) => {
                                     this.setState({newFreshManCount: e.target.value});
                                 }}
@@ -256,12 +282,11 @@ render(){
                         <td className={classes.formCellLeft}>변경된 1년 이상 연차 개수</td>
                         <td className={classes.formCell}>
                             <TextField
+                                id={"getNewSeniorData"}
                                 className={classes.textField}
-                                label="변경된 1년 이상 연차 개수"
                                 value={this.state.newSeniorCount}
-                                onChange={(e) => {
-                                    this.setState({newSeniorCount: e.target.value});
-                                }}
+                                label="변경된 1년 이상 연차 개수"
+                                onChange={this.getNewSeniorChange}
                             />
                         </td>
                     </tr>

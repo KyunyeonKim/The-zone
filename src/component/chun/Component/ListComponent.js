@@ -15,21 +15,11 @@ const styles = (theme) => ({
 class ListComponent extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     employeeId: "",
-        // };
     }
 
     render() {
         /*고유적으로 식별할 수 있는 keyData의 데이터를 받아옴*/
         const {row,keyData,classes} = this.props;
-
-        // const onButtonClick=async(e)=>{
-        //     await this.setState({employeeId:row.employeeId});
-        //     console.log("employeeId : ",row.employeeId);
-        //     console.log("this.state : ",this.state);
-        // }
-
         return (
             <TableRow key={keyData}>
                 {Object.entries(row).map(([key, value]) => (

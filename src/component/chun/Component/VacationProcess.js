@@ -72,7 +72,6 @@ class VacationProcess extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            searchKeyword: '',
             desc:'',
             sort:'',
             isSearch:'',
@@ -80,10 +79,33 @@ class VacationProcess extends Component{
             showPagiNation: 'flex',
             data:[],
             pageData:{},
-            isSearchBtn:false,
-            approveOpen:false
+            approveOpen:false,
+            rejectOpen:false
 
         };
+
+        this.searchKeyword="";
+        this.desc="";
+        this.sort="";
+        this.id=""
+
+        this.login = this.login.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+        this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
+        this.sortChange = this.sortChange.bind(this);
+        this.descChange = this.descChange.bind(this);
+        this.onApproveBtnClick = this.onApproveBtnClick.bind(this);
+        this.onRejectBtnClick = this.onRejectBtnClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    searchKeyword;
+    desc;
+    sort;
+    id;
+
+    searchKeywordChange=(e)=>{
+        this.searchKeyword = e.target.value;
     }
 
     login= async() =>{
@@ -107,45 +129,43 @@ class VacationProcess extends Component{
         if (page != '') {
             getPage = '?page=' + getPage
         } else {
-            await this.setState({sort: '', desc: ''});
-        }
+            this.desc='';
+            this.sort='';        }
 
-        if (this.state.desc !== '' && this.state.sort !== '') {
-            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.state.desc + '&sort=' + this.state.sort;
+        if (this.desc !== '' && this.sort !== '') {
+            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.desc + '&sort=' + this.sort;
         }
 
         try {
-                const getVacationAllRequest = await axios.get('http://localhost:8080/manager/vacation/all/requested' + getPage);
-                const getVacationAllRequestPageData = getVacationAllRequest.data //페이지 객체 데이터
-                const getVacationAllRequestData = getVacationAllRequestPageData.data.map(({employeeId,vacationRequestKey,vacationCategoryKey,vacationStartDate,vacationEndDate,reason,vacationRequestTime})=>({employeeId,vacationRequestKey,vacationCategoryKey,vacationStartDate,vacationEndDate,reason,vacationRequestTime})); //사원정보 데이터
+            const getVacationAllRequest = await axios.get('http://localhost:8080/manager/vacation/all/requested' + getPage);
+            console.log("getVacationAllRequest.data.data : ", getVacationAllRequest.data.data);
 
-                //연차 요청 데이터에서 employeeId만 뽑아냄
-                const empIds = getVacationAllRequestData.map((item)=>item.employeeId);
+            const getVacationAllRequestData = getVacationAllRequest.data.data.map(item => {
+                return {
+                    vacationRequestKey: item.vacationRequestKey,
+                    employeeId: item.employeeId,
+                    name: item.name,
+                    vacationCategoryKey: item.vacationCategoryKey,
+                    vacationStartDate: item.vacationStartDate,
+                    vacationEndDate: item.vacationEndDate,
+                    reason: item.reason,
+                    vacationRequestTime: item.vacationRequestTime,
+                };
+            });
 
-                const empData = await Promise.all(
-                        empIds.map(async(id)=> {
-                        const getData = await axios.get(`http://localhost:8080/manager/information/${id}`);
-                            return getData.data
-                        })
-                );
+            console.log("1. getVacationAllRequestData : ", getVacationAllRequestData);
 
-                const newEmpData = empData.map(({employeeId,name})=>({employeeId,name}));
 
-                const combineData = getVacationAllRequestData.map((data) => ({
-                    name: (newEmpData.find((emp) => emp.employeeId === data.employeeId).name),
-                    ...data,
-                }));
-
-                this.setState({
-                    isSearch:false,
-                    activePage:page,
-                    showPagiNation: 'flex',
-                    data:combineData,
-                    pageData:getVacationAllRequestPageData,
-                    isSearchBtn:false,
-                });
-
-        } catch (error) {
+            this.setState({
+                isSearch: false,
+                activePage: page,
+                showPagiNation: 'flex',
+                data: getVacationAllRequestData,
+                pageData: getVacationAllRequest.data,
+                desc: this.desc,
+                sort: this.sort
+            });
+        }catch (error) {
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
             }
@@ -158,12 +178,12 @@ class VacationProcess extends Component{
             return;
         }
 
+
     }
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
-        const searchKeyword = this.state.searchKeyword;
-
+        const searchKeyword = this.searchKeyword;
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
             alert("올바르지 않은 입력입니다!");
@@ -175,51 +195,37 @@ class VacationProcess extends Component{
             this.fetchData(page);
         }else{
             try{
-                const searchRawData = await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`);
-                console.log("searchRawData : ",searchRawData);
+                const searchRawData = await axios.get(`http://localhost:8080/manager/search/vacation/all/requested?searchParameter=${searchKeyword}`);
+                console.log("searchRawData :",searchRawData);
 
-                const empIds = searchRawData.data.map((employee) => employee.employeeId);
-                const getVacationAllRequest = await axios.get('http://localhost:8080/manager/vacation/all/requested');
+                if(searchRawData.data===""){
+                    alert("검색 결과가 없습니다!");
+                    return;
+                }
 
-                const getVacationRequest =
-                    empIds.map( (id) => {
+                const getSearchAllVacationRequest = searchRawData.data.map(item=>{
+                    return {
+                        vacationRequestKey: item.vacationRequestKey,
+                        employeeId: item.employeeId,
+                        name: item.name,
+                        vacationCategoryKey: item.vacationCategoryKey,
+                        vacationStartDate: item.vacationStartDate,
+                        vacationEndDate: item.vacationEndDate,
+                        reason: item.reason,
+                        vacationRequestTime: item.vacationRequestTime,
 
-                        const employeeData = searchRawData.data.find((employee) => employee.employeeId === id);
-                        const employeeRequests = getVacationAllRequest.data.data.filter((request) => request.employeeId === id);
+                    };
+                });
+                console.log("getSearchAllVacationRequest : ",searchRawData);
 
-                        if (employeeData && employeeRequests.length > 0) {
-                            return {
-                                employeeId: id,
-                                employeeData: employeeData,
-                                vacationRequests: employeeRequests,
-                            };
-                        } else {
-                            return null; // 데이터가 없는 경우 null 반환
-                        }
 
-                    }
-                );
-                const filteredVacationRequest = getVacationRequest.filter((data) => data !== null);
-                // concat, map 합친 것 -> flatMap
-                const combineData = filteredVacationRequest.flatMap(({ employeeData, vacationRequests }) =>
-                    vacationRequests.map((request) => ({
-                        name: employeeData.name,
-                        employeeId : request.employeeId,
-                        vacationRequestKey: request.vacationRequestKey,
-                        vacationCategoryKey: request.vacationCategoryKey,
-                        vacationStartDate: request.vacationStartDate,
-                        vacationEndDate: request.vacationEndDate,
-                        reason: request.reason,
-                        vacationRequestTime: request.vacationRequestTime
-                    }))
-                );
-
-                console.log("combineData : ",combineData);
                 this.setState({
 
-                    data: combineData,
+                    data: getSearchAllVacationRequest,
                     showPagiNation:"None",
-                    isSearch:true
+                    isSearch:true,
+                    sort:"",
+                    desc:"",
 
                 });
 
@@ -237,50 +243,42 @@ class VacationProcess extends Component{
         }
     };
 
-    sortChange = async (event) =>{
-        await this.setState(prevState=>({
-                sort:event.target.value
-            })
-        );
+    sortChange =  (e) =>{
+        this.sort=e.target.value;
+        this.setState({...this.state,sort: this.sort,desc:""});
+
 
     }
 
-    descChange = async (event) => {
-        await this.setState((prevState) => ({
-            desc: event.target.value,
-            isSearchBtn : false
-        }), () => {
-            // if (!this.state.isSearch) {
-            //     this.fetchData(1);
-            // } else {
+        descChange =  (e) => {
+        this.desc = e.target.value;
+        if (!this.state.isSearch) {
+                this.fetchData(1);
+            } else {
                 let data = "";
 
                 if (this.state.desc === "asc") {
                     data = this.state.data.sort((a, b) => {
-                        console.log("a : ",a);
-                        console.log("b : ",b);
-                        const dateA = new Date(a.vacationRequestTime);
-                        const dateB = new Date(b.vacationRequestTime);
-                        return dateA-dateB;
-                    });
-                } else {
-                    data = this.state.data.sort((a, b) => {
-                        console.log("a : ",a);
-                        console.log("b : ",b);
+
                         const dateA = new Date(a.vacationRequestTime);
                         const dateB = new Date(b.vacationRequestTime);
                         return dateB-dateA;
                     });
+                } else {
+                    data = this.state.data.sort((a, b) => {
+
+                        const dateA = new Date(a.vacationRequestTime);
+                        const dateB = new Date(b.vacationRequestTime);
+                        return dateA-dateB;
+                    });
                 }
-                this.setState({data: data});
-            // }
-        }
-        );
+                this.setState({data: data,desc:this.desc});
+             }
     };
 
 
     onApproveBtnClick = () => {
-        this.setState({ approveOpen: true }, () => {
+        this.setState({ ...this.state,approveOpen: true }, () => {
             // 상태가 변경된 후에 실행되는 부분
             const page = '';
             this.fetchData(page);
@@ -288,25 +286,26 @@ class VacationProcess extends Component{
     };
 
     onRejectBtnClick = () => {
-        this.setState({ rejectOpen: true }, () => {
+        this.setState({ ...this.state,rejectOpen: true }, () => {
             // 상태가 변경된 후에 실행되는 부분
             const page = '';
             this.fetchData(page);
         });
     };
 
-    handleClose = async (employeeId) => {
-        this.setState({approveOpen: false, rejectOpen: false})
+    handleClose =  (employeeId) => {
+        this.setState({...this.state,approveOpen: false, rejectOpen: false})
 
     };
     componentDidMount() {
+        console.log("componentDidMount");
         // const { employeeId } = this.props; -> 추후 props의 로그인 아이디 들고오기
         this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
         const page='';
         this.fetchData(page);
     }
     render(){
-        const {searchKeyword,data,isSearchBtn} = this.state;
+        const {searchKeyword,data} = this.state;
         const {classes} = this.props;
         return(
             <div>
@@ -345,7 +344,7 @@ class VacationProcess extends Component{
                 <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
                     <div>
                         <Box component="span" sx={{ marginRight: '10px'}}>
-                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value,isSearchBtn:false })}/>
+                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span">
                             <ButtonComponent  onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
@@ -358,7 +357,7 @@ class VacationProcess extends Component{
                                 labelId={`demo-simple-select-label`}
                                 id={`demo-simple-select`}
                                 value={this.state.sort}
-                                onChange={(e) => this.sortChange(e)}>
+                                onChange={this.sortChange}>
                                 <MenuItem value={"vacationRequestTime"}>신청 시간</MenuItem>
                             </Select>
                         </FormControl>
@@ -368,7 +367,7 @@ class VacationProcess extends Component{
                                 labelId={`demo-simple-select-label`}
                                 id={`demo-simple-select`}
                                 value={this.state.desc}
-                                onChange={(e) => this.descChange(e)}>
+                                onChange={this.descChange}>
                                 <MenuItem value={"asc"}>오름차순</MenuItem>
                                 <MenuItem value={"desc"}>내림차순</MenuItem>
                             </Select>
@@ -379,9 +378,9 @@ class VacationProcess extends Component{
                     <Table className={classes.table} stickyHeader="true" >
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" className={classes.text}>사원 이름</TableCell>
-                                <TableCell align="center" className={classes.text}>사원 번호</TableCell>
                                 <TableCell align="center" className={classes.text}>일련 번호</TableCell>
+                                <TableCell align="center" className={classes.text}>사원 번호</TableCell>
+                                <TableCell align="center" className={classes.text}>사원 이름</TableCell>
                                 <TableCell align="center" className={classes.text}>연차 종류</TableCell>
                                 <TableCell align="center" className={classes.text}>연차 시작 날짜</TableCell>
                                 <TableCell align="center" className={classes.text}>연차 종료 날짜</TableCell>
@@ -395,7 +394,7 @@ class VacationProcess extends Component{
                         <TableBody>
                             {data.map((row) => (
                                 /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                <VacationProcessListComponent id={"200001012"} isButtonClicked={isSearchBtn} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.vacationRequestKey} row={row} keyData={row.vacationRequestKey} title={["승인","반려"]} />
+                                <VacationProcessListComponent id={"200001012"}  onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.vacationRequestKey} row={row} keyData={row.vacationRequestKey} title={["승인","반려"]} />
                             ))}
                         </TableBody>
                     </Table>

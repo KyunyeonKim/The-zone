@@ -83,16 +83,33 @@ class AttendanceApprovalAllEmployees extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            searchKeyword: '',
-            desc:'',
-            sort:'',
             isSearch:false,
             activePage:1,
             showPagiNation: 'flex',
             data:[],
             empPageData:{},
-            isSearchBtn:false
+            desc:"",
+            sort:""
+
         };
+        this.searchKeyword="";
+        this.desc="";
+        this.sort="";
+
+
+        this.login = this.login.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+        this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
+        this.sortChange = this.sortChange.bind(this);
+        this.descChange = this.descChange.bind(this);
+    }
+
+    searchKeyword;
+    desc;
+    sort;
+
+    searchKeywordChange=(e)=>{
+        this.searchKeyword = e.target.value;
     }
 
     login= async() =>{
@@ -118,14 +135,12 @@ class AttendanceApprovalAllEmployees extends Component{
         if (page != '') {
             getPage = '?page=' + getPage
         } else {
-            await this.setState({sort: '', desc: ''});
+            this.desc=''; //최소한의 setState를 사용하기 위해 작성
+            this.sort='';
         }
-        console.log("합치기 전 getPage : ", getPage);
-        console.log("this.state.desc : ", this.state.desc);
 
-        if (this.state.desc !== '' && this.state.sort !== '') {
-            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.state.desc + '&sort=' + this.state.sort;
-            console.log("getPage : ", getPage);
+        if (this.desc !== '' && this.sort !== '') {
+            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.desc + '&sort=' + this.sort;
         }
 
         try {
@@ -137,15 +152,30 @@ class AttendanceApprovalAllEmployees extends Component{
             const newData = empData.map(({employeeId,name})=>({employeeId,name}))
             console.log("newData : ",newData);
 
+            const input = this.state.isSearch===false?"sort":"search";
+            if(input==="sort"){
+                console.log("sort");
+                this.setState({
+                    ...this.state,
+                    empPageData: empPageData,
+                    data: newData,
+                    activePage: page,
+                    showPagiNation: 'flex',
+                    desc:this.desc
+                });
+            }else{
+                console.log("search");
+                 this.setState({
+                    ...this.state,
+                    empPageData:empPageData,
+                    data: newData,
+                    activePage: page,
+                    showPagiNation: 'flex',
+                    isSearch: false,
+                    sort: '', desc: ''
+                });
+            }
 
-            await this.setState({
-                empPageData:empPageData,
-                data: newData,
-                activePage: page,
-                showPagiNation: 'flex',
-                isSearch: false
-            });
-            console.log(this.state);
 
         } catch (error) {
             if (error.response.status === 400) {
@@ -163,33 +193,50 @@ class AttendanceApprovalAllEmployees extends Component{
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
-        const searchKeyword = this.state.searchKeyword;
-        console.log("searchKeyword : ", searchKeyword);
+        const keyword=this.searchKeyword;
+        console.log("searchKeyword : ", keyword);
 
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
-        if (!regex.test(searchKeyword)) {
+        if (!regex.test(keyword)) {
             alert("올바르지 않은 입력입니다!");
             return;
         }
 
-
-        if(searchKeyword === ""){
+        if(keyword === ""){
             const page="";
+
+            // this.sort = "";
+            // this.desc = "";
+            // document.getElementById("descLabel").innerText="정렬 방식";
+            // document.getElementById("sortLabel").innerText="정렬 기준";
+            // document.getElementById("desc").innerText="정렬 방식";
+            // document.getElementById("sortLabel").innerText="정렬 기준";
+
             this.fetchData(page);
         }else{
             try{
-                const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
-                const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
+                console.log("나갔다");
+                const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${keyword}`)).data;
 
+                if(searchResponse===""){
+                    alert("검색 결과가 없습니다!");
+                    return;
+                }
+
+                const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
                 console.log("newData : ",newData);
 
                 this.setState({
+                    ...this.state,
                     data: newData,
                     showPagiNation:"None",
                     isSearch:true,
-                    isSearchBtn:true
+                    sort: '',
+                    desc: ''
                 });
-                console.log("this.state",this.state);
+                this.sort = "";
+                this.desc = "";
+
             } catch (error) {
                 if (error.response.status === 400) {
                     alert("400 Bad Request Error!");
@@ -204,26 +251,22 @@ class AttendanceApprovalAllEmployees extends Component{
         }
     };
 
-    sortChange = async (event) =>{
-        await this.setState({
-                sort:event.target.value
-            });
-
+    sortChange =  (e) =>{
+        this.sort=e.target.value;
+        this.setState({...this.state,sort: this.sort,desc:""});
     }
 
-    descChange = async (event) => {
-        await this.setState((prevState) => ({
-            desc: event.target.value,
-            isSearchBtn:true
-        }), () => {
+    descChange =  (e) => {
+
+            this.desc=e.target.value;
             if (!this.state.isSearch) {
                 this.fetchData(1);
             } else {
                 let empData = "";
 
-                if (this.state.desc === "asc") {
+                if (this.desc === "asc") {
                     empData = this.state.data.sort((a, b) => {
-                        if (this.state.sort === "employee_id") {
+                        if (this.sort === "employee_id") {
                             return a.employeeId - b.employeeId;
                         } else {
                             return a.name.localeCompare(b.name);
@@ -232,7 +275,7 @@ class AttendanceApprovalAllEmployees extends Component{
                     console.log("empData - asc 정렬 : ", empData);
                 } else {
                     empData = this.state.data.sort((a, b) => {
-                        if (this.state.sort === "employee_id") {
+                        if (this.sort === "employee_id") {
                             return b.employeeId - a.employeeId;
                         } else {
                             return b.name.localeCompare(a.name);
@@ -240,9 +283,10 @@ class AttendanceApprovalAllEmployees extends Component{
                     });
                     console.log("empData - desc 정렬 : ", empData);
                 }
-                this.setState({data: empData});
-            }
-        });
+                console.log("this.desc : ",this.desc)
+                this.setState({...this.state,data: empData,desc:this.desc});
+
+        };
     };
 
     componentDidMount() {
@@ -250,21 +294,15 @@ class AttendanceApprovalAllEmployees extends Component{
         this.login(); //추후 login 함수 대신 session에 로그인 아이디 저장하는 함수로 대체할것(인자로 employeeId 넘겨야함)
         const page='';
         this.fetchData(page);
-        console.log("fetchData");
     }
 
 
     render() {
-        const {searchKeyword,data,isSearchBtn} = this.state;
+        const {data} = this.state;
         const {classes} = this.props;
 
         return(
             <div className={classes.root}>
-                {/*리스트 컴포넌트 내부에 검색 컴포넌트 존재*/}
-                {/*리스트 컴포넌트 전체의 state를 검색 컴포넌트에 전달*/}
-                {/*검색 컴포넌트에서 데이터 switch로 받아와서 리스트 컴포넌트 전체의 state에 setstate*/}
-                {/*이렇게 가져온 데이터를 map으로 뿌리기*/}
-
                 <Box component="section">
                     <Typography variant="h3" style={{ margin: "50px", textAlign: "center" }}>
                         전 사원 근태 승인 내역
@@ -274,7 +312,8 @@ class AttendanceApprovalAllEmployees extends Component{
                     <div className={classes.searchAndSort}>
                         <div>
                             <Box component="span" sx={{ marginRight: '10px'}}>
-                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value,isSearchBtn: false })}/>
+                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}}
+                                           onChange={this.searchKeywordChange}/>
                             </Box>
                             <Box component="span">
                                 <ButtonComponent onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
@@ -283,23 +322,23 @@ class AttendanceApprovalAllEmployees extends Component{
                         </div>
                         <div>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                                <InputLabel id="sortLabel">정렬 기준</InputLabel>
                                 <Select
                                     labelId={`demo-simple-select-label`}
-                                    id={`demo-simple-select`}
+                                    id="sort"
                                     value={this.state.sort}
-                                    onChange={(e) => this.sortChange(e)}>
+                                    onChange={this.sortChange}>
                                     <MenuItem value={"employee_id"}>사원 번호</MenuItem>
                                     <MenuItem value={"name"}>사원 명</MenuItem>
                                 </Select>
                             </FormControl>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                                <InputLabel id="descLabel">정렬 방식</InputLabel>
                                 <Select
                                     labelId={`demo-simple-select-label`}
-                                    id={`demo-simple-select`}
+                                    id="desc"
                                     value={this.state.desc}
-                                    onChange={(e) => this.descChange(e)}>
+                                    onChange={this.descChange}>
                                     <MenuItem value={"asc"}>오름차순</MenuItem>
                                     <MenuItem value={"desc"}>내림차순</MenuItem>
                                 </Select>
@@ -317,9 +356,8 @@ class AttendanceApprovalAllEmployees extends Component{
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {console.log("this.state.isSearchBtn : ",isSearchBtn)}
                                 {data.map((row) => (
-                                    <ButtonInListComponent isButtonClicked={isSearchBtn} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
+                                    <ButtonInListComponent key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
                                 ))}
                             </TableBody>
                         </Table>

@@ -76,7 +76,6 @@ class ProcessAppealRequest extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            searchKeyword: '',
             desc:'',
             sort:'',
             isSearch:'',
@@ -84,10 +83,34 @@ class ProcessAppealRequest extends Component{
             showPagiNation: 'flex',
             data:[],
             pageData:{},
-            isSearchBtn:false,
-            approveOpen:false
+            approveOpen:false,
+            rejectOpen:false
 
         };
+
+        this.searchKeyword="";
+        this.desc="";
+        this.sort="";
+        this.id=""
+
+        this.login = this.login.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+        this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
+        this.sortChange = this.sortChange.bind(this);
+        this.descChange = this.descChange.bind(this);
+        this.onApproveBtnClick = this.onApproveBtnClick.bind(this);
+        this.onRejectBtnClick = this.onRejectBtnClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.searchKeywordChange=this.searchKeywordChange.bind(this);
+    }
+
+    searchKeyword;
+    desc;
+    sort;
+    id;
+
+    searchKeywordChange=(e)=>{
+        this.searchKeyword = e.target.value;
     }
 
     login= async() =>{
@@ -110,18 +133,21 @@ class ProcessAppealRequest extends Component{
 
         if (page != '') {
             getPage = '?page=' + getPage
-        } else {
-            await this.setState({sort: '', desc: ''});
+        }
+        else {
+            this.desc='';
+            this.sort='';
         }
 
-        if (this.state.desc !== '' && this.state.sort !== '') {
-            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.state.desc + '&sort=' + this.state.sort;
+        if (this.desc !== '' && this.sort !== '') {
+            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.desc + '&sort=' + this.sort;
         }
 
         try {
             const getRawAppealAllRequest = await axios.get('http://localhost:8080/manager/appeal/all/requested' + getPage);
             const getAppealAllRequestPageData = getRawAppealAllRequest.data //페이지 객체 데이터
 
+            console.log("getAppealAllRequestPageData : ",getAppealAllRequestPageData)
             const getAppealAllRequest = getAppealAllRequestPageData.data.map(item => {
                 return {
                     attendanceAppealRequestId: item.attendanceAppealRequestId,
@@ -138,12 +164,14 @@ class ProcessAppealRequest extends Component{
             });
             console.log("1. getAppealAllRequest : ",getAppealAllRequest);
             this.setState({
+                ...this.state,
                 isSearch:false,
                 activePage:page,
                 showPagiNation: 'flex',
                 data:getAppealAllRequest,
                 pageData:getAppealAllRequestPageData,
-                isSearchBtn:false,
+                desc:this.desc,
+                sort:this.sort
             });
 
         } catch (error) {
@@ -163,7 +191,7 @@ class ProcessAppealRequest extends Component{
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
-        const searchKeyword = this.state.searchKeyword;
+        const searchKeyword = this.searchKeyword;
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
             alert("올바르지 않은 입력입니다!");
@@ -176,6 +204,12 @@ class ProcessAppealRequest extends Component{
         }else{
             try{
                 const searchRawData = await axios.get(`http://localhost:8080/manager/search/appeal/all/requested?searchParameter=${searchKeyword}`);
+                console.log("searchRawData : ",searchRawData);
+                if(searchRawData.data===""){
+                    alert("검색 결과가 없습니다!");
+                    return;
+                }
+
                 const getSearchAppealAllRequest = searchRawData.data.map(item => {
                     return {
                         attendanceAppealRequestId: item.attendanceAppealRequestId,
@@ -191,7 +225,7 @@ class ProcessAppealRequest extends Component{
                     };
                 });
                 this.setState({
-
+                    ...this.state,
                     data: getSearchAppealAllRequest,
                     showPagiNation:"None",
                     isSearch:true,
@@ -214,48 +248,40 @@ class ProcessAppealRequest extends Component{
         }
     };
 
-    sortChange = async (event) =>{
-        await this.setState(prevState=>({
-                sort:event.target.value
-            })
-        );
-
+    sortChange =  (e) =>{
+        this.sort=e.target.value;
+        this.setState({...this.state,sort: this.sort,desc:""});
     }
 
-    descChange = async (event) => {
-        await this.setState((prevState) => ({
-                desc: event.target.value,
-                isSearchBtn : false
-            }), () => {
-                if (!this.state.isSearch) {
-                    console.log("안됏지롱");
-                    this.fetchData(1);
-                } else {
-                let data = "";
+    descChange =  (e) => {
+        this.desc = e.target.value;
+        if (!this.state.isSearch) {
+            this.fetchData(1);
+        } else {
+            let data = "";
 
-                if (this.state.desc === "asc") {
-                    data = this.state.data.sort((a, b) => {
-                        const dateA = new Date(a.attendanceAppealRequestTime);
-                        const dateB = new Date(b.attendanceAppealRequestTime);
-                        return dateA-dateB;
-                    });
-                } else {
-                    data = this.state.data.sort((a, b) => {
-                        const dateA = new Date(a.attendanceAppealRequestTime);
-                        const dateB = new Date(b.attendanceAppealRequestTime);
-                        return dateB-dateA;
-                    });
-                }
-                this.setState({data: data});
-                console.log("data : ",data);
-                 }
-             }
-         );
+            if (this.desc === "asc") {
+                data = this.state.data.sort((a, b) => {
+                    const dateA = new Date(a.attendanceAppealRequestTime);
+                    const dateB = new Date(b.attendanceAppealRequestTime);
+                    return dateA - dateB;
+                });
+            } else {
+                data = this.state.data.sort((a, b) => {
+                    const dateA = new Date(a.attendanceAppealRequestTime);
+                    const dateB = new Date(b.attendanceAppealRequestTime);
+                    return dateB - dateA;
+                });
+            }
+            console.log("this.desc : ",this.desc);
+            this.setState({...this.state,data: data,desc:this.desc});
+            console.log("data : ", data);
+        }
     };
 
 
     onApproveBtnClick = () => {
-        this.setState({ approveOpen: true }, () => {
+        this.setState({ ...this.state,approveOpen: true }, () => {
             // 상태가 변경된 후에 실행되는 부분
             const page = '';
             this.fetchData(page);
@@ -263,15 +289,15 @@ class ProcessAppealRequest extends Component{
     };
 
     onRejectBtnClick = () => {
-        this.setState({ rejectOpen: true }, () => {
+        this.setState({ ...this.state,rejectOpen: true }, () => {
             // 상태가 변경된 후에 실행되는 부분
             const page = '';
             this.fetchData(page);
         });
     };
 
-    handleClose = async (employeeId) => {
-        this.setState({approveOpen: false, rejectOpen: false})
+    handleClose =  (employeeId) => {
+        this.setState({...this.state,approveOpen: false, rejectOpen: false})
 
     };
     componentDidMount() {
@@ -281,7 +307,7 @@ class ProcessAppealRequest extends Component{
         this.fetchData(page);
     }
     render(){
-        const {searchKeyword,data,isSearchBtn} = this.state;
+        const {searchKeyword,data} = this.state;
         const {classes} = this.props;
         return(
             <div>
@@ -320,7 +346,7 @@ class ProcessAppealRequest extends Component{
                 <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
                     <div>
                         <Box component="span" sx={{ marginRight: '10px'}}>
-                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} value={searchKeyword} onChange={(e) => this.setState({ searchKeyword: e.target.value,isSearchBtn:false })}/>
+                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span">
                             <ButtonComponent  onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
@@ -331,9 +357,9 @@ class ProcessAppealRequest extends Component{
                             <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
                             <Select
                                 labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
+                                id={"sort"}
                                 value={this.state.sort}
-                                onChange={(e) => this.sortChange(e)}>
+                                onChange={this.sortChange}>
                                 <MenuItem value={"attendance_appeal_request_time"}>신청 시간</MenuItem>
                             </Select>
                         </FormControl>
@@ -341,9 +367,9 @@ class ProcessAppealRequest extends Component{
                             <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
                             <Select
                                 labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
+                                id={"desc"}
                                 value={this.state.desc}
-                                onChange={(e) => this.descChange(e)}>
+                                onChange={this.descChange}>
                                 <MenuItem value={"asc"}>오름차순</MenuItem>
                                 <MenuItem value={"desc"}>내림차순</MenuItem>
                             </Select>
@@ -362,7 +388,7 @@ class ProcessAppealRequest extends Component{
                                 <TableCell align="center" className={classes.text}>조정 출근 시간</TableCell>
                                 <TableCell align="center" className={classes.text}>조정 퇴근 시간</TableCell>
                                 <TableCell align="center" className={classes.text}>조정 대상 날짜</TableCell>
-                                <TableCell align="center" className={classes.text}>조정 요청 시간</TableCell>
+                                <TableCell align="center" className={classes.text}>조정 신청 시간</TableCell>
                                 <TableCell align="center" className={classes.text}>신청 사유</TableCell>
                                 <TableCell align="center" className={classes.text}>승인</TableCell>
                                 <TableCell align="center" className={classes.text}>반려</TableCell>
@@ -372,7 +398,7 @@ class ProcessAppealRequest extends Component{
                         <TableBody>
                             {data.map((row) => (
                                 /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                <ProcessAppealRequestListComponent id={"200001012"} isButtonClicked={isSearchBtn} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
+                                <ProcessAppealRequestListComponent id={"200001012"} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
                             ))}
                         </TableBody>
                     </Table>

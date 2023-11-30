@@ -88,14 +88,26 @@ class AttendanceApprovalEmployee extends Component{
             /*TODO : 모달 적용시 아래 주석 풀어야함*/
             // employeeId : props.employeeId
             employeeId:"200001013",
-            desc:'',
-            sort:'',
             activePage:1,
             showPagiNation: 'flex',
             data:[],
-            pageData:{}
+            pageData:{},
+            desc:'',
+            sort:''
+
         }
+        this.desc="";
+        this.sort="";
+
+        this.login = this.login.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+        this.sortChange = this.sortChange.bind(this);
+        this.descChange = this.descChange.bind(this);
+
     }
+
+    desc;
+    sort;
 
 
     login = async() =>{
@@ -121,14 +133,13 @@ class AttendanceApprovalEmployee extends Component{
         if (page != '') {
             getPage = '?page=' + getPage
         } else {
-            await this.setState({sort: '', desc: ''});
+            this.desc='';
+            this.sort='';
         }
-        console.log("합치기 전 getPage : ", getPage);
-        console.log("this.state.desc : ", this.state.desc);
 
-        if (this.state.desc !== '' && this.state.sort !== '') {
-            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.state.desc + '&sort=' + this.state.sort;
-            console.log("getPage : ", getPage);
+
+        if (this.desc !== '' && this.sort !== '') {
+            getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.desc + '&sort=' + this.sort;
         }
 
         try {
@@ -136,17 +147,18 @@ class AttendanceApprovalEmployee extends Component{
             console.log("employeeData.data : ", getData.data)
             const pageData = getData.data //페이지 객체 데이터
             const approvalData = getData.data.data;
-
-            const newData = approvalData.map(({attendanceDate,attendanceApprovalDate})=>({attendanceDate,attendanceApprovalDate}))
+            console.log("approvalData : ",approvalData);
+            const newData = approvalData.map(({employeeId,attendanceDate,attendanceApprovalDate})=>({employeeId,attendanceDate,attendanceApprovalDate}))
             console.log("newData : ",newData);
 
 
-            await this.setState({
+             this.setState({
+                ...this.state,
                 pageData:pageData,
                 data: newData,
                 activePage: page,
                 showPagiNation: 'flex',
-                isSearch: false
+                isSearch: false,
             });
             console.log(this.state);
 
@@ -164,6 +176,57 @@ class AttendanceApprovalEmployee extends Component{
 
     }
 
+    sortChange =  (e) =>{
+        this.sort=e.target.value;
+        this.setState({...this.state,sort: this.sort,desc:""});
+    }
+
+    descChange =  (e) => {
+        this.desc=e.target.value;
+
+        let approvalData = "";
+
+        if (this.desc === "asc") {
+            approvalData = this.state.data.sort((a, b) => {
+
+                if (this.sort === "attendanceDate") {
+                    const dateA = new Date(a.attendanceDate);
+                    const dateB = new Date(b.attendanceDate);
+                    return dateA - dateB;
+
+                } else {
+                    const dateA = new Date(a.attendanceApprovalDate);
+                    const dateB = new Date(b.attendanceApprovalDate);
+                    console.log(dateA);
+                    return dateA - dateB;
+
+                }
+            });
+            console.log("approvalData - asc 정렬 : ", approvalData);
+        } else {
+            approvalData = this.state.data.sort((a, b) => {
+                if (this.sort === "attendanceDate") {
+                    const dateA = new Date(a.attendanceDate);
+                    const dateB = new Date(b.attendanceDate);
+                    return dateB-dateA;
+
+                } else {
+                    const dateA = new Date(a.attendanceApprovalDate);
+                    const dateB = new Date(b.attendanceApprovalDate);
+                    console.log(dateA);
+                    return dateB-dateA;
+
+
+                }
+            });
+            console.log("approvalData - desc 정렬 : ", approvalData);
+        }
+        this.setState({...this.state,data: approvalData,desc:this.desc});
+
+    };
+
+
+
     componentDidMount() {
         console.log("componentDidMount");
         // const { employeeId } = this.props; -> 추후 props의 로그인 아이디 들고오기
@@ -177,60 +240,7 @@ class AttendanceApprovalEmployee extends Component{
         const {data} = this.state;
         const {classes} = this.props;
 
-        const sortChange = async (event) =>{
-            await this.setState(prevState=>({
-                    sort:event.target.value
-                })
-            );
 
-        }
-
-        const descChange = async (event) => {
-            await this.setState((prevState) => ({
-                desc: event.target.value,
-            }), () => {
-
-                    let approvalData = "";
-
-                    if (this.state.desc === "asc") {
-                        approvalData = this.state.data.sort((a, b) => {
-
-                            if (this.state.sort === "attendanceDate") {
-                                const dateA = new Date(a.attendanceDate);
-                                const dateB = new Date(b.attendanceDate);
-                                return dateA - dateB;
-
-                            } else {
-                                const dateA = new Date(a.attendanceApprovalDate);
-                                const dateB = new Date(b.attendanceApprovalDate);
-                                console.log(dateA);
-                                return dateA - dateB;
-
-                            }
-                        });
-                        console.log("approvalData - asc 정렬 : ", approvalData);
-                    } else {
-                        approvalData = this.state.data.sort((a, b) => {
-                            if (this.state.sort === "attendanceDate") {
-                                const dateA = new Date(a.attendanceDate);
-                                const dateB = new Date(b.attendanceDate);
-                                return dateB-dateA;
-
-                            } else {
-                                const dateA = new Date(a.attendanceApprovalDate);
-                                const dateB = new Date(b.attendanceApprovalDate);
-                                console.log(dateA);
-                                return dateB-dateA;
-
-
-                            }
-                        });
-                        console.log("approvalData - desc 정렬 : ", approvalData);
-                    }
-                    this.setState({data: approvalData});
-
-            });
-        };
 
         return(
             <div className={classes.root}>
@@ -247,7 +257,7 @@ class AttendanceApprovalEmployee extends Component{
                                     labelId={`demo-simple-select-label`}
                                     id={`demo-simple-select`}
                                     value={this.state.sort}
-                                    onChange={(e) => sortChange(e)}>
+                                    onChange={this.sortChange}>
                                     <MenuItem value={"attendanceDate"}>근태 정보 날짜</MenuItem>
                                     <MenuItem value={"attendanceApprovalDate"}>승인 날짜</MenuItem>
                                 </Select>
@@ -258,7 +268,7 @@ class AttendanceApprovalEmployee extends Component{
                                     labelId={`demo-simple-select-label`}
                                     id={`demo-simple-select`}
                                     value={this.state.desc}
-                                    onChange={(e) => descChange(e)}>
+                                    onChange={this.descChange}>
                                     <MenuItem value={"asc"}>오름차순</MenuItem>
                                     <MenuItem value={"desc"}>내림차순</MenuItem>
                                 </Select>
@@ -269,6 +279,7 @@ class AttendanceApprovalEmployee extends Component{
                         <Table className={classes.table} size="small" aria-label="a dense table" >
                             <TableHead >
                                 <TableRow>
+                                    <TableCell className={classes.tableCell}> 사원 ID </TableCell>
                                     <TableCell className={classes.tableCell}> 근태 정보 날짜 </TableCell>
                                     <TableCell className={classes.tableCell}> 승인 날짜</TableCell>
                                 </TableRow>

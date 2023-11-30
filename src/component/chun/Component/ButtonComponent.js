@@ -20,7 +20,6 @@ class ButtonComponent extends Component{
 
     render(){
         const {classes,title,onButtonClick,disabled} = this.props;
-        console.log("disabled : ",disabled);
         return(
                 <Button className={classes.button} variant="outlined" color="primary"  onClick={onButtonClick} disabled={disabled}> {title} </Button>
         )
