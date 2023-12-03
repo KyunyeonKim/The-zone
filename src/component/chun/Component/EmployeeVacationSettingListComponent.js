@@ -10,7 +10,6 @@ import axios from "axios";
 import {withStyles} from "@material-ui/core/styles";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
 import AddButtonComponent from "./Button/AddButtonComponent";
-import TextFieldComponent from "./TextFieldComponent";
 
 
 const styles = (theme) => ({
@@ -153,7 +152,6 @@ class EmployeeVacationSettingListComponent extends Component {
                     <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
                         <Select
-                            style={{height:"50px"}}
                             labelId={`demo-simple-select-label`}
                             id={"vacationType"}
                             onChange={this.vacationTypeChange}
@@ -163,6 +161,7 @@ class EmployeeVacationSettingListComponent extends Component {
                             <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
                             <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
                             <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
+
                         </Select>
                     </FormControl>
                 </TableCell>
@@ -173,21 +172,16 @@ class EmployeeVacationSettingListComponent extends Component {
                         label={isButtonDisabled?"본인의 정보 처리 불가":"추가 및 삭제 개수"}
                         onChange={this.countInputChange}
                         value={this.state.countInput}
-                        disabled={isButtonDisabled}
-                        InputProps={{
-                            style: { height:"50px"} // 크기 조절
-                        }}
-                    />
+                        disabled={isButtonDisabled}/>
 
                 </TableCell>
                 <TableCell align="center">
-                    {/*<TextField*/}
-                    {/*    id={"reasonInput"}*/}
-                    {/*    label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}*/}
-                    {/*    onChange={this.reasonInputChange}*/}
-                    {/*    value={this.state.reasonInput}*/}
-                    {/*    disabled={isButtonDisabled} />*/}
-                    <TextFieldComponent id="reasonInput" disabled={isButtonDisabled} value={this.state.reasonInput} label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}  onChange={this.reasonInputChange}/>
+                    <TextField
+                        id={"reasonInput"}
+                        label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}
+                        onChange={this.reasonInputChange}
+                        value={this.state.reasonInput}
+                        disabled={isButtonDisabled} />
                 </TableCell>
                 <TableCell align="center">
                     <AddButtonComponent

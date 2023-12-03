@@ -1,6 +1,7 @@
 import {Box, SvgIcon, Typography} from "@material-ui/core";
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -16,6 +17,8 @@ import axios from "axios";
 import ButtonInListComponent from "./ButtonInListComponent";
 import TableCell from "@material-ui/core/TableCell";
 import Pagination from "react-js-pagination";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
+import SearchButtonComponent from "./Button/SearchButtonComponent";
 import SearchIcon from "@material-ui/icons/Search";
 
 
@@ -25,14 +28,18 @@ const styles = (theme) => ({
             minWidth: 120,
         },
         text :{
-            fontSize:'15px',
+            fontSize:'1rem',
             fontFamily: 'Noto Sans KR, sans-serif',
             textAlign: 'center'
         },
         titleText:{
-            fontSize:'18px',
+            fontSize:'1.2rem',
             fontFamily: 'Noto Sans KR, sans-serif',
             fontWeight:'bold'
+        },
+        button :{
+            height:"90%",
+            fontSize:'1rem'
         },
         pagination: {
             display: 'flex',
@@ -299,20 +306,19 @@ class AttendanceApprovalAllEmployees extends Component{
 
         return(
             <div>
-                <Box style={{ overflowX: 'hidden', overflowY: 'auto', whiteSpace: 'nowrap' }}>
+                <Box  style={{ width: '80%', margin: 'auto' }}>
                     <Box
-                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         전 사원 근태 승인 내역 조회
                     </Box>
-                    <Box style={{border:'3px solid #1D89DB', padding:'10px 10px 10px 10px',borderRadius:'10px'}} >
+                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
                         <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}}
-                                       InputProps={{style: { height:"50px"}}} onChange={this.searchKeywordChange}/>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span" >
-                            <SvgIcon style={{borderRadius:'6px' , width: '50px',height: '50px',border:'1px solid #c1c1c1'}}
+                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
                                      cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
                             {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                         </Box>

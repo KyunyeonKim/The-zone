@@ -30,13 +30,13 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'15px',
+        fontSize:'1rem',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText:{
-        fontSize:'18px',
+        fontSize:'1.2rem',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         textAlign: 'center',
@@ -320,7 +320,7 @@ class ProcessAppealRequest extends Component{
         this.fetchData(page);
     }
     render(){
-        const {data} = this.state;
+        const {searchKeyword,data} = this.state;
         const {classes} = this.props;
         return(
             <div>
@@ -332,8 +332,9 @@ class ProcessAppealRequest extends Component{
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"} >
-                        </BlackButtonComponent>
+                        <Button onClick={this.handleClose} color="primary">
+                            닫기
+                        </Button>
                     </DialogActions>
                 </Dialog>
 
@@ -351,20 +352,20 @@ class ProcessAppealRequest extends Component{
                     </DialogActions>
                 </Dialog>
 
-                <Box style={{ overflowX: 'hidden', overflowY: 'auto', whiteSpace: 'nowrap' }}>
+                <Box  style={{ width: '80%', margin: 'auto' }}>
                     <Box
-                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         근태 조정 신청 처리
                     </Box>
 
-                    <Box style={{border:'3px solid #1D89DB', padding:'10px 10px 10px 10px',borderRadius:'10px'}} >
+                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
                         <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" InputProps={{style: { height:"50px"}}} style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span" >
-                            <SvgIcon style={{borderRadius:'6px' , width: "50px",height: '50px',border:'1px solid #c1c1c1'}}
+                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
                                      cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
                         </Box>
                     </Box>
@@ -394,16 +395,16 @@ class ProcessAppealRequest extends Component{
                         </FormControl>
                     </Box>
                     <TableContainer component={Paper}>
-                        <Table className={classes.table} >
+                        <Table className={classes.table} stickyHeader="true" >
                             <TableHead className={classes.tableHead}>
                                 <TableRow>
                                     <TableCell align="center" className={classes.titleText}>일련 번호</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
-                                    <TableCell align="center" className={classes.titleText}>출근 시간<br/>퇴근 시간</TableCell>
-                                    {/*<TableCell align="center" className={classes.titleText}>퇴근 시간</TableCell>*/}
-                                    <TableCell align="center" className={classes.titleText}>조정 출근 시간<br/>조정 퇴근 시간</TableCell>
-                                    {/*<TableCell align="center" className={classes.titleText}>조정 퇴근 시간</TableCell>*/}
+                                    <TableCell align="center" className={classes.titleText}>출근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>퇴근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>조정 출근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>조정 퇴근 시간</TableCell>
                                     <TableCell align="center" className={classes.titleText}>조정 대상 날짜</TableCell>
                                     <TableCell align="center" className={classes.titleText}>조정 신청 시간</TableCell>
                                     <TableCell align="center" className={classes.titleText}>신청 사유</TableCell>

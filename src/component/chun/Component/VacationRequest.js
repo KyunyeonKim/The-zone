@@ -40,7 +40,25 @@ const styles = (theme) => ({
     formControl: {
         width: "60%",
         marginBottom: theme.spacing(2),
-
+    },
+    textField: {
+        width: "60%",
+        marginBottom: theme.spacing(2),
+    },
+    button: {
+        marginTop: theme.spacing(2),
+        height:"60px",
+        width:"100px",
+        fontSize: "1rem", // 원하는 크기로 조정
+    },
+    text :{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif'
+    },
+    titleText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
     },
     tableCellIndexText:{
         fontSize:'18px',
@@ -50,7 +68,7 @@ const styles = (theme) => ({
         backgroundColor:"#C2DCF0",
         textAlign: "right",
         paddingRight: '15px',
-        width:"30%",
+        width:"35%",
         whiteSpace: 'nowrap'
     }
 });
@@ -302,14 +320,15 @@ class VacationRequest extends Component {
                         <DialogContentText> 신청 완료 하였습니다 </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"}>
-                        </BlackButtonComponent>
+                        <Button onClick={this.handleClose} color="primary">
+                            닫기
+                        </Button>
                     </DialogActions>
                 </Dialog>
 
-                <Box>
+                <Box style={{ width: '80%', margin: 'auto' }}>
                     <Box
-                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         연차 신청
@@ -322,10 +341,9 @@ class VacationRequest extends Component {
                                     <tr>
                                         <td className={classes.tableCellIndexText}>연차 종류</td>
                                         <td className={classes.formCell}>
-                                            <FormControl variant="outlined" className={classes.formControl}>
+                                            <FormControl className={classes.formControl}>
                                                 <InputLabel id="vacation-type-label">연차 종류</InputLabel>
                                                 <Select
-                                                    style={{height:"50px"}}
                                                     labelId="vacation-type-label"
                                                     id="vacation-type"
                                                     onChange={this.vacationTypeChange}

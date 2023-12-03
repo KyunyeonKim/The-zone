@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {Box, SvgIcon, Typography} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -22,12 +24,12 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'15px',
+        fontSize:'1rem',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
     },
     titleText:{
-        fontSize:'18px',
+        fontSize:'1.2rem',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold'
     },
@@ -246,9 +248,9 @@ class AttendanceApprovalEmployee extends Component{
 
         return(
             <div>
-                <Box style={{ overflowX: 'hidden', overflowY: 'auto', whiteSpace: 'nowrap' }}>
+                <Box  style={{ width: '80%', margin: 'auto' }}>
                     <Box
-                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         근태 승인 내역

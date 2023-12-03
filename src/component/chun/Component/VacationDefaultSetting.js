@@ -7,19 +7,21 @@ import {
     DialogContent,
     DialogContentText,
     DialogActions,
+    TextField,
+    Select,
+    MenuItem,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import AddButtonComponent from "./Button/AddButtonComponent";
 import BlackButtonComponent from "./Button/BlackButtonComponent";
-import TextFieldComponent from "./TextFieldComponent";
 
 
 const styles = (theme) => ({
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "45%",
+        width: "50%",
         borderTop:"2px solid black",
         height:"600px"
     },
@@ -31,6 +33,19 @@ const styles = (theme) => ({
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
 
+    },
+    textField: {
+        width: "60%",
+        marginBottom: theme.spacing(2),
+    },
+    text :{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif'
+    },
+    titleText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
     },
     tableCellIndexText:{
         fontSize:'18px',
@@ -233,9 +248,9 @@ render(){
             </Dialog>
 
 
-            <Box>
+            <Box style={{ width: '80%', margin: 'auto' }}>
                 <Box
-                    sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                    sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                         paddingBottom: '10px'
                     }} >
                     근속 연수에 따른 연차 개수 설정
@@ -262,7 +277,13 @@ render(){
                                 <tr>
                                     <td className={classes.tableCellIndexText}>변경된 1년 미만 연차 개수</td>
                                     <td className={classes.formCell}>
-                                        <TextFieldComponent id="getNewFreshManData"value={this.state.newFreshManCount} label={"변경된 1년 미만연차 개수"}  onChange={this.getNewFreshManChange}/>
+                                        <TextField
+                                            id={"getNewFreshManData"}
+                                            className={classes.textField}
+                                            value={this.state.newFreshManCount}
+                                            label="변경된 1년 미만연차 개수"
+                                            onChange={this.getNewFreshManChange}
+                                        />
                                     </td>
                                 </tr>
 
@@ -275,8 +296,13 @@ render(){
                                 <tr>
                                     <td className={classes.tableCellIndexText}>변경된 1년 이상 연차 개수</td>
                                     <td className={classes.formCell}>
-                                        <TextFieldComponent id="getNewSeniorData"value={this.state.newSeniorCount} label={"변경된 1년 이상 연차 개수"}  onChange={this.getNewSeniorChange}/>
-
+                                        <TextField
+                                            id={"getNewSeniorData"}
+                                            className={classes.textField}
+                                            value={this.state.newSeniorCount}
+                                            label="변경된 1년 이상 연차 개수"
+                                            onChange={this.getNewSeniorChange}
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
@@ -284,6 +310,26 @@ render(){
                                         <Box style={{display:'flex',justifyContent:'space-evenly'}}>
                                             <BlackButtonComponent title={"취소"}/>
                                             <AddButtonComponent type="submit" onButtonClick={this.submitForm} title={"설정"}/>
+
+
+                                            {/*<Button*/}
+                                            {/*    type="submit"*/}
+                                            {/*    className={classes.button}*/}
+                                            {/*    variant="contained"*/}
+                                            {/*    color="primary"*/}
+                                            {/*    style={{ marginRight: "50px" }}*/}
+                                            {/*>*/}
+                                            {/*    설정*/}
+                                            {/*</Button>*/}
+
+                                            {/*<Button*/}
+                                            {/*    type="button"*/}
+                                            {/*    className={classes.button}*/}
+                                            {/*    variant="contained"*/}
+                                            {/*    color="secondary"*/}
+                                            {/*>*/}
+                                            {/*    취소*/}
+                                            {/*</Button>*/}
                                         </Box>
                                     </td>
                                 </tr>

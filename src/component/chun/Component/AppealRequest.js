@@ -28,7 +28,6 @@ const styles = (theme) => ({
         width: "45%",
         borderTop:"2px solid black",
         height:"600px"
-
     },
     formCell: {
         padding: theme.spacing(2),
@@ -42,6 +41,15 @@ const styles = (theme) => ({
         marginBottom: theme.spacing(2),
         marginRight:"30px"
     },
+    text :{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif'
+    },
+    titleText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
+    },
     tableCellIndexText:{
         fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
@@ -50,7 +58,7 @@ const styles = (theme) => ({
         backgroundColor:"#C2DCF0",
         textAlign: "right",
         paddingRight: '15px',
-        width:"30%",
+        width:"35%",
         whiteSpace: 'nowrap'
     }
 
@@ -198,9 +206,9 @@ class AppealRequest extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <Box>
+                <Box style={{ width: '80%', margin: 'auto' }}>
                     <Box
-                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         근태 조정 요청
@@ -223,7 +231,6 @@ class AppealRequest extends Component {
                                             <FormControl variant="outlined" className={classes.formControl}>
                                                 <InputLabel id="attendance-hour-label">시</InputLabel>
                                                 <Select
-                                                    style={{height:"50px"}}
                                                     labelId="attendance-hour-label"
                                                     id="attendaceHour"
                                                     onChange={this.attendanceHourChange}>
@@ -238,7 +245,6 @@ class AppealRequest extends Component {
                                             <FormControl variant="outlined" className={classes.formControl}>
                                                 <InputLabel id="attendance-minute-label">분</InputLabel>
                                                 <Select
-                                                    style={{height:"50px"}}
                                                     labelId="attendance-minute-label"
                                                     id="attendanceMinute"
                                                     onChange={this.attendanceMinuteChange}>
@@ -263,7 +269,6 @@ class AppealRequest extends Component {
                                             <FormControl variant="outlined" className={classes.formControl}>
                                                 <InputLabel id="leaving-hour-label">시</InputLabel>
                                                 <Select
-                                                    style={{height:"50px"}}
                                                     labelId="leaving-hour-label"
                                                     id="leavingHour"
                                                     onChange={this.leavingHourChange}>
@@ -279,7 +284,6 @@ class AppealRequest extends Component {
                                             <FormControl variant="outlined" className={classes.formControl}>
                                                 <InputLabel id="minute-label">분</InputLabel>
                                                 <Select
-                                                    style={{height:"50px"}}
                                                     labelId="minute-label"
                                                     id="leavingMinute"
                                                     onChange={this.leavingMinuteChange}>
