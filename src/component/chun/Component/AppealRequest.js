@@ -16,44 +16,52 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import ButtonComponent from "./ButtonComponent";
 import TextFieldComponent from "./TextFieldComponent";
-import RedButtonComponent from "./RedButtonComponent";
-import TextField from "@material-ui/core/TextField";
+import AddButtonComponent from "./Button/AddButtonComponent";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
 
 
 const styles = (theme) => ({
-    root: {
-        padding: theme.spacing(4),
-        textAlign: "center",
-        background: "#f0f0f0",
-        minHeight: "100vh",
-        fontSize: "1rem"
-    },
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "50%",
+        width: "45%",
+        borderTop:"2px solid black",
+        height:"600px"
     },
     formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        textAlign: 'center'
     },
     formControl: {
         width: "30%",
         marginBottom: theme.spacing(2),
         marginRight:"30px"
     },
-    textField: {
-        width: "60%",
-        marginBottom: theme.spacing(2),
+    text :{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif'
     },
-    button: {
-        marginTop: theme.spacing(2),
-        height:"60px",
-        width:"100px",
-        fontSize: "1rem", // 원하는 크기로 조정
+    titleText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
     },
+    tableCellIndexText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold',
+        border: "1px solid gray",
+        backgroundColor:"#C2DCF0",
+        textAlign: "right",
+        paddingRight: '15px',
+        width:"35%",
+        whiteSpace: 'nowrap'
+    }
+
 });
 
 
@@ -62,7 +70,7 @@ class AppealRequest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            targetDate:"2023-11-21", //TODO : 추후 props로 받아오도록 해야함
+            targetDate:"2023-11-21", //TODO : 추후 props 이용
             attendanceInfoId:13,// TODO : 추후 props로 받아오도록 해야함
             addOpen:false
         };
@@ -119,21 +127,10 @@ class AppealRequest extends Component {
     }
 
     buttonClick = ()=>{
-        // this.attendanceHour="";
-        // this.attendanceMinute="";
-        // this.leavingHour="";
-        // this.leavingMinute="";
-        // this.reason="";
         this.setState({...this.state,addOpen:true});
     }
 
     handleClose = ()=>{
-        // document.getElementById("leavingMinute").innerText="";
-        // document.getElementById("leavingHour").innerText="";
-        // document.getElementById("attendanceMinute").innerText="";
-        // document.getElementById("attendaceHour").innerText="";
-        // document.getElementById("reason").value="";
-
         this.setState({...this.state,addOpen:false});
     }
 
@@ -186,13 +183,7 @@ class AppealRequest extends Component {
     };
 
     reasonChange = (e)=>{
-        const regex = /[!@#$%^&*(),.?":{}|<>]/;
-        if(regex.test(e.target.value)){
-            alert("사유에 특수문자는 불가능합니다.");
-            return;
-        }
         this.reason=e.target.value;
-        this.setState({})
     }
 
     componentDidMount() {
@@ -204,131 +195,132 @@ class AppealRequest extends Component {
         {console.log("리랜더링")}
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
+            <>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>근태 조정 신청</DialogTitle>
                     <DialogContent>
                         <DialogContentText> 신청 완료 하였습니다 </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            닫기
-                        </Button>
+                        <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"} />
                     </DialogActions>
                 </Dialog>
 
-                <Box component="section">
-                    <Typography variant="h3" style={{ margin: "50px", textAlign: "center" }}>
-                        근태 조정 신청
-                    </Typography>
+                <Box style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            paddingBottom: '10px'
+                        }} >
+                        근태 조정 요청
+                    </Box>
+
+                    <Box>
+                        <form onSubmit={this.submitForm}>
+                            <table className={classes.formTable}>
+                                <tbody>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>대상 날짜</td>
+                                    <td className={classes.formCell}>
+                                        {this.state.targetDate}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>조정 출근 시간</td>
+                                    <td className={classes.formCell}>
+                                        <Box>
+                                            <FormControl variant="outlined" className={classes.formControl}>
+                                                <InputLabel id="attendance-hour-label">시</InputLabel>
+                                                <Select
+                                                    labelId="attendance-hour-label"
+                                                    id="attendaceHour"
+                                                    onChange={this.attendanceHourChange}>
+                                                    {[...Array(24)].map((_, index) => (
+                                                        <MenuItem key={index }
+                                                                  value={(index).toString().padStart(2, '0')}>
+                                                            {`${index}시`}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl variant="outlined" className={classes.formControl}>
+                                                <InputLabel id="attendance-minute-label">분</InputLabel>
+                                                <Select
+                                                    labelId="attendance-minute-label"
+                                                    id="attendanceMinute"
+                                                    onChange={this.attendanceMinuteChange}>
+                                                    {[...Array(6)].map((_, index) => (
+                                                        <MenuItem key={index*10}
+                                                                  value={(index*10).toString().padStart(2, '0')}>
+                                                            {`${index*10}분`}
+                                                        </MenuItem>
+                                                    ))}
+
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>조정 퇴근 시간</td>
+                                    <td className={classes.formCell}>
+                                        <Box>
+                                            <FormControl variant="outlined" className={classes.formControl}>
+                                                <InputLabel id="leaving-hour-label">시</InputLabel>
+                                                <Select
+                                                    labelId="leaving-hour-label"
+                                                    id="leavingHour"
+                                                    onChange={this.leavingHourChange}>
+                                                    {[...Array(24)].map((_, index) => (
+                                                        <MenuItem key={index}
+                                                                  value={(index).toString().padStart(2, '0')}>
+                                                            {`${index}시`}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+
+                                            <FormControl variant="outlined" className={classes.formControl}>
+                                                <InputLabel id="minute-label">분</InputLabel>
+                                                <Select
+                                                    labelId="minute-label"
+                                                    id="leavingMinute"
+                                                    onChange={this.leavingMinuteChange}>
+                                                    {[...Array(6)].map((_, index) => (
+                                                        <MenuItem key={index*10}
+                                                                  value={(index*10).toString().padStart(2, '0')}>
+                                                            {`${index*10}분`}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>사유</td>
+                                    <td className={classes.formCell}>
+                                        <TextFieldComponent id="reason" label={"사유"}  onChange={this.reasonChange}/>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  colSpan={4} style={{ textAlign: "center", backgroundColor:"#F9F9F9",padding: "20px 0 20px 0" }}>
+                                        <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                                            {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
+                                            <BlackButtonComponent title={"취소"}/>
+                                            <AddButtonComponent type="submit" onButtonClick={this.submitForm} title={"신청"}/>
+                                        </Box>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </Box>
                 </Box>
-
-                <form onSubmit={this.submitForm}>
-                    <table className={classes.formTable}>
-                        <tbody>
-                        <tr>
-                            <td className={classes.formCell}>대상 날짜</td>
-                            <td className={classes.formCell}>
-                                {this.state.targetDate}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell}>조정 출근 시간</td>
-                            <td className={classes.formCell}>
-                                <div>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="attendance-hour-label">시</InputLabel>
-                                        <Select
-                                            labelId="attendance-hour-label"
-                                            id="attendaceHour"
-                                            onChange={this.attendanceHourChange}>
-                                            {[...Array(24)].map((_, index) => (
-                                                <MenuItem key={index }
-                                                          value={(index).toString().padStart(2, '0')}>
-                                                    {`${index}시`}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="attendance-minute-label">분</InputLabel>
-                                        <Select
-                                            labelId="attendance-minute-label"
-                                            id="attendanceMinute"
-                                            onChange={this.attendanceMinuteChange}>
-                                            {[...Array(6)].map((_, index) => (
-                                                <MenuItem key={index*10}
-                                                          value={(index*10).toString().padStart(2, '0')}>
-                                                    {`${index*10}분`}
-                                                </MenuItem>
-                                            ))}
-
-                                        </Select>
-                                    </FormControl>
-                                </div>
-
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td className={classes.formCell}>조정 퇴근 시간</td>
-                            <td className={classes.formCell}>
-                                <div>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="leaving-hour-label">시</InputLabel>
-                                        <Select
-                                            labelId="leaving-hour-label"
-                                            id="leavingHour"
-                                            onChange={this.leavingHourChange}>
-                                            {[...Array(24)].map((_, index) => (
-                                                <MenuItem key={index}
-                                                          value={(index).toString().padStart(2, '0')}>
-                                                    {`${index}시`}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="minute-label">분</InputLabel>
-                                        <Select
-                                            labelId="minute-label"
-                                            id="leavingMinute"
-                                            onChange={this.leavingMinuteChange}>
-                                            {[...Array(6)].map((_, index) => (
-                                                <MenuItem key={index*10}
-                                                          value={(index*10).toString().padStart(2, '0')}>
-                                                    {`${index*10}분`}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td className={classes.formCell}>사유</td>
-                            <td className={classes.formCell}>
-                                {<TextFieldComponent id="reason" label={"사유"}  onChange={this.reasonChange} value={this.reason}/>}
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell} colSpan={4} style={{ textAlign: "center" }}>
-                                <div>
-                                    <ButtonComponent type="submit" onButtonClick={this.submitForm} title={"신청"}/>
-
-                                    {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
-                                    <RedButtonComponent title={"취소"}/>
-
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
+        </>
         );
     }
 }

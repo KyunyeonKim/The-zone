@@ -9,7 +9,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
-import ButtonComponent from "./ButtonComponent";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -19,8 +18,10 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Pagination from "react-js-pagination";
 import VacationProcessListComponent from "./VacationProcessListComponent";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
-import vacationRequest from "./VacationRequest";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon} from "@material-ui/core";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
+import SearchButtonComponent from "./Button/SearchButtonComponent";
+import SearchIcon from "@material-ui/icons/Search";
 
 const styles = (theme) => ({
 
@@ -29,7 +30,16 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'1.2rem'
+        fontSize:'1rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        textAlign: 'center',
+        whiteSpace: 'nowrap'
+    },
+    titleText:{
+        fontSize:'1.2rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold',
+        whiteSpace: 'nowrap'
     },
     button :{
         height:"90%",
@@ -66,6 +76,10 @@ const styles = (theme) => ({
             border: '1px solid #ddd',
         },
     },
+    tableHead: {
+        backgroundColor: '#C2DCF0',
+        borderTop: '1.5px solid black',
+    }
 
 });
 class VacationProcess extends Component{
@@ -257,19 +271,19 @@ class VacationProcess extends Component{
             } else {
                 let data = "";
 
-                if (this.state.desc === "asc") {
+                if (this.desc === "asc") {
                     data = this.state.data.sort((a, b) => {
 
                         const dateA = new Date(a.vacationRequestTime);
                         const dateB = new Date(b.vacationRequestTime);
-                        return dateB-dateA;
+                        return dateA-dateB;
                     });
                 } else {
                     data = this.state.data.sort((a, b) => {
 
                         const dateA = new Date(a.vacationRequestTime);
                         const dateB = new Date(b.vacationRequestTime);
-                        return dateA-dateB;
+                        return dateB-dateA;
                     });
                 }
                 this.setState({data: data,desc:this.desc});
@@ -336,31 +350,37 @@ class VacationProcess extends Component{
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Box component="section" >
-                    <Typography variant="h3" style={{ margin: '50px', textAlign: 'center' }}>
+
+                <Box  style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            paddingBottom: '10px'
+                        }} >
                         연차 요청 처리
-                    </Typography>
-                </Box>
-                <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
-                    <div>
-                        <Box component="span" sx={{ marginRight: '10px'}}>
-                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} onChange={this.searchKeywordChange}/>
+                    </Box>
+                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
-                        <Box component="span">
-                            <ButtonComponent  onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
+                        <Box component="span" >
+                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                                     cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
+                            {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                         </Box>
-                    </div>
-                    <div>
+                    </Box>
+
+                    <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
                         <FormControl className={classes.formControl}>
                             <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
                             <Select
                                 labelId={`demo-simple-select-label`}
                                 id={`demo-simple-select`}
                                 value={this.state.sort}
-                                onChange={this.sortChange}>
+                                onChange ={this.sortChange}>
                                 <MenuItem value={"vacationRequestTime"}>신청 시간</MenuItem>
                             </Select>
                         </FormControl>
+
                         <FormControl className={classes.formControl}>
                             <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
                             <Select
@@ -372,45 +392,46 @@ class VacationProcess extends Component{
                                 <MenuItem value={"desc"}>내림차순</MenuItem>
                             </Select>
                         </FormControl>
-                    </div>
-                </div>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} stickyHeader="true" >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" className={classes.text}>일련 번호</TableCell>
-                                <TableCell align="center" className={classes.text}>사원 번호</TableCell>
-                                <TableCell align="center" className={classes.text}>사원 이름</TableCell>
-                                <TableCell align="center" className={classes.text}>연차 종류</TableCell>
-                                <TableCell align="center" className={classes.text}>연차 시작 날짜</TableCell>
-                                <TableCell align="center" className={classes.text}>연차 종료 날짜</TableCell>
-                                <TableCell align="center" className={classes.text}>신청 사유</TableCell>
-                                <TableCell align="center" className={classes.text}>신청 시간</TableCell>
-                                <TableCell align="center" className={classes.text}>승인</TableCell>
-                                <TableCell align="center" className={classes.text}>반려</TableCell>
-                                <TableCell align="center" className={classes.text}>반려 사유</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.map((row) => (
-                                /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                <VacationProcessListComponent id={"200001012"}  onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.vacationRequestKey} row={row} keyData={row.vacationRequestKey} title={["승인","반려"]} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                    </Box>
 
-                <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
-                        <Pagination
-                            activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.pageData['size']}
-                            totalItemsCount={this.state.pageData['totalElement']}
-                            pageRangeDisplayed={10}
-                            onChange={(page) => this.fetchData(page)}
-                            innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
-                            itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
-                        />
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table}>
+                            <TableHead className={classes.tableHead}>
+                                <TableRow>
+                                    <TableCell align="center" className={classes.titleText}>일련 번호</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>연차 종류</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>연차 시작 날짜</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>연차 종료 날짜</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>신청 사유</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>신청 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>승인</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>반려</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>반려 사유</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.map((row) => (
+                                    /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
+                                    <VacationProcessListComponent className={classes.text} id={"200001012"}  onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.vacationRequestKey} row={row} keyData={row.vacationRequestKey} title={["승인","반려"]} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
+                            <Pagination
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.pageData['size']}
+                                totalItemsCount={this.state.pageData['totalElement']}
+                                pageRangeDisplayed={10}
+                                onChange={(page) => this.fetchData(page)}
+                                innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                                itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                                activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                            />
+                    </Box>
                 </Box>
             </div>
 

@@ -9,7 +9,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
-import ButtonComponent from "./ButtonComponent";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -18,21 +17,30 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Pagination from "react-js-pagination";
-import VacationProcessListComponent from "./VacationProcessListComponent";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
-import vacationRequest from "./VacationRequest";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon} from "@material-ui/core";
 import ProcessAppealRequestListComponent from "./ProcessAppealRequestListComponent";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
+import SearchButtonComponent from "./Button/SearchButtonComponent";
+import SearchIcon from "@material-ui/icons/Search";
 
 const styles = (theme) => ({
-
+ // style={{ textAlign: 'center',whiteSpace: 'nowrap' }}
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
     },
     text :{
-        fontSize:'15px',
+        fontSize:'1rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        textAlign: 'center',
         whiteSpace: 'nowrap'
-
+    },
+    titleText:{
+        fontSize:'1.2rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold',
+        textAlign: 'center',
+        whiteSpace: 'nowrap'
     },
     button :{
         height:"90%",
@@ -69,6 +77,11 @@ const styles = (theme) => ({
             border: '1px solid #ddd',
         },
     },
+    tableHead: {
+        backgroundColor: '#C2DCF0',
+        borderTop: '1.5px solid black',
+
+    }
 
 
 });
@@ -338,83 +351,89 @@ class ProcessAppealRequest extends Component{
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Box component="section">
-                    <Typography variant="h3" style={{ margin: '50px', textAlign: 'center' }}>
+
+                <Box  style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            paddingBottom: '10px'
+                        }} >
                         근태 조정 신청 처리
-                    </Typography>
-                </Box>
-                <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
-                    <div>
-                        <Box component="span" sx={{ marginRight: '10px'}}>
-                            <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} onChange={this.searchKeywordChange}/>
+                    </Box>
+
+                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
-                        <Box component="span">
-                            <ButtonComponent  onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
+                        <Box component="span" >
+                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                                     cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
                         </Box>
-                    </div>
-                    <div>
+                    </Box>
+
+                    <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
                         <FormControl className={classes.formControl}>
                             <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
                             <Select
                                 labelId={`demo-simple-select-label`}
-                                id={"sort"}
+                                id={`demo-simple-select`}
                                 value={this.state.sort}
-                                onChange={this.sortChange}>
+                                onChange ={this.sortChange}>
                                 <MenuItem value={"attendance_appeal_request_time"}>신청 시간</MenuItem>
                             </Select>
                         </FormControl>
+
                         <FormControl className={classes.formControl}>
                             <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
                             <Select
                                 labelId={`demo-simple-select-label`}
-                                id={"desc"}
+                                id={`demo-simple-select`}
                                 value={this.state.desc}
                                 onChange={this.descChange}>
                                 <MenuItem value={"asc"}>오름차순</MenuItem>
                                 <MenuItem value={"desc"}>내림차순</MenuItem>
                             </Select>
                         </FormControl>
-                    </div>
-                </div>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} stickyHeader="true" >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" className={classes.text}>일련 번호</TableCell>
-                                <TableCell align="center" className={classes.text}>사원 이름</TableCell>
-                                <TableCell align="center" className={classes.text}>사원 번호</TableCell>
-                                <TableCell align="center" className={classes.text}>출근 시간</TableCell>
-                                <TableCell align="center" className={classes.text}>퇴근 시간</TableCell>
-                                <TableCell align="center" className={classes.text}>조정 출근 시간</TableCell>
-                                <TableCell align="center" className={classes.text}>조정 퇴근 시간</TableCell>
-                                <TableCell align="center" className={classes.text}>조정 대상 날짜</TableCell>
-                                <TableCell align="center" className={classes.text}>조정 신청 시간</TableCell>
-                                <TableCell align="center" className={classes.text}>신청 사유</TableCell>
-                                <TableCell align="center" className={classes.text}>승인</TableCell>
-                                <TableCell align="center" className={classes.text}>반려</TableCell>
-                                <TableCell align="center" className={classes.text}>반려 사유</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.map((row) => (
-                                /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                <ProcessAppealRequestListComponent id={"200001012"} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                    </Box>
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} stickyHeader="true" >
+                            <TableHead className={classes.tableHead}>
+                                <TableRow>
+                                    <TableCell align="center" className={classes.titleText}>일련 번호</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>출근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>퇴근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>조정 출근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>조정 퇴근 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>조정 대상 날짜</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>조정 신청 시간</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>신청 사유</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>승인</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>반려</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>반려 사유</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.map((row) => (
+                                    /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
+                                    <ProcessAppealRequestListComponent className={classes.text} id={"200001012"} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
 
-                <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
-                    <Pagination
-                        activePage={this.state.activePage}
-                        itemsCountPerPage={this.state.pageData['size']}
-                        totalItemsCount={this.state.pageData['totalElement']}
-                        pageRangeDisplayed={10}
-                        onChange={(page) => this.fetchData(page)}
-                        innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
-                        itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                        activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
-                    />
+                    <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
+                        <Pagination
+                            activePage={this.state.activePage}
+                            itemsCountPerPage={this.state.pageData['size']}
+                            totalItemsCount={this.state.pageData['totalElement']}
+                            pageRangeDisplayed={10}
+                            onChange={(page) => this.fetchData(page)}
+                            innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                            itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                        />
+                    </Box>
                 </Box>
             </div>
 

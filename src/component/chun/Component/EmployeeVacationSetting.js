@@ -21,11 +21,11 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, SvgIcon,
 } from '@material-ui/core';
 import Pagination from "react-js-pagination";
-import ButtonComponent from "./ButtonComponent";
 import EmployeeVacationSettingListComponent from "./EmployeeVacationSettingListComponent";
+import SearchIcon from '@material-ui/icons/Search';
 
 /*TODO : 리스트 한줄을 컴포넌트로 변경할 것*/
 const styles = (theme) => ({
@@ -35,7 +35,13 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'1.2rem'
+        fontSize:'1rem',
+        fontFamily: 'Noto Sans KR, sans-serif'
+    },
+    titleText:{
+        fontSize:'1.2rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
     },
     button :{
         height:"90%",
@@ -71,6 +77,11 @@ const styles = (theme) => ({
         '&:hover': {
             border: '1px solid #ddd',
         },
+    },
+    tableHead: {
+        backgroundColor: '#C2DCF0',
+        borderTop: '1.5px solid black',
+
     }
 
 });
@@ -362,7 +373,7 @@ class EmployeeVacationSetting extends Component {
         // form 전송에 필요한 데이터를 받아와 sendData 함수에 전달
 
         return (
-            <div>
+            <Box>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 개수 추가</DialogTitle>
                     <DialogContent>
@@ -392,65 +403,70 @@ class EmployeeVacationSetting extends Component {
                 </Dialog>
 
 
-                <div  style={{ width: '80%', margin: 'auto' }}>
-                    <Box component="section" >
-                        <Typography variant="h3" style={{ margin: '50px', textAlign: 'center' }}>
-                            사원의 연차 직접 부여
-                        </Typography>
+                <Box  style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                         sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                             paddingBottom: '10px'
+                         }} >
+                        사원 연차 설정
                     </Box>
-                    <div style={{marginBottom: '15px',display: 'flex', justifyContent: 'space-between'}}>
-                        <div>
-                            <Box component="span" sx={{ marginRight: '10px'}}>
-                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}} onChange={this.searchKeywordChange}/>
-                            </Box>
-                            <Box component="span">
-                                <Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>
-                            </Box>
-                        </div>
-                        <div>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
-                                <Select
-                                    labelId={`demo-simple-select-label`}
-                                    id={`demo-simple-select`}
-                                    value={this.state.sort}
-                                    onChange ={this.sortChange}>
-                                    <MenuItem value={"employee_id"}>사원 번호</MenuItem>
-                                    <MenuItem value={"name"}>사원 명</MenuItem>
-                                </Select>
 
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
-                                <Select
-                                    labelId={`demo-simple-select-label`}
-                                    id={`demo-simple-select`}
-                                    value={this.state.desc}
-                                    onChange={this.descChange}>
-                                    <MenuItem value={"asc"}>오름차순</MenuItem>
-                                    <MenuItem value={"desc"}>내림차순</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                    </div>
+                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                        </Box>
+                        <Box component="span" >
+                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                            cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
+                                {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
+                        </Box>
+                    </Box>
+
+                    <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.sort}
+                                onChange ={this.sortChange}>
+                                <MenuItem value={"employee_id"}>사원 번호</MenuItem>
+                                <MenuItem value={"name"}>사원 명</MenuItem>
+                            </Select>
+
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.desc}
+                                onChange={this.descChange}>
+                                <MenuItem value={"asc"}>오름차순</MenuItem>
+                                <MenuItem value={"desc"}>내림차순</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
 
                     <TableContainer component={Paper}>
-                        <Table className={classes.table} stickyHeader="true" >
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center" className={classes.text}>사원 번호</TableCell>
-                                    <TableCell align="center" className={classes.text}>사원 명</TableCell>
-                                    <TableCell align="center" className={classes.text}>남은 연차 개수</TableCell>
-                                    <TableCell align="center" className={classes.text}>연차 종류</TableCell>
-                                    <TableCell align="center" className={classes.text}>추가 및 삭제 개수</TableCell>
-                                    <TableCell align="center" className={classes.text}>사유</TableCell>
-                                    <TableCell align="center" className={classes.text}>추가</TableCell>
-                                    <TableCell align="center" className={classes.text}>삭제</TableCell>
+                        <Table>
+                            <TableHead className={classes.tableHead}>
+                                <TableRow >
+                                    <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 명</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>남은 연차 개수</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>연차 종류</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>추가 및 삭제 개수</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사유</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>추가</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>삭제</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {combineData.map((row) => (
                                         <EmployeeVacationSettingListComponent
+                                            className={classes.text}
                                             isButtonDisabled={row.employeeId===this.loginId}
                                             data={row}
                                             keyData={row.employeeId}
@@ -462,7 +478,7 @@ class EmployeeVacationSetting extends Component {
                         </Table>
                     </TableContainer>
 
-                    <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
+                    <Box  sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
                         <Pagination
                             activePage={this.state.activePage}
                             itemsCountPerPage={this.state.empPageData['size']}
@@ -475,8 +491,9 @@ class EmployeeVacationSetting extends Component {
 
                         />
                     </Box>
-                </div>
-            </div>
+                </Box>
+            </Box>
+
         );
     }
 }

@@ -12,7 +12,7 @@ const styles = (theme) => ({
 
 });
 
-class ButtonComponent extends Component{
+class SearchButtonComponent extends Component{
 
     constructor(props){
         super(props);
@@ -21,9 +21,9 @@ class ButtonComponent extends Component{
     render(){
         const {classes,title,onButtonClick,disabled} = this.props;
         return(
-                <Button className={classes.button} variant="outlined" color="primary"  onClick={onButtonClick} disabled={disabled}> {title} </Button>
+            <Button className={classes.button} variant="outlined" onClick={onButtonClick}> {title} </Button>
         )
     }
 }
 
-export default withStyles(styles)(ButtonComponent);
+export default withStyles(styles)(SearchButtonComponent);

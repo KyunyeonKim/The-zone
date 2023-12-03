@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import ButtonComponent from "./ButtonComponent";
 import TextFieldComponent from "./TextFieldComponent";
 import axios from "axios";
-import RedButtonComponent from "./RedButtonComponent";
+import AddButtonComponent from "./Button/AddButtonComponent";
+import SubstractButtonComponent from "./Button/SubstractButtonComponent";
 
 class VacationProcessListComponent extends Component {
 
@@ -45,7 +45,7 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-
+            alert('employeeId 전송 성공: '+employeeId);
             console.log("전송 성공");
             this.onApproveBtnClick();
         }catch(error) {
@@ -77,7 +77,7 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-
+            alert('employeeId 전송 성공: '+employeeId);
             console.log("전송 성공");
             this.onRejectBtnClick();
 
@@ -118,7 +118,7 @@ class VacationProcessListComponent extends Component {
     };
 
     render() {
-        const {row,keyData,title,onApproveBtnClick,onRejectBtnClick,id} = this.props;
+        const {row,keyData,title,onApproveBtnClick,onRejectBtnClick,id,className} = this.props;
         const isButtonDisabled = id === row.employeeId;
         this.row=row;
         this.onRejectBtnClick=onRejectBtnClick;
@@ -128,17 +128,17 @@ class VacationProcessListComponent extends Component {
         return (
                 <TableRow key={keyData}>
                     {Object.entries(row).map(([key, value]) => (
-                        <TableCell key={key} style={{ textAlign: 'center',whiteSpace: 'nowrap'}} >
+                        <TableCell key={key} className={className} >
                             {value}
                         </TableCell>
                     ))}
 
                     <TableCell>
-                        <ButtonComponent disabled={isButtonDisabled} onButtonClick={this.onApprovalButtonClick} title={title[0]}  />
+                        <AddButtonComponent disabled={isButtonDisabled} onButtonClick={this.onApprovalButtonClick} title={title[0]}  />
                     </TableCell>
 
                     <TableCell>
-                        <RedButtonComponent disabled={isButtonDisabled} onButtonClick={this.onRejectButtonClick} title={title[1]} />
+                        <SubstractButtonComponent disabled={isButtonDisabled} onButtonClick={this.onRejectButtonClick} title={title[1]} />
                     </TableCell>
 
                     <TableCell>

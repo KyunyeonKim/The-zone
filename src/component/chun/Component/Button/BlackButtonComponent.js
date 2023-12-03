@@ -5,9 +5,14 @@ import {withStyles} from "@material-ui/core/styles";
 const styles = (theme) => ({
 
     button :{
-        height:"90%",
         fontSize:'1rem',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        borderRadius:'8px',
+        border:'1px solid black',
+        color:"black",
+        fontWeight:"bold",
+        // backgroundColor:"#2F79DA",
+        fontFamily: 'Noto Sans KR, sans-serif'
     }
 
 });

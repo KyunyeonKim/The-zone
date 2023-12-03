@@ -1,21 +1,18 @@
 import React, { Component } from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import ButtonComponent from "./ButtonComponent";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import RedButtonComponent from "./RedButtonComponent";
 import {withStyles} from "@material-ui/core/styles";
+import SubstractButtonComponent from "./Button/SubstractButtonComponent";
+import AddButtonComponent from "./Button/AddButtonComponent";
 
 
 const styles = (theme) => ({
-    text :{
-        fontSize:'1.2rem'
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
@@ -142,17 +139,17 @@ class EmployeeVacationSettingListComponent extends Component {
         }
     }
     render() {
-        const {isButtonDisabled,data,keyData,classes,title} = this.props;
+        const {isButtonDisabled,data,keyData,classes,title,className} = this.props;
 
         return (
-            <TableRow key={keyData}>
-                <TableCell align="center" className={classes.text}>
+            <TableRow key={keyData} >
+                <TableCell align="center" className={className}>
                     {data.employeeId}
                 </TableCell>
-                <TableCell align="center" className={classes.text}>{data.name}</TableCell>
-                <TableCell align="center" className={classes.text}> {data.remainVacation}</TableCell>
-                <TableCell align="center" className={classes.text}>
-                    <FormControl className={classes.formControl}>
+                <TableCell align="center" className={className}>{data.name}</TableCell>
+                <TableCell align="center" className={className}> {data.remainVacation}</TableCell>
+                <TableCell align="center" className={className}>
+                    <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
                         <Select
                             labelId={`demo-simple-select-label`}
@@ -169,29 +166,37 @@ class EmployeeVacationSettingListComponent extends Component {
                     </FormControl>
                 </TableCell>
                 <TableCell align="center">
-                    <TextField id={"countInput"} label={isButtonDisabled?"본인의 정보 처리 불가":"추가 및 삭제 개수"}
-                               onChange={this.countInputChange}
-                               value={this.state.countInput}
-                               disabled={isButtonDisabled}/>
+                    <TextField
+                        variant="outlined"
+                        id={"countInput"}
+                        label={isButtonDisabled?"본인의 정보 처리 불가":"추가 및 삭제 개수"}
+                        onChange={this.countInputChange}
+                        value={this.state.countInput}
+                        disabled={isButtonDisabled}/>
 
                 </TableCell>
                 <TableCell align="center">
-                    <TextField id={"reasonInput"} label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}
-                               onChange={this.reasonInputChange}
-                               value={this.state.reasonInput}
-                               disabled={isButtonDisabled} />
+                    <TextField
+                        id={"reasonInput"}
+                        label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}
+                        onChange={this.reasonInputChange}
+                        value={this.state.reasonInput}
+                        disabled={isButtonDisabled} />
                 </TableCell>
                 <TableCell align="center">
-                    <ButtonComponent
+                    <AddButtonComponent
                         disabled={isButtonDisabled}
                         onButtonClick={() =>this.handleButtonClick(data.employeeId, 'add')}
                         title={title[0]}
                     />
-
                 </TableCell>
                 <TableCell align="center">
+                    <SubstractButtonComponent
+                        disabled={isButtonDisabled}
+                        onButtonClick={() =>this.handleButtonClick(data.employeeId, 'minus')}
+                        title={title[1]}
+                    />
                     {/*<Button className={classes.button} variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>*/}
-                    <RedButtonComponent disabled={isButtonDisabled} onButtonClick={() =>this.handleButtonClick(data.employeeId, 'minus')} title={title[1]}  />
                 </TableCell>
             </TableRow>
 

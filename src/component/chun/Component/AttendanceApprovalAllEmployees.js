@@ -1,4 +1,4 @@
-import {Box, Typography} from "@material-ui/core";
+import {Box, SvgIcon, Typography} from "@material-ui/core";
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -17,23 +17,25 @@ import axios from "axios";
 import ButtonInListComponent from "./ButtonInListComponent";
 import TableCell from "@material-ui/core/TableCell";
 import Pagination from "react-js-pagination";
-import ButtonComponent from "./ButtonComponent";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
+import SearchButtonComponent from "./Button/SearchButtonComponent";
+import SearchIcon from "@material-ui/icons/Search";
 
 
 const styles = (theme) => ({
-        root: {
-            padding: theme.spacing(4),
-            textAlign: "center",
-            minHeight: "100vh",
-            fontSize: "1rem",
-
-        },
         formControl: {
             margin: theme.spacing(1),
             minWidth: 120,
         },
         text :{
-            fontSize:'1.2rem'
+            fontSize:'1rem',
+            fontFamily: 'Noto Sans KR, sans-serif',
+            textAlign: 'center'
+        },
+        titleText:{
+            fontSize:'1.2rem',
+            fontFamily: 'Noto Sans KR, sans-serif',
+            fontWeight:'bold'
         },
         button :{
             height:"90%",
@@ -72,8 +74,9 @@ const styles = (theme) => ({
         },table: {
         minWidth: 650
     },
-    searchAndSort:{
-        marginBottom: '15px',display: 'flex', justifyContent: 'space-between'
+    tableHead: {
+        backgroundColor: '#C2DCF0',
+        borderTop: '1.5px solid black',
     }
 
     });
@@ -302,62 +305,64 @@ class AttendanceApprovalAllEmployees extends Component{
         const {classes} = this.props;
 
         return(
-            <div className={classes.root}>
-                <Box component="section">
-                    <Typography variant="h3" style={{ margin: "50px", textAlign: "center" }}>
-                        전 사원 근태 승인 내역
-                    </Typography>
-                </Box>
-                <Box component="section">
-                    <div className={classes.searchAndSort}>
-                        <div>
-                            <Box component="span" sx={{ marginRight: '10px'}}>
-                                <TextField id="outlined-basic" label="검색할 사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"300px"}}
-                                           onChange={this.searchKeywordChange}/>
-                            </Box>
-                            <Box component="span">
-                                <ButtonComponent onButtonClick={this.handleSearchButtonClick} title="검색"></ButtonComponent>
-                                {/*<Button className={classes.button} variant="outlined" onClick={(e)=>handleSearchButtonClick (e)}>검색</Button>*/}
-                            </Box>
-                        </div>
-                        <div>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="sortLabel">정렬 기준</InputLabel>
-                                <Select
-                                    labelId={`demo-simple-select-label`}
-                                    id="sort"
-                                    value={this.state.sort}
-                                    onChange={this.sortChange}>
-                                    <MenuItem value={"employee_id"}>사원 번호</MenuItem>
-                                    <MenuItem value={"name"}>사원 명</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="descLabel">정렬 방식</InputLabel>
-                                <Select
-                                    labelId={`demo-simple-select-label`}
-                                    id="desc"
-                                    value={this.state.desc}
-                                    onChange={this.descChange}>
-                                    <MenuItem value={"asc"}>오름차순</MenuItem>
-                                    <MenuItem value={"desc"}>내림차순</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                    </div>
+            <div>
+                <Box  style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            paddingBottom: '10px'
+                        }} >
+                        전 사원 근태 승인 내역 조회
+                    </Box>
+                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                        </Box>
+                        <Box component="span" >
+                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                                     cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
+                            {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
+                        </Box>
+                    </Box>
+
+                    <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.sort}
+                                onChange ={this.sortChange}>
+                                <MenuItem value={"employee_id"}>사원 번호</MenuItem>
+                                <MenuItem value={"name"}>사원 명</MenuItem>
+                            </Select>
+
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.desc}
+                                onChange={this.descChange}>
+                                <MenuItem value={"asc"}>오름차순</MenuItem>
+                                <MenuItem value={"desc"}>내림차순</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
 
                     <TableContainer component={Paper}>
-                        <Table className={classes.table} size="small" aria-label="a dense table">
-                            <TableHead>
+                        {/*size="small" aria-label="a dense table"*/}
+                        <Table className={classes.table} >
+                            <TableHead className={classes.tableHead}>
                                 <TableRow>
-                                    <TableCell>사원 번호</TableCell>
-                                    <TableCell>사원 이름</TableCell>
-                                    <TableCell>승인 내역 조회</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
+                                    <TableCell align="center" className={classes.titleText}>승인 내역 조회</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {data.map((row) => (
-                                    <ButtonInListComponent key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
+                                    <ButtonInListComponent  className={classes.text} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
                                 ))}
                             </TableBody>
                         </Table>

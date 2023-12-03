@@ -16,26 +16,26 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import ButtonComponent from "./ButtonComponent";
-import RedButtonComponent from "./RedButtonComponent";
 import TextFieldComponent from "./TextFieldComponent";
+import AddButtonComponent from "./Button/AddButtonComponent";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
 
 
 const styles = (theme) => ({
-    root: {
-        padding: theme.spacing(4),
-        textAlign: "center",
-        minHeight: "100vh",
-        fontSize: "1rem"
-    },
+
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "50%",
+        width: "45%",
+        borderTop:"2px solid black",
+        height:"600px"
     },
     formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        textAlign: 'center'
     },
     formControl: {
         width: "60%",
@@ -51,6 +51,26 @@ const styles = (theme) => ({
         width:"100px",
         fontSize: "1rem", // 원하는 크기로 조정
     },
+    text :{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif'
+    },
+    titleText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
+    },
+    tableCellIndexText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold',
+        border: "1px solid gray",
+        backgroundColor:"#C2DCF0",
+        textAlign: "right",
+        paddingRight: '15px',
+        width:"35%",
+        whiteSpace: 'nowrap'
+    }
 });
 
 // 추후 onchange 바꿀 것
@@ -62,7 +82,8 @@ class VacationRequest extends Component {
         this.state = {
             endDate:"",
             addOpen:false,
-            remainVacation:""
+            remainVacation:"",
+            getData:""
         };
 
         //TODO : props로 시작날짜 받아와야함
@@ -70,7 +91,7 @@ class VacationRequest extends Component {
         this.vacationType="";
         this.reason="";
         this.vacationCount="";
-        this.getData="";
+        // this.getData="";
 
         // this.remainVacation="";
 
@@ -90,9 +111,7 @@ class VacationRequest extends Component {
     vacationType;
     reason;
     vacationCount;
-    getData;
-
-    remainVacation
+    // getData;
 
 
     login=async()=> {
@@ -114,7 +133,7 @@ class VacationRequest extends Component {
             );
             // 데이터를 가져온 후에 상태를 업데이트
             // this.remainVacation=getRemainVacation.data;
-            console.log("this.remainVacation : ",this.remainVacation);
+            console.log("this.remainVacation : ",getRemainVacation.data);
             this.setState({ remainVacation: getRemainVacation.data }); // 변경된 부분
         } catch (error) {
             if (error.response.status === 400) {
@@ -139,7 +158,7 @@ class VacationRequest extends Component {
 
     submitForm = async(e) => {
 
-        if(this.vacationCount===""){
+        if(this.state.getData===""){
             alert("신청 연차 개수를 입력하세요");
             return;
         }
@@ -192,13 +211,10 @@ class VacationRequest extends Component {
     };
 
    changeReason = (e)=>{
-        const regex = /[!@#$%^&*(),.?":{}|<>]/;
-        if(regex.test(e.target.value)){
-            alert("사유에 특수문자는 불가능합니다.");
-            return;
-        }
          this.reason=e.target.value;
     };
+
+
     vacationTypeChange = (e) => {
         this.vacationType=e.target.value;
     };
@@ -217,32 +233,75 @@ class VacationRequest extends Component {
     };
 
     inputCountChange = (e) => {
-        this.getData = e.target.value;
-        const inputValue = this.getData !== "" ? parseInt(this.getData) : "";
-
-        if (isNaN(inputValue)) {
+        const inputValue = e.target.value;
+        // this.state.getData = e.target.value;
+        if (inputValue === "") {
+            this.vacationCount ="";
+            this.setState({
+                getData: "",
+                endDate: "",
+            });
             alert("개수에 0 이상의 정수 데이터를 입력하세요!");
             return;
         }
 
-        if (inputValue > this.state.remainVacation) {
+        const parsedValue = parseInt(inputValue);
+
+        if (isNaN(parsedValue)) {
+            this.vacationCount ="";
+            this.setState({
+                getData: "",
+                endDate: "",
+            });
+            alert("개수에 0 이상의 정수 데이터를 입력하세요!");
+            return;
+        }
+        if (parsedValue > this.state.remainVacation) {
+            this.vacationCount ="";
+            this.setState({
+                getData: "",
+                endDate: "",
+            });
             alert("존재 연차 개수보다 작게 입력해주세요");
             return;
         }
 
-        if(inputValue>0){
-            this.vacationCount= inputValue;
+        if (parsedValue > 0) {
+            this.vacationCount = parsedValue;
             this.setState({
-                endDate: this.addDays(this.startDate, inputValue)
-            })
-
-        }
-        else {
-            this.vacationCount= "";
-            this.setState({
-                endDate:""
+                getData: inputValue,
+                endDate: this.addDays(this.startDate, parsedValue),
             });
         }
+        // } else {
+        //     this.setState({
+        //         getData: "",
+        //         vacationCount: "",
+        //         endDate: "",
+        //     });
+        // }
+
+        //
+        // if (inputValue > this.state.remainVacation) {
+        //     this.state.getData="";
+        //     alert("존재 연차 개수보다 작게 입력해주세요");
+        //
+        //     return;
+        // }
+        //
+        // if(inputValue>0){
+        //     this.vacationCount= inputValue;
+        //     this.setState({
+        //         endDate: this.addDays(this.startDate, inputValue)
+        //     })
+        //
+        // }
+        // else {
+        //     this.vacationCount= "";
+        //     this.setState({
+        //         endDate:""
+        //     });
+        // }
     };
 
     async componentDidMount() {
@@ -254,7 +313,7 @@ class VacationRequest extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
+            <div>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 신청</DialogTitle>
                     <DialogContent>
@@ -267,116 +326,95 @@ class VacationRequest extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <Box component="section">
-                    <Typography variant="h3" style={{ margin: "50px", textAlign: "center" }}>
+                <Box style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            paddingBottom: '10px'
+                        }} >
                         연차 신청
-                    </Typography>
+                    </Box>
+
+                    <Box>
+                        <form onSubmit={this.submitForm}>
+                            <table className={classes.formTable}>
+                                <tbody>
+                                    <tr>
+                                        <td className={classes.tableCellIndexText}>연차 종류</td>
+                                        <td className={classes.formCell}>
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel id="vacation-type-label">연차 종류</InputLabel>
+                                                <Select
+                                                    labelId="vacation-type-label"
+                                                    id="vacation-type"
+                                                    onChange={this.vacationTypeChange}
+                                                >
+                                                    {/*TODO: 백엔드의 연차 종류 데이터를 value 등에 넣도록 수정할것*/}
+                                                    <MenuItem value={"a"}>경조사</MenuItem>
+                                                    <MenuItem value={"medical"}>병가</MenuItem>
+                                                    <MenuItem value={"vacation"}>휴가</MenuItem>
+
+
+                                                </Select>
+                                            </FormControl>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className={classes.tableCellIndexText}>연차 개수</td>
+                                        <td className={classes.formCell}>
+                                            <TextFieldComponent label={"연차 개수"} onChange={this.inputCountChange}
+                                             value={this.state.getData}/>
+                                            {/*<TextField*/}
+                                            {/*    className={classes.textField}*/}
+                                            {/*    label="연차 개수"*/}
+                                            {/*    value={this.state.vacationCount}*/}
+                                            {/*    onChange={(e) => {*/}
+                                            {/*        inputCountChange(e, e.target.value);*/}
+                                            {/*    }}*/}
+                                            {/*/>*/}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className={classes.tableCellIndexText}>남은 연차</td>
+                                        <td className={classes.formCell}>
+                                            {/*{this.state.remainVacation}*/}
+                                            {this.state.remainVacation}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className={classes.tableCellIndexText}>연차 날짜</td>
+                                        <td className={classes.formCell}>
+                                            시작 날짜: {this.startDate}&nbsp;&nbsp;&nbsp;
+                                            끝 날짜:{this.state.endDate}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className={classes.tableCellIndexText}>사유</td>
+                                        <td className={classes.formCell}>
+                                            <TextFieldComponent label={"사유"} onChange={this.changeReason}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  colSpan={4}  style={{ textAlign: "center", backgroundColor:"#F9F9F9",padding: "20px 0 20px 0" }}>
+                                            <Box style={{display:'flex',justifyContent:'space-evenly'}}>
+                                                {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
+                                                <BlackButtonComponent
+                                                    title={"취소"}
+                                                />
+
+                                                <AddButtonComponent
+                                                    type="submit"
+                                                    onButtonClick={this.submitForm}
+                                                    title={"신청"}
+                                                />
+
+                                            </Box>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </Box>
                 </Box>
-                <form onSubmit={this.submitForm}>
-                    <table className={classes.formTable}>
-                        <tbody>
-                        <tr>
-                            <td className={classes.formCell}>연차 종류</td>
-                            <td className={classes.formCell}>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="vacation-type-label">연차 종류</InputLabel>
-                                    <Select
-                                        labelId="vacation-type-label"
-                                        id="vacation-type"
-                                        onChange={this.vacationTypeChange}
-                                    >
-
-
-                                        {/*TODO: 백엔드의 연차 종류 데이터를 value 등에 넣도록 수정할것*/}
-                                        <MenuItem value={"a"}>경조사</MenuItem>
-                                        <MenuItem value={"medical"}>병가</MenuItem>
-                                        <MenuItem value={"vacation"}>휴가</MenuItem>
-
-
-                                    </Select>
-                                </FormControl>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell}>연차 개수</td>
-                            <td className={classes.formCell}>
-                                <TextFieldComponent label={"연차 개수"} onChange={this.inputCountChange}/>
-                                {/*<TextField*/}
-                                {/*    className={classes.textField}*/}
-                                {/*    label="연차 개수"*/}
-                                {/*    value={this.state.vacationCount}*/}
-                                {/*    onChange={(e) => {*/}
-                                {/*        inputCountChange(e, e.target.value);*/}
-                                {/*    }}*/}
-                                {/*/>*/}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell}>남은 연차</td>
-                            <td className={classes.formCell}>
-                                {/*{this.state.remainVacation}*/}
-                                {console.log("안에있는 함수 : ",this.remainVacation)}
-                                {this.state.remainVacation}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell}>연차 날짜</td>
-                            <td className={classes.formCell}>
-                                시작 날짜: {this.startDate}&nbsp;&nbsp;&nbsp;
-                                끝 날짜:{this.state.endDate}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell}>사유</td>
-                            <td className={classes.formCell}>
-                                <TextFieldComponent label={"사유"} onChange={this.changeReason}/>
-
-                                {/*<TextField*/}
-                                {/*    className={classes.textField}*/}
-                                {/*    label="사유"*/}
-                                {/*    value={this.state.reason}*/}
-                                {/*    onChange={(e) => changeReason(e)}*/}
-                                {/*/>*/}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className={classes.formCell} colSpan={4} style={{ textAlign: "center" }}>
-                                <div>
-                                    {/*<Button*/}
-                                    {/*    type="submit"*/}
-                                    {/*    className={classes.button}*/}
-                                    {/*    variant="contained"*/}
-                                    {/*    color="primary"*/}
-                                    {/*    style={{ marginRight: "50px" }}*/}
-                                    {/*>*/}
-                                    {/*    신청*/}
-                                    {/*</Button>*/}
-
-                                    <ButtonComponent
-                                        type="submit"
-                                        onButtonClick={this.submitForm}
-                                        title={"신청"}
-                                    />
-
-                                    {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
-                                    <RedButtonComponent
-                                        title={"취소"}
-                                    />
-
-                                    {/*<Button*/}
-                                    {/*    type="button"*/}
-                                    {/*    className={classes.button}*/}
-                                    {/*    variant="contained"*/}
-                                    {/*    color="secondary"*/}
-                                    {/*>*/}
-                                    {/*    취소*/}
-                                    {/*</Button>*/}
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
             </div>
         );
     }

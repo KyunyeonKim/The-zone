@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Box, Typography} from "@material-ui/core";
+import {Box, SvgIcon, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -13,25 +13,25 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import ButtonInListComponent from "./ButtonInListComponent";
 import Pagination from "react-js-pagination";
 import axios from "axios";
 import ListComponent from "./ListComponent";
 import {withStyles} from "@material-ui/core/styles";
+import SearchIcon from "@material-ui/icons/Search";
 const styles = (theme) => ({
-    root: {
-        padding: theme.spacing(4),
-        textAlign: "center",
-        minHeight: "100vh",
-        fontSize: "1rem",
-
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
     },
     text :{
-        fontSize:'1.2rem'
+        fontSize:'1rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        textAlign: 'center'
+    },
+    titleText:{
+        fontSize:'1.2rem',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
     },
     button :{
         height:"90%",
@@ -71,12 +71,16 @@ const styles = (theme) => ({
         minWidth: 650,
         fontSize: "1rem"
     },
-    sort:{
-        marginBottom: '15px',display: 'flex', justifyContent: "right"
-    },
-    tableCell:{
-        fontSize:'1.2rem',
-        textAlign: 'center'
+    // sort:{
+    //     marginBottom: '15px',display: 'flex', justifyContent: "right"
+    // },
+    // tableCell:{
+    //     fontSize:'1.2rem',
+    //     textAlign: 'center'
+    // },
+    tableHead: {
+        backgroundColor: '#C2DCF0',
+        borderTop: '1.5px solid black'
     }
 
 });
@@ -243,50 +247,52 @@ class AttendanceApprovalEmployee extends Component{
 
 
         return(
-            <div className={classes.root}>
-                <Box component="section">
-                    <Typography variant="h3" style={{ margin: "50px", textAlign: "center" }}>
-                       특정 사원의 근태 승인 내역
-                    </Typography>
-                </Box>
-                <Box component="section" sx={{ width: '80%', margin: '0 auto' }}>
-                    <div className={classes.sort}>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
-                                <Select
-                                    labelId={`demo-simple-select-label`}
-                                    id={`demo-simple-select`}
-                                    value={this.state.sort}
-                                    onChange={this.sortChange}>
-                                    <MenuItem value={"attendanceDate"}>근태 정보 날짜</MenuItem>
-                                    <MenuItem value={"attendanceApprovalDate"}>승인 날짜</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
-                                <Select
-                                    labelId={`demo-simple-select-label`}
-                                    id={`demo-simple-select`}
-                                    value={this.state.desc}
-                                    onChange={this.descChange}>
-                                    <MenuItem value={"asc"}>오름차순</MenuItem>
-                                    <MenuItem value={"desc"}>내림차순</MenuItem>
-                                </Select>
-                            </FormControl>
-                    </div>
+            <div>
+                <Box  style={{ width: '80%', margin: 'auto' }}>
+                    <Box
+                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            paddingBottom: '10px'
+                        }} >
+                        근태 승인 내역
+                    </Box>
+                    <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.sort}
+                                onChange ={this.sortChange}>
+                                <MenuItem value={"attendanceDate"}>근태 정보 날짜</MenuItem>
+                                <MenuItem value={"attendanceApprovalDate"}>승인 날짜</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={`demo-simple-select`}
+                                value={this.state.desc}
+                                onChange={this.descChange}>
+                                <MenuItem value={"asc"}>오름차순</MenuItem>
+                                <MenuItem value={"desc"}>내림차순</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
 
                     <TableContainer component={Paper} >
-                        <Table className={classes.table} size="small" aria-label="a dense table" >
-                            <TableHead >
+                        <Table className={classes.table} >
+                            <TableHead className={classes.tableHead}>
                                 <TableRow>
-                                    <TableCell className={classes.tableCell}> 사원 ID </TableCell>
-                                    <TableCell className={classes.tableCell}> 근태 정보 날짜 </TableCell>
-                                    <TableCell className={classes.tableCell}> 승인 날짜</TableCell>
+                                    <TableCell align="center" className={classes.titleText}> 사원 ID </TableCell>
+                                    <TableCell align="center" className={classes.titleText}> 근태 정보 날짜 </TableCell>
+                                    <TableCell align="center" className={classes.titleText}> 승인 날짜</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {data.map((row) => (
-                                    <ListComponent key={row.employeeId} row={row} keyData={row.employeeId} />
+                                    <ListComponent  className={classes.text} key={row.employeeId} row={row} keyData={row.employeeId} />
                                 ))}
                             </TableBody>
                         </Table>

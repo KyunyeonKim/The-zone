@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import ButtonComponent from "./ButtonComponent";
 import TextFieldComponent from "./TextFieldComponent";
 import axios from "axios";
-import RedButtonComponent from "./RedButtonComponent";
+import AddButtonComponent from "./Button/AddButtonComponent";
+import SubstractButtonComponent from "./Button/SubstractButtonComponent";
 
 class ProcessAppealRequestListComponent extends Component {
 
@@ -122,7 +122,7 @@ class ProcessAppealRequestListComponent extends Component {
 
     };
     render() {
-        const {row,keyData,title,id,onRejectBtnClick,onApproveBtnClick} = this.props;
+        const {row,keyData,title,id,onRejectBtnClick,onApproveBtnClick,className} = this.props;
         const isButtonDisabled = id === row.employeeId;
         this.row=row;
         this.onRejectBtnClick=onRejectBtnClick;
@@ -130,19 +130,19 @@ class ProcessAppealRequestListComponent extends Component {
 
         return (
             <TableRow key={keyData}>
-                {console.log(row)}
+
                 {Object.entries(row).map(([key, value]) => (
-                    <TableCell key={key} style={{ textAlign: 'center',whiteSpace: 'nowrap' }}  >
+                    <TableCell key={key}  className={className} >
                         {value}
                     </TableCell>
                 ))}
 
                 <TableCell>
-                    <ButtonComponent disabled={isButtonDisabled} onButtonClick={this.onApprovalButtonClick} title={title[0]}  />
+                    <AddButtonComponent disabled={isButtonDisabled} onButtonClick={this.onApprovalButtonClick} title={title[0]}  />
                 </TableCell>
 
                 <TableCell>
-                    <RedButtonComponent disabled={isButtonDisabled} onButtonClick={this.onRejectButtonClick} title={title[1]} />
+                    <SubstractButtonComponent disabled={isButtonDisabled} onButtonClick={this.onRejectButtonClick} title={title[1]} />
                 </TableCell>
 
                 <TableCell>

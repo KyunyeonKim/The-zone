@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import {
     Button,
-    FormControl,
-    InputLabel,
-    Typography,
     Box,
     Dialog,
     DialogTitle,
@@ -16,48 +13,51 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import AddButtonComponent from "./Button/AddButtonComponent";
+import BlackButtonComponent from "./Button/BlackButtonComponent";
 
 
 const styles = (theme) => ({
-    root: {
-        padding: theme.spacing(4),
-        textAlign: "center",
-        background: "#f0f0f0",
-        minHeight: "100vh",
-        fontSize: "1rem"
-    },
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "40%",
+        width: "50%",
+        borderTop:"2px solid black",
+        height:"600px"
     },
 
     formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        textAlign: 'center'
 
-    },
-    formCellLeft: {
-        padding: theme.spacing(2),
-        border: "1px solid #ddd",
-        width:"35%"
-
-    },
-    formControl: {
-        width: "30%",
-        marginRight:"5px",
-        marginBottom: theme.spacing(2),
     },
     textField: {
         width: "60%",
         marginBottom: theme.spacing(2),
     },
-    button: {
-        marginTop: theme.spacing(2),
-        height:"60px",
-        width:"100px",
-        fontSize: "1rem", // 원하는 크기로 조정
+    text :{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif'
     },
+    titleText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
+    },
+    tableCellIndexText:{
+        fontSize:'18px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold',
+        border: "1px solid gray",
+        backgroundColor:"#C2DCF0",
+        textAlign: "right",
+        paddingRight: '15px',
+        width:"35%",
+        whiteSpace: 'nowrap'
+    }
 });
 class VacationDefaultSetting extends Component{
     constructor(props) {
@@ -135,8 +135,8 @@ class VacationDefaultSetting extends Component{
     };
 
     submitForm = async(e) => {
-        if (!(/^[1-9]\d*$/).test(this.state.newFreshManCount) || !(/^[1-9]\d*$/).test(this.state.newSeniorCount)) {
-            alert("입력된 개수를 다시 확인하세요!");
+        if (this.state.newSeniorCount===""||this.state.newFreshManCount===""){
+            alert("모든 값을 입력하세요!");
             return;
         }
 
@@ -208,10 +208,23 @@ class VacationDefaultSetting extends Component{
     }
 
     getNewFreshManChange = (e)=>{
-        this.setState({...this.state,newFreshManCount:e.target.value});
+        const newFreshManChange = e.target.value;
+        if(!(/^[1-9]\d*$/).test(newFreshManChange)){
+            alert("0이상 숫자만 입력가능합니다!");
+            this.setState({...this.state,newFreshManCount:""});
+            return;
+        }
+        this.setState({...this.state,newFreshManCount:newFreshManChange});
+
     }
     getNewSeniorChange = (e)=>{
-        this.setState({...this.state,newSeniorCount:e.target.value});
+        const newSeniorChange=e.target.value;
+        if(!(/^[1-9]\d*$/).test(newSeniorChange)){
+            alert("0이상 숫자만 입력가능합니다!");
+            this.setState({...this.state,newSeniorCount:""});
+            return;
+        }
+        this.setState({...this.state,newSeniorCount:newSeniorChange});
     }
 
 
@@ -219,7 +232,7 @@ render(){
     const { classes } = this.props;
 
     return(
-        <div className={classes.root}>
+        <div>
             <Dialog open={this.state.open} onClose={this.handleClose}>
                 <DialogTitle>근속 연수에 따른 연차 개수 설정</DialogTitle>
                 <DialogContent>
@@ -228,95 +241,103 @@ render(){
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary">
+                    <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"}>
                         닫기
-                    </Button>
+                    </BlackButtonComponent>
                 </DialogActions>
             </Dialog>
 
-            <Box component="section">
-                <Typography variant="h3" style={{ margin: "50px", textAlign: "center" }}>
-                    근속 연수 대한 연차 개수 설정
-                </Typography>
+
+            <Box style={{ width: '80%', margin: 'auto' }}>
+                <Box
+                    sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        paddingBottom: '10px'
+                    }} >
+                    근속 연수에 따른 연차 개수 설정
+                </Box>
+
+                <Box>
+                    <form onSubmit={this.submitForm}>
+                        <table className={classes.formTable}>
+                            <tbody>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>설정 적용 년도</td>
+                                    <td className={classes.formCell}>
+                                        {this.targetYear}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>올해의 1년 미만 연차 개수</td>
+                                    <td className={classes.formCell}>
+                                        {this.state.oldFreshManCount}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>변경된 1년 미만 연차 개수</td>
+                                    <td className={classes.formCell}>
+                                        <TextField
+                                            id={"getNewFreshManData"}
+                                            className={classes.textField}
+                                            value={this.state.newFreshManCount}
+                                            label="변경된 1년 미만연차 개수"
+                                            onChange={this.getNewFreshManChange}
+                                        />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>올해의 1년 이상 연차 개수</td>
+                                    <td className={classes.formCell}>
+                                        {this.state.oldSeniorCount}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>변경된 1년 이상 연차 개수</td>
+                                    <td className={classes.formCell}>
+                                        <TextField
+                                            id={"getNewSeniorData"}
+                                            className={classes.textField}
+                                            value={this.state.newSeniorCount}
+                                            label="변경된 1년 이상 연차 개수"
+                                            onChange={this.getNewSeniorChange}
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.formCell} colSpan={4} style={{ textAlign: "center" ,backgroundColor:"#F9F9F9",padding: "20px 0 20px 0"}}>
+                                        <Box style={{display:'flex',justifyContent:'space-evenly'}}>
+                                            <BlackButtonComponent title={"취소"}/>
+                                            <AddButtonComponent type="submit" onButtonClick={this.submitForm} title={"설정"}/>
+
+
+                                            {/*<Button*/}
+                                            {/*    type="submit"*/}
+                                            {/*    className={classes.button}*/}
+                                            {/*    variant="contained"*/}
+                                            {/*    color="primary"*/}
+                                            {/*    style={{ marginRight: "50px" }}*/}
+                                            {/*>*/}
+                                            {/*    설정*/}
+                                            {/*</Button>*/}
+
+                                            {/*<Button*/}
+                                            {/*    type="button"*/}
+                                            {/*    className={classes.button}*/}
+                                            {/*    variant="contained"*/}
+                                            {/*    color="secondary"*/}
+                                            {/*>*/}
+                                            {/*    취소*/}
+                                            {/*</Button>*/}
+                                        </Box>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </Box>
             </Box>
-
-            <form onSubmit={this.submitForm}>
-                <table className={classes.formTable}>
-                    <tbody>
-                    <tr>
-                        <td className={classes.formCell}>설정 적용 년도</td>
-                        <td className={classes.formCell}>
-                            {this.targetYear}
-                        </td>
-
-                    </tr>
-
-                    <tr>
-                        <td className={classes.formCellLeft}>올해의 1년 미만 연차 개수</td>
-                        <td className={classes.formCell}>
-                            {this.state.oldFreshManCount}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className={classes.formCellLeft}>변경된 1년 미만 연차 개수</td>
-                        <td className={classes.formCell}>
-                            <TextField
-                                id={"getNewFreshManData"}
-                                className={classes.textField}
-                                value={this.state.newFreshManCount}
-                                label="변경된 1년 미만연차 개수"
-                                onChange={(e) => {
-                                    this.setState({newFreshManCount: e.target.value});
-                                }}
-                            />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td className={classes.formCellLeft}>올해의 1년 이상 연차 개수</td>
-                        <td className={classes.formCell}>
-                            {this.state.oldSeniorCount}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className={classes.formCellLeft}>변경된 1년 이상 연차 개수</td>
-                        <td className={classes.formCell}>
-                            <TextField
-                                id={"getNewSeniorData"}
-                                className={classes.textField}
-                                value={this.state.newSeniorCount}
-                                label="변경된 1년 이상 연차 개수"
-                                onChange={this.getNewSeniorChange}
-                            />
-                        </td>
-                    </tr>
-
-                        <td className={classes.formCell} colSpan={4} style={{ textAlign: "center" }}>
-                            <div>
-                                <Button
-                                    type="submit"
-                                    className={classes.button}
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ marginRight: "50px" }}
-                                >
-                                    설정
-                                </Button>
-
-                                <Button
-                                    type="button"
-                                    className={classes.button}
-                                    variant="contained"
-                                    color="secondary"
-                                >
-                                    취소
-                                </Button>
-                            </div>
-                        </td>
-
-                    </tbody>
-                </table>
-            </form>
         </div>
     )
 }
