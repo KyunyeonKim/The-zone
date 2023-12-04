@@ -32,7 +32,7 @@ const styles = theme => ({
 
 class ApprovalRequestedAttendance extends Component {
     state = {
-        ApprovalRequestedAttendance: null,
+        approvalRequestedAttendance: null,
     };
 
     componentDidMount() {
@@ -48,7 +48,10 @@ class ApprovalRequestedAttendance extends Component {
         axios.post("http://localhost:8080/login", loginForm);
         axios.get(`http://localhost:8080/chart/requested?year=${year}&month=${month}`)
             .then(response => {
-                this.setState({ ApprovalRequestedAttendance: response.data });
+                this.setState({ approvalRequestedAttendance: response.data });
+                if (this.props.onDataLoaded) {
+                    this.props.onDataLoaded(response.data);
+                }
             })
             .catch(error => {
                 console.error("Error fetching rejected vacation data: ", error);
@@ -56,7 +59,7 @@ class ApprovalRequestedAttendance extends Component {
     }
 
     render() {
-        const {  ApprovalRequestedAttendance } = this.state;
+        const {  approvalRequestedAttendance } = this.state;
         const {classes,month} = this.props;
 
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
@@ -69,7 +72,7 @@ class ApprovalRequestedAttendance extends Component {
                     {monthName} 근태 이상 요청중
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
-                    {ApprovalRequestedAttendance !== null ?   ApprovalRequestedAttendance : 'Loading...'}
+                    {approvalRequestedAttendance !== null ?   approvalRequestedAttendance : 'Loading...'}
                 </Typography>
             </Paper>
         );

@@ -49,6 +49,9 @@ class VacationApprovedInfo extends Component {
         axios.get(`http://localhost:8080/chart/approvalmonthvacation?year=${year}&month=${month}`)
             .then(response => {
                 this.setState({approvedVacationCount: response.data});
+                if (this.props.onDataLoaded) {
+                    this.props.onDataLoaded(response.data);
+                }
             })
             .catch(error => {
                 console.error("Error fetching approved vacation data: ", error);

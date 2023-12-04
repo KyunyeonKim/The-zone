@@ -12,6 +12,7 @@ import GetVacationHistory from "./component/kim/component/GetVacationHistory";
 import PostSetWorkTime from "./component/kim/component/PostSetWorkTime";
 import EmployeeMine from "./component/kim/component/EmployeeMine";
 import VacationDashboard from "./component/kim/component/DashBoard/VacationDashBoard";
+import EmployeeReport from "./component/kim/component/EmployeeReportDashBoard/EmployeeReport";
 
 
 export const stateStore=[]
@@ -27,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // <GetVacationHistory/>,
       // <PostSetWorkTime/>,
       // <EmployeeMine/>,
-      <VacationDashboard/>,
+      // <VacationDashboard/>,
+      <EmployeeReport/>,
     document.body.appendChild(document.createElement('div'))
   )
 })
