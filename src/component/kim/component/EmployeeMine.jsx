@@ -60,10 +60,10 @@ const styles = theme => ({
         }
     },
     uploadIcon: {
-        borderRadius: '50%', // 이미지를 원형으로 만들기 위한 속성
-        width: 240,         // 이미지 너비
-        height: 1000,        // 이미지 높이
-        objectFit: 'cover', // 이미지가 원형 내에 꽉 차도록 조정
+        borderRadius: '50%',
+        width: 240,
+        height: 1000,
+        objectFit: 'cover',
     },
     submitButton: {
         marginTop: theme.spacing(3)
