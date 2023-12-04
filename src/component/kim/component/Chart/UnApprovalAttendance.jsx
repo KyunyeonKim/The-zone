@@ -32,7 +32,7 @@ const styles = theme => ({
 
 class UnApprovalAttendance extends Component {
     state = {
-       UnapprovedVacationCount: null,
+       unapprovedVacationCount: null,
     };
 
     componentDidMount() {
@@ -49,7 +49,10 @@ class UnApprovalAttendance extends Component {
 
         axios.get(`http://localhost:8080/chart/abnormal?year=${year}&month=${month}`)
             .then(response => {
-                this.setState({UnapprovedVacationCount: response.data });
+                this.setState({unapprovedVacationCount: response.data });
+                if (this.props.onDataLoaded) {
+                    this.props.onDataLoaded(response.data);
+                }
             })
             .catch(error => {
                 console.error("Error fetching approved vacation data: ", error);
@@ -57,7 +60,7 @@ class UnApprovalAttendance extends Component {
     }
 
     render() {
-        const { UnapprovedVacationCount } = this.state;
+        const { unapprovedVacationCount } = this.state;
         const {classes,month} = this.props;
 
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
@@ -70,7 +73,7 @@ class UnApprovalAttendance extends Component {
                     {monthName} 근태 이상
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
-                    {UnapprovedVacationCount !== null ?   UnapprovedVacationCount : 'Loading...'}
+                    {unapprovedVacationCount !== null ?   unapprovedVacationCount : 'Loading...'}
                 </Typography>
             </Paper>
         );

@@ -49,6 +49,9 @@ class VacationRejectedInfo extends Component {
         axios.get(`http://localhost:8080/chart/rejectedmonthvacation?year=${year}&month=${month}`)
             .then(response => {
                 this.setState({ rejectedVacationCount: response.data });
+                if (this.props.onDataLoaded) {
+                    this.props.onDataLoaded(response.data);
+                }
             })
             .catch(error => {
                 console.error("Error fetching rejected vacation data: ", error);
@@ -60,7 +63,7 @@ class VacationRejectedInfo extends Component {
         const {classes,month} = this.props;
 
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-        const monthName = monthNames[month - 1]; // JavaScript에서 월은 0에서 시작하므로 1을 빼줍니다.
+        const monthName = monthNames[month - 1];
 
         return (
             <Paper className={classes.paper}>
