@@ -12,14 +12,17 @@ const styles = theme => ({
         marginRight: theme.spacing(5),
     },
     chartContainer: {
-        width: '50%',
+        width: '80%',
         height: '320px'
     },
     detailText: {
         // 기존 스타일 유지
-        margin: theme.spacing(1, 0),
+        margin: theme.spacing(4, 0),
         // 새로운 스타일 추가
         fontWeight: 'bold', // 굵은 글씨
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '120%', // Box가 부모 컨테이너의 전체 너비를 차지하도록 설정
     },
 
     totalVacationText: {
@@ -41,11 +44,7 @@ class MainChart extends Component {
 
     initChart = () => {
         const { data } = this.props;
-        const chart = echarts.init(this.chartRef.current);
-
-        // Calculate the total and usage rate here
-        const totalVacation = data.reduce((acc, item) => acc + item.value, 0);
-        const usageRate = ((data[0].value / totalVacation) * 100).toFixed(2);
+        const chart = echarts.init(this.chartRef.current, null, {renderer: 'canvas', width: 'auto', height: 'auto'}); // Adjust the size as needed
 
         const option = {
             tooltip: {
@@ -56,24 +55,32 @@ class MainChart extends Component {
                 {
                     name: 'Vacation Data',
                     type: 'pie',
-                    radius: ['50%', '70%'],
+                    radius: ['50%', '70%'], // Increase the radius for a larger pie chart
                     center: ['50%', '50%'],
                     startAngle: 90,
                     label: {
                         normal: {
-                            formatter: '{d}%\n사용률',
+                            formatter: (params) => {
+                                // Use a custom formatter function to increase the size of the percentage part
+                                return `{big|${params.percent}%}\n{small|사용률}`;
+                            },
+                            rich: {
+                                big: {
+                                    fontSize: 40, // Larger font size for percentage
+                                    fontWeight: 'bold'
+                                },
+                                small: {
+                                    fontSize: 14, // Smaller font size for the word '사용률'
+                                    fontWeight: 'bold'
+                                }
+                            },
                             position: 'center',
-                            show: true,
-                            textStyle: {
-                                fontSize: '20',
-                                fontWeight: 'bold',
-                            }
+                            show: true
                         }
                     },
                     data: data.map((item, index) => ({
                         value: item.value,
                         name: item.name,
-                        // Set the color of the remaining vacation slice to white
                         itemStyle: index === 1 ? { color: 'white' } : {}
                     }))
                 }
@@ -85,26 +92,35 @@ class MainChart extends Component {
 
     renderDetails = (data) => {
         return data.map((item, index) => (
-            <Typography key={index} variant="subtitle1" className={this.props.classes.detailText}>
-                {item.name}: {item.value}개
-            </Typography>
+            <Box key={index} display="flex" justifyContent="space-between" className={this.props.classes.detailText}>
+                <Typography variant="subtitle1">
+                    {item.name}
+                </Typography>
+                <Typography variant="subtitle1" style={{fontWeight: 'bold'}}>
+                    {item.value}
+                </Typography>
+            </Box>
         ));
     };
 
     render() {
-        const { classes, data } = this.props;
+        const {classes, data} = this.props;
         const totalVacation = data.reduce((acc, item) => acc + item.value, 0);
-        const usageRate = ((data[0].value / totalVacation) * 100).toFixed(2);
 
         return (
             <Box className={classes.root}>
                 <Box className={classes.details}>
-                    <Typography variant="h7" style={{ fontWeight: 'bold' }}>
-                        총 연차 개수: {totalVacation}개
-                    </Typography>
+                    <Box display="flex" justifyContent="space-between" width="120%">
+                        <Typography variant="subtitle1">
+                            총 연차 개수
+                        </Typography>
+                        <Typography variant="subtitle1" style={{fontWeight: 'bold'}}>
+                            {totalVacation}
+                        </Typography>
+                    </Box>
                     {this.renderDetails(data)}
                 </Box>
-                <Box ref={this.chartRef} className={classes.chartContainer} />
+                <Box ref={this.chartRef} className={classes.chartContainer}/>
             </Box>
         );
     }
