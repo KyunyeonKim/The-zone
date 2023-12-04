@@ -39,6 +39,11 @@ const styles = theme => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        height:'100%',
+    },
+    divider: {
+        // Divider의 높이는 내용에 맞게 자동으로 조정될 것입니다.
+        margin: theme.spacing(2, 0),
     },
 
 
@@ -117,7 +122,7 @@ class VacationMineEChart extends Component {
 
         return (
             <div className={classes.container}>
-                {loading ? <CircularProgress /> : chartData && (
+                {loading ? <CircularProgress /> :chartData && (
                     <>
                         <div className={classes.chartDescriptionContainer}>
                             <div className={classes.columnContainer}>
