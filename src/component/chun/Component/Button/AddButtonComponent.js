@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 const styles = (theme) => ({
 //variant="outlined" color="primary"
     button :{
-        fontSize:'13px',
+        fontSize:'15px',
         whiteSpace: 'nowrap',
         borderRadius:'8px',
         border:'1px solid #2055E8',

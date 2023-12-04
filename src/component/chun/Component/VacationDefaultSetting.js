@@ -20,19 +20,20 @@ const styles = (theme) => ({
         margin: "0 auto",
         borderCollapse: "collapse",
         width: "45%",
-        borderTop:"2px solid black"
+        borderTop:"2px solid black",
+        height:"600px"
     },
 
     formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
-        fontSize:'13px',
+        fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
 
     },
     tableCellIndexText:{
-        fontSize:'15px',
+        fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         border: "1px solid gray",

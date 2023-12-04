@@ -27,12 +27,13 @@ const styles = (theme) => ({
         margin: "0 auto",
         borderCollapse: "collapse",
         width: "45%",
-        borderTop:"2px solid black"
+        borderTop:"2px solid black",
+        height:"600px"
     },
     formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
-        fontSize:'15px',
+        fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
     },
@@ -42,7 +43,7 @@ const styles = (theme) => ({
 
     },
     tableCellIndexText:{
-        fontSize:'15px',
+        fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         border: "1px solid gray",
@@ -308,7 +309,7 @@ class VacationRequest extends Component {
 
                 <Box>
                     <Box
-                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         연차 신청

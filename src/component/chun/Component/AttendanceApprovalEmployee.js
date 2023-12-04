@@ -22,12 +22,12 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'12px',
+        fontSize:'15px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
     },
     titleText:{
-        fontSize:'15px',
+        fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold'
     },
@@ -246,9 +246,9 @@ class AttendanceApprovalEmployee extends Component{
 
         return(
             <div>
-                <Box>
+                <Box style={{ overflowX: 'hidden', overflowY: 'auto', whiteSpace: 'nowrap' }}>
                     <Box
-                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         근태 승인 내역

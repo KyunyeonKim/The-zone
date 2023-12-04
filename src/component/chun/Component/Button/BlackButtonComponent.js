@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 const styles = (theme) => ({
 
     button :{
-        fontSize:'12px',
+        fontSize:'15px',
         whiteSpace: 'nowrap',
         borderRadius:'8px',
         border:'1px solid black',

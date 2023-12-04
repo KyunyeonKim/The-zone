@@ -30,13 +30,13 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'12px',
+        fontSize:'15px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText:{
-        fontSize:'15px',
+        fontSize:'18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         textAlign: 'center',
@@ -353,7 +353,7 @@ class ProcessAppealRequest extends Component{
 
                 <Box style={{ overflowX: 'hidden', overflowY: 'auto', whiteSpace: 'nowrap' }}>
                     <Box
-                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         근태 조정 신청 처리
@@ -364,7 +364,7 @@ class ProcessAppealRequest extends Component{
                             <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" InputProps={{style: { height:"50px"}}} style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span" >
-                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                            <SvgIcon style={{borderRadius:'6px' , width: "50px",height: '50px',border:'1px solid #c1c1c1'}}
                                      cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
                         </Box>
                     </Box>
