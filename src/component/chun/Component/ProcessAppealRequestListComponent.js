@@ -130,12 +130,44 @@ class ProcessAppealRequestListComponent extends Component {
 
         return (
             <TableRow key={keyData}>
-
-                {Object.entries(row).map(([key, value]) => (
-                    <TableCell key={key}  className={className} >
-                        {value}
-                    </TableCell>
-                ))}
+                {Object.entries(row).map(([key, value]) => {
+                    if (key === "startTime") {
+                        return Object.entries(row).map(([key1, value1]) => {
+                            if (key1 === "endTime") {
+                                return (
+                                    <TableCell key={key + key1} className={className}>
+                                        {value}
+                                        <br/>
+                                        {value1}
+                                    </TableCell>
+                                );
+                            }
+                            return null;
+                        });
+                    }
+                    if(key==="appealedStartTime"){
+                        return Object.entries(row).map(([key2,value2])=>{
+                            if(key2==="appealedEndTime"){
+                                return(
+                                    <TableCell key={key + key2} className={className}>
+                                        {value}
+                                        <br/>
+                                        {value2}
+                                    </TableCell>
+                                )
+                            }
+                        })
+                    }
+                    if(key!=="endTime"&&key!="appealedEndTime")
+                    {
+                        return (
+                            <TableCell key={key} className={className}>
+                                {console.log("key : ", key)}
+                                {value}
+                            </TableCell>
+                        );
+                    }
+                })}
 
                 <TableCell>
                     <AddButtonComponent disabled={isButtonDisabled} onButtonClick={this.onApprovalButtonClick} title={title[0]}  />
