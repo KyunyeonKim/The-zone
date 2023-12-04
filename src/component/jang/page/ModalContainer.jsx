@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {stateStore} from "../index";
+import {stateStore} from "../../../index";
 
 class ModalContainer extends Component {
   constructor() {
@@ -9,14 +9,13 @@ class ModalContainer extends Component {
       modalShow : false,
       innerContainerName : '',
     }
-    stateStore.push(this.state)
     function closeModal(innerContainerName){
       this.setState({
         modalShow : !this.state.modalShow,
         innerContainerName : innerContainerName,
       })
     }
-    stateStore.push(closeModal.bind(this))
+    stateStore.modalContainerStateSet = {state:this.state,setState:closeModal.bind(this)}
     this.toggleModal=closeModal.bind(this)
   }
 

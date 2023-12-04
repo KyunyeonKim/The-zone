@@ -7,7 +7,8 @@ module.exports = {
   devtool: 'source-map',
   entry: './src/index.jsx',
   resolve: {
-    extensions: ['.js', '.jsx']
+    fallback: { 'path': require.resolve('path-browserify') },
+    extensions: ['.jsx', '.js'],
   },
   devServer: {
     port: 3000,

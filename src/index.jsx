@@ -2,9 +2,9 @@ import React from 'react'
 import { render } from 'react-dom'
 
 import './index.css'
-import MainEndPoint from "./jang/MainEndPoint";
+import MainEndPoint from "./component/jang/page/MainEndPoint";
 
-export const stateStore=[]
+export const stateStore={}
 
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import axios from "axios";
-import {stateStore} from "../index";
+import {stateStore} from "../../../index";
 
 export default class CalendarContainer extends React.Component {
 
@@ -23,7 +23,8 @@ export default class CalendarContainer extends React.Component {
     let currentYear = ''
     // 현재 날짜를 가져오기
     //[{"title":"임시공휴일","date":"2023-10-02","backgroundColor":"red","extendedProps":{"kind":"holiday"}}]
-    stateStore.push(this.state,this.setState)
+    // stateStore.push(this.state,this.setState)
+    stateStore.calendarContainerStateSet = {state:this.state,setState:this.setState}
     console.log(`current stateStore : ${JSON.stringify(stateStore)}`)
   }
     // initDate = this.props===undefined?new Date():this.props.initDate
@@ -40,23 +41,22 @@ export default class CalendarContainer extends React.Component {
               left: 'prev,next today', center: 'title', right: ''
             }}
             initialView='dayGridMonth'
-            editable={true}
-            selectable={true}
-            selectMirror={true}
+            // editable={true}
+            // selectable={true}
+            // selectMirror={true}
             dayMaxEvents={true}
             weekends={this.state.weekendsVisible}
             initialEvents={this.state.currentEvents} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
             eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
             eventsSet={this.handleEvents}
-            eventAdd={function (e) {
-              console.log(e.event.title)
-            }} // 이벤트 추가 후 수행되는 콜백
-            eventChange={function () {
-            }} // 이벤트 변경 후 수행되는 콜백
-            eventRemove={function () {
-            }} // 이벤트 삭제 후 수행되는 콜백
+            // eventAdd={function (e) {
+            //   console.log(e.event.title)
+            // }} // 이벤트 추가 후 수행되는 콜백
+            // eventChange={function () {
+            // }} // 이벤트 변경 후 수행되는 콜백
+            // eventRemove={function () {
+            // }} // 이벤트 삭제 후 수행되는 콜백
             events={this.state.currentEvents}
             //TODO : 동적 처리가 필요한 부분 - 올해로 한정
             validRange={{start: '2023-01-01', end: '2024-01-01'}}
@@ -162,6 +162,7 @@ export default class CalendarContainer extends React.Component {
 
     this.totalEvents = holidayData.data.concat(attendanceInfo.data).concat(newVacationableData).concat(vacationRequestedInfo.data)
     console.log("total events " + JSON.stringify(this.totalEvents))
+    stateStore.chartContainerStateSet.setState({year:this.currentYear.toString(),month:this.currentMonth.toString()})
     this.setState({
       weekendsVisible: true,
       //초기화를 위하여  axios에서 공휴일 정보 받아오기
@@ -175,22 +176,39 @@ export default class CalendarContainer extends React.Component {
     this.currentMonth = new Date(`${this.currentMonth} 1, 2000`).getMonth() + 1
   }
 
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(), title, start: selectInfo.startStr, end: selectInfo.endStr, allDay: selectInfo.allDay
-      })
+  getClosestSaturday(eventDate) {
+    const today = new Date(eventDate);
+    alert(`${today}`)
+    const currentDayOfWeek = today.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
+    if(currentDayOfWeek === 6 || currentDayOfWeek === 0 ){
+      return 0;
     }
+    const sortByDate = (a, b) => a - b;
+    let daysUntilSaturday = 6 - currentDayOfWeek; // 토요일까지 남은 일 수. -1을 해주어 사용 가능한 연차 갯수를 정확하게 구한다
+    ;
+
+    let mappedCurrentEventsOfHoliday = this.state.currentEvents.filter((event) => event.extendedProps.kind ==='holiday').map((holiday)=>new Date(holiday.date))
+    let mappedCurrentEventsOfVacationRequested = this.state.currentEvents.filter((event) => event.extendedProps.kind ==='vacationRequested').map((event)=>new Date(event.date))
+    mappedCurrentEventsOfHoliday = mappedCurrentEventsOfHoliday.concat(mappedCurrentEventsOfVacationRequested)
+    mappedCurrentEventsOfHoliday = mappedCurrentEventsOfHoliday.sort(sortByDate).filter((event) => event-today>0)
+    alert(`mappedCurrentEventsOfHoliday : ${mappedCurrentEventsOfHoliday}`)
+
+    let countVacationRequestLimit = mappedCurrentEventsOfHoliday===null || mappedCurrentEventsOfHoliday===undefined ? -1:mappedCurrentEventsOfHoliday[0]-today>0?Math.floor((mappedCurrentEventsOfHoliday[0]-today)/24/3600/1000):-1;
+
+    if(countVacationRequestLimit !== -1){
+      daysUntilSaturday = daysUntilSaturday > countVacationRequestLimit ? 'countVacationRequestLimit'+countVacationRequestLimit : 'daysUntilSaturday'+daysUntilSaturday
+      alert(`limit ${daysUntilSaturday}`)
+      return daysUntilSaturday
+    }
+
+    alert(`no additional holiday event, vacationRequest. so get saturday limit ${daysUntilSaturday}`)
+    return daysUntilSaturday;
   }
 
   handleEventClick = (clickInfo) => {
     let eventKind = `${clickInfo.event.extendedProps.kind}`
-    this.props.toggleModalShowing(eventKind,'some','args','add')
+
+
     // alert(`${eventKind}`)
     switch (eventKind) {
       case 'holiday':
@@ -198,7 +216,10 @@ export default class CalendarContainer extends React.Component {
 
         break;
       case 'vacationable':
-        alert(`event handler requested ${eventKind}`)
+        alert(`event handler requested ${clickInfo.event.start}`)
+
+        this.props.toggleModalShowing(eventKind,'some','args','add',this.getClosestSaturday(clickInfo.event.start))
+
         break;
       case 'vacationRequested':
         alert(`event handler requested ${eventKind} quantity ${clickInfo.event.extendedProps.quantity} ${new Date(clickInfo.event.date)}`)

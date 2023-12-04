@@ -1,30 +1,28 @@
 import React from 'react';
-import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
+import clsx from 'clsx'
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import {mainListItems, secondaryListItems} from './LeftMenuBarContainer';
-import CalendarContainer from "../jang/CalendarContainer";
-import DigitalClock from "../jang/DigitalClock";
+import CalendarContainer from "./CalendarContainer";
+import DigitalClock from "./DigitalClock";
 import {Card, CardMedia} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import TopBarUserInfo from "../header/TopBarUserInfo";
-import Copyright from "../jang/misc/Copyright";
+import Copyright from "./Copyright";
+import NotificationListForEmployee from "../header/NotificationListForEmployee";
+import LogoutButton from "../header/LogoutButton";
+import LeftMenuBar from "./LeftMenuBar";
+import ChartContainer from "./ChartContainer";
+import NotificationListForManager from "../header/NotificationListForManager";
+import AttendanceInfoButtonContainer from "./AttendanceInfoButtonContainer";
+import EmployeeSettingTableContainer from "../page/EmployeeSettingTableContainer";
 
 const drawerWidth = 240;
 
@@ -98,55 +96,60 @@ export default function Dashboard(props) {
                     <MenuIcon/>
                 </IconButton>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    Dashboard
+                    근태 관리 시스템
                 </Typography>
 
-                <Grid container spacing={3} xs={2} md={2} lg={2}>
+                <Grid container spacing={0} xs={2} md={2} lg={2}>
                     <Grid item xs={6} md={6} lg={6}>
                         <Grid>
-                                <TopBarUserInfo employeeNumber={'12345'} employeeName={'john doe'} profilePicture={'../src/images/logo.png'}/>
+                            <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}
+                                            employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
+                                            profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
+                                            toggleModalShowing={props.toggleModalShowing}/>
                         </Grid>
                     </Grid>
-                    <Grid item xs={6} md={6} lg={6}>
+                    <Grid item xs={4} md={4} lg={4}>
                         <Grid item>
-                            logout button
+                            <LogoutButton onLogout={() => alert('logout success')}/>
                         </Grid>
                     </Grid>
                 </Grid>
-                <IconButton color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <NotificationsIcon/>
-                    </Badge>
-                </IconButton>
+                <Grid item>
+                    <Grid container spacing={10}>
+                        {sessionStorage.getItem('userType') !== 'admin' ? <Grid item xs={1} md={1} lg={1}>
+                            <Grid container spacing={1}>
+                                <Grid item>
+                                    <IconButton color="inherit">
+                                        <NotificationListForEmployee/>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </Grid> : <></>}
+                        {sessionStorage.getItem('userType') === 'manager' ? <Grid item xs={1} md={1} lg={1}>
+                            <Grid container spacing={1}>
+                                <Grid item>
+                                    <IconButton color="inherit">
+                                        <NotificationListForManager/>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </Grid> : <></>}
+                    </Grid>
+                </Grid>
             </Toolbar>
         </AppBar>
-        <Drawer
-            variant="permanent"
-            classes={{
-                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-            }}
-            open={open}
-        >
-            <div className={classes.toolbarIcon}>
-                <IconButton onClick={handleDrawerClose}>
-                    <ChevronLeftIcon/>
-                </IconButton>
-            </div>
-            <Divider/>
-            <List>{mainListItems}</List>
-            <Divider/>
-            <List>{secondaryListItems}</List>
-        </Drawer>
+        <LeftMenuBar handleDrawerClose={handleDrawerClose} setOpen={setOpen} open={open}
+                     toggleModalShowing={props.toggleModalShowing} userType={props.userType}/>
         <main className={classes.content}>
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
-            <Container maxWidth="lg" className={classes.container}>
+            <Container maxWidth="lg" className={classes.container} >
                 {/* inernal container*/}
-                <Grid container spacing={1} xs={12} md={12} lg={12}>
+                <Grid container spacing={3} xs={12} md={12} lg={12} justifyContent="space-evenly"
+                      alignItems="center">
                     {/* logo-clock-chart-requestList container*/}
                     <Grid item spacing={2} xs={6} md={6} lg={6}>
                         <Grid container spacing={3} xs={12} md={12} lg={12}>
-
                             {/*logo-clock limit grid */}
                             <Grid item xs={12} md={12} lg={12}>
                                 {/*logo-clock container grid */}
@@ -159,7 +162,7 @@ export default function Dashboard(props) {
                                                         component="img"
                                                         alt="Sample Image"
                                                         height="100%"
-                                                        image='../src/images/logo.png' // 이미지 URL을 여기에 입력하세요
+                                                        image="../src/component/jang/images/logo.png" // 이미지 URL을 여기에 입력하세요
                                                     />
                                                 </Card>
                                             </Grid>
@@ -178,60 +181,32 @@ export default function Dashboard(props) {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} md={12} lg={12}>
+                            {sessionStorage.getItem('userType') !== 'admin' ? <Grid item xs={12} md={12} lg={12}>
                                 <Grid container spacing={3} xs={12} md={12} lg={12}>
-                                    <Grid item xs={6} md={6} lg={6}>
+                                    <Grid item xs={12} md={12} lg={12}>
                                         <Paper>
-                                            <Grid>
-                                                chart
-                                            </Grid>
+                                            <ChartContainer/>
                                         </Paper>
                                     </Grid>
 
-                                    <Grid item xs={6} md={6} lg={6}>
-                                        <Paper>
-                                            <Grid>
-                                                request
-                                            </Grid>
-                                        </Paper>
-                                    </Grid>
                                 </Grid>
-                            </Grid>
+                            </Grid> : <Grid item xs={12} md={12} lg={12}>
+                                <Grid container spacing={3} xs={12} md={12} lg={12}>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                    </Grid>
+
+                                </Grid>
+                            </Grid>}
                         </Grid>
 
                     </Grid>
-
-
-                    {/* attendanceButtonContainer-isManager container*/}
-                    <Grid item xs={6} md={6} lg={6}>
+                    {sessionStorage.getItem('userType') !== 'admin' ? <Grid item xs={6} md={6} lg={6}>
                         <Grid container direction="column" justifyContent="space-around" xs={12} md={12} lg={12}>
                             <Grid item xs={12} md={12} lg={12}>
                                 <Grid container spacing={3} xs={12} md={12} lg={12}>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper>
-                                            <Grid container spacing={3} xs={12} md={12} lg={12} direction="row"
-                                                  justifyContent="space-evenly"
-                                                  alignItems="baseline">
-                                                <Grid item xs={'auto'} md={'auto'} lg={'auto'}>
-                                                    <Paper>
-                                                        <Grid item>
-                                                            <Button variant="contained" color="primary">
-                                                                출근 입력
-                                                            </Button>
-
-                                                        </Grid>
-                                                    </Paper>
-                                                </Grid>
-                                                <Grid item xs={'auto'} md={'auto'} lg={'auto'}>
-                                                    <Paper>
-                                                        <Grid item>
-                                                            <Button variant="contained" color="secondary">
-                                                                퇴근 입력
-                                                            </Button>
-                                                        </Grid>
-                                                    </Paper>
-                                                </Grid>
-                                            </Grid>
+                                            <AttendanceInfoButtonContainer/>
                                         </Paper>
                                     </Grid>
                                 </Grid>
@@ -245,9 +220,6 @@ export default function Dashboard(props) {
                                     </Grid>
                                     <Grid item xs={'auto'} md={'auto'} lg={'auto'}>
                                         <Grid>
-                                            <Button variant="contained" color="primary">
-                                                관리자 모드
-                                            </Button>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={'auto'} md={'auto'} lg={'auto'}>
@@ -255,19 +227,29 @@ export default function Dashboard(props) {
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Grid> : <></>}
+                    {/* attendanceButtonContainer container*/}
+                    {sessionStorage.getItem('userType') !== 'admin' ?
+                        <Grid item xs={12} md={12} lg={12} alignItems="center">
+                            <Paper>
+                                <CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>
+                            </Paper>
+                        </Grid> :
 
-                    <Grid item xs={12} md={12} lg={12} alignItems="center">
-                        <Paper>
-                            <CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>
-                        </Paper>
-                    </Grid>
+                        <Grid item xs={12} md={12} lg={12} >
+                            <Paper>
+                            <Grid container alignItems="center" justifyContent="space-evenly">
+
+                                {/*<CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>*/}
+                                <EmployeeSettingTableContainer  toggleModalShowing={props.toggleModalShowing}></EmployeeSettingTableContainer>
+
+                            </Grid>
+                            </Paper>
+                        </Grid> }
                 </Grid>
-
                 <Box pt={4}>
                     <Copyright/>
                 </Box>
-
             </Container>
 
         </main>
