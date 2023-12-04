@@ -12,8 +12,9 @@ import VacationDefaultSetting from "./component/chun/Component/VacationDefaultSe
 import VacationProcess from "./component/chun/Component/VacationProcess";
 import VacationRequest from "./component/chun/Component/VacationRequest";
 import ProcessAppealRequestListComponent from "./component/chun/Component/ProcessAppealRequestListComponent";
+import SelectInfoForManagerReport from "./component/chun/Component/Chart/SelectInfoForManagerReport";
 
 //VacationProcess
 document.addEventListener('DOMContentLoaded', function () {
-    render(<VacationDefaultSetting/>, document.body.appendChild(document.createElement('div')))
+    render(<AttendanceApprovalAllEmployees/>, document.body.appendChild(document.createElement('div')))
 })

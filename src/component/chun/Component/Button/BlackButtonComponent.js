@@ -12,7 +12,8 @@ const styles = (theme) => ({
         color:"black",
         fontWeight:"bold",
         // backgroundColor:"#2F79DA",
-        fontFamily: 'Noto Sans KR, sans-serif'
+        fontFamily: 'Noto Sans KR, sans-serif',
+        height:"50px"
     }
 
 });
