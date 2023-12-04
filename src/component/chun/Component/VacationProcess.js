@@ -2,7 +2,6 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -30,20 +29,16 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'1rem',
+        fontSize:'12px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText:{
-        fontSize:'1.2rem',
+        fontSize:'15px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         whiteSpace: 'nowrap'
-    },
-    button :{
-        height:"90%",
-        fontSize:'1rem'
     },
     pagination: {
         display: 'flex',
@@ -331,9 +326,8 @@ class VacationProcess extends Component{
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            닫기
-                        </Button>
+                        <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"}>
+                        </BlackButtonComponent>
                     </DialogActions>
                 </Dialog>
 
@@ -345,22 +339,21 @@ class VacationProcess extends Component{
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            닫기
-                        </Button>
+                        <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"}>
+                        </BlackButtonComponent>
                     </DialogActions>
                 </Dialog>
 
-                <Box  style={{ width: '80%', margin: 'auto' }}>
+                <Box >
                     <Box
-                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         연차 요청 처리
                     </Box>
-                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                    <Box style={{border:'3px solid #1D89DB', padding:'10px 10px 10px 10px',borderRadius:'10px'}} >
                         <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" InputProps={{style: { height:"50px"}}}  style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span" >
                             <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}

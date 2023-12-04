@@ -27,48 +27,29 @@ const styles = (theme) => ({
         margin: "0 auto",
         borderCollapse: "collapse",
         width: "45%",
-        borderTop:"2px solid black",
-        height:"600px"
+        borderTop:"2px solid black"
     },
     formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
-        fontSize:'18px',
+        fontSize:'15px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
     },
     formControl: {
         width: "60%",
         marginBottom: theme.spacing(2),
-    },
-    textField: {
-        width: "60%",
-        marginBottom: theme.spacing(2),
-    },
-    button: {
-        marginTop: theme.spacing(2),
-        height:"60px",
-        width:"100px",
-        fontSize: "1rem", // 원하는 크기로 조정
-    },
-    text :{
-        fontSize:'18px',
-        fontFamily: 'Noto Sans KR, sans-serif'
-    },
-    titleText:{
-        fontSize:'18px',
-        fontFamily: 'Noto Sans KR, sans-serif',
-        fontWeight:'bold'
+
     },
     tableCellIndexText:{
-        fontSize:'18px',
+        fontSize:'15px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         border: "1px solid gray",
         backgroundColor:"#C2DCF0",
         textAlign: "right",
         paddingRight: '15px',
-        width:"35%",
+        width:"30%",
         whiteSpace: 'nowrap'
     }
 });
@@ -320,15 +301,14 @@ class VacationRequest extends Component {
                         <DialogContentText> 신청 완료 하였습니다 </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            닫기
-                        </Button>
+                        <BlackButtonComponent onButtonClick={this.handleClose} title={"닫기"}>
+                        </BlackButtonComponent>
                     </DialogActions>
                 </Dialog>
 
-                <Box style={{ width: '80%', margin: 'auto' }}>
+                <Box>
                     <Box
-                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
                         }} >
                         연차 신청
@@ -341,9 +321,10 @@ class VacationRequest extends Component {
                                     <tr>
                                         <td className={classes.tableCellIndexText}>연차 종류</td>
                                         <td className={classes.formCell}>
-                                            <FormControl className={classes.formControl}>
+                                            <FormControl variant="outlined" className={classes.formControl}>
                                                 <InputLabel id="vacation-type-label">연차 종류</InputLabel>
                                                 <Select
+                                                    style={{height:"50px"}}
                                                     labelId="vacation-type-label"
                                                     id="vacation-type"
                                                     onChange={this.vacationTypeChange}

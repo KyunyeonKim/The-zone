@@ -35,11 +35,11 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'1rem',
+        fontSize:'12px',
         fontFamily: 'Noto Sans KR, sans-serif'
     },
     titleText:{
-        fontSize:'1.2rem',
+        fontSize:'15px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold'
     },
@@ -81,7 +81,9 @@ const styles = (theme) => ({
     tableHead: {
         backgroundColor: '#C2DCF0',
         borderTop: '1.5px solid black',
-
+        position: 'sticky',
+        top: 0,
+        zIndex: 1
     }
 
 });
@@ -403,17 +405,17 @@ class EmployeeVacationSetting extends Component {
                 </Dialog>
 
 
-                <Box  style={{ width: '80%', margin: 'auto' }}>
+                <Box>
                     <Box
-                         sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                         sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                              paddingBottom: '10px'
                          }} >
                         사원 연차 설정
                     </Box>
 
-                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                    <Box style={{border:'3px solid #1D89DB', padding:'10px 10px 10px 10px',borderRadius:'10px'}} >
                         <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" InputProps={{style: { height:"50px"}}} style={{width:"95%"}} onChange={this.searchKeywordChange}/>
                         </Box>
                         <Box component="span" >
                             <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
