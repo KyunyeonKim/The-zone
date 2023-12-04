@@ -19,7 +19,7 @@ const styles = theme => ({
 
     paper: {
         maxWidth: 1000,
-        margin: theme.spacing(30),
+        margin: theme.spacing(60),
         display: 'flex',
         flexDirection: 'height',
         boxShadow: theme.shadows[5],
