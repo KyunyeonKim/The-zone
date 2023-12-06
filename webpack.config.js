@@ -24,7 +24,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images', // 빌드된 파일의 출력 경로 설정
+            },
+          },
+        ],
+      },
     ]
   },
   output: {

@@ -39,8 +39,8 @@ class DigitalClock extends Component {
             color: '#2568ac',
             marginTop: '60px',
             marginBottom:'45px',
-            marginLeft:'20px',
-            marginRight:'20px'
+            // marginLeft:'20px',
+            // marginRight:'20px'
         };
 
         return (

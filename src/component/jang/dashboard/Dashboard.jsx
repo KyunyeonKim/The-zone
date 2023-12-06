@@ -23,6 +23,7 @@ import ChartContainer from "./ChartContainer";
 import NotificationListForManager from "../header/NotificationListForManager";
 import AttendanceInfoButtonContainer from "./AttendanceInfoButtonContainer";
 import EmployeeSettingTableContainer from "../page/EmployeeSettingTableContainer";
+import ProcessAppealRequest from "./AdminTablePartContainer";
 
 const drawerWidth = 240;
 
@@ -237,15 +238,11 @@ export default function Dashboard(props) {
                         </Grid> :
 
                         <Grid item xs={12} md={12} lg={12} >
-                            <Paper>
-                            <Grid container alignItems="center" justifyContent="space-evenly">
-
                                 {/*<CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>*/}
-                                <EmployeeSettingTableContainer  toggleModalShowing={props.toggleModalShowing}></EmployeeSettingTableContainer>
-
+                                {/*<EmployeeSettingTableContainer  toggleModalShowing={props.toggleModalShowing}></EmployeeSettingTableContainer>*/}
+                                <ProcessAppealRequest toggleModalShowing={props.toggleModalShowing}></ProcessAppealRequest>
                             </Grid>
-                            </Paper>
-                        </Grid> }
+                        }
                 </Grid>
                 <Box pt={4}>
                     <Copyright/>

@@ -10,12 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from "axios";
-import {Snackbar} from "@material-ui/core";
+import {CardMedia, Snackbar} from "@material-ui/core";
 import { Alert } from '@material-ui/lab';
-
+import loginImg from './login.png'
 function Copyright() {
   return (
       <Typography variant="body2" color="textSecondary" align="center">
@@ -30,6 +30,7 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -49,12 +50,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+function Login() {
   const classes = useStyles();
   const [employeeNumber, setEmployeeNumber] = useState('');
   const [password, setPassword] = useState('');
   const [openAlert, setOpenAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+
+  const styles = {
+
+      backgroundImage:`url(${loginImg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'white',
+
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -98,6 +113,9 @@ export default function Login() {
   };
 
   return (
+
+      <div className={classes.root} style={styles}>
+
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -160,5 +178,8 @@ export default function Login() {
         <Copyright />
       </Box>
     </Container>
+      </div>
   );
 }
+
+export default  Login;
