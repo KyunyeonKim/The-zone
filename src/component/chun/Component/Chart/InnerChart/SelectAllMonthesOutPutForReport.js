@@ -1,52 +1,40 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import * as echarts from 'echarts';
 import {chartDataStore} from "../../../../../index";
 
 class SelectAllMonthesOutPutForReport extends Component {
+    chartRef
+
     constructor(props) {
         super(props);
-        this.approvalRequestedAttendance=[];
-        this.approvedCount=[];
-        this.approvedVacationCount=[];
-        this.rejectedVacationCount=[];
-        this.requestedVacationCount=[];
-        this.unapprovedVacationCount=[]
+        this.approvalRequestedAttendance = [];
+        this.approvedCount = [];
+        this.attendanceAbnormal = [];
+        this.approvedVacationCount = [];
+        this.rejectedVacationCount = [];
+        this.requestedVacationCount = [];
 
+        chartDataStore.updateChart = this.initChart.bind(this)
+        this.chartRef = React.createRef();
     }
-    approvalRequestedAttendance;
-    approvedCount;
-    approvedVacationCount;
-    rejectedVacationCount;
-    requestedVacationCount;
-    unapprovedVacationCount
-
-    chartRef = React.createRef(); // 차트 컨테이너 참조 생성
 
     componentDidMount() {
         this.initChart();
     }
 
-    componentDidUpdate() {
-        this.initChart();
 
-    }
-
-    initChart = () => {
+    initChart = (kindOf) => {
         const chartInstance = echarts.init(this.chartRef.current);
-        chartInstance.setOption(this.getOption());
+        chartInstance.setOption(this.getOption(kindOf));
+        this.setState({})
     };
 
-    getOption = () => {
-        const { data } = this.props;
+    getOption = (kindOf) => {
+        let data = chartDataStore.store
+
         // const data = chartDataStore.store
-        console.log("넘어온 data : ",data);
+        console.log("넘어온 data : ", data);
         // console.log(Object.keys(data));
-        this.approvalRequestedAttendance = [];
-        this.approvedCount = [];
-        this.approvedVacationCount = [];
-        this.rejectedVacationCount = [];
-        this.requestedVacationCount = [];
-        this.unapprovedVacationCount = [];
 
         //approvedVacationCount : 연차 승인
         // rejectedVacationCount: 연차 반려
@@ -54,38 +42,58 @@ class SelectAllMonthesOutPutForReport extends Component {
         // approvedCount : 근태 정상
         // unapprovedVacationCount : 근태 이상
         // approvalRequestedAttendance : 근태 이상 요청중;
+        if (kindOf === 'attendance') {
+            this.approvalRequestedAttendance = [];
+            this.approvedCount = [];
+            this.attendanceAbnormal = [];
+        } else if (kindOf === 'vacation') {
+            this.approvedVacationCount = [];
+            this.rejectedVacationCount = [];
+            this.requestedVacationCount = [];
+        }
 
-        if(Object.values(data).every((array)=>array.length===0)!==true){
-            Object.keys(data).forEach((element) => {
-                const array = data[element];
-                console.log("Array : ",array);
-                if (array.length === 0) {
+        for(let element of Object.keys(data))
+        {
+            const atom = data[element];
+            console.log(`atom : ${JSON.stringify(atom)} ${JSON.stringify(typeof atom)}`);
+            if ( Array.isArray(atom) && atom.length === 0) {
+                if (kindOf === 'attendance') {
                     this.approvalRequestedAttendance.push(0);
-                    this.unapprovedVacationCount.push(0);
+                    this.attendanceAbnormal.push(0);
                     this.approvedCount.push(0);
+                } else if (kindOf === 'vacation') {
                     this.approvedVacationCount.push(0);
                     this.rejectedVacationCount.push(0);
                     this.requestedVacationCount.push(0);
-                } else {
-                    this.approvalRequestedAttendance.push(array['approvalRequestedAttendance']);
-                    this.unapprovedVacationCount.push(array['unapprovedVacationCount']);
-                    this.approvedCount.push(array['approvedCount']);
-                    this.approvedVacationCount.push(array['approvedVacationCount']);
-                    this.rejectedVacationCount.push(array['rejectedVacationCount']);
-                    this.requestedVacationCount.push(array['requestedVacationCount']);
                 }
+            } else {
+                if (kindOf === 'attendance') {
+                    if (atom.approvalRequestedAttendance !== undefined)
+                        this.approvalRequestedAttendance.push(atom.approvalRequestedAttendance);
+                    if (atom.attendanceAbnormal !== undefined)
+                        this.attendanceAbnormal.push(atom.attendanceAbnormal);
+                    if (atom.attendanceNormal !== undefined)
+                        this.approvedCount.push(atom.attendanceNormal);
+                } else if (kindOf === 'vacation') {
+                    if (atom.vacationNormal !== undefined)
+                        this.approvedVacationCount.push(atom.vacationNormal);
+                    if (atom.vacationRejected !== undefined)
+                        this.rejectedVacationCount.push(atom.vacationRejected);
+                    if (atom.vacationRequested !== undefined)
+                        this.requestedVacationCount.push(atom.vacationRequested);
+                }
+            }
+        };
 
-            });
 
-        }
-        console.log("this.approvalRequestedAttendance : ",this.approvalRequestedAttendance);
-        console.log("this.unapprovedVacationCount : ",this.unapprovedVacationCount);
-        console.log("this.approvedCount : ",this.approvedCount);
-        console.log("this.approvedVacationCount : ",this.approvedVacationCount);
-        console.log("this.rejectedVacationCount : ",this.rejectedVacationCount);
-        console.log("this.requestedVacationCount : ",this.requestedVacationCount);
+        console.log("this.approvalRequestedAttendance : ", this.approvalRequestedAttendance);
+        console.log("this.unapprovedVacationCount : ", this.attendanceAbnormal);
+        console.log("this.approvedCount : ", this.approvedCount);
+        console.log("this.approvedVacationCount : ", this.approvedVacationCount);
+        console.log("this.rejectedVacationCount : ", this.rejectedVacationCount);
+        console.log("this.requestedVacationCount : ", this.requestedVacationCount);
 
-         return {
+        return {
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -105,7 +113,7 @@ class SelectAllMonthesOutPutForReport extends Component {
             },
             yAxis: {
                 type: 'category',
-                data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec']
+                data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             },
             series: [
                 {
@@ -130,7 +138,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    data:this.rejectedVacationCount
+                    data: this.rejectedVacationCount
                 },
                 {
                     name: '연차 요청중',
@@ -154,7 +162,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    data:this.approvedCount
+                    data: this.approvedCount
                 },
                 {
                     name: '근태 이상',
@@ -187,8 +195,7 @@ class SelectAllMonthesOutPutForReport extends Component {
 
     render() {
         return (
-
-            <div ref={this.chartRef} style={{ width: '100%', height: '400px' }}></div> // 차트 컨테이너
+            <div ref={this.chartRef} style={{width: '100%', height: '400px'}}></div> // 차트 컨테이너
         );
     }
 }
