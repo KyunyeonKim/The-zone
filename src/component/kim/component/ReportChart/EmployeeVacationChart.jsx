@@ -3,6 +3,7 @@ import * as echarts from 'echarts';
 
 class EmployeeVacationChart extends Component {
     chartRef = React.createRef(); // 차트 컨테이너 참조 생성
+    chartInstance = null; // 차트 인스턴스를 저장할 변수
 
     componentDidMount() {
         this.initChart();
@@ -12,10 +13,26 @@ class EmployeeVacationChart extends Component {
         this.initChart();
     }
 
+    componentWillUnmount() {
+        if (this.chartInstance) {
+            this.chartInstance.dispose(); // 차트 인스턴스 제거
+        }
+    }
+
+
     initChart = () => {
-        const chartInstance = echarts.init(this.chartRef.current);
-        chartInstance.setOption(this.getOption());
+        if (!this.chartInstance) {
+            this.chartInstance = echarts.init(this.chartRef.current);
+        }
+        this.chartInstance.setOption(this.getOption());
     };
+
+    updateChart = () => {
+        if (this.chartInstance) {
+            this.chartInstance.setOption(this.getOption());
+        }
+    };
+
 
     getOption = () => {
         const { approvedVacationCount, rejectedVacationCount, requestedVacationCount } = this.props;

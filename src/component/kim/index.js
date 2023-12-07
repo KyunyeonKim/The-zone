@@ -8,7 +8,7 @@ import CreateEmployee from "../../../../../../../Documents/카카오톡 받은 �
 ReactDOM.render(
     <React.StrictMode>
 {/*<UpdateEmployee/>*/}
-{/*        <CreateEmployee/>*/}
+        <CreateEmployee/>
     </React.StrictMode>,
     document.getElementById( 'root')
 );
