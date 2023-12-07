@@ -2,102 +2,42 @@ import React, { Component } from "react";
 import {
     Button,
     Checkbox,
-    FormControlLabel, FormGroup,
-    Paper, TextField,
+    FormControlLabel,
+    Grid,
+    Input,
+    InputLabel,
     Typography,
-    Box,
 } from "@material-ui/core";
 import axios from "axios";
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from "@date-io/date-fns";
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-
-    paper: {
-        maxWidth: 1000,
-        margin: theme.spacing(60),
-        display: 'flex',
-        flexDirection: 'height',
-        boxShadow: theme.shadows[5],
-        borderRadius: theme.shape.borderRadius
-    },
-    gridContainer: {
-        width: '100%',
-        margin: 0,
-    },
-    gridItem: {
-        flex: 1,
-    },
-    formContainer: {
-        padding: theme.spacing(11), // padding 조정
-        backgroundColor: '#BBDEFB',
-        width:'300%',
-        maxWidth: 'none',// 최대 가로 길이 제한 없음
-
-    },
-    uploadContainer: {
-        padding: theme.spacing(3)
-    },
-    uploadInput: {
-        display: 'none'
-    },
-    uploadLabel: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: theme.spacing(1),
-        padding: theme.spacing(2),
-        border: `1px dashed ${theme.palette.divider}`,
-        borderRadius: '50%',
-        width: 230,
-        height: 230,
-        cursor: 'pointer',
-        '&:hover': {
-            backgroundColor: theme.palette.action.hover
-        }
-    },
-    uploadIcon: {
-        borderRadius: '50%', // 이미지를 원형으로 만들기 위한 속성
-        width: 240,         // 이미지 너비
-        height: 1000,        // 이미지 높이
-        objectFit: 'cover', // 이미지가 원형 내에 꽉 차도록 조정
-    },
-    submitButton: {
-        marginTop: theme.spacing(3)
-    },
-    errorMessage: {
-        color: theme.palette.error.main,
-        marginTop: theme.spacing(2)
-    }
-
-});
+import "../static/CreateEmployee.css";
+import UpdateModalComponent from "./UpdateModalComponent";
 
 class UpdateEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employeeId: this.props.employeeId,
+            employeeId: "",
             passWord: "",
             name: "",
             attendanceManager: false,
             uploadFile: null,
-            hireDate: new Date(),
+            hireYear: "",
             isModalOpen: false,
             formError: "",
-            selectedImage: null,
         };
     }
 
+    openModal = () => {
+        this.setState({ isModalOpen: true });
+    };
+
+    closeModal = () => {
+        this.setState({ isModalOpen: false });
+    };
 
     async componentDidMount() {
         try {
             axios.defaults.withCredentials = true;
-            await axios.get("http://localhost:8080/logout");
             let loginForm = new FormData();
             loginForm.append("loginId", "admin");
             loginForm.append("password", "admin");
@@ -111,7 +51,7 @@ class UpdateEmployee extends Component {
 
             const image = await axios.get(
                 `http://localhost:8080/admin/download/${employeeId}`,
-                {responseType: "arraybuffer"}
+                { responseType: "arraybuffer" }
             );
 
             const employeeData = response.data;
@@ -121,15 +61,16 @@ class UpdateEmployee extends Component {
             );
 
             const employeeImagedata = btoa(imageData);
-            const hireDate = new Date(employeeData.hireYear); // 이름을 hireDate로 변경
-            hireDate.setDate(hireDate.getDate() + 1);
+            const hireYear = new Date(employeeData.hireYear);
+            hireYear.setDate(hireYear.getDate() + 1);
+            const formattedHireYear = hireYear.toISOString().split("T")[0];
 
             this.setState({
                 employeeId: employeeData.employeeId,
                 passWord: employeeData.password,
                 name: employeeData.name,
                 attendanceManager: employeeData.attendanceManager,
-                hireDate: hireDate.toISOString().split("T")[0], // 이름을 hireDate로 변경
+                hireYear: formattedHireYear,
                 uploadFile: `data:${image.headers["content-type"]};base64,${employeeImagedata}`,
             });
         } catch (error) {
@@ -144,12 +85,12 @@ class UpdateEmployee extends Component {
             name,
             attendanceManager,
             uploadFile,
-            hireDate,
+            hireYear,
         } = this.state;
 
         try {
 
-            this.setState({formError: ""});
+            this.setState({ formError: "" });
             axios.defaults.withCredentials = true;
 
             // 파일 형식 체크
@@ -165,74 +106,46 @@ class UpdateEmployee extends Component {
                 }
             }
 
-            if (!name.trim()) {
-                this.setState({
-                    formError: "이름을 입력해주세요.",
-                    isModalOpen: false,
-                });
+            if (this.state.formError) {
+                this.setState({ isModalOpen: false });
                 return;
-            } else if (/\d/.test(name) || /[^a-zA-Z\s가-힣]/.test(name)) {
+            }
+
+
+            // 이름 유효성 검사: 문자열만 허용
+            if (!/^\p{L}+$/u.test(name)) {
                 this.setState({
-                    formError: "이름에는 숫자나 특수문자를 입력할 수 없습니다.",
-                    isModalOpen: false,
-                });
-                return;
-            } else if (name.length > 10) {
-                this.setState({
-                    formError: "이름은 10자 이내로 입력해야 합니다.",
-                    isModalOpen: false,
+                    formError: '올바른 이름 형식이 아닙니다. (숫자와 특수기호를 제외한 문자만 허용됩니다.)',
                 });
                 return;
             }
 
-            if (!employeeId.trim()) {
-                this.setState({
-                    formError: "사원ID를 입력해주세요.",
-                    isModalOpen: false,
-                });
-                return;
-            } else if (!/^\d+$/.test(employeeId)) {
-                this.setState({
-                    formError: "사원ID는 숫자만 입력할 수 있습니다.",
-                    isModalOpen: false,
-                });
-                return;
-            } else if (employeeId.length > 10) {
-                this.setState({
-                    formError: "사원ID는 10자 이내로 입력해야 합니다.",
-                    isModalOpen: false,
-                });
-                return;
-            }
-
-            if (!passWord.trim()) {
-                this.setState({
-                    formError: "비밀번호를 입력해주세요.",
-                    isModalOpen: false,
-                });
-                return;
-            } else if (passWord.length > 10) {
-                this.setState({
-                    formError: "비밀번호는 10자 이내로 입력해야 합니다.",
-                    isModalOpen: false,
-                });
-                return;
-            } else if (/[^a-zA-Z0-9\s]/.test(passWord)) {
-                this.setState({
-                    formError: "비밀번호에는 특수문자를 입력할 수 없습니다.",
-                    isModalOpen: false,
-                });
-                return;
-            }
-            const hireYear = hireDate ? `${hireDate.getFullYear()}-${String(hireDate.getMonth() + 1).padStart(2, '0')}-${String(hireDate.getDate()).padStart(2, '0')}` : '';
             const employeeUpdateUrl = `http://localhost:8080/admin/update/${employeeId}`;
             const updateForm = new FormData();
             updateForm.append("passWord", passWord);
             updateForm.append("name", name);
             updateForm.append("attendanceManager", attendanceManager);
-            updateForm.append("hireYear", hireYear);
 
+            if (hireYear) {
+                const yearMonthDayRegex = /^\d{4}-\d{2}-\d{2}$/;
 
+                if (yearMonthDayRegex.test(hireYear)) {
+                    const formattedHireYear = new Date(hireYear).toISOString().split("T")[0];
+                    updateForm.append("hireYear", formattedHireYear);
+                } else {
+                    this.setState({
+                        formError: "유효하지 않은 입사연도 형식입니다. (예: YYYY-MM-dd)",
+                    });
+                    return;
+                }
+            } else {
+                this.setState({
+                    formError: "입사연도를 입력해주세요.",
+                });
+                return;
+            }
+
+            // 모든 유효성 검사가 통과되면 오류 메시지 초기화
             this.setState({
                 formError: "",
             });
@@ -240,6 +153,7 @@ class UpdateEmployee extends Component {
             const response = await axios.post(employeeUpdateUrl, updateForm);
             console.log("업데이트 로그", response.data);
 
+            // 이미지를 수정한 경우에만 파일 업로드 수행
             if (uploadFile && uploadFile instanceof File) {
                 const uploadFileAdd = "http://localhost:8080/admin/upload";
                 const uploadFileData = new FormData();
@@ -253,7 +167,8 @@ class UpdateEmployee extends Component {
                 console.log("파일 업로드 성공", uploadResponse.data);
             }
 
-
+            // 모달 닫기
+            this.closeModal();
         } catch (error) {
             console.error("업데이트 실패", error);
             this.setState({
@@ -263,10 +178,18 @@ class UpdateEmployee extends Component {
         }
     };
 
+    checkFileFormat = (file) => {
+        const allowedFormats = ["image/jpeg", "image/png", "image/gif"];
+        if (!allowedFormats.includes(file.type)) {
+            this.setState({
+                formError:
+                    "올바른 이미지 형식이 아닙니다. (jpeg, png, gif 중 하나를 선택하세요.)",
+            });
+            return false;
+        }
+        return true;
+    };
 
-    handleDateChange = (date) => {
-        this.setState({hireDate: date});
-    }
     setPreviewImg = (event) => {
         const file = event.target.files[0];
 
@@ -279,17 +202,12 @@ class UpdateEmployee extends Component {
                 });
             };
 
-            // 파일 로드 중에 오류가 발생할 수 있으므로 try-catch 블록을 추가
-            try {
-                reader.readAsDataURL(file);
-            } catch (error) {
-                console.error("파일 로드 오류", error);
-            }
+            reader.readAsDataURL(file);
         }
     };
 
     onChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         this.setState({
             [name]: value,
         });
@@ -307,136 +225,149 @@ class UpdateEmployee extends Component {
             passWord,
             name,
             attendanceManager,
-            hireDate,
             uploadFile,
+            hireYear,
+            isModalOpen,
             formError,
         } = this.state;
 
-        const { classes } = this.props;
-
         return (
-            <Box className={classes.container}>
-                <Paper className={classes.paper}>
-                    <Box className={classes.uploadContainer}>
-                        <input
-                            accept="image/*"
-                            className={classes.uploadInput}
-                            id="upload-file"
-                            type="file"
-                            onChange={this.setPreviewImg} // 이미지 업로드 핸들러 업데이트
-                        />
-                        <label htmlFor="upload-file" className={classes.uploadLabel}>
-                            {uploadFile ? (
-                                <img
-                                    src={
-                                        uploadFile && uploadFile instanceof File
-                                            ? URL.createObjectURL(uploadFile)
-                                            : uploadFile
-                                                ? uploadFile // 이미지 업로드한 경우
-                                                : this.state.defaultPersonImage // 아무 이미지도 업로드하지 않은 경우
-                                    }
-                                    alt="Employee"
-                                    className={classes.uploadIcon}
-                                    onError={() => {
-                                        this.setState({ uploadFile: null });
-                                    }}
-                                />
-                            ) : (
-                                <img
-                                    src={this.state.defaultPersonImage}
-                                    alt="Default"
-                                    className={classes.uploadIcon}
-                                />
-                            )}
-                        </label>
-                        <Typography variant="h5" style={{ marginLeft: "40px" }}>
-                            이미지를 설정하시오
-                        </Typography>
-                    </Box>
+            <div className="flex items-center min-h-screen bg-gray-100">
+                <div className="flex justify-center w-full">
+                    <div className="flex w-1/2">
+                        <div className="bg-white shadow-md rounded px-8 py-10 max-w-md w-96">
+                            <Typography variant="h5" align="center">
+                                직원 수정 페이지
+                            </Typography>
+                            <form onSubmit={(e) => e.preventDefault()}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <InputLabel htmlFor="employeeId">사원번호</InputLabel>
+                                        <Input
+                                            id="employeeId"
+                                            name="employeeId"
+                                            value={employeeId}
+                                            readOnly
+                                            fullWidth
+                                            variant="outlined"
+                                        />
+                                    </Grid>
 
-                    <Box className={classes.formContainer}>
-                        <Typography variant="h6">사원업데이트 페이지</Typography>
-                        <FormGroup>
+                                    <Grid item xs={12}>
+                                        <InputLabel htmlFor="passWord">비밀번호</InputLabel>
+                                        <Input
+                                            id="passWord"
+                                            name="passWord"
+                                            type="password"
+                                            value={passWord}
+                                            onChange={this.onChange}
+                                            fullWidth
+                                            required
+                                            variant="outlined"
+                                        />
+                                    </Grid>
 
+                                    <Grid item xs={12}>
+                                        <InputLabel htmlFor="name">사원이름</InputLabel>
+                                        <Input
+                                            id="name"
+                                            type="name"
+                                            name="name"
+                                            value={name}
+                                            onChange={this.onChange}
+                                            fullWidth
+                                            required
+                                            variant="outlined"
+                                        />
+                                    </Grid>
 
-                            <TextField
-                                label={"사원id"}
-                                variant="outlined"
-                                value={employeeId}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                margin="normal"
-                                fullWidth
-                                required
-                            />
-                            <TextField
-                                label="Password"
-                                variant="outlined"
-                                type="password"
-                                value={passWord}
-                                onChange={(e) =>
-                                    this.setState({ passWord: e.target.value })
-                                }
-                                margin="normal"
-                                fullWidth
+                                    <Grid item xs={12}>
+                                        <InputLabel htmlFor="hireYear">입사연도</InputLabel>
+                                        <Input
+                                            id="hireYear"
+                                            name="hireYear"
+                                            type="hireYear"
+                                            value={hireYear}
+                                            onChange={this.onChange}
+                                            fullWidth
+                                            required
+                                            variant="outlined"
+                                        />
+                                    </Grid>
 
-                            />
-                            <TextField
-                                label="Name"
-                                variant="outlined"
-                                value={name}
-                                onChange={(e) =>
-                                    this.setState({ name: e.target.value })
-                                }
-                                margin="normal"
-                                fullWidth
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={attendanceManager}
-                                        onChange={(e) =>
-                                            this.setState({
-                                                attendanceManager: e.target.checked,
-                                            })
-                                        }
-                                    />
-                                }
-                                label="Attendance Manager"
-                            />
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    margin="normal"
-                                    label="Hire Date"
-                                    format="yyyy/MM/dd"
-                                    value={hireDate}
-                                    onChange={this.handleDateChange}
-                                    KeyboardButtonProps={{ "aria-label": "change date" }}
-                                    fullWidth
-                                />
-                            </MuiPickersUtilsProvider>
+                                    <Grid item xs={8}>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={attendanceManager}
+                                                    onChange={this.onToggleChange}
+                                                    name="attendanceManager"
+                                                />
+                                            }
+                                            label="근태담당자여부"
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </form>
                             {formError && (
-                                <Typography className={classes.errorMessage}>
+                                <div style={{ color: "red", marginTop: "8px" }}>
                                     {formError}
-                                </Typography>
+                                </div>
                             )}
                             <Button
-                                variant="contained"
+                                type="submit"
                                 color="primary"
-                                className={classes.submitButton}
-                                onClick={this.updateChanges}
                                 fullWidth
+                                style={{ marginTop: "16px" }}
+                                onClick={this.openModal} // 모달 열기
                             >
-                                Submit
+                                저장
                             </Button>
-                        </FormGroup>
-                    </Box>
-                </Paper>
-            </Box>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded px-8 py-10 max-w-md w-96 file-upload-container">
+                            <div className="preview-container">
+                                <div className="placeholder-container">
+                                    {!uploadFile && <p>파일을 선택해주세요</p>}
+                                    {uploadFile && (
+                                        <img
+                                            src={
+                                                uploadFile instanceof File
+                                                    ? URL.createObjectURL(uploadFile)
+                                                    : uploadFile
+                                            }
+                                            alt="미리보기"
+                                            className="preview-image"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            <label
+                                htmlFor="file"
+                                className="flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer file-upload-label"
+                            >
+                                파일 선택해주세요
+                            </label>
+                            <input
+                                type="file"
+                                id="file"
+                                onChange={(event) => {
+                                    this.setPreviewImg(event);
+                                }}
+                                className="file-input"
+                            />
+                        </div>
+                    </div>
+                </div>
+                {/* "저장" 버튼 클릭 시 모달 열도록 변경 */}
+                <UpdateModalComponent
+                    isOpen={isModalOpen}
+                    onClose={this.closeModal}
+                    onConfirm={this.updateChanges}
+                />
+            </div>
         );
     }
 }
 
-export default withStyles(styles)(UpdateEmployee);
-
+export default UpdateEmployee;

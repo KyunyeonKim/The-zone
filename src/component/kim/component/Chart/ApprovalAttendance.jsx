@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Box, Grid, Typography, Paper, withStyles } from "@material-ui/core";
+import { Grid, Typography, Paper, withStyles } from "@material-ui/core";
 import Icon from '@material-ui/icons/EventAvailable';
 
 
@@ -51,6 +51,9 @@ class ApprovalAttendance extends Component {
         axios.get(`http://localhost:8080/chart/normal?year=${year}&month=${month}`)
             .then(response => {
                 this.setState({ approvedCount: response.data });
+                if (this.props.onDataLoaded) {
+                    this.props.onDataLoaded(response.data);
+                }
             })
             .catch(error => {
                 console.error("Error fetching approved vacation data: ", error);
@@ -59,13 +62,17 @@ class ApprovalAttendance extends Component {
 
     render() {
         const { approvedCount } = this.state;
-        const { classes } = this.props;
+        const {classes,month} = this.props;
+
+        const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+        const monthName = monthNames[month - 1]; // JavaScript에서 월은 0에서 시작하므로 1을 빼줍니다.
 
         return (
+
             <Paper className={classes.paper}>
                 <Icon/>
                 <Typography variant="h6" gutterBottom className={classes.title}>
-                    1월 근태 정상
+                    {monthName} 근태 정상
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
                     {approvedCount !== null ? approvedCount : 'Loading...'}

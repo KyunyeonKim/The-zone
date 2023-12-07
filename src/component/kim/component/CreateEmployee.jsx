@@ -19,7 +19,7 @@ const styles = theme => ({
 
     paper: {
         maxWidth: 1000,
-        margin: theme.spacing(40),
+        margin: theme.spacing(30),
         display: 'flex',
         flexDirection: 'height',
         boxShadow: theme.shadows[5],
@@ -73,11 +73,7 @@ const styles = theme => ({
     errorMessage: {
         color: theme.palette.error.main,
         marginTop: theme.spacing(2)
-    },
-    textFieldInput: {
-        backgroundColor: 'white', // 입력 부분 배경색을 흰색으로 설정
-        borderRadius: theme.shape.borderRadius, // 입력 부분에 둥근 모서리 적용 (선택적)
-    },
+    }
 
 });
 class CreateEmployee extends Component {
@@ -97,9 +93,6 @@ class CreateEmployee extends Component {
     }
 
     // ... 기존 메소드들 (handleDateChange, openModal, closeModal, handleCreateEmployee, etc.)
-    handleDateChange = (date) => {
-        this.setState({hireDate:date});
-    }
 
 
     handleCreateEmployee = async () => {
@@ -126,7 +119,7 @@ class CreateEmployee extends Component {
             });
             return;
         } else if (name.length > 10) {
-            this.setState({ ...this.state,
+            this.setState({
                 formError: "이름은 10자 이내로 입력해야 합니다.",
                 isModalOpen: false,
             });
@@ -188,8 +181,8 @@ class CreateEmployee extends Component {
 
             axios.defaults.withCredentials = true;
             let loginForm = new FormData();
-            //TODO : 삭제 예정
-           loginForm.append("loginId", "admin");
+            await axios.get("http://localhost:8080/logout");
+            loginForm.append("loginId", "admin");
             loginForm.append("password", "admin");
             await axios.post("http://localhost:8080/login", loginForm);
 
@@ -323,7 +316,7 @@ class CreateEmployee extends Component {
                                 />
                             )}
                         </label>
-                        <Typography variant="h5"style={{ marginLeft: '40px' }}>프로필을 설정하시오</Typography>
+                        <Typography variant="h5"style={{ marginLeft: '40px' }}>이미지를 설정하시오</Typography>
                     </Box>
 
                     <Box className={classes.formContainer}>
@@ -332,9 +325,6 @@ class CreateEmployee extends Component {
                             <TextField
                                 label="Employee ID"
                                 variant="outlined"
-                                InputProps={{
-                                    className: classes.textFieldInput, // 커스텀 스타일 적용
-                                }}
                                 value={employeeId}
                                 onChange={e => this.setState({ employeeId: e.target.value })}
                                 margin="normal"
@@ -343,9 +333,6 @@ class CreateEmployee extends Component {
                             <TextField
                                 label="Password"
                                 variant="outlined"
-                                InputProps={{
-                                    className: classes.textFieldInput, // 커스텀 스타일 적용
-                                }}
                                 type="password"
                                 value={passWord}
                                 onChange={e => this.setState({ passWord: e.target.value })}
@@ -355,9 +342,6 @@ class CreateEmployee extends Component {
                             <TextField
                                 label="Name"
                                 variant="outlined"
-                                InputProps={{
-                                    className: classes.textFieldInput, // 커스텀 스타일 적용
-                                }}
                                 value={name}
                                 onChange={e => this.setState({ name: e.target.value })}
                                 margin="normal"
@@ -386,17 +370,17 @@ class CreateEmployee extends Component {
                             {formError && (
                                 <Typography className={classes.errorMessage}>{formError}</Typography>
                             )}
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className={classes.submitButton}
-                                onClick={this.handleCreateEmployee}
-                                fullWidth
-                            >
-                                Submit
-                            </Button>
                         </FormGroup>
                     </Box>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.submitButton}
+                        onClick={this.handleCreateEmployee}
+                        fullWidth
+                    >
+                        Submit
+                    </Button>
                 </Paper>
             </Box>
         );

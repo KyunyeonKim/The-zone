@@ -13,23 +13,29 @@ import PostSetWorkTime from "./component/kim/component/PostSetWorkTime";
 import EmployeeMine from "./component/kim/component/EmployeeMine";
 import VacationDashboard from "./component/kim/component/DashBoard/VacationDashBoard";
 import EmployeeReport from "./component/kim/component/EmployeeReportDashBoard/EmployeeReport";
-
+import ReportSelector from "./component/kim/component/ReportSelector/ReportSelector";
+import EmployeeDashboard from "./component/kim/component/EmployeeReportDashBoard/EmployeeDashboard";
+import GetAttendanceHistory from "./component/kim/component/GetAttendanceHistory";
+import EmployeeBarChart from "./component/kim/component/ReportChart/EmployeeBarChart";
 
 export const stateStore=[]
 document.addEventListener('DOMContentLoaded', function() {
-  render(
+    render(
 
-    // <MainEndPoint/>,
-    //   <GetHistoryOfVacationDefaultSetting/>,
-    //   <UpdateEmployee/>,
-    //   <SetWorkTime/>,
-      // <CreateEmployee/>,
-
-      // <GetVacationHistory/>,
-      // <PostSetWorkTime/>,
-      // <EmployeeMine/>,
-      // <VacationDashboard/>,
-      <EmployeeReport/>,
-    document.body.appendChild(document.createElement('div'))
-  )
+        // <MainEndPoint/>,
+        //   <GetHistoryOfVacationDefaultSetting/>,
+        //   <UpdateEmployee/>,
+        //   <SetWorkTime/>,
+        //   <CreateEmployee/>,
+        //     <GetAttendanceHistory/>,
+        // <GetVacationHistory/>,
+        // <PostSetWorkTime/>,
+        // <EmployeeMine/>,
+        // <VacationDashboard/>,
+        // <EmployeeReport/>,
+        // // <ReportSelector/>,
+        <EmployeeDashboard/>,
+        // <EmployeeBarChart/>,
+        document.body.appendChild(document.createElement('div'))
+    )
 })
