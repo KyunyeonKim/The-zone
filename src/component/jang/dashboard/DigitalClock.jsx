@@ -35,17 +35,21 @@ class DigitalClock extends Component {
         };
 
         const timeStyle = {
-            fontSize: '36px',
+            fontFamily:'Gowun Dodum, sans-serif',
+            fontSize: '20px',
             color: '#2568ac',
-            marginTop: '60px',
+            marginTop: '40px',
             marginBottom:'45px',
+            fontWeight:'bold',
             // marginLeft:'20px',
-            // marginRight:'20px'
+            // marginRight:'20px',
+
+
         };
 
         return (
             <div style={clockStyle} >
-                <p style={timeStyle}>{this.state.time}</p>
+                <p style={timeStyle}> 현재 시간 <br/> {this.state.time}</p>
             </div>
         );
     }

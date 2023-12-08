@@ -28,7 +28,7 @@ const styles = (theme) => ({
             width: theme.spacing(9),
         },
     }, subheader: {
-        fontSize: '1.2rem', color: 'white', background: '#3F51B5'
+        fontSize: '1.2rem', color: 'white', background: '#5984CE',fontFamily:'Gowun Dodum, sans-serif'
     }
 });
 
@@ -38,10 +38,10 @@ class LeftMenuBar extends Component {
     render() {
         const {classes, open, handleDrawerClose, toggleModalShowing} = this.props;
         const firstMenuHandler = () => {
-            toggleModalShowing('GetVacationHistory', 'ddd', 'fff')
+            toggleModalShowing('firstMenu', 'ddd', 'fff')
         }
-        const EmployeeReportModalHandler = () => {
-            toggleModalShowing('EmployeeDashboard', this.props.toggleModalShowing)
+        const secondMenuHandler = () => {
+            toggleModalShowing('secondMenuHandler', 'ddd', 'fff')
         }
         const thirdMenuHandler = () => {
             toggleModalShowing('thirdMenuHandler', 'ddd', 'fff')
@@ -55,7 +55,9 @@ class LeftMenuBar extends Component {
         const sixthMenuHandler = () => {
             toggleModalShowing('sixthMenuHandler', 'ddd', 'fff')
         }
-        return (<Drawer
+        return (
+
+            <Drawer
                 variant="permanent"
                 classes={{
                     paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -67,49 +69,49 @@ class LeftMenuBar extends Component {
                         <ChevronLeftIcon/>
                     </IconButton>
                 </div>
-                <List>
-                    <div style={{display : sessionStorage.getItem('userType')!=='admin'?'block':'none'}}>
-                        <Divider/>
-                        <ListSubheader inset className={classes.subheader}>사원 메뉴</ListSubheader>
-                        <ListItem button onClick={firstMenuHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="firstMenuHandler"/>
-                        </ListItem>
-                        <ListItem button onClick={EmployeeReportModalHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="개인용 근태 정보 보고서 모달"/>
-                        </ListItem>
-                        <ListItem button onClick={thirdMenuHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="thirdMenuHandler"/>
-                        </ListItem>
-                        <ListItem button onClick={fourthMenuHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="fourthMenuHandler"/>
-                        </ListItem>
-                        <ListItem button onClick={fifthMenuHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="fifthMenuHandler"/>
-                        </ListItem>
-                        <ListItem button onClick={sixthMenuHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="sixthMenuHandler"/>
-                        </ListItem>
-                    </div>
-                </List>
-                <Divider/>
+                {/*<List>*/}
+                {/*<div style={{display : sessionStorage.getItem('userType')!=='admin'?'block':'none'}}>*/}
+                {/*        <Divider/>*/}
+                {/*        <ListSubheader inset className={classes.subheader}>사원 메뉴</ListSubheader>*/}
+                {/*        <ListItem button onClick={firstMenuHandler}>*/}
+                {/*            <ListItemIcon>*/}
+                {/*                <AssignmentIcon/>*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary="firstMenuHandler"/>*/}
+                {/*        </ListItem>*/}
+                {/*        <ListItem button onClick={secondMenuHandler}>*/}
+                {/*            <ListItemIcon>*/}
+                {/*                <AssignmentIcon/>*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary="secondMenuHandler"/>*/}
+                {/*        </ListItem>*/}
+                {/*        <ListItem button onClick={thirdMenuHandler}>*/}
+                {/*            <ListItemIcon>*/}
+                {/*                <AssignmentIcon/>*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary="thirdMenuHandler"/>*/}
+                {/*        </ListItem>*/}
+                {/*        <ListItem button onClick={fourthMenuHandler}>*/}
+                {/*            <ListItemIcon>*/}
+                {/*                <AssignmentIcon/>*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary="fourthMenuHandler"/>*/}
+                {/*        </ListItem>*/}
+                {/*        <ListItem button onClick={fifthMenuHandler}>*/}
+                {/*            <ListItemIcon>*/}
+                {/*                <AssignmentIcon/>*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary="fifthMenuHandler"/>*/}
+                {/*        </ListItem>*/}
+                {/*        <ListItem button onClick={sixthMenuHandler}>*/}
+                {/*            <ListItemIcon>*/}
+                {/*                <AssignmentIcon/>*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary="sixthMenuHandler"/>*/}
+                {/*        </ListItem>*/}
+                {/*    </div>*/}
+                {/*</List>*/}
+                {/*<Divider/>*/}
                 <List>
                     <div style={{display: sessionStorage.getItem('userType') === 'manager' ? 'block' : 'none'}}>
                         <ListSubheader inset className={classes.subheader}>관리자 메뉴</ListSubheader>
@@ -119,7 +121,7 @@ class LeftMenuBar extends Component {
                             </ListItemIcon>
                             <ListItemText primary="firstMenuHandler"/>
                         </ListItem>
-                        <ListItem button onClick={EmployeeReportModalHandler}>
+                        <ListItem button onClick={secondMenuHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
@@ -151,46 +153,46 @@ class LeftMenuBar extends Component {
                         </ListItem>
                         <Divider/>
                     </div>
-                    <div style={{display : sessionStorage.getItem('userType')==='admin'?'block':'none'}}>
-                        <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>
-                        <ListItem button onClick={firstMenuHandler} >
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="firstMenuHandler" />
-                        </ListItem>
-                        <ListItem button onClick={EmployeeReportModalHandler} >
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="secondMenuHandler" />
-                        </ListItem>
-                        <ListItem button onClick={thirdMenuHandler} >
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="thirdMenuHandler" />
-                        </ListItem>
-                        <ListItem button onClick={fourthMenuHandler} >
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="fourthMenuHandler" />
-                        </ListItem>
-                        <ListItem button onClick={fifthMenuHandler} >
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="fifthMenuHandler" />
-                        </ListItem>
-                        <ListItem button onClick={sixthMenuHandler} >
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="sixthMenuHandler" />
-                        </ListItem>
-                        <Divider/>
-                    </div>
+                    {/*<div style={{display : sessionStorage.getItem('userType')==='admin'?'block':'none'}}>*/}
+                    {/*    <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>*/}
+                    {/*    <ListItem button onClick={firstMenuHandler} >*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <AssignmentIcon />*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="firstMenuHandler" />*/}
+                    {/*    </ListItem>*/}
+                    {/*    <ListItem button onClick={secondMenuHandler} >*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <AssignmentIcon />*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="secondMenuHandler" />*/}
+                    {/*    </ListItem>*/}
+                    {/*    <ListItem button onClick={thirdMenuHandler} >*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <AssignmentIcon />*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="thirdMenuHandler" />*/}
+                    {/*    </ListItem>*/}
+                    {/*    <ListItem button onClick={fourthMenuHandler} >*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <AssignmentIcon />*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="fourthMenuHandler" />*/}
+                    {/*    </ListItem>*/}
+                    {/*    <ListItem button onClick={fifthMenuHandler} >*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <AssignmentIcon />*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="fifthMenuHandler" />*/}
+                    {/*    </ListItem>*/}
+                    {/*    <ListItem button onClick={sixthMenuHandler} >*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <AssignmentIcon />*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="sixthMenuHandler" />*/}
+                    {/*    </ListItem>*/}
+                    {/*    <Divider/>*/}
+                    {/*</div>*/}
                 </List>
 
             </Drawer>);

@@ -31,9 +31,9 @@ class AttendanceStartButton extends Component {
 
     render() {
         return (<div>
-                <Button variant="contained" color="primary" onClick={this.dialogShowToggle}>
-                    출근 입력
-                </Button>
+            <Button variant="contained" color="primary" onClick={this.dialogShowToggle} style={{width:'120px',height:'40px',fontFamily:'Gowun Dodum, sans-serif',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}}>
+                출근 입력
+            </Button>
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 시작</DialogTitle>
                 <DialogContent>
@@ -48,7 +48,7 @@ class AttendanceStartButton extends Component {
                     </Button>
                 </DialogActions>
             </Dialog>
-            </div>);
+        </div>);
     }
 }
 
