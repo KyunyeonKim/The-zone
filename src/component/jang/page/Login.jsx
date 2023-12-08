@@ -12,7 +12,7 @@ import Container from '@material-ui/core/Container';
 import axios from "axios";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import loginImg from './login.png'
+import loginImg from './login.png';
 
 function Copyright() {
     return (<Typography variant="body2" color="textSecondary" align="center">

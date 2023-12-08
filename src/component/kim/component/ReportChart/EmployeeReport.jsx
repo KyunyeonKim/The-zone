@@ -1,58 +1,143 @@
-import React, {Component} from 'react';
-import {Grid, Paper, Typography, withStyles} from '@material-ui/core';
+import React, { Component } from 'react';
+import { Paper, Typography, Grid, withStyles } from '@material-ui/core';
 
 // 차트 컴포넌트들을 임포트
-import VacationApprovalInfo from "../MainPageChart/VacationApprovalInfo";
-import VacationRejectedInfo from "../MainPageChart/VacationRejectedInfo";
-import VacationRequestedInfo from "../MainPageChart/VacationRequestedInfo";
-import ApprovalAttendance from "../MainPageChart/ApprovalAttendance";
-import ApprovalRequestedAttendance from "../MainPageChart/ApprovalRequestedAttendance";
-import UnApprovalAttendance from "../MainPageChart/UnApprovalAttendance";
-import EmployeeVacationChart from "./EmployeeVacationChart";
-import EmployeeAttendanceChart from "./EmployeeAttendanceChart";
-import EmployeeBarChart from "./EmployeeBarChart";
+import ReportApprovalAttendance from "../ReportChart/ReportApprovalAttendance";
+import ReportUnApprovalAttendance from "../ReportChart/ReportUnApprovalAttendance";
+import ReportVacationApprovalInfo from "../ReportChart/ReportVacationApprovalInfo";
+import ReportApprovalRequestedAttendance from "../ReportChart/ReportApprovalRequestedAttendance";
+import ReportVacationRequestedInfo from "../ReportChart/ReportVacationRequestedInfo";
+import ReportVacationRejectedInfo from "../ReportChart/ReportVacationRejectedInfo"
+import EmployeeVacationChart from "../ReportChart/EmployeeVacationChart";
+import EmployeeAttendanceChart from "../ReportChart/EmployeeAttendanceChart";
+import EmployeeBarChart from "../ReportChart/EmployeeBarChart";
 import Container from "@material-ui/core/Container";
+import Calendar from "react-calendar";
 
-// const {months} = this.props;
-// year, months} = this.props;
-// const {closeModal} = this.props
 
 const styles = theme => ({
     root: {
-        flexGrow: 1, // 컨테이너가 화면 전체 너비를 차지하도록 설정
-        padding: theme.spacing(3), // 컨테이너의 내부 여백
+        maxWidth: 'none', // Removes the max-width restriction
+        padding: 0, // Removes padding
+        margin: 0, // Removes margin to align with the left edge
     },
     paper: {
-        padding: theme.spacing(2), // Paper 컴포넌트 내부 여백
-        marginBottom: theme.spacing(2), // Paper 컴포넌트 간의 하단 여백
-        borderRadius: theme.shape.borderRadius, // 모서리 둥글기
-        boxShadow: '0px 3px 6px rgba(0,0,0,0.1)', // 그림자 효과
+        padding: '10px',
+        textAlign: 'center',
+        color: 'black',
+        height: '570px',
+        width: '290px',
+        boxShadow: 'none', // 그림자를 없애고
+        backgroundColor: 'transparent', // 배경색을 투명하게 설정합니다.
+    },
+    chartPaper: {
+        height: 300, // 차트 크기를 지정합니다. 실제 차트 라이브러리에 맞게 조정해야 합니다.
+    },
+    tablePaper: {
+        height: 200, // 테이블 크기를 지정합니다. 실제 테이블 라이브러리에 맞게 조정해야 합니다.
     },
     title: {
-        margin: theme.spacing(2, 0), // 제목의 상하 여백
-        color: theme.palette.primary.main, // 제목 색상
-        fontWeight: 'bold', // 글씨 굵기
+        backgroundColor: '#4880D5',
+        height: '100px',
+        textAlign: 'center',
+        border: '2px solid black',
+        fontSize: '35px', // 이 값을 변경하여 글씨 크기 조절
+        lineHeight: '100px', // 이 값을 'height'와 동일하게 설정하여 글자를 수직 가운데 정렬
+        color: 'white', // 글자 색상을 흰색으로 설정
+        // Material-UI의 theme.spacing을 사용하여 양 옆에 패딩 추가 (옵션)
+        padding: theme.spacing(0, 2),
+    },
+    charttitle: {
+        backgroundColor: 'white',
+        height: '100px',
+        textAlign: 'center',
+        border: '2px solid black',
+        fontSize: '35px', // 이 값을 변경하여 글씨 크기 조절
+        lineHeight: '100px', // 이 값을 'height'와 동일하게 설정하여 글자를 수직 가운데 정렬
+        color: 'black', // 글자 색상을 흰색으로 설정
+        // Material-UI의 theme.spacing을 사용하여 양 옆에 패딩 추가 (옵션)
+        padding: theme.spacing(0, 2),
+    },
+    card: {
+        transition: 'transform 0.3s ease-in-out',
+        '&:hover': {
+            transform: 'scale(1.05)', // Slightly scale up the card on hover
+        },
+    },
+    cardContent: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: theme.spacing(3),
+    },
+    count: {
+
+    },
+    reportContainer :{
+        display: 'flex',
+        flexDirection:'row',
+    },
+    // Define styles for different types of data
+    reportPaper: {
+        // 각 리포트 섹션에 적용될 스타일
+        border: '0px', // 진한 검은색 테두리
+    },
+    largePaper: {
+        minHeight: '675px', // 최소 높이 설정
+        width: '100%',
+        textAlign: 'center',
+        // height: '100%', // 이 줄은 제거하거나 주석 처리
+        border: '2px solid #111399', // 선 색상을 검은색(#000)으로 설정
+    },
+    calendar: {
+        // 달력 컴포넌트에 적용할 스타일을 정의합니다.
+        minHeight: '650px', // 최소 높이
+        width: '100%', // 너비
+        // 다른 필요한 스타일 속성들을 여기에 추가할 수 있습니다.
+        border: '1px solid #ddd', // 달력 테두리 색상을 변경
+        borderRadius: '4px', // 달력 모서리를 둥글게
+    },
+    calendarTile: {
+        height: '100px',
+        width: '100px',
+        padding: '20px',
+        fontSize: '16px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid #000', // 선 색상을 검은색(#000)으로 설정
+        borderRadius: '10px',
+        '&:hover': {
+            backgroundColor: '#f0f0f0',
+        },
+        '&.react-calendar__tile--now': {
+            backgroundColor: '#f00',
+            color: '#fff',
+        },
+        '&.react-calendar__tile--active': {
+            backgroundColor: '#000',
+            color: '#fff',
+        },
     },
     gridItem: {
-        display: 'flex', // Flexbox 레이아웃 사용
+        marginBottom: '20px',
+        border: '1px solid #000', // 선 색상을 검은색(#000)으로 설정
+        borderRadius: '10px',
     },
-    chartSection: {}
+    gridItemDivider: {
+        borderRight: '1px solid #000', // 그리드 아이템 사이에 오른쪽 경계선을 추가
+    },
+
 });
 
 
-class EmployeeReport extends Component {
 
+class EmployeeReport extends Component {
     state = {
         vacationData: {}, // 연차 데이터
         attendanceData: {} // 근태 데이터
     };
 
-
-    constructor(props, context, closeModal) {
-        super(props, context);
-    }
-
-// 연차 데이터 로드 함수
+    // 연차 데이터 로드 함수
     handleVacationDataLoaded = (month, dataType, data) => {
         this.setState(prevState => ({
             vacationData: {
@@ -82,6 +167,7 @@ class EmployeeReport extends Component {
         const {vacationData, attendanceData} = this.state;
         const {months} = this.props;
 
+
         return months.map(month => ({
             approvedVacationCount: vacationData[month]?.approvedVacationCount || 0,
             rejectedVacationCount: vacationData[month]?.rejectedVacationCount || 0,
@@ -94,25 +180,30 @@ class EmployeeReport extends Component {
 
     // 연차 차트 데이터 렌더링
     renderVacationMonthData = (year, month) => (
+
+
         <React.Fragment key={month}>
-            <VacationApprovalInfo year={year} month={month}
-                                  onDataLoaded={(data) => this.handleVacationDataLoaded(month, 'approvedVacationCount', data)}/>
-            <VacationRejectedInfo year={year} month={month}
-                                  onDataLoaded={(data) => this.handleVacationDataLoaded(month, 'rejectedVacationCount', data)}/>
-            <VacationRequestedInfo year={year} month={month}
-                                   onDataLoaded={(data) => this.handleVacationDataLoaded(month, 'requestedVacationCount', data)}/>
+            <ReportVacationApprovalInfo year={year} month={month}
+                                        onDataLoaded={(data) => this.handleVacationDataLoaded(month, 'approvedVacationCount', data)}/>
+            <ReportVacationRejectedInfo year={year} month={month}
+                                        onDataLoaded={(data) => this.handleVacationDataLoaded(month, 'rejectedVacationCount', data)}/>
+            <ReportVacationRequestedInfo year={year} month={month}
+                                         onDataLoaded={(data) => this.handleVacationDataLoaded(month, 'requestedVacationCount', data)}/>
+
         </React.Fragment>
     );
 
+
     // 근태 차트 데이터 렌더링
     renderAttendanceMonthData = (year, month) => (
+
         <React.Fragment key={month}>
-            <ApprovalAttendance year={year} month={month}
-                                onDataLoaded={(data) => this.handleAttendanceDataLoaded(month, 'approvedCount', data)}/>
-            <UnApprovalAttendance year={year} month={month}
-                                  onDataLoaded={(data) => this.handleAttendanceDataLoaded(month, 'unapprovedVacationCount', data)}/>
-            <ApprovalRequestedAttendance year={year} month={month}
-                                         onDataLoaded={(data) => this.handleAttendanceDataLoaded(month, 'approvalRequestedAttendance', data)}/>
+            <ReportApprovalAttendance year={year} month={month}
+                                      onDataLoaded={(data) => this.handleAttendanceDataLoaded(month, 'approvedCount', data)}/>
+            <ReportUnApprovalAttendance year={year} month={month}
+                                        onDataLoaded={(data) => this.handleAttendanceDataLoaded(month, 'unapprovedVacationCount', data)}/>
+            <ReportApprovalRequestedAttendance year={year} month={month}
+                                               onDataLoaded={(data) => this.handleAttendanceDataLoaded(month, 'approvalRequestedAttendance', data)}/>
         </React.Fragment>
     );
 
@@ -121,41 +212,58 @@ class EmployeeReport extends Component {
         const {classes, year, months} = this.props;
         const {vacationData, attendanceData} = this.state;
         const monthlyChartData = this.aggregateMonthlyData();
-
         return (
             <Container className={classes.root}>
-                <Typography variant="h4" className={classes.title}>직원 연차 및 근태 보고서</Typography>
-                <Grid container spacing={2}> {/* 그리드 간격 조정 */}
+                <Grid container spacing={1}> {/* 그리드 사이의 간격을 설정합니다. */}
                     {months.map(month => (
-                        <Grid item xs={12} sm={6} key={month} className={classes.gridItem}>
-                            <Paper className={classes.paper}>
-                                <Typography variant="h6" className={classes.title}>{`${month}월 정보`}</Typography>
-                                <Grid container spacing={2}>
-                                    {/* 연차 데이터 및 차트 */}
-                                    <Grid item xs={6} md={6}>
-                                        <EmployeeVacationChart
-                                            approvedVacationCount={vacationData[month]?.approvedVacationCount || 0}
-                                            rejectedVacationCount={vacationData[month]?.rejectedVacationCount || 0}
-                                            requestedVacationCount={vacationData[month]?.requestedVacationCount || 0}
-                                        />
-                                        {this.renderVacationMonthData(year, month)}
-                                    </Grid>
+                        <Grid container spacing={1} key={month}>
+                            <Grid item xs={12}>
+                                <Typography variant="h4"
+                                            className={classes.charttitle}>{`${month}월별 근태 정보`}</Typography>
+                            </Grid>
+                            {/* 연차 정보 및 근태 정보 */}
+                            <Grid item xs={12} container>
+                                <Paper className={classes.paper} style={{width: '100%'}}>
+                                    <Grid container spacing={1}>
+                                        {/* 연차 정보 */}
+                                        <Grid item xs={3}>
+                                            <EmployeeVacationChart
+                                                approvedVacationCount={vacationData[month]?.approvedVacationCount || 0}
+                                                rejectedVacationCount={vacationData[month]?.rejectedVacationCount || 0}
+                                                requestedVacationCount={vacationData[month]?.requestedVacationCount || 0}
+                                            />
+                                            {this.renderVacationMonthData(year, month)}
+                                        </Grid>
 
-                                    {/* 근태 데이터 및 차트 */}
-                                    <Grid item xs={6} md={6}>
-                                        <EmployeeAttendanceChart
-                                            approvedCount={attendanceData[month]?.approvedCount || 0}
-                                            unapprovedVacationCount={attendanceData[month]?.unapprovedVacationCount || 0}
-                                            approvalRequestedAttendance={attendanceData[month]?.approvalRequestedAttendance || 0}
-                                        />
-                                        {this.renderAttendanceMonthData(year, month)}
+
+
+                                        {/* 근태 정보 */}
+                                        <Grid item xs={3}>
+                                            <EmployeeAttendanceChart
+                                                approvedCount={attendanceData[month]?.approvedCount || 0}
+                                                unapprovedVacationCount={attendanceData[month]?.unapprovedVacationCount || 0}
+                                                approvalRequestedAttendance={attendanceData[month]?.approvalRequestedAttendance || 0}
+                                            />
+                                            {this.renderAttendanceMonthData(year, month)}
+                                        </Grid>
+
+                                        <Grid item xs={6} >
+
+                                            {/* Calendar 컴포넌트에 클래스를 적용합니다. */}
+                                            <Calendar
+                                                tileClassName={classes.calendarTile}
+                                            />
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </Paper>
+                                </Paper>
+                            </Grid>
+
+                            {/* 달력 정보 */}
                         </Grid>
                     ))}
                 </Grid>
-                {/* 전체 데이터 표시용 바 차트 */}
+                <Typography variant="h4"
+                            className={classes.title}>월별 막대차트 현황</Typography>
                 <EmployeeBarChart monthlyData={monthlyChartData}/>
             </Container>
         );

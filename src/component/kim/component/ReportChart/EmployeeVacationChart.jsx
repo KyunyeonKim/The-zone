@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as echarts from 'echarts';
 
 class EmployeeVacationChart extends Component {
@@ -27,15 +27,10 @@ class EmployeeVacationChart extends Component {
         this.chartInstance.setOption(this.getOption());
     };
 
-    updateChart = () => {
-        if (this.chartInstance) {
-            this.chartInstance.setOption(this.getOption());
-        }
-    };
 
 
     getOption = () => {
-        const {approvedVacationCount, rejectedVacationCount, requestedVacationCount} = this.props;
+        const { approvedVacationCount, rejectedVacationCount, requestedVacationCount } = this.props;
 
         return {
             title: {
@@ -54,12 +49,13 @@ class EmployeeVacationChart extends Component {
                 {
                     name: '연차 현황',
                     type: 'pie',
-                    radius: '50%',
+                    radius: ['45%','70%'],
                     data: [
-                        {value: approvedVacationCount, name: '승인'},
-                        {value: rejectedVacationCount, name: '반려', itemStyle: {color: 'red'}},
-                        {value: requestedVacationCount, name: '요청중', itemStyle: {color: '#FFA500'}}
+                        { value: approvedVacationCount, name: '승인'  , itemStyle: {color: '#113098'} },
+                        { value: rejectedVacationCount, name: '반려' , itemStyle: { color: '#6A7482' }},
+                        { value: requestedVacationCount, name: '요청중' ,itemStyle: { color: '#ECECEC' }}
                     ],
+
                     emphasis: {
                         itemStyle: {
                             shadowBlur: 10,
@@ -74,7 +70,7 @@ class EmployeeVacationChart extends Component {
 
     render() {
         return (
-            <div ref={this.chartRef} style={{width: '100%', height: '400px'}}></div> // 차트 컨테이너
+            <div ref={this.chartRef} style={{ width: '100%', height: '400px' }}></div> // 차트 컨테이너
         );
     }
 }

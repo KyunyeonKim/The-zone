@@ -1,16 +1,14 @@
-import React, {Component} from "react";
-import {Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@material-ui/core";
+import React, { Component } from "react";
+import { FormControl, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, Button } from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-// this.props.onSelectionChange(this.state.selectedYear, []);
 
-// const {closeModal} = this.props
+
 
 const styles = theme => ({
     container: {
-        border: '2px solid blue',
+        border: '2px solid black',
         padding: '50px',
         borderRadius: '5px',
-        marginBottom: '10px'
     },
     selectorContainer: {
         display: 'flex',
@@ -32,21 +30,20 @@ const styles = theme => ({
         marginRight: '10px',
     },
     button: {
-        width: '100px',
-        height: '30%',
+        width: '10%',
+        height:'30%',
     }
 });
-
 class ReportSelector extends Component {
     state = {
         selectedYear: new Date().getFullYear(),
-        selectedMonths: Array.from({length: 12}, () => false),
+        selectedMonths: Array.from({ length: 12 }, () => false),
     };
 
     handleYearChange = (event) => {
         this.setState({
             selectedYear: event.target.value,
-            selectedMonths: Array.from({length: 12}, () => false) // 월 선택 초기화
+            selectedMonths: Array.from({ length: 12 }, () => false) // 월 선택 초기화
         }, () => {
             // 년도 변경 후 새로운 년도와 초기화된 월 선택 상태를 부모 컴포넌트에 전달
             this.props.onSelectionChange(this.state.selectedYear, []);
@@ -61,9 +58,9 @@ class ReportSelector extends Component {
 
 
     render() {
-        const {classes} = this.props;
-        const {selectedYear, selectedMonths} = this.state;
-        const {onSelectionChange} = this.props;
+        const { classes } = this.props;
+        const { selectedYear, selectedMonths } = this.state;
+        const { onSelectionChange } = this.props;
 
         const selectedMonthIndices = selectedMonths
             .map((checked, index) => checked ? index + 1 : null)
