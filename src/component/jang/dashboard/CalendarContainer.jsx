@@ -217,14 +217,16 @@ export default class CalendarContainer extends React.Component {
         break;
       case 'vacationable':
         alert(`event handler requested ${clickInfo.event.start}`)
-
-        this.props.toggleModalShowing(eventKind,'some','args','add',this.getClosestSaturday(clickInfo.event.start))
+        this.props.toggleModalShowing('VacationRequest',this.props.toggleModalShowing,this.getClosestSaturday(clickInfo.event.start))
 
         break;
       case 'vacationRequested':
         alert(`event handler requested ${eventKind} quantity ${clickInfo.event.extendedProps.quantity} ${new Date(clickInfo.event.date)}`)
 
         break;
+      case 'attendance_info':
+        alert(`attendance_info clicked! ${JSON.stringify(clickInfo.event)}`)
+        this.props.toggleModalShowing('AppealRequest',`${clickInfo.event.start}`,`${clickInfo.event.extendedProps.identifier}`,this.props.toggleModalShowing)
       default:
         alert(`kind of no handler event ${eventKind}`)
     }

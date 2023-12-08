@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {stateStore} from "../../../index";
 import Grid from "@material-ui/core/Grid";
+import VacationDashBoard from "../../kim/ModalPage/VacationDashBoard";
 
 class ChartContainer extends Component {
 
@@ -19,6 +20,7 @@ class ChartContainer extends Component {
         return (
             <Grid>
                 {`chart of ${JSON.stringify(this.state)}`}
+                <VacationDashBoard currentYear={this.state.year} currentMonth={this.state.month}></VacationDashBoard>
             </Grid>
         );
     }

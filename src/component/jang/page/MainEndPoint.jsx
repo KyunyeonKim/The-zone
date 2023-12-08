@@ -51,7 +51,7 @@ class MainEndPoint extends Component {
       // this.state=this.loginData
     } catch (error) {
       if(error.response.status === 403){
-        alert('자동 로그인에 실패하였습니다. ip 변경 혹은 로그인 정보가 없습니다')
+        alert('로그인 정보 검색 실패')
       }
       console.log(" MainEndPoint error "+JSON.stringify(this.state))
       this.setState({loggedIn:false,userData: {manager:'dddd'}})
@@ -60,9 +60,7 @@ class MainEndPoint extends Component {
   };
 
   render() {
-
     const {loggedIn, userData} = this.state;
-    alert(`main endPoing ${JSON.stringify(this.state)}`)
 
     return (
         <Router>

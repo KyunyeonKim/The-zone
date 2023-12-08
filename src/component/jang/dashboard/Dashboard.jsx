@@ -14,16 +14,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CalendarContainer from "./CalendarContainer";
 import DigitalClock from "./DigitalClock";
 import {Card, CardMedia} from "@material-ui/core";
-import TopBarUserInfo from "../header/TopBarUserInfo";
+import TopBarUserInfo from "../component/header/TopBarUserInfo";
 import Copyright from "./Copyright";
-import NotificationListForEmployee from "../header/NotificationListForEmployee";
-import LogoutButton from "../header/LogoutButton";
+import NotificationListForEmployee from "../component/header/NotificationListForEmployee";
+import LogoutButton from "../component/header/LogoutButton";
 import LeftMenuBar from "./LeftMenuBar";
 import ChartContainer from "./ChartContainer";
-import NotificationListForManager from "../header/NotificationListForManager";
+import NotificationListForManager from "../component/header/NotificationListForManager";
 import AttendanceInfoButtonContainer from "./AttendanceInfoButtonContainer";
 import EmployeeSettingTableContainer from "../page/EmployeeSettingTableContainer";
-import ProcessAppealRequest from "./AdminTablePartContainer";
+import ProcessAppealRequest from "./admin/AdminTablePartContainer";
 
 const drawerWidth = 240;
 

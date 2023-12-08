@@ -1,15 +1,9 @@
 // UpdateModalComponent.js
 
 import React from 'react';
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-} from '@material-ui/core';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle,} from '@material-ui/core';
 
-const UpdateModalComponent = ({ isOpen, onClose, onConfirm }) => {
+const UpdateModalComponent = ({isOpen, onClose, onConfirm}) => {
     return (
         <Dialog open={isOpen} onClose={onClose} aria-labelledby="update-modal-title">
             <DialogTitle id="update-modal-title">확인</DialogTitle>

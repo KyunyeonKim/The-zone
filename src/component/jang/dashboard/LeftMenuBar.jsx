@@ -38,10 +38,10 @@ class LeftMenuBar extends Component {
     render() {
         const {classes, open, handleDrawerClose, toggleModalShowing} = this.props;
         const firstMenuHandler = () => {
-            toggleModalShowing('firstMenu', 'ddd', 'fff')
+            toggleModalShowing('GetVacationHistory', 'ddd', 'fff')
         }
-        const secondMenuHandler = () => {
-            toggleModalShowing('secondMenuHandler', 'ddd', 'fff')
+        const EmployeeReportModalHandler = () => {
+            toggleModalShowing('EmployeeDashboard', this.props.toggleModalShowing)
         }
         const thirdMenuHandler = () => {
             toggleModalShowing('thirdMenuHandler', 'ddd', 'fff')
@@ -77,11 +77,11 @@ class LeftMenuBar extends Component {
                             </ListItemIcon>
                             <ListItemText primary="firstMenuHandler"/>
                         </ListItem>
-                        <ListItem button onClick={secondMenuHandler}>
+                        <ListItem button onClick={EmployeeReportModalHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="secondMenuHandler"/>
+                            <ListItemText primary="개인용 근태 정보 보고서 모달"/>
                         </ListItem>
                         <ListItem button onClick={thirdMenuHandler}>
                             <ListItemIcon>
@@ -119,7 +119,7 @@ class LeftMenuBar extends Component {
                             </ListItemIcon>
                             <ListItemText primary="firstMenuHandler"/>
                         </ListItem>
-                        <ListItem button onClick={secondMenuHandler}>
+                        <ListItem button onClick={EmployeeReportModalHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
@@ -159,7 +159,7 @@ class LeftMenuBar extends Component {
                             </ListItemIcon>
                             <ListItemText primary="firstMenuHandler" />
                         </ListItem>
-                        <ListItem button onClick={secondMenuHandler} >
+                        <ListItem button onClick={EmployeeReportModalHandler} >
                             <ListItemIcon>
                                 <AssignmentIcon />
                             </ListItemIcon>

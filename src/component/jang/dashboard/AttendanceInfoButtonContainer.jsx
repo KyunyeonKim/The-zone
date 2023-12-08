@@ -1,8 +1,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import AttendanceStartButton from "./AttendanceStartButton";
-import AttendanceEndButton from "./AttendanceEndButton";
+import AttendanceStartButton from "../component/AttendanceStartButton";
+import AttendanceEndButton from "../component/AttendanceEndButton";
 
 export default class AttendanceInfoButtonContainer extends React.Component {
     render() {
