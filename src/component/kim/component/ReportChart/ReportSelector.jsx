@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { FormControl, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, Button } from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 
 
 
 const styles = theme => ({
     container: {
-        border: '2px solid black',
-        padding: '50px',
+        padding: '20px',
         borderRadius: '5px',
     },
     selectorContainer: {

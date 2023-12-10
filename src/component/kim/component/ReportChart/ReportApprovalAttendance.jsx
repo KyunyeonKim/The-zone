@@ -6,29 +6,26 @@ import { Grid, Typography, Paper, withStyles } from "@material-ui/core";
 const styles = theme => ({
     paper: {
         display: 'flex', // 플렉스 컨테이너로 내부 아이템을 수평 정렬합니다.
-        alignItems: 'center', // 세로축 중앙 정렬로 아이템을 배치합니다.
-        justifyContent: 'flex-start', // 요소들을 컨테이너의 시작점에서부터 배치합니다.
-        border: '1px solid #000000', // 경계선을 더 진한 검은색으로 설정합니다.
-        borderRadius: 4, // 모서리를 약간 둥글게 처리합니다.
         overflow: 'hidden', // 자식 요소들이 border-radius를 따르도록 함,,
-        width: ' max', // 가로 폭을 내용에 맞게 조절합니다.
+        height: '130px', // 원하는 높이로 설정
         maxWidth: '600px', // 최대 너비를 600px로 설정합니다.
         margin: 'auto', // Paper 컴포넌트를 수평 중앙에 배치합니다.
+        borderRadius: '0px', // 모서리를 각지게 만듭니다.
+        borderBottom: '2px solid #000000', // 왼쪽에 1픽셀 굵기의 검은색 선을 추가합니다.
+
 
     },
     titleSection: {
         display: 'flex',
         alignItems: 'center', // 세로 방향으로 중앙 정렬합니다.
         justifyContent: 'center', // 가로 방향으로 중앙 정렬합니다.
-        flexGrow: 1,
         padding: theme.spacing(1, 2), // 상하 8px, 좌우 16px 패딩을 적용합니다.
-        backgroundColor: '#e3f2fd', // 연한 하늘색 배경
+        backgroundColor: '#719FE4',
         color: '#000000', // 제목 텍스트 색상을 검은색으로 설정합니다.
         fontWeight: 'bold', // 텍스트의 두께를 굵게 설정합니다.
-        width: '35%', // 예를 들어, 폭을 부모 컨테이너의 50%로 설정합니다.
         maxWidth: 200, // 최대 폭을 600px로 설정할 수도 있습니다.
         margin: 'auto', // Paper 컴포넌트를 중앙에 위치시킵니다.
-        height:'75%',
+        height:'95%',
     },
     dataSection: {
         display: 'flex', // Flexbox 레이아웃을 사용합니다.
@@ -39,10 +36,12 @@ const styles = theme => ({
         backgroundColor: '#ffffff', // 배경을 흰색으로 설정합니다.
         color: '#000000', // 데이터 텍스트 색상을 검은색으로 설정합니다.
         fontWeight: 'normal', // 데이터 텍스트의 두께를 기본으로 설정합니다.
-        textAlign: 'right', // 텍스트를 오른쪽 정렬합니다.
         width: '70%', // 너비를 조절합니다. 원하는 비율로 설정하세요
         height:'75%',
-    }
+    }, borderSection: {
+        borderLeft: '4px solid #000000', // 왼쪽에 1픽셀 굵기의 검은색 선을 추가합니다.
+        height: '400%', // 높이를 부모 요소와 동일하게 설정합니다.
+    },
 });
 class ReportApprovalAttendance extends Component {
     state = {

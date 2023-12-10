@@ -33,42 +33,52 @@ class EmployeeBarChart extends Component {
 
 
     getOption = () => {
-        const {monthlyData} = this.props;
+        const { monthlyData } = this.props;
 
-        // 각 월별로 표시될 y축 레이블
-        const yAxisData = monthlyData.map((_, index) => `${index + 1}월`);
+        // 현재 달을 구합니다 (1월은 0으로 표시되므로 +1을 해줍니다)
+        const filteredData = monthlyData.filter(data => data.isSelected);
 
+        // 각 선택된 월별로 표시될 y축 레이블
+        const yAxisData = filteredData.map(data => `${data.month}월`);
+
+        // 각 월별로 표시될 y축 레이블 (여기서는 현재 월만 표시)
         // 시리즈 데이터 생성
         const series = [
             {
                 name: '승인된 연차',
                 type: 'bar',
-                data: monthlyData.map(data => data.approvedVacationCount)
+                itemStyle:{color: '#719FE4'},
+                data: filteredData.map(data => data.approvedVacationCount)
             },
             {
                 name: '거절된 연차',
                 type: 'bar',
-                data: monthlyData.map(data => data.rejectedVacationCount)
+                itemStyle:{color: '#94C0FF'},
+                data: filteredData.map(data => data.rejectedVacationCount)
             },
             {
                 name: '요청중인 연차',
                 type: 'bar',
-                data: monthlyData.map(data => data.requestedVacationCount)
+                itemStyle:{color: '#D6E7FF'},
+                data: filteredData.map(data => data.requestedVacationCount)
             },
             {
                 name: '승인된 근태',
                 type: 'bar',
-                data: monthlyData.map(data => data.approvedCount)
+                itemStyle: {color: '#E684FC'},
+                data: filteredData.map(data => data.approvedCount)
             },
             {
                 name: '거절된 근태',
                 type: 'bar',
-                data: monthlyData.map(data => data.unapprovedVacationCount)
+                itemStyle: {color: '#E4A6FF'},
+                data: filteredData.map(data => data.unapprovedVacationCount)
             },
             {
                 name: '요청중인 근태',
                 type: 'bar',
-                data: monthlyData.map(data => data.approvalRequestedAttendance)
+                itemStyle: {color: '#F2E5FF'},
+                data: filteredData.map(data => data.approvalRequestedAttendance)
             }
         ];
 
@@ -93,3 +103,4 @@ class EmployeeBarChart extends Component {
 }
 
 export default EmployeeBarChart;
+
