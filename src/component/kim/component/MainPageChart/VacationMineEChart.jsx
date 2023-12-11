@@ -106,7 +106,9 @@ class VacationMineEChart extends Component {
         const remainingVacation = data.totalVacation - data.useVacation;
         return [
             {value: data.useVacation, name: '연차 사용 갯수'},
-            {value: remainingVacation, name: '연차 잔여 갯수'}
+            {value: remainingVacation, name: '연차 잔여 갯수'},
+            {value: data.totalVacation, name:'연차 총 갯수'}
+
         ];
     }
 

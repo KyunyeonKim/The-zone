@@ -46,51 +46,43 @@ class MainChart extends Component {
     }
 
     initChart = () => {
-        const {data} = this.props;
-        const chart = echarts.init(this.chartRef.current, null, {renderer: 'canvas', width: 'auto', height: 'auto'}); // Adjust the size as needed
+        const { data } = this.props;
+        const chart = echarts.init(this.chartRef.current);
 
         const option = {
             tooltip: {
                 trigger: 'item',
-                formatter: '{a} <br/>{b} : {c}개 ({d}%)'
+                formatter: '{a} <br/>{b}: {c}개 ({d}%)'
             },
             series: [
                 {
                     name: 'Vacation Data',
                     type: 'pie',
-                    radius: ['50%', '70%'], // Increase the radius for a larger pie chart
-                    center: ['50%', '50%'],
-                    startAngle: 90,
+                    radius: ['50%', '70%'],
+                    data: [
+                        { value: data[0].value, name: data[0].name, itemStyle: { color: '#007bff' } }, // 연차 사용 갯수
+                        { value: data[1].value, name: data[1].name, itemStyle: { color: 'skyblue' } } // 연차 잔여 갯수
+                    ],
                     label: {
                         normal: {
-                            formatter: (params) => {
-                                // Use a custom formatter function to increase the size of the percentage part
-                                return `{big|${params.percent}%}\n{small|사용률}`;
-                            },
-                            rich: {
-                                big: {
-                                    fontFamily:'Noto Sans KR,sans-serif',
-                                    fontSize: 30, // Larger font size for percentage
-                                    fontWeight: 'bold'
-
-                                },
-                                small: {
-                                    fontFamily:'Noto Sans KR,sans-serif',
-                                    fontSize: 18, // Smaller font size for the word '사용률'
-                                    fontWeight: 'bold'
-                                }
-                            },
-                            position: 'center',
-                            show: true
+                            show: false // 각 데이터 포인트 주변의 라벨 숨김
                         }
                     },
-                    data: data.map((item, index) => ({
-                        value: item.value,
-                        name: item.name,
-                        itemStyle: index === 1 ? {color: 'white'} : {}
-                    }))
+                    labelLine: {
+                        show: false // 라벨 라인 숨김
+                    }
                 }
-            ]
+            ],
+            title: {
+                show: true,
+                text: `${data[0].value / (data[0].value + data[1].value) * 100}%`, // 중앙에 표시할 텍스트
+                left: 'center',
+                top: 'center',
+                textStyle: {
+                    fontSize: 20,
+                    fontWeight: 'bold'
+                }
+            }
         };
 
         chart.setOption(option);
@@ -98,7 +90,7 @@ class MainChart extends Component {
 
     renderDetails = (data) => {
         return data.map((item, index) => (
-            <Box key={index} display="flex" justifyContent="space-between" className={this.props.classes.detailText}>
+            <Box key={index} display="flex" justifyContent="space-between">
                 <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
                     {item.name}&nbsp;
                 </Typography>
@@ -111,18 +103,12 @@ class MainChart extends Component {
 
     render() {
         const {classes, data} = this.props;
-        const totalVacation = data.reduce((acc, item) => acc + item.value, 0);
 
         return (
             <Box className={classes.root}>
                 <Box className={classes.details}>
                     <Box display="flex" justifyContent="space-between" width="120%">
-                        <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap',fontWeight: 'bold' }}>
-                            총 연차 갯수 &nbsp;
-                        </Typography>
-                        <Typography variant="subtitle1" style={{fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' }}>
-                            {totalVacation}
-                        </Typography>
+
                     </Box>
                     {this.renderDetails(data)}
                 </Box>

@@ -1,10 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@material-ui/core";
-import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import { Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, TextField } from "@material-ui/core";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-
-// const {closeModal} = this.props
 
 class PostSetWorkTime extends Component {
     constructor(props) {
@@ -20,11 +18,11 @@ class PostSetWorkTime extends Component {
     }
 
     handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleDateChange = (date) => {
-        this.setState({targetDate: date});
+        this.setState({ targetDate: date });
     };
 
     handleSubmit = async (e) => {
@@ -34,14 +32,7 @@ class PostSetWorkTime extends Component {
         // loginForm.append("loginId", "200001012");
         // loginForm.append("password", "test");
         // await axios.post("http://localhost:8080/login", loginForm);
-        const {
-            adjustedStartHour,
-            adjustedStartMinute,
-            adjustedEndHour,
-            adjustedEndMinute,
-            reason,
-            targetDate
-        } = this.state;
+        const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;
         const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
 
         // 형식에 맞게 시간을 조정
@@ -61,7 +52,7 @@ class PostSetWorkTime extends Component {
             return;
         }
 
-        if (formattedStartTime > formattedEndTime) {
+        if(formattedStartTime>formattedEndTime){
             alert("시작출근시간보다 퇴근시간이 시간이 더 큽니다. 다시 입력해주세요")
             return;
         }
@@ -72,7 +63,8 @@ class PostSetWorkTime extends Component {
 
 
         try {
-            const response = await axios.post('http://localhost:8080/manager/adjustment', formData, {});
+            const response = await axios.post('http://localhost:8080/manager/adjustment', formData, {
+            });
             console.log("근무 시간 조정 결과", response.data);
             alert("근무 시간이 성공적으로 조정되었습니다.");
             this.props.args[0]()
@@ -119,18 +111,12 @@ class PostSetWorkTime extends Component {
     };
 
 
+
     render() {
-        const {
-            adjustedStartHour,
-            adjustedStartMinute,
-            adjustedEndHour,
-            adjustedEndMinute,
-            reason,
-            targetDate
-        } = this.state;
+        const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;
 
         return (
-            <div style={{padding: "20px"}}>
+            <div style={{ padding: "20px" }}>
                 <Typography variant="h4" gutterBottom>
                     근무 시간 조정
                 </Typography>
@@ -141,8 +127,7 @@ class PostSetWorkTime extends Component {
                             <Grid item xs={6} sm={3}>
                                 <FormControl fullWidth>
                                     <InputLabel>시작 시</InputLabel>
-                                    <Select name="adjustedStartHour" value={adjustedStartHour}
-                                            onChange={this.handleChange}>
+                                    <Select name="adjustedStartHour" value={adjustedStartHour} onChange={this.handleChange}>
                                         {this.renderHourOptions()}
                                     </Select>
                                 </FormControl>
@@ -150,8 +135,7 @@ class PostSetWorkTime extends Component {
                             <Grid item xs={6} sm={3}>
                                 <FormControl fullWidth>
                                     <InputLabel>시작 분</InputLabel>
-                                    <Select name="adjustedStartMinute" value={adjustedStartMinute}
-                                            onChange={this.handleChange}>
+                                    <Select name="adjustedStartMinute" value={adjustedStartMinute} onChange={this.handleChange}>
                                         {this.renderMinuteOptions()}
                                     </Select>
                                 </FormControl>
@@ -167,8 +151,7 @@ class PostSetWorkTime extends Component {
                             <Grid item xs={6} sm={3}>
                                 <FormControl fullWidth>
                                     <InputLabel>종료 분</InputLabel>
-                                    <Select name="adjustedEndMinute" value={adjustedEndMinute}
-                                            onChange={this.handleChange}>
+                                    <Select name="adjustedEndMinute" value={adjustedEndMinute} onChange={this.handleChange}>
                                         {this.renderMinuteOptions()}
                                     </Select>
                                 </FormControl>

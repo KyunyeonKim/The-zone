@@ -2,8 +2,21 @@ import React, {Component} from "react";
 import axios from 'axios';
 import SearchYearMonthDay from "../component/SearchComponent/SearchYearMonthDay";
 import ListAttendanceYearMonthDay from "../component/DataListContainer/ListAttendanceYearMonthDay";
-import {Typography} from "@material-ui/core";
-
+import {Box, withStyles} from "@material-ui/core";
+const styles = theme => ({
+    header: {
+        margin: theme.spacing(1),
+        textAlign: "center",
+        color: theme.palette.primary.main,
+        width:"1900px",
+    },
+    container: {
+        width: '100%',
+        maxWidth: '1920px', // 또는 원하는 최대 너비
+        // 기타 스타일
+    },
+    // 기타 스타일 정의
+});
 // const {closeModal} = this.props
 class GetAttendanceHistory extends Component {
     constructor(props) {
@@ -85,14 +98,26 @@ class GetAttendanceHistory extends Component {
 
     render() {
         const {data, totalElement, size, page} = this.state;
+        const { classes } = this.props;
         return (
-            <div>
-                <Typography variant="h4" align="center" gutterBottom>
-                    조정요청내역조회
-                </Typography>
+            <Box className={classes.container}>
+                <Box
+                    sx={{
+                        fontSize: '25px',
+                        fontFamily: 'Noto Sans KR, sans-serif',
+                        fontWeight: 'bold',
+                        borderBottom: 'solid 1px black',
+                        margin: '20px 0',
+                        paddingBottom: '10px'
+                    }} >
+                    조정 요청 내역 조회
+                </Box>
+                <Box my={4}>
                 <SearchYearMonthDay
                     onSearch={this.handleSearchSubmit}
                 />
+                </Box>
+                <Box my={7}>
                 <ListAttendanceYearMonthDay
                     data={data}
                     totalElement={totalElement}
@@ -100,9 +125,10 @@ class GetAttendanceHistory extends Component {
                     page={page}
                     onPageChange={this.handlePageChange}
                 />
-            </div>
+                </Box>
+            </Box>
         );
     }
 }
 
-export default GetAttendanceHistory;
+export default withStyles(styles) (GetAttendanceHistory);

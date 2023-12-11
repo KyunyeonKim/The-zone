@@ -29,8 +29,8 @@ const styles = (theme) => ({
         marginBottom: theme.spacing(8),
     },
     tableContainer: {
-        maxWidth: "80%",
         marginTop: theme.spacing(2),
+        width:"1600px",
     },
     pagination: {
         display: 'flex',
@@ -62,6 +62,15 @@ const styles = (theme) => ({
         '&:hover': {
             border: '1px solid #ddd',
         },
+    },
+    TableHead: {
+        backgroundColor: '#C2DCF0 !important',
+        borderTop: '1.5px solid black',
+    },
+    titleText:{
+        fontSize:'22px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
     },
 });
 
@@ -219,15 +228,15 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                 </Box>
 
                 <TableContainer component={Paper} className={classes.tableContainer}>
-                    <Table stickyHeader={true}>
-                        <TableHead>
+                    <Table>
+                        <TableHead className={classes.TableHead}>
                             <TableRow>
-                                <TableCell>사원이름</TableCell>
-                                <TableCell>사원번호</TableCell>
-                                <TableCell>1년이하</TableCell>
-                                <TableCell>1년이상</TableCell>
-                                <TableCell>설정한 시간</TableCell>
-                                <TableCell>적용 시간</TableCell>
+                                <TableCell classNmae={classes.titleText}>사원이름</TableCell>
+                                <TableCell classNmae={classes.titleText}>사원번호</TableCell>
+                                <TableCell classNmae={classes.titleText}>1년이하</TableCell>
+                                <TableCell classNmae={classes.titleText}>1년이상</TableCell>
+                                <TableCell classNmae={classes.titleText}>설정한 시간</TableCell>
+                                <TableCell classNmae={classes.titleText}>적용 시간</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
