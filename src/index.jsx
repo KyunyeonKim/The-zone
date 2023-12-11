@@ -5,6 +5,10 @@ import './index.css'
 import MainEndPoint from "./component/jang/page/MainEndPoint";
 import ErrorBoundary from "./component/jang/page/ErrorBoundary";
 
+import EmployeeDashboard from "./component/kim/ModalPage/EmployeeDashboard";
+import PostSetWorkTime from "./component/kim/ModalPage/PostSetWorkTime";
+import CreateEmployee from "./component/kim/ModalPage/CreateEmployee";
+import VacationDashboard from "./component/kim/ModalPage/VacationDashBoard";
 export const stateStore={}
 
 export const chartDataStore = {store: {
@@ -18,9 +22,10 @@ export const chartDataStore = {store: {
 
 document.addEventListener('DOMContentLoaded', function() {
   render(
-      <ErrorBoundary>
-        <MainEndPoint/>
-      </ErrorBoundary>,
+    <MainEndPoint/>,
+    //   <EmployeeDashboard/>,
+    //   <CreateEmployee/>,
+
     document.body.appendChild(document.createElement('div'))
   )
 })

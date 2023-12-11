@@ -186,9 +186,8 @@ class LeftMenuBar extends Component {
                 </Drawer>
             </div>
         )
-
-
     }
 }
+
 export default withStyles(styles)(LeftMenuBar);
 

@@ -123,11 +123,11 @@ class VacationMineEChart extends Component {
 
     transformData = (data) => {
         const remainingVacation = data.totalVacation - data.useVacation;
-        const usageRate = data.useVacation / data.totalVacation * 100; // 사용률 계산
-        alert(`usageRate ${usageRate}`)
         return [
-            { value: data.useVacation, name: '연차 사용 갯수', rate: usageRate.toFixed(2) + '%' },
-            { value: remainingVacation, name: '연차 잔여 갯수' }
+            {value: data.useVacation, name: '연차 사용 갯수'},
+            {value: remainingVacation, name: '연차 잔여 갯수'},
+            {value: data.totalVacation, name:'연차 총 갯수'}
+
         ];
     }
 

@@ -35,6 +35,16 @@ const styles = theme => ({
             border: "1px solid #ddd",
         },
     },
+    titleText:{
+        fontSize:'22px',
+        fontFamily: 'Noto Sans KR, sans-serif',
+        fontWeight:'bold'
+    },
+
+    TableHead: {
+        backgroundColor: '#C2DCF0 !important',
+        borderTop: '1.5px solid black',
+    },
 });
 
 class ListVacationYearMonthDay extends Component {
@@ -44,16 +54,16 @@ class ListVacationYearMonthDay extends Component {
         return (
             <div className="some-root-class">
                 <TableContainer component={Paper} className="table-container-class">
-                    <Table stickyHeader={true}>
-                        <TableHead>
+                    <Table>
+                        <TableHead className={classes.TableHead}>
                             <TableRow>
-                                <TableCell>사원이름</TableCell>
-                                <TableCell>사원번호</TableCell>
-                                <TableCell>상태(신청결과)</TableCell>
-                                <TableCell>연차시작날짜</TableCell>
-                                <TableCell>연차끝날짜</TableCell>
-                                <TableCell>사유</TableCell>
-                                <TableCell>신청한 요청 날짜</TableCell>
+                                <TableCell classNmae={classes.titleText}>사원이름</TableCell>
+                                <TableCell className={classes.titleText}>사원번호</TableCell>
+                                <TableCell className={classes.titleText}>상태(신청결과)</TableCell>
+                                <TableCell className={classes.titleText}>연차시작날짜</TableCell>
+                                <TableCell className={classes.titleText}>연차끝날짜</TableCell>
+                                <TableCell className={classes.titleText}>사유</TableCell>
+                                <TableCell className={classes.titleText}>신청한 요청 날짜</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

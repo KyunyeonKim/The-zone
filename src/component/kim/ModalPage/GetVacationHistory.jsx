@@ -2,9 +2,26 @@ import React, {Component} from "react";
 import axios from 'axios';
 import SearchYearMonthDay from "../component/SearchComponent/SearchYearMonthDay";
 import ListVacationYearMonthDay from "../component/DataListContainer/ListVacationYearMonthDay";
-import {Typography} from "@material-ui/core";
+import {Box,withStyles} from "@material-ui/core";
 
 // const {closeModal} = this.props
+
+
+const styles = theme => ({
+    header: {
+        margin: theme.spacing(1),
+        textAlign: "center",
+        color: theme.palette.primary.main,
+        width:"1900px",
+    },
+    container: {
+        width: '100%',
+        maxWidth: '1920px', // 또는 원하는 최대 너비
+        // 기타 스타일
+    },
+    // 기타 스타일 정의
+});
+
 
 class GetVacationHistory extends Component {
     constructor(props) {
@@ -79,24 +96,39 @@ class GetVacationHistory extends Component {
 
     render() {
         const {data, totalElement, size, page} = this.state;
+        const { classes } = this.props;
         return (
-            <div>
-                <Typography variant="h4" align="center" gutterBottom>
-                    연차사용요청이력조회
-                </Typography>
-                <SearchYearMonthDay
-                    onSearch={this.handleSearchSubmit}
-                />
-                <ListVacationYearMonthDay
-                    data={data}
-                    totalElement={totalElement}
-                    size={size}
-                    page={page}
-                    onPageChange={this.handlePageChange}
-                />
-            </div>
+
+            <Box className={classes.container}>
+                <Box
+                    sx={{
+                        fontSize: '25px',
+                        fontFamily: 'Noto Sans KR, sans-serif',
+                        fontWeight: 'bold',
+                        borderBottom: 'solid 1px black',
+                        margin: '20px 0',
+                        paddingBottom: '10px'
+                    }} >
+                    연차 사용 요청 이력 조회
+                </Box>
+                <Box my={4}>
+                    <SearchYearMonthDay onSearch={this.handleSearchSubmit} />
+                </Box>
+
+                {/* ListVacationYearMonthDay 컴포넌트 상하에 마진 추가 */}
+                <Box my={7}>
+                    <ListVacationYearMonthDay
+                        data={data}
+                        totalElement={totalElement}
+                        size={size}
+                        page={page}
+                        onPageChange={this.handlePageChange}
+                    />
+                </Box>
+            </Box>
+
         );
     }
 }
 
-export default GetVacationHistory;
+export default withStyles(styles)(GetVacationHistory);

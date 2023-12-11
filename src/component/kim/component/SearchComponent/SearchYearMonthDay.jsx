@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {Box, Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-
+import {Box, Button, FormControl, InputLabel, MenuItem, Select, SvgIcon, TextField,IconButton, Grid} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 class SearchYearMonthDay extends Component {
     state = {
         year: '',
@@ -12,6 +12,8 @@ class SearchYearMonthDay extends Component {
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     };
+
+
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -39,59 +41,76 @@ class SearchYearMonthDay extends Component {
 
     render() {
         return (
-            <Box component="form" onSubmit={this.handleSubmit} display="flex" justifyContent="space-between"
-                 alignItems="center" padding={2}>
-                <TextField
-                    name="search"
-                    label="검색"
-                    variant="outlined"
-                    style={{marginRight: 8, flex: 1}}
-                />
-                <Box display="flex" alignItems="center">
-                    {/* 년도 선택 */}
-                    <FormControl variant="outlined" style={{marginRight: 8}}>
-                        <InputLabel>년도</InputLabel>
-                        <Select
-                            name="year"
-                            value={this.state.year}
-                            onChange={this.handleChange}
-                        >
-                            {[2020, 2021, 2022, 2023].map(year => (
-                                <MenuItem key={year} value={year}>{year}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    {/* 월 선택 */}
-                    <FormControl variant="outlined" style={{marginRight: 8}}>
-                        <InputLabel>월</InputLabel>
-                        <Select
-                            name="month"
-                            value={this.state.month}
-                            onChange={this.handleChange}
-                        >
-                            {Array.from({length: 12}, (_, i) => i + 1).map(month => (
-                                <MenuItem key={month} value={month}>{month}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    {/* 일 선택 */}
-                    <FormControl variant="outlined">
-                        <InputLabel>일</InputLabel>
-                        <Select
-                            name="day"
-                            value={this.state.day}
-                            onChange={this.handleChange}
-                        >
-                            <MenuItem value="월별 검색">월별 검색</MenuItem>
-                            {Array.from({length: 31}, (_, i) => i + 1).map(day => (
-                                <MenuItem key={day} value={day}>{day}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <Button type="submit" variant="contained" color="primary" style={{marginLeft: 8}}>
-                        검색
-                    </Button>
-                </Box>
+            <Box component="form" onSubmit={this.handleSubmit} style={{ border: '3px solid #1D89DB', padding: '20px', borderRadius: '10px', width:"1600px" }}>
+                <Grid container spacing={1} alignItems="center" justify="flex-end">
+
+                    <Grid item xs>
+                        <TextField
+                            fullWidth
+                            name="search"
+                            label="사원 명/사원번호(최대 12자리)"
+                            variant="outlined"
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <FormControl variant="outlined">
+                            <InputLabel>년도</InputLabel>
+                            <Select
+                                name="year"
+                                value={this.state.year}
+                                onChange={this.handleChange}
+                                style={{ minWidth: 80 }}
+                            >
+                                {[2020, 2021, 2022, 2023].map(year => (
+                                    <MenuItem key={year} value={year}>{year}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                        <FormControl variant="outlined">
+                            <InputLabel>월</InputLabel>
+                            <Select
+                                name="month"
+                                value={this.state.month}
+                                onChange={this.handleChange}
+                                style={{ minWidth: 60 }}
+                            >
+                                {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
+                                    <MenuItem key={month} value={month}>{month}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                        <FormControl variant="outlined">
+                            <InputLabel>일</InputLabel>
+                            <Select
+                                name="day"
+                                value={this.state.day}
+                                onChange={this.handleChange}
+                                style={{ minWidth: 60 }}
+                            >
+                                <MenuItem value="월별 검색">월별 검색</MenuItem>
+                                {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
+                                    <MenuItem key={day} value={day}>{day}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item>
+                        <Box style={{ border: '3px solid #1D89DB', padding: ' 5px ', borderRadius: '10px' }}>
+                        <IconButton type="submit" color="primary" style={{ marginLeft: '0px' }}>
+                            <SearchIcon />
+                        </IconButton>
+                        </Box>
+                    </Grid>
+
+                </Grid>
             </Box>
         );
     }
