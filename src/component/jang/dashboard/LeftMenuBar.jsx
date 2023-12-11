@@ -18,7 +18,7 @@ const styles = (theme) => ({
     toolbarIcon: {
         display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '0 8px', ...theme.mixins.toolbar,
     }, drawerPaper: {
-        position: 'relative', whiteSpace: 'nowrap', width: drawerWidth, transition: theme.transitions.create('width', {
+        position: 'relative', whiteSpace: 'nowrap', width: drawerWidth,transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp, duration: theme.transitions.duration.enteringScreen,
         }),
     }, drawerPaperClose: {
@@ -28,8 +28,12 @@ const styles = (theme) => ({
             width: theme.spacing(9),
         },
     }, subheader: {
-        fontSize: '1.2rem', color: 'white', background: '#5984CE',fontFamily:'Gowun Dodum, sans-serif'
-    }
+        fontSize: '1.2rem', color: 'white', background: '#5984CE',fontFamily:'Noto Sans KR,sans-serif'
+    },  forHeight: {
+        display: 'flex',
+        height: '100%'
+    },
+
 });
 
 class LeftMenuBar extends Component {
@@ -38,7 +42,7 @@ class LeftMenuBar extends Component {
     render() {
         const {classes, open, handleDrawerClose, toggleModalShowing} = this.props;
         const firstMenuHandler = () => {
-            toggleModalShowing('firstMenu', 'ddd', 'fff')
+            toggleModalShowing('ProcessAppealRequest', 'ddd', 'fff')
         }
         const secondMenuHandler = () => {
             toggleModalShowing('secondMenuHandler', 'ddd', 'fff')
@@ -56,7 +60,7 @@ class LeftMenuBar extends Component {
             toggleModalShowing('sixthMenuHandler', 'ddd', 'fff')
         }
         return (
-
+            <div className={classes.forHeight}>
             <Drawer
                 variant="permanent"
                 classes={{
@@ -151,7 +155,6 @@ class LeftMenuBar extends Component {
                             </ListItemIcon>
                             <ListItemText primary="sixthMenuHandler"/>
                         </ListItem>
-                        <Divider/>
                     </div>
                     {/*<div style={{display : sessionStorage.getItem('userType')==='admin'?'block':'none'}}>*/}
                     {/*    <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>*/}
@@ -195,7 +198,8 @@ class LeftMenuBar extends Component {
                     {/*</div>*/}
                 </List>
 
-            </Drawer>);
+            </Drawer>
+            </div>);
     }
 }
 

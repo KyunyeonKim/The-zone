@@ -62,17 +62,17 @@ class TopBarUserInfo extends Component {
                 <img onClick={this.handleProfileClick} src={profilePicture} alt="Profile" style={profilePictureStyle}/>
 
                 <Box component={"div"} style={{display:"flex", marginTop:'10px'}}>
-                    <Box style={{padding:"6px 10px 3px 10px",color:"#3f51b5",fontFamily:'Gowun Dodum, sans-serif', fontWeight:"bold",fontSize:'20px', borderRadius:'8px'}}>
+                    <Box style={{padding:"6px 10px 10px 10px",color:"#3f51b5",fontFamily:'Noto Sans KR,sans-serif', fontWeight:"bold",fontSize:'20px', borderRadius:'8px'}}>
                         사원 번호
                     </Box>
                     < p onClick={this.handleProfileClick}
-                        style={{padding:"6px 10px 3px 10px",margin: 0,fontFamily:'Gowun Dodum, sans-serif',fontSize:'20px',fontWeight:"bold"}}> {employeeNumber}</p>
+                        style={{padding:"6px 10px 10px 10px",margin: 0,fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',fontWeight:"bold"}}> {employeeNumber}</p>
                 </Box>
                 <Box component={"div"} style={{display:"flex"}}>
-                    <Box style={{padding:"6px 10px 3px 10px",color:"#3f51b5",fontFamily:'Gowun Dodum, sans-serif', fontWeight:"bold",fontSize:'20px',borderRadius:'8px'}}>
+                    <Box style={{padding:"0px 10px 10px 10px",color:"#3f51b5",fontFamily:'Noto Sans KR,sans-serif', fontWeight:"bold",fontSize:'20px',borderRadius:'8px'}}>
                         이름
                     </Box>
-                    <p onClick={this.handleProfileClick} style={{padding:"6px 10px 3px 10px",margin: 0,fontFamily:'Gowun Dodum, sans-serif',fontSize:'20px',fontWeight:"bold"}}>{employeeName} </p>
+                    <p onClick={this.handleProfileClick} style={{padding:"0px 10px 10px 10px",margin: 0,fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',fontWeight:"bold"}}>{employeeName} </p>
                 </Box>
                 <Popover
                     open={isOpen}

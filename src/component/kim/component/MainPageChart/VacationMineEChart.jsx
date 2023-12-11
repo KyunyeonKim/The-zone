@@ -39,7 +39,7 @@ const styles = theme => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        height: '100%',
+        height: '300px',
     },
     divider: {
         // Divider의 높이는 내용에 맞게 자동으로 조정될 것입니다.

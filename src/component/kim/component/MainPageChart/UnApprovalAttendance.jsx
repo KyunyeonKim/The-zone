@@ -7,7 +7,6 @@ const styles = theme => ({
     paper: {
         padding: theme.spacing(2),
         backgroundColor: 'white', // Set the background color to white
-        color: 'red', // Set the text color to the blue shade you were using
         borderRadius: 15,
         borderStyle: 'none',
         margin: theme.spacing(1),
@@ -18,15 +17,26 @@ const styles = theme => ({
         justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
     },
     title: {
-        fontWeight: theme.typography.fontWeightMedium,
+        fontWeight: 'bold',
         color: 'red', // Ensure the title text is blue
         flexGrow: 1,
+        fontFamily:'Noto Sans KR,sans-serif',
     },
     infoText: {
         paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: 'red', // Ensure the info text is blue
+        fontFamily:'Noto Sans KR,sans-serif',
     },
+    monthTitle:{
+        fontWeight: 'bold',
+        fontFamily:'Noto Sans KR,sans-serif',
+        verticalAlign: 'middle', // 수직 가운데 정렬
+
+    }, countMonthTitle:{
+        fontWeight: 'bold',
+        fontFamily:'Noto Sans KR,sans-serif',
+        color:'#2568ac'
+
+    }
     // If you had other styles, make sure they are included here
 });
 
@@ -65,9 +75,15 @@ class UnApprovalAttendance extends Component {
 
         return (
             <Paper className={classes.paper}>
-                <Icon/>
+
+                <Typography variant="h6" gutterBottom className={classes.countMonthTitle}>
+                    {monthName}
+                </Typography>
+                <Typography variant="h6" gutterBottom className={classes.monthTitle}>
+                    &nbsp;근태&nbsp;
+                </Typography>
                 <Typography variant="h6" gutterBottom className={classes.title}>
-                    {monthName} 근태 이상
+                    이상
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
                     {unapprovedVacationCount !== null ? unapprovedVacationCount : 'Loading...'}

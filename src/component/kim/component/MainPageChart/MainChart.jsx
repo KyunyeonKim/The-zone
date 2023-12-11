@@ -7,13 +7,16 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+
     },
     details: {
         marginRight: theme.spacing(5),
+
+        alignItems: 'center'
     },
     chartContainer: {
         width: '80%',
-        height: '320px'
+        height: '250px'
     },
     detailText: {
         // 기존 스타일 유지
@@ -22,7 +25,7 @@ const styles = theme => ({
         fontWeight: 'bold', // 굵은 글씨
         display: 'flex',
         justifyContent: 'space-between',
-        width: '120%', // Box가 부모 컨테이너의 전체 너비를 차지하도록 설정
+        width: '120%', // Box가 부모 컨테이너의 전체 너비를 차지하도록 설정,
     },
 
     totalVacationText: {
@@ -66,10 +69,13 @@ class MainChart extends Component {
                             },
                             rich: {
                                 big: {
+                                    fontFamily:'Noto Sans KR,sans-serif',
                                     fontSize: 40, // Larger font size for percentage
                                     fontWeight: 'bold'
+
                                 },
                                 small: {
+                                    fontFamily:'Noto Sans KR,sans-serif',
                                     fontSize: 14, // Smaller font size for the word '사용률'
                                     fontWeight: 'bold'
                                 }
@@ -93,10 +99,10 @@ class MainChart extends Component {
     renderDetails = (data) => {
         return data.map((item, index) => (
             <Box key={index} display="flex" justifyContent="space-between" className={this.props.classes.detailText}>
-                <Typography variant="subtitle1">
-                    {item.name}
+                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
+                    {item.name}&nbsp;
                 </Typography>
-                <Typography variant="subtitle1" style={{fontWeight: 'bold'}}>
+                <Typography variant="subtitle1" style={{fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' }}>
                     {item.value}
                 </Typography>
             </Box>
@@ -111,10 +117,10 @@ class MainChart extends Component {
             <Box className={classes.root}>
                 <Box className={classes.details}>
                     <Box display="flex" justifyContent="space-between" width="120%">
-                        <Typography variant="subtitle1">
-                            총 연차 개수
+                        <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap',fontWeight: 'bold' }}>
+                            총 연차 갯수 &nbsp;
                         </Typography>
-                        <Typography variant="subtitle1" style={{fontWeight: 'bold'}}>
+                        <Typography variant="subtitle1" style={{fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' }}>
                             {totalVacation}
                         </Typography>
                     </Box>
