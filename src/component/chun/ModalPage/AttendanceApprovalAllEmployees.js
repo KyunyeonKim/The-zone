@@ -29,12 +29,14 @@ const styles = (theme) => ({
         text :{
             fontSize:'18px',
             fontFamily: 'Noto Sans KR, sans-serif',
-            textAlign: 'center'
+            textAlign: 'center',
+            padding:'0px'
         },
         titleText:{
             fontSize:'22px',
             fontFamily: 'Noto Sans KR, sans-serif',
-            fontWeight:'bold'
+            fontWeight:'bold',
+
         },
         button :{
             height:"90%",
@@ -293,7 +295,7 @@ class AttendanceApprovalAllEmployees extends Component{
         return(
             <div>
                 <Grid item lg={12}>
-                    <Box style={{width:"1400px", margin:"40px 40px 40px 40px"}}>
+                    <Box style={{width:"1200px", margin:"40px 40px 40px 40px"}}>
                         <Box
                             sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                                 paddingBottom: '10px'

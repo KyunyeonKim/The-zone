@@ -28,13 +28,13 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'18px',
+        fontSize:'16px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText:{
-        fontSize:'22px',
+        fontSize:'20px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight:'bold',
         textAlign: 'center',
@@ -379,13 +379,13 @@ class ProcessAppealRequest extends Component{
                             <Table className={classes.table} >
                                 <TableHead className={classes.tableHead}>
                                     <TableRow>
-                                        <TableCell align="center" className={classes.titleText}>일련 번호</TableCell>
-                                        <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
+                                        <TableCell align="center" className={classes.titleText}>번호</TableCell>
+                                        <TableCell align="center" className={classes.titleText}>이름</TableCell>
                                         <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
-                                        <TableCell align="center" className={classes.titleText}>출근 시간</TableCell>
-                                        <TableCell align="center" className={classes.titleText}>퇴근 시간</TableCell>
-                                        <TableCell align="center" className={classes.titleText}>조정 출근 시간</TableCell>
-                                        <TableCell align="center" className={classes.titleText}>조정 퇴근 시간</TableCell>
+                                        <TableCell align="center" className={classes.titleText}>출근 시간<br/>퇴근 시간</TableCell>
+                                        {/*<TableCell align="center" className={classes.titleText}>퇴근 시간</TableCell>*/}
+                                        <TableCell align="center" className={classes.titleText}>조정 출근 시간<br/>조정 퇴근 시간</TableCell>
+                                        {/*<TableCell align="center" className={classes.titleText}>조정 퇴근 시간</TableCell>*/}
                                         <TableCell align="center" className={classes.titleText}>조정 대상 날짜</TableCell>
                                         <TableCell align="center" className={classes.titleText}>조정 신청 시간</TableCell>
                                         <TableCell align="center" className={classes.titleText}>신청 사유</TableCell>
@@ -397,7 +397,7 @@ class ProcessAppealRequest extends Component{
                                 <TableBody>
                                     {data.map((row) => (
                                         /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                        <ProcessAppealRequestListComponent className={classes.text} id={"200001012"} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
+                                        <ProcessAppealRequestListComponent className={classes.text} id={JSON.parse(sessionStorage.getItem('userData')).loginId} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
                                     ))}
                                 </TableBody>
                             </Table>

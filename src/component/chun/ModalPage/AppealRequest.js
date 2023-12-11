@@ -19,6 +19,7 @@ import BlackButtonComponent from "../Component/Button/BlackButtonComponent";
 import Grid from "@material-ui/core/Grid";
 import {stateStore} from "../../../index";
 import defaultPersonImage from "../../kim/static/defaultPersonImage.png";
+import SettingButtonComponent from "../Component/Button/SettingButtonComponent";
 
 // const {closeModal} = this.props
 const styles = (theme) => ({
@@ -28,7 +29,8 @@ const styles = (theme) => ({
         width: "70%",
         borderTop: "2px solid black",
         height: "700px",
-        marginTop:"20px"
+        marginTop:"20px",
+        marginBottom:"40px"
     },
     formCell: {
         padding: theme.spacing(2),
@@ -235,7 +237,7 @@ class AppealRequest extends Component {
 
                 <Box style={{width:'1200px'}}>
                     <Box
-                        sx={{width:"100%",
+                        sx={{width:"90%",
                             fontSize:'25px',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight:'bold',
@@ -376,11 +378,11 @@ class AppealRequest extends Component {
 
                                 </tr>
                                 <tr>
-                                    <td  colSpan={4} style={{ textAlign: "center", padding: "20px 0 20px 0" }}>
+                                    <td  colSpan={4} style={{ textAlign: "center", padding: "20px 0 20px 0" ,border:'0px'}}>
                                         <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                             {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
                                             <BlackButtonComponent title={"취소"} onButtonClick={this.props.args[2]}/>
-                                            <AddButtonComponent type="submit" onButtonClick={this.submitForm} title={"신청"}/>
+                                            <SettingButtonComponent type="submit" onButtonClick={this.submitForm} title={"신청"}/>
                                         </Box>
                                     </td>
                                 </tr>
