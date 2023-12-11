@@ -1,4 +1,4 @@
-import {Box, SvgIcon} from "@material-ui/core";
+import {Box, Grid, SvgIcon} from "@material-ui/core";
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
@@ -71,7 +71,6 @@ const styles = (theme) => ({
                 border: '1px solid #ddd',
             },
         },table: {
-        minWidth: 650
     },
     tableHead: {
         backgroundColor: '#C2DCF0',
@@ -293,82 +292,84 @@ class AttendanceApprovalAllEmployees extends Component{
 
         return(
             <div>
-                <Box  style={{ width: '80%', margin: 'auto' }}>
-                    <Box
-                        sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
-                            paddingBottom: '10px'
-                        }} >
-                        전 사원 근태 승인 내역 조회
-                    </Box>
-                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
-                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                <Grid item lg={12}>
+                    <Box style={{width:"1500px"}}>
+                        <Box
+                            sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                                paddingBottom: '10px'
+                            }} >
+                            전 사원 근태 승인 내역 조회
                         </Box>
-                        <Box component="span" >
-                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
-                                     cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
-                            {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
+                        <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
+                            <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
+                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                            </Box>
+                            <Box component="span" >
+                                <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                                         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
+                                {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
+                            </Box>
+                        </Box>
+
+                        <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.sort}
+                                    onChange ={this.sortChange}>
+                                    <MenuItem value={"employee_id"}>사원 번호</MenuItem>
+                                    <MenuItem value={"name"}>사원 명</MenuItem>
+                                </Select>
+
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.desc}
+                                    onChange={this.descChange}>
+                                    <MenuItem value={"asc"}>오름차순</MenuItem>
+                                    <MenuItem value={"desc"}>내림차순</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+                        <TableContainer component={Paper}>
+                            {/*size="small" aria-label="a dense table"*/}
+                            <Table className={classes.table} >
+                                <TableHead className={classes.tableHead}>
+                                    <TableRow>
+                                        <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
+                                        <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
+                                        <TableCell align="center" className={classes.titleText}>승인 내역 조회</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {data.map((row) => (
+                                        <ButtonInListComponent  className={classes.text} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
+                                <Pagination
+                                    activePage={this.state.activePage}
+                                    itemsCountPerPage={this.state.empPageData['size']}
+                                    totalItemsCount={this.state.empPageData['totalElement']}
+                                    pageRangeDisplayed={10}
+                                    onChange={(page) => this.fetchData(page)}
+                                    innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                                    itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                                    activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+
+                                />
                         </Box>
                     </Box>
-
-                    <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.sort}
-                                onChange ={this.sortChange}>
-                                <MenuItem value={"employee_id"}>사원 번호</MenuItem>
-                                <MenuItem value={"name"}>사원 명</MenuItem>
-                            </Select>
-
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.desc}
-                                onChange={this.descChange}>
-                                <MenuItem value={"asc"}>오름차순</MenuItem>
-                                <MenuItem value={"desc"}>내림차순</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-                    <TableContainer component={Paper}>
-                        {/*size="small" aria-label="a dense table"*/}
-                        <Table className={classes.table} >
-                            <TableHead className={classes.tableHead}>
-                                <TableRow>
-                                    <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
-                                    <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
-                                    <TableCell align="center" className={classes.titleText}>승인 내역 조회</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {data.map((row) => (
-                                    <ButtonInListComponent  className={classes.text} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
-                            <Pagination
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={this.state.empPageData['size']}
-                                totalItemsCount={this.state.empPageData['totalElement']}
-                                pageRangeDisplayed={10}
-                                onChange={(page) => this.fetchData(page)}
-                                innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
-                                itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                                activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
-
-                            />
-                    </Box>
-                </Box>
+                </Grid>
             </div>
         )
     }

@@ -5,15 +5,17 @@ import {withStyles} from "@material-ui/core/styles";
 const styles = (theme) => ({
 
     button :{
-        fontSize:'1rem',
+        fontSize:'18px',
         whiteSpace: 'nowrap',
         borderRadius:'8px',
-        border:'1px solid black',
         color:"black",
-        fontWeight:"bold",
         // backgroundColor:"#2F79DA",
         fontFamily: 'Noto Sans KR, sans-serif',
-        height:"50px"
+        height:"45px",
+        backgroundColor:"white",
+        fontWeight:'bold',
+        border:'1px solid black',
+
     }
 
 });
@@ -27,7 +29,7 @@ class BlackButtonComponent extends Component{
     render(){
         const {classes,title,onButtonClick,disabled} = this.props;
         return(
-            <Button className={classes.button} variant="outlined"   onClick={onButtonClick} disabled={disabled}> {title} </Button>
+            <Button className={classes.button}  onClick={onButtonClick} disabled={disabled}> {title} </Button>
         )
     }
 }

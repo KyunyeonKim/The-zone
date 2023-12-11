@@ -27,6 +27,15 @@ import ProcessAppealRequest from "./admin/AdminTablePartContainer";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
+import styled from 'styled-components';
+import Button from "@material-ui/core/Button";
+
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+
 
 
 export default function Dashboard(props) {
@@ -38,7 +47,7 @@ export default function Dashboard(props) {
         }, toolbar: {
             paddingRight: 24, // keep right padding when drawer closed
             background: '#5984CE',
-            height:'75px'
+            height:'50px'
         }, toolbarIcon: {
             display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '0 8px', ...theme.mixins.toolbar,
         }, appBar: {
@@ -57,8 +66,9 @@ export default function Dashboard(props) {
             display: 'none',
         }, title: {
             flexGrow: 1,
-            fontFamily:'Gowun Dodum, sans-serif',
-            fontSize:'30px'
+            fontFamily:'Noto Sans KR,sans-serif',
+            fontSize:'25px',
+            fontWeight:'bold'
         }, drawerPaper: {
             position: 'relative', whiteSpace: 'nowrap', width: drawerWidth, transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp, duration: theme.transitions.duration.enteringScreen,
@@ -70,22 +80,67 @@ export default function Dashboard(props) {
                 width: theme.spacing(9),
             },
         }, appBarSpacer: theme.mixins.toolbar, content: {
-            flexGrow: 1, height: '100vh'
+            flexGrow: 1, height: '100%'
         }, container: {
-            paddingTop: theme.spacing(4), paddingBottom: theme.spacing(4),
+            paddingTop: theme.spacing(4), paddingBottom: theme.spacing(4),justifyContent:"center"
         }, paper: {
             padding: theme.spacing(2), display: 'flex', overflow: 'auto', flexDirection: 'column',
         }, fixedHeight: {
             height: 240,
-        },paperTitle:{
-            fontFamily:'Gowun Dodum, sans-serif',
-            fontSize:'25px',
+        },
+        paperTitle:{
+            fontFamily:'Noto Sans KR,sans-serif',
+            fontSize:'20px',
             color:"white",
             paddingLeft:'15px',
             backgroundColor:'steelblue',
             marginBottom:'10px',
             borderTopLeftRadius:'10px',
-            borderTopRightRadius:'10px'
+            borderTopRightRadius:'10px',
+            paddingTop:'8px',
+            paddingBottom:'8px',
+            fontWeight:'bold'
+        },slickSlider: {
+            position: 'relative',
+            marginTop: '10px',
+            marginBottom: '-20px',
+            width: '100%',
+            '& .slick-list': { //.slickSlider 클래스에 속한 하위 요소를 지칭하기 위해 &. 사용
+                position: 'absolute',
+                width: '100%',
+                height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',
+                overflow: 'hidden',
+                borderRadius:"15px"
+            },
+            '& .slick-slider': {
+                display: 'flex',
+            },
+            '& .slick-track': {
+                display: 'flex',
+                height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',
+            },
+            '& .slick-arrow': {
+                padding: '4px 6px',
+                transform: 'translate(30px, 150px)',
+                backgroundColor: 'transparent',
+                color: 'white',
+                borderRadius: '3px',
+                cursor: 'pointer',
+            },
+            '& .slick-prev': {
+                position: 'absolute',
+                top: '-20px',
+                right: '-800px',
+                cursor: 'pointer',
+                zIndex: 100,
+            },
+            '& .slick-next': {
+                position: 'absolute',
+                top: '-20px',
+                left: '810px',
+                cursor: 'pointer',
+            },
+        },
 
         }
     }));
@@ -99,6 +154,16 @@ export default function Dashboard(props) {
     };
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false, //화살표 (양옆 버튼) 구현할 것인지
+        autoplay: true, //자동 재생 할 것인지
+    };
 
     return (<div className={classes.root}>
         <CssBaseline/>
@@ -117,6 +182,14 @@ export default function Dashboard(props) {
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     근태 관리 시스템
                 </Typography>
+
+                {sessionStorage.getItem('userType') === 'admin' ?
+                    <SvgIcon component={SupervisorAccountIcon} inheritViewBox style={{marginLeft:"10px",marginRight:"10px",fontSize:"xx-large"}}/>
+                    : <></>}
+                {sessionStorage.getItem('userType') === 'admin' ?
+                    <Typography component="h1" variant="h6" color="inherit" noWrap >
+                        Admin 계정 &nbsp;
+                    </Typography>:<></>}
 
                 <Grid item>
                     <Grid container spacing={10}>
@@ -150,98 +223,123 @@ export default function Dashboard(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-
-
-
                 </Grid>
             </Toolbar>
         </AppBar>
-        <div style={{display : sessionStorage.getItem('userType')==='employee'?'none':'block'}}>
+        <div style={{display : sessionStorage.getItem('userType')==='manager'?'block':'none'}}>
             <LeftMenuBar handleDrawerClose={handleDrawerClose} setOpen={setOpen} open={open}
                          toggleModalShowing={props.toggleModalShowing} userType={props.userType}/>
         </div>
         <main className={classes.content}>
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
-            <Container maxWidth="lg" className={classes.container} >
-                <Grid item>
-                {/* inernal container*/}
-                {sessionStorage.getItem('userType') !== 'admin' ?
-                    <Grid container xs={12} md={12} lg={12}>
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Paper style={{height:"300px"}}>
-                                <ChartContainer/>
-                            </Paper>
-                        </Grid>
-                    </Grid>:<></>}
-                </Grid>
-                <Grid container xs={12} md={12} lg={12} style={{flexDirection:'row', marginTop:'10px'}}>
-                    {sessionStorage.getItem('userType') !== 'admin' ?
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Grid container  spacing={2} xs={12} md={12} lg={12} style={{flexDirection:'column'}}>
-                                <Grid item  xs={12} md={12} lg={12}>
-                                    {/*<Paper style={{height:"300px"}}>*/}
-                                    <Paper>
-                                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>
-                                            출근 정보
-                                        </Typography>
+            <Grid container>
+                <Grid item style={{ width: '1600px', margin: '0 auto' }}>
+                    <Grid container  className={classes.container} >
+                        {/* inernal container*/}
+                        {sessionStorage.getItem('userType') !== 'admin' ?
+                            <Grid container xs={12} md={12} lg={12}>
+                                <Grid item xs={12} md={12} lg={12} >
+                                    <Paper style={{padding:'15px 10px 5px 20px'}}>
+                                        <ChartContainer/>
+                                    </Paper>
 
-                                        <Grid container xs={12} me={12}  lg={12} justifyContent={"center"} style={{paddingTop:"10px"}}>
+                                </Grid>
+                            </Grid>:<></>}
 
-                                            <Box style={{ borderRadius: '50%', width: '150px', height: '150px',border:"1px solid #EFEFEF" }}>
-                                                <DigitalClock/>
-                                                {/*<Paper elevation={0} style={{ borderRadius: '50%', overflow: 'hidden', width: '100%', height: '100%'}}>*/}
-                                                {/*    <DigitalClock/>*/}
-                                                {/*</Paper>*/}
+
+                        <Grid container xs={12} md={12} lg={12} style={{flexDirection:'row', marginTop:'10px'}}>
+                            {sessionStorage.getItem('userType') !== 'admin' ?
+                                <Grid item xs={3} md={3} lg={3}>
+                                    <Grid container  spacing={2} xs={12} md={12} lg={12} style={{flexDirection:'column'}}>
+                                        {sessionStorage.getItem('userType') === 'employee' ?
+                                            <Grid container xs={12} md={12} lg={12}>
+                                                <Grid item xs={12} md={12} lg={12} style={{margin:"20px 0px 10px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
+
+                                                    <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}}>
+                                                        버튼 1
+                                                    </Button>
+                                                    <Button variant="contained" color="primary"style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold'}}>
+                                                        버튼 2
+                                                    </Button>
+
+                                                </Grid>
+                                            </Grid>:<></>}
+                                        <Grid item  xs={12} md={12} lg={12} style={{margin:"8px 0px 8px 0px"}}>
+                                            {/*<Paper style={{height:"300px"}}>*/}
+                                            <Paper>
+                                                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>
+                                                    출근 정보
+                                                </Typography>
+
+                                                <Grid container xs={12} me={12}  lg={12} justifyContent={"center"} >
+                                                    <Box style={{ borderRadius: '50%', width: '150px', height: '150px',border:"1px solid #EFEFEF" }}>
+                                                        <DigitalClock/>
+                                                    </Box>
+                                                </Grid>
+                                                {sessionStorage.getItem('userType') !== 'admin' ?
+                                                    <AttendanceInfoButtonContainer/>: <></>}
+                                            </Paper>
+                                        </Grid>
+                                        <Grid item   xs={12} md={12} lg={12}>
+                                            <Paper style={{marginTop:"8px"}}>
+                                                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>
+                                                    사용자 정보
+                                                </Typography>
+
+                                                <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}
+                                                                employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
+                                                                profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
+                                                                toggleModalShowing={props.toggleModalShowing}/>
+
+                                            </Paper>
+                                        </Grid>
+                                        <Grid item   xs={12} md={12} lg={12}>
+                                            <Box component={'div'} className={classes.slickSlider}>
+                                                <Slider  {...settings}>
+                                                    <Box component={'div'}>
+                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',}}/>
+                                                    </Box>
+                                                    <Box component={'div'}>
+                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',}}/>
+                                                    </Box>
+                                                    <Box component={'div'}>
+                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',}}/>
+                                                    </Box>
+                                                </Slider>
                                             </Box>
                                         </Grid>
-                                        {sessionStorage.getItem('userType') !== 'admin' ?
-                                            <AttendanceInfoButtonContainer/>: <></>}
-                                    </Paper>
-                                </Grid>
-                                <Grid item   xs={12} md={12} lg={12}>
-                                    {/*<Paper style={{height:"300px"}}>*/}
-                                    <Paper style={{marginTop:"8px"}}>
-                                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>
-                                            사용자 정보
-                                        </Typography>
-
-                                        <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}
-                                                        employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
-                                                        profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
-                                                        toggleModalShowing={props.toggleModalShowing}/>
-
-                                    </Paper>
+                                    </Grid>
+                                </Grid>:<></>}
+                            <Grid item xs={9} md={9} lg={9}>
+                                <Grid container  xs={12} md={12} lg={12}>
+                                    {sessionStorage.getItem('userType') !== 'admin' ?
+                                        <Grid item xs={12} md={12} lg={12} >
+                                            <Paper>
+                                                <CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>
+                                            </Paper>
+                                        </Grid> :<></>}
                                 </Grid>
                             </Grid>
-                        </Grid>:<></>}
-                    <Grid item xs={9} md={9} lg={9}>
-                        <Grid container  spacing={2} xs={12} md={12} lg={12}>
-                            {sessionStorage.getItem('userType') !== 'admin' ?
-                                <Grid item xs={12} md={12} lg={12} >
-                                    <Paper>
-                                        <CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>
-                                    </Paper>
-                                </Grid> :
-
-                                <Grid item xs={12} md={12} lg={12} >
+                            {sessionStorage.getItem('userType') === 'admin' ?
+                                <Grid item xs={12} md={12} lg={12}>
                                     {/*<CalendarContainer toggleModalShowing={props.toggleModalShowing}></CalendarContainer>*/}
                                     {/*<EmployeeSettingTableContainer  toggleModalShowing={props.toggleModalShowing}></EmployeeSettingTableContainer>*/}
                                     <ProcessAppealRequest toggleModalShowing={props.toggleModalShowing}></ProcessAppealRequest>
-                                </Grid>
-                            }
+                                </Grid>:<></>}
                             {/*</Grid>*/}
+
                         </Grid>
+                        <Box pt={4} style={{justifyContent:"center"}}>
+                            <Copyright/>
+                        </Box>
+
+
                     </Grid>
-
                 </Grid>
-
-            </Container>
-            <Grid container  spacing={2} xs={12} md={12} lg={12}>
-                <Box pt={4}>
-                    <Copyright/>
-                </Box>
             </Grid>
+
+
         </main>
     </div>);
 }

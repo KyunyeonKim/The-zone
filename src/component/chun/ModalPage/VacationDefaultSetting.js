@@ -11,9 +11,10 @@ const styles = (theme) => ({
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "50%",
+        width: "45%",
         borderTop: "2px solid black",
-        height: "600px"
+        height: "600px",
+        marginTop:"20px"
     },
 
     formCell: {
@@ -42,7 +43,7 @@ const styles = (theme) => ({
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor: "#C2DCF0",
+        backgroundColor: "#E4F3FF",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
@@ -251,14 +252,15 @@ class VacationDefaultSetting extends Component {
                 </Dialog>
 
 
-                <Box style={{width: '80%', margin: 'auto'}}>
+                <Box style={{width:"1500px"}}>
                     <Box
                         sx={{
-                            fontSize: '1.5rem',
+                            width:"60%",
+                            fontSize:'20px',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
-                            margin: '20px 0 20px 0',
+                            margin: 'auto',
                             paddingBottom: '10px'
                         }}>
                         근속 연수에 따른 연차 개수 설정
@@ -316,7 +318,7 @@ class VacationDefaultSetting extends Component {
                                 <tr>
                                     <td className={classes.formCell} colSpan={4} style={{
                                         textAlign: "center",
-                                        backgroundColor: "#F9F9F9",
+
                                         padding: "20px 0 20px 0"
                                     }}>
                                         <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>

@@ -18,7 +18,7 @@ const styles = (theme) => ({
     toolbarIcon: {
         display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '0 8px', ...theme.mixins.toolbar,
     }, drawerPaper: {
-        position: 'relative', whiteSpace: 'nowrap', width: drawerWidth, transition: theme.transitions.create('width', {
+        position: 'relative', whiteSpace: 'nowrap', width: drawerWidth,transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp, duration: theme.transitions.duration.enteringScreen,
         }),
     }, drawerPaperClose: {
@@ -28,8 +28,12 @@ const styles = (theme) => ({
             width: theme.spacing(9),
         },
     }, subheader: {
-        fontSize: '1.2rem', color: 'white', background: '#5984CE',fontFamily:'Gowun Dodum, sans-serif'
-    }
+        fontSize: '1.2rem', color: 'white', background: '#5984CE',fontFamily:'Noto Sans KR,sans-serif'
+    },  forHeight: {
+        display: 'flex',
+        height: '100%'
+    },
+
 });
 
 class LeftMenuBar extends Component {
@@ -73,7 +77,9 @@ class LeftMenuBar extends Component {
             toggleModalShowing('CreateEmployee', this.props.toggleModalShowing, 'fff')
         }
 
-        return (<Drawer
+        return (
+            <div className={classes.forHeight}>
+            <Drawer
                 variant="permanent"
                 classes={{
                     paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -128,50 +134,6 @@ class LeftMenuBar extends Component {
                 {/*    </div>*/}
                 {/*</List>*/}
                 {/*<Divider/>*/}
-                <List>
-                    <div style={{display : sessionStorage.getItem('userType')!=='admin'?'block':'none'}}>
-                        <Divider/>
-                        <ListSubheader inset className={classes.subheader}>사원 메뉴</ListSubheader>
-
-                        <ListItem button onClick={GetVacationHistoryHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="개인용 근태 정보 보고서 모달"/>
-                        </ListItem>
-                        <ListItem button onClick={AttendanceApprovalEmployeeHandler}>
-                            <ListItemIcon>
-                                <AssignmentIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="개인용 근태 승인 내역 조회"/>
-                        </ListItem>
-                        {/*<ListItem button onClick={AttendanceApprovalAllEmployeesHandler}>*/}
-                        {/*    <ListItemIcon>*/}
-                        {/*        <AssignmentIcon/>*/}
-                        {/*    </ListItemIcon>*/}
-                        {/*    <ListItemText primary="thirdMenuHandler"/>*/}
-                        {/*</ListItem>*/}
-                        {/*<ListItem button onClick={fourthMenuHandler}>*/}
-                        {/*    <ListItemIcon>*/}
-                        {/*        <AssignmentIcon/>*/}
-                        {/*    </ListItemIcon>*/}
-                        {/*    <ListItemText primary="fourthMenuHandler"/>*/}
-                        {/*</ListItem>*/}
-                        {/*<ListItem button onClick={fifthMenuHandler}>*/}
-                        {/*    <ListItemIcon>*/}
-                        {/*        <AssignmentIcon/>*/}
-                        {/*    </ListItemIcon>*/}
-                        {/*    <ListItemText primary="fifthMenuHandler"/>*/}
-                        {/*</ListItem>*/}
-                        {/*<ListItem button onClick={sixthMenuHandler}>*/}
-                        {/*    <ListItemIcon>*/}
-                        {/*        <AssignmentIcon/>*/}
-                        {/*    </ListItemIcon>*/}
-                        {/*    <ListItemText primary="sixthMenuHandler"/>*/}
-                        {/*</ListItem>*/}
-                    </div>
-                </List>
-                <Divider/>
                 <List>
                     <div style={{display: sessionStorage.getItem('userType') === 'manager' ? 'block' : 'none'}}>
                         <ListSubheader inset className={classes.subheader}>관리자 메뉴</ListSubheader>

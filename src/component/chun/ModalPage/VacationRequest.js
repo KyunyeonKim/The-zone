@@ -24,8 +24,14 @@ import {stateStore} from "../../../index";
 // const {closeModal} = this.props
 const styles = (theme) => ({
     formTable: {
-        margin: "0 auto", borderCollapse: "collapse", width: "45%", borderTop: "2px solid black", height: "600px"
-    }, formCell: {
+        margin: "0 auto",
+        borderCollapse: "collapse",
+        width: "45%",
+        borderTop: "2px solid black",
+        height: "600px",
+        marginTop:"20px"
+    },
+    formCell: {
         padding: theme.spacing(2),
         border: "1px solid #ddd",
         fontSize: '18px',
@@ -46,7 +52,7 @@ const styles = (theme) => ({
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor: "#C2DCF0",
+        backgroundColor: "#E4F3FF",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
@@ -93,6 +99,7 @@ class VacationRequest extends Component {
         this.inputCountChange = this.inputCountChange.bind(this);
 
     }
+    // getData;
 
     handleDialogClose = () => {
         this.setState({
@@ -129,7 +136,6 @@ class VacationRequest extends Component {
 
     handleClose = () => {
         this.setState({addOpen: false});
-        this.props.args[0]()
     }
 
     submitForm = async (e) => {
@@ -325,18 +331,19 @@ class VacationRequest extends Component {
                 </DialogActions>
             </Dialog>
 
-            <Box style={{width: '80%', margin: 'auto'}}>
-                <Box
-                    sx={{
-                        fontSize: '1.5rem',
-                        fontFamily: 'Noto Sans KR, sans-serif',
-                        fontWeight: 'bold',
-                        borderBottom: 'solid 1px black',
-                        margin: '20px 0 20px 0',
-                        paddingBottom: '10px'
-                    }}>
-                    연차 신청
-                </Box>
+                <Box>
+                    <Box
+                        sx={{
+                            width:"60%",
+                            fontSize: '1.5rem',
+                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontWeight: 'bold',
+                            borderBottom: 'solid 1px black',
+                            margin: 'auto',
+                            paddingBottom: '10px'
+                        }}>
+                        연차 신청
+                    </Box>
 
                 <Box>
                     <form onSubmit={this.submitForm}>
@@ -358,6 +365,47 @@ class VacationRequest extends Component {
                                             <MenuItem value={"vacation"}>휴가</MenuItem>
 
 
+                                            </Select>
+                                        </FormControl>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>연차 개수</td>
+                                    <td className={classes.formCell}>
+                                        <TextFieldComponent label={"연차 개수"} onChange={this.inputCountChange}
+                                                            value={this.state.getData}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>남은 연차 / 최대 사용 가능 개수</td>
+                                    <td className={classes.formCell}>
+                                        {/*{this.state.remainVacation}*/}
+                                        {this.state.remainVacation} / {this.props.args[1]>this.state.remainVacation?this.props.args[1]:this.state.remainVacation}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>연차 날짜</td>
+                                    <td className={classes.formCell}>
+                                        시작 날짜: {this.startDate}&nbsp;&nbsp;&nbsp;
+                                        끝 날짜:{this.state.endDate}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>사유</td>
+                                    <td className={classes.formCell}>
+                                        <TextFieldComponent label={"사유"} onChange={this.changeReason}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={4} style={{
+                                        textAlign: "center",
+                                        padding: "20px 0 20px 0"
+                                    }}>
+                                        <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                                            {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
+                                            <BlackButtonComponent onButtonClick={() => {this.props.args[0]()}}
+                                                title={"취소"}
+                                            />
                                         </Select>
                                     </FormControl>
                                 </td>
