@@ -19,6 +19,7 @@ import Pagination from "react-js-pagination";
 import VacationProcessListComponent from "../Component/VacationProcessListComponent";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, SvgIcon} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import {stateStore} from "../../../index";
 
 // const {employeeId} = this.props;
 // const {closeModal} = this.props
@@ -296,6 +297,8 @@ class VacationProcess extends Component {
     };
 
     handleClose = (employeeId) => {
+        stateStore.chartContainerStateSet.setState({...stateStore.chartContainerStateSet.state})
+        stateStore.vacationChartStateSet.setState({...stateStore.vacationChartStateSet.state})
         this.setState({...this.state, approveOpen: false, rejectOpen: false})
 
     };
@@ -416,8 +419,8 @@ class VacationProcess extends Component {
                                 </TableHead>
                                 <TableBody>
                                     {data.map((row) => (
-                                        /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                        <VacationProcessListComponent className={classes.text} id={"200001012"}
+
+                                        <VacationProcessListComponent className={classes.text} id={JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                       onApproveBtnClick={this.onApproveBtnClick}
                                                                       onRejectBtnClick={this.onRejectBtnClick}
                                                                       key={row.vacationRequestKey} row={row}

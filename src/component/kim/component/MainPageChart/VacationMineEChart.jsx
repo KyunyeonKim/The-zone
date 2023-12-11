@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import MainChart from "./MainChart";
 import {CircularProgress, withStyles} from "@material-ui/core";
+import {stateStore} from "../../../../index";
 
 const styles = theme => ({
     infoBox: {
@@ -87,6 +88,24 @@ class VacationMineEChart extends Component {
         loading: true
     };
 
+
+    constructor(props, context, state) {
+        super(props, context);
+        stateStore.vacationChartStateSet = {state:this.state,setState:this.fetchDataAndSetState.bind(this)}
+    }
+
+    fetchDataAndSetState = function (){   axios.get('http://localhost:8080/chart/vacationmine')
+        .then(response => {
+            const data = this.transformData(response.data);
+            this.setState({chartData: data, loading: false});
+        })
+        .catch(error => {
+            console.error("Error fetching data: ", error);
+            this.setState({loading: false});
+        });
+
+    }
+
     componentDidMount() {
         //TODO: 로그인 기능 삭제
 
@@ -104,9 +123,11 @@ class VacationMineEChart extends Component {
 
     transformData = (data) => {
         const remainingVacation = data.totalVacation - data.useVacation;
+        const usageRate = data.useVacation / data.totalVacation * 100; // 사용률 계산
+        alert(`usageRate ${usageRate}`)
         return [
-            {value: data.useVacation, name: '연차 사용 갯수'},
-            {value: remainingVacation, name: '연차 잔여 갯수'}
+            { value: data.useVacation, name: '연차 사용 갯수', rate: usageRate.toFixed(2) + '%' },
+            { value: remainingVacation, name: '연차 잔여 갯수' }
         ];
     }
 

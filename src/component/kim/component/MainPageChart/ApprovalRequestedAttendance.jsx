@@ -51,16 +51,10 @@ class ApprovalRequestedAttendance extends Component {
     };
 
     componentDidMount() {
-        this.loadApprovedMonthVacationData();
-    }
-    loopStop=false;
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(!this.loopStop){
-            this.loadApprovedMonthVacationData();
-        }
+        this.loadrequestAttendanceCount();
     }
 
-    loadApprovedMonthVacationData = () => {
+    loadrequestAttendanceCount = () => {
         const {year, month} = this.props;
         //TODO: 로그인 기능 삭제
 

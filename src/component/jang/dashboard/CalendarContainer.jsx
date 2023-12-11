@@ -258,10 +258,24 @@ export default class CalendarContainer extends React.Component {
                 break;
             case 'attendance_info':
                 alert(`attendance_info clicked! ${JSON.stringify(clickInfo.event)}`)
-                if(clickInfo.event.extendedProps.status ==='abnormal')
+                if(
+                    clickInfo.event.extendedProps.status ==="이상 근태(결근)" ||
+                    clickInfo.event.extendedProps.status ==="이상 근태(조기 퇴근)" ||
+                    clickInfo.event.extendedProps.status ==="이상 근태(지각, 조기 퇴근)" ||
+                    clickInfo.event.extendedProps.status ==="이상 근태(지각)" ||
+                    clickInfo.event.extendedProps.status ==="이상 근태(퇴근 정보 없음)" ||
+                    clickInfo.event.extendedProps.status ==="이상 근태(지각, 퇴근 정보 없음)" ||
+                    clickInfo.event.extendedProps.status ==="이상 근태(퇴근 정보 없음)"
+                )
                     this.props.toggleModalShowing('AppealRequest', `${clickInfo.event.start}`, `${clickInfo.event.extendedProps.identifier}`, this.props.toggleModalShowing)
-                else {
+                else if(
+                    clickInfo.event.extendedProps.status ==="조정 요청 중" ||
+                    clickInfo.event.extendedProps.status ==="조정 요청 중" ||
+                    clickInfo.event.extendedProps.status ==="조정 요청 중"
+                ){
                     this.props.toggleModalShowing('AppealRequestedInfo', `${clickInfo.event.extendedProps.identifier}`, this.props.toggleModalShowing)
+                }else if(clickInfo.event.extendedProps.status ==="정상 근태"){
+
                 }
 
             default:

@@ -136,6 +136,9 @@ class VacationRequest extends Component {
     }
 
     handleClose = () => {
+        this.props.args[0]()
+        stateStore.chartContainerStateSet.setState({...stateStore.chartContainerStateSet.state})
+        stateStore.vacationChartStateSet.setState({...stateStore.vacationChartStateSet.state})
         this.setState({addOpen: false});
     }
 
