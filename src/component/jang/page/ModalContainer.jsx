@@ -298,8 +298,13 @@ class ModalContainer extends Component {
                 position: 'absolute',
                 top: '10px',
                 right: '10px',
-                fontSize: '20px',
+                fontSize: '40px',
                 cursor: 'pointer',
+                color:'red',
+                marginRight:"20px",
+                border:'1px solid red',
+                borderRadius: '5px'
+
             },
         };
 

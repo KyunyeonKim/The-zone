@@ -138,7 +138,9 @@ class LeftMenuBar extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="근속년수 기준 연차 개수 조정 내역"/>
                             </ListItem>
+                            <br/>
                             <Divider/>
+                            <br/>
                             <ListItem button onClick={ProcessAppealRequestHandler}>
                                 <ListItemIcon>
                                     <CheckCircleOutlineIcon/>
@@ -151,7 +153,9 @@ class LeftMenuBar extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="연차 요청 처리"/>
                             </ListItem>
+                            <br/>
                             <Divider/>
+                            <br/>
                             <ListItem button onClick={VacationDefaultSettingHandler}>
                                 <ListItemIcon>
                                     <BuildIcon/>
@@ -164,7 +168,9 @@ class LeftMenuBar extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="근무 시간 조정"/>
                             </ListItem>
+                            <br/>
                             <Divider/>
+                            <br/>
                             <ListItem button onClick={EmployeeReportModalHandler}>
                                 <ListItemIcon>
                                     <PrintIcon/>
@@ -179,7 +185,6 @@ class LeftMenuBar extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="사원 정보 생성"/>
                             </ListItem>
-                            <Divider/>
                         </div>
                     </List>
 

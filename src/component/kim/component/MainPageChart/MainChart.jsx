@@ -48,6 +48,10 @@ class MainChart extends Component {
     initChart = () => {
         const { data } = this.props;
         const chart = echarts.init(this.chartRef.current);
+        const usedVacation = data[0].value;
+        const totalVacation = usedVacation + data[1].value;
+        const usedPercentage = totalVacation > 0 ? ((usedVacation / totalVacation) * 100).toFixed(0) : 0; // 정수로 반올림
+
 
         const option = {
             tooltip: {
@@ -75,7 +79,7 @@ class MainChart extends Component {
             ],
             title: {
                 show: true,
-                text: `${data[0].value / (data[0].value + data[1].value) * 100}%`, // 중앙에 표시할 텍스트
+                text:  `${usedPercentage}%`,
                 left: 'center',
                 top: 'center',
                 textStyle: {
