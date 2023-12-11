@@ -11,8 +11,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListItemText from "@material-ui/core/ListItemText";
 import {withStyles} from "@material-ui/core/styles";
+import ListIcon from '@material-ui/icons/List';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import BuildIcon from '@material-ui/icons/Build';
+import PrintIcon from '@material-ui/icons/Print';
+import {Grid} from "@material-ui/core";
 
-const drawerWidth = 240;
+const drawerWidth = 340;
 
 const styles = (theme) => ({
     toolbarIcon: {
@@ -28,7 +33,7 @@ const styles = (theme) => ({
             width: theme.spacing(9),
         },
     }, subheader: {
-        fontSize: '1.2rem', color: 'white', background: '#5984CE', fontFamily: 'Noto Sans KR,sans-serif'
+        fontSize: '20px', color: 'white', background: '#5984CE', fontFamily: 'Noto Sans KR,sans-serif', fontWeight:"bold",width:"100%"
     }, forHeight: {
         display: 'flex', height: '100%'
     },
@@ -85,76 +90,87 @@ class LeftMenuBar extends Component {
                     }}
                     open={open}
                 >
+                    {/*<div className={classes.toolbarIcon}>*/}
+                    {/*        <ListSubheader inset className={classes.subheader}>근태 담당자 메뉴</ListSubheader>*/}
+
+                    {/*        <IconButton onClick={handleDrawerClose}>*/}
+                    {/*            <ChevronLeftIcon/>*/}
+                    {/*        </IconButton>*/}
+                    {/*</div>*/}
+
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={handleDrawerClose}>
-                            <ChevronLeftIcon/>
-                        </IconButton>
+                        <ListSubheader inset className={classes.subheader}>
+                            <Grid container>
+                                <Grid item xs={10}>
+                                    근태 담당자 메뉴
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <IconButton onClick={handleDrawerClose}>
+                                        <ChevronLeftIcon />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </ListSubheader>
                     </div>
+
                     <List>
-                        <div style={{display: sessionStorage.getItem('userType') === 'manager' ? 'block' : 'none'}}>
-                            <ListSubheader inset className={classes.subheader}>관리자 메뉴</ListSubheader>
                             <ListItem button onClick={GetVacationHistoryHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <ListIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="전사원 연차 사용 내역 검색"/>
-                            </ListItem>
-                            <ListItem button onClick={EmployeeReportModalHandler}>
-                                <ListItemIcon>
-                                    <AssignmentIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="전사원에 대한 보고서 출력"/>
+                                <ListItemText primary="전사원 연차 사용 내역"/>
                             </ListItem>
                             <ListItem button onClick={AttendanceApprovalAllEmployeesHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <ListIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="전사원 근태 이상 승인 내역 검색"/>
+                                <ListItemText primary="전사원 근태 이상 승인 내역"/>
                             </ListItem>
-
+                            <ListItem button onClick={GetAttendanceHistoryHandler}>
+                                <ListItemIcon>
+                                    <ListIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="조정 요청 내역"/>
+                            </ListItem>
+                            <ListItem button onClick={GetHistoryOfVacationDefaultSettingHandler}>
+                                <ListItemIcon>
+                                    <ListIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="근속년수 기준 연차 개수 조정 내역"/>
+                            </ListItem>
+                            <Divider/>
                             <ListItem button onClick={ProcessAppealRequestHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <CheckCircleOutlineIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary="근태 이상 조정 요청 처리"/>
                             </ListItem>
-                            <ListItem button onClick={VacationDefaultSettingHandler}>
-                                <ListItemIcon>
-                                    <AssignmentIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="근속 년수에 따른 연차 개수 조정"/>
-                            </ListItem>
                             <ListItem button onClick={VacationProcessHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <CheckCircleOutlineIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary="연차 요청 처리"/>
                             </ListItem>
                             <Divider/>
-                        </div>
-
-                        <div>
-                            <ListItem button onClick={GetAttendanceHistoryHandler}>
+                            <ListItem button onClick={VacationDefaultSettingHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <BuildIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="조정 요청 내역 조회"/>
-                            </ListItem>
-
-                            <ListItem button onClick={GetHistoryOfVacationDefaultSettingHandler}>
-                                <ListItemIcon>
-                                    <AssignmentIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="연차 요청 처리"/>
+                                <ListItemText primary="근속 년수에 따른 연차 개수 조정"/>
                             </ListItem>
                             <ListItem button onClick={PostSetWorkTimeHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <BuildIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary="근무 시간 조정"/>
                             </ListItem>
                             <Divider/>
-                        </div>
+                            <ListItem button onClick={EmployeeReportModalHandler}>
+                                <ListItemIcon>
+                                    <PrintIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="전사원에 대한 보고서 출력"/>
+                            </ListItem>
                         <div style={{display: sessionStorage.getItem('userType') === 'admin' ? 'block' : 'none'}}>
                             <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>
                             <ListItem button onClick={CreateEmployeeHandler}>
