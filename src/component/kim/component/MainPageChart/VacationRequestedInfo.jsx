@@ -21,15 +21,18 @@ const styles = theme => ({
         color: '#FFA000', // Set the text color to the blue shade you were using
         flexGrow: 1,
         fontFamily:'Noto Sans KR,sans-serif',
+        fontSize:"18px"
     },
     infoText: {
         paddingTop: theme.spacing(1),
         fontFamily:'Noto Sans KR,sans-serif',
+        fontSize:"18px"
     },
     monthTitle:{
         fontWeight: 'bold',
         fontFamily:'Noto Sans KR,sans-serif',
         verticalAlign: 'middle', // 수직 가운데 정렬
+        fontSize:"18px"
 
     }, countMonthTitle:{
         fontWeight: 'bold',

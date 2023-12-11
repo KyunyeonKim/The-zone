@@ -52,7 +52,8 @@ const styles = theme => ({
         fontFamily:'Noto Sans KR,sans-serif',
         fontWeight:'bold',
         marginBottom:'10px',
-        color:"#2568ac"
+        color:"#2568ac",
+        fontSize:"20px"
     },
     titleRight: {
         // '근태현황' 제목에 적용할 스타일
@@ -62,7 +63,8 @@ const styles = theme => ({
         fontFamily:'Noto Sans KR,sans-serif',
         fontWeight:'bold',
         marginBottom:'10px',
-        color:"#2568ac"
+        color:"#2568ac",
+        fontSize:"20px"
     },
 });
 

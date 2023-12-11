@@ -23,12 +23,12 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text: {
-        fontSize: '18px',
+        fontSize: '1rem',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
     },
     titleText: {
-        fontSize: '22px',
+        fontSize: '1.2rem',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight: 'bold'
     },
@@ -230,10 +230,10 @@ class AttendanceApprovalEmployee extends Component {
 
         return (
             <div>
-                <Box style={{width:"1500px"}}>
+                <Box style={{width:"1400px"}}>
                     <Box
                         sx={{
-                            fontSize: '25px',
+                            fontSize: '1.5rem',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',

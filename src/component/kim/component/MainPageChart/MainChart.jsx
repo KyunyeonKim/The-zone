@@ -70,13 +70,13 @@ class MainChart extends Component {
                             rich: {
                                 big: {
                                     fontFamily:'Noto Sans KR,sans-serif',
-                                    fontSize: 40, // Larger font size for percentage
+                                    fontSize: 30, // Larger font size for percentage
                                     fontWeight: 'bold'
 
                                 },
                                 small: {
                                     fontFamily:'Noto Sans KR,sans-serif',
-                                    fontSize: 14, // Smaller font size for the word '사용률'
+                                    fontSize: 18, // Smaller font size for the word '사용률'
                                     fontWeight: 'bold'
                                 }
                             },

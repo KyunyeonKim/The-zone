@@ -21,11 +21,13 @@ const styles = theme => ({
         color: '#1976D2', // Ensure the title text is blue
         flexGrow: 1,
         fontFamily:'Noto Sans KR,sans-serif',
+        fontSize:"18px"
 
     },
     infoText: {
         paddingTop: theme.spacing(1),
         fontFamily:'Noto Sans KR,sans-serif',
+        fontSize:"18px"
 
 
     },
@@ -33,6 +35,7 @@ const styles = theme => ({
         fontWeight: 'bold',
         fontFamily:'Noto Sans KR,sans-serif',
         verticalAlign: 'middle', // 수직 가운데 정렬
+        fontSize:"18px"
 
     },
     countMonthTitle:{

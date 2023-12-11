@@ -333,7 +333,7 @@ class ProcessAppealRequest extends Component{
                     </DialogActions>
                 </Dialog>
                 <Grid item lg={12}>
-                    <Box style={{width:"1900px", margin:"40px 40px 40px 40px"}}>
+                    <Box style={{width:"1600px", margin:"40px 40px 40px 40px"}}>
                         <Box
                             sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                                 paddingBottom: '10px'

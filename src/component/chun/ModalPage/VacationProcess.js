@@ -343,7 +343,7 @@ class VacationProcess extends Component {
 
 
                 <Grid item lg={12}>
-                    <Box style={{width:"1900px", margin:"40px 40px 40px 40px"}} >
+                    <Box style={{width:"1600px", margin:"40px 40px 40px 40px"}} >
                         <Box
                             sx={{
                                 fontSize: '25px',

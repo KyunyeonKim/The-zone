@@ -109,7 +109,7 @@ export default function Dashboard(props) {
             '& .slick-list': { //.slickSlider 클래스에 속한 하위 요소를 지칭하기 위해 &. 사용
                 position: 'absolute',
                 width: '100%',
-                height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',
+                height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',
                 overflow: 'hidden',
                 borderRadius:"15px"
             },
@@ -118,7 +118,7 @@ export default function Dashboard(props) {
             },
             '& .slick-track': {
                 display: 'flex',
-                height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',
+                height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',
             },
             '& .slick-arrow': {
                 padding: '4px 6px',
@@ -233,7 +233,7 @@ export default function Dashboard(props) {
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
             <Grid container>
-                <Grid item style={{ width: '1600px', margin: '0 auto' }}>
+                <Grid item style={{ width: '1350px', margin: '0 auto' }}>
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
                         {sessionStorage.getItem('userType') !== 'admin' ?
@@ -297,13 +297,13 @@ export default function Dashboard(props) {
                                             <Box component={'div'} className={classes.slickSlider}>
                                                 <Slider  {...settings}>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',}}/>
+                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',}}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '210px' : '300px',}}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '150px',  }}/>
                                                     </Box>
                                                 </Slider>
                                             </Box>
