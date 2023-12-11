@@ -27,12 +27,12 @@ const styles = (theme) => ({
             minWidth: 120,
         },
         text :{
-            fontSize:'1rem',
+            fontSize:'18px',
             fontFamily: 'Noto Sans KR, sans-serif',
             textAlign: 'center'
         },
         titleText:{
-            fontSize:'1.2rem',
+            fontSize:'22px',
             fontFamily: 'Noto Sans KR, sans-serif',
             fontWeight:'bold'
         },
@@ -293,19 +293,19 @@ class AttendanceApprovalAllEmployees extends Component{
         return(
             <div>
                 <Grid item lg={12}>
-                    <Box style={{width:"1500px"}}>
+                    <Box style={{width:"1900px", margin:"40px 40px 40px 40px"}}>
                         <Box
-                            sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                                 paddingBottom: '10px'
                             }} >
                             전 사원 근태 승인 내역 조회
                         </Box>
                         <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
                             <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
+                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"60px"}} onChange={this.searchKeywordChange}/>
                             </Box>
                             <Box component="span" >
-                                <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
+                                <SvgIcon style={{borderRadius:'6px' , width: "3.5%",border:'1px solid #c1c1c1', height:"60px"}}
                                          cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
                                 {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                             </Box>

@@ -309,7 +309,8 @@ class ModalContainer extends Component {
         if (this.state.modalShow) {
             console.log(`modal Toggled. current status : ${this.state.modalShow}`)
             return (
-                <Dialog open={true} maxWidth="false" fullWidth='true'>
+                // <Dialog open={true} maxWidth="false" fullWidth='true'>
+                <Dialog open={true} maxWidth="false">
                     <DialogContent>
                         <span style={modalStyle.close} className="close" onClick={close}>&times;</span>
                         {/*<p>This is {innerContainerName} the modal content.</p>*/}

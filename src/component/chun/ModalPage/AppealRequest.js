@@ -25,9 +25,9 @@ const styles = (theme) => ({
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "45%",
+        width: "70%",
         borderTop: "2px solid black",
-        height: "600px",
+        height: "700px",
         marginTop:"20px"
     },
     formCell: {
@@ -233,10 +233,10 @@ class AppealRequest extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <Box>
+                <Box style={{width:'1200px'}}>
                     <Box
-                        sx={{width:"60%",
-                            fontSize:'20px',
+                        sx={{width:"100%",
+                            fontSize:'25px',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight:'bold',
                             borderBottom:'solid 1px black',

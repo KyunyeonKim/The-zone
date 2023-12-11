@@ -23,12 +23,12 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text: {
-        fontSize: '1rem',
+        fontSize: '18px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center'
     },
     titleText: {
-        fontSize: '1.2rem',
+        fontSize: '22px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight: 'bold'
     },
@@ -233,7 +233,7 @@ class AttendanceApprovalEmployee extends Component {
                 <Box style={{width:"1500px"}}>
                     <Box
                         sx={{
-                            fontSize: '1.5rem',
+                            fontSize: '25px',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',

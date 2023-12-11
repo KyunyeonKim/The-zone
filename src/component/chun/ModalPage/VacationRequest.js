@@ -26,9 +26,9 @@ const styles = (theme) => ({
     formTable: {
         margin: "0 auto",
         borderCollapse: "collapse",
-        width: "45%",
+        width: "70%",
         borderTop: "2px solid black",
-        height: "600px",
+        height: "700px",
         marginTop: "20px"
     },
     formCell: {
@@ -307,7 +307,7 @@ class VacationRequest extends Component {
 
     render() {
         const {classes} = this.props;
-        return (<Grid item lg={6}>
+        return (<Grid item lg={12}>
             <Dialog open={this.state.isDialogOpen} onClose={this.handleDialogClose}>
                 <DialogTitle>CHECK!</DialogTitle>
                 <DialogContent>
@@ -332,11 +332,11 @@ class VacationRequest extends Component {
                 </DialogActions>
             </Dialog>
 
-            <Box>
+            <Box style={{width:'1200px'}}>
                 <Box
                     sx={{
-                        width: "60%",
-                        fontSize: '1.5rem',
+                        width:"100%",
+                        fontSize: '25px',
                         fontFamily: 'Noto Sans KR, sans-serif',
                         fontWeight: 'bold',
                         borderBottom: 'solid 1px black',
@@ -350,67 +350,67 @@ class VacationRequest extends Component {
                     <form onSubmit={this.submitForm}>
                         <table className={classes.formTable}>
                             <tbody>
-                            <tr>
-                                <td className={classes.tableCellIndexText}>연차 종류</td>
-                                <td className={classes.formCell}>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="vacation-type-label">연차 종류</InputLabel>
-                                        <Select
-                                            labelId="vacation-type-label"
-                                            id="vacation-type"
-                                            onChange={this.vacationTypeChange}
-                                        >
-                                            {/*TODO: 백엔드의 연차 종류 데이터를 value 등에 넣도록 수정할것*/}
-                                            <MenuItem value={"a"}>경조사</MenuItem>
-                                            <MenuItem value={"medical"}>병가</MenuItem>
-                                            <MenuItem value={"vacation"}>휴가</MenuItem>
+                            {/*<tr>*/}
+                            {/*    <td className={classes.tableCellIndexText}>연차 종류</td>*/}
+                            {/*    <td className={classes.formCell}>*/}
+                            {/*        <FormControl className={classes.formControl}>*/}
+                            {/*            <InputLabel id="vacation-type-label">연차 종류</InputLabel>*/}
+                            {/*            <Select*/}
+                            {/*                labelId="vacation-type-label"*/}
+                            {/*                id="vacation-type"*/}
+                            {/*                onChange={this.vacationTypeChange}*/}
+                            {/*            >*/}
+                            {/*                /!*TODO: 백엔드의 연차 종류 데이터를 value 등에 넣도록 수정할것*!/*/}
+                            {/*                <MenuItem value={"a"}>경조사</MenuItem>*/}
+                            {/*                <MenuItem value={"medical"}>병가</MenuItem>*/}
+                            {/*                <MenuItem value={"vacation"}>휴가</MenuItem>*/}
 
 
-                                        </Select>
-                                    </FormControl>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className={classes.tableCellIndexText}>연차 개수</td>
-                                <td className={classes.formCell}>
-                                    <TextFieldComponent label={"연차 개수"} onChange={this.inputCountChange}
-                                                        value={this.state.getData}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className={classes.tableCellIndexText}>남은 연차 / 최대 사용 가능 개수</td>
-                                <td className={classes.formCell}>
-                                    {/*{this.state.remainVacation}*/}
-                                    {this.state.remainVacation} / {this.props.args[1] > this.state.remainVacation ? this.props.args[1] : this.state.remainVacation}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className={classes.tableCellIndexText}>연차 날짜</td>
-                                <td className={classes.formCell}>
-                                    시작 날짜: {this.startDate}&nbsp;&nbsp;&nbsp;
-                                    끝 날짜:{this.state.endDate}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className={classes.tableCellIndexText}>사유</td>
-                                <td className={classes.formCell}>
-                                    <TextFieldComponent label={"사유"} onChange={this.changeReason}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={4} style={{
-                                    textAlign: "center",
-                                    padding: "20px 0 20px 0"
-                                }}>
-                                <FormControl>
-                                <Select>
-                                    <Box style={{display: 'flex', justifyContent: 'space-evenly'}}/>
-                                        {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
-                                        <BlackButtonComponent onButtonClick={() => {this.props.args[0]()}} title={"취소"}/>
-                                    </Select>
-                                </FormControl>
-                            </td>
-                            </tr>
+                            {/*            </Select>*/}
+                            {/*        </FormControl>*/}
+                            {/*    </td>*/}
+                            {/*</tr>*/}
+                            {/*<tr>*/}
+                            {/*    <td className={classes.tableCellIndexText}>연차 개수</td>*/}
+                            {/*    <td className={classes.formCell}>*/}
+                            {/*        <TextFieldComponent label={"연차 개수"} onChange={this.inputCountChange}*/}
+                            {/*                            value={this.state.getData}/>*/}
+                            {/*    </td>*/}
+                            {/*</tr>*/}
+                            {/*<tr>*/}
+                            {/*    <td className={classes.tableCellIndexText}>남은 연차 / 최대 사용 가능 개수</td>*/}
+                            {/*    <td className={classes.formCell}>*/}
+                            {/*        /!*{this.state.remainVacation}*!/*/}
+                            {/*        {this.state.remainVacation} / {this.props.args[1] > this.state.remainVacation ? this.props.args[1] : this.state.remainVacation}*/}
+                            {/*    </td>*/}
+                            {/*</tr>*/}
+                            {/*<tr>*/}
+                            {/*    <td className={classes.tableCellIndexText}>연차 날짜</td>*/}
+                            {/*    <td className={classes.formCell}>*/}
+                            {/*        시작 날짜: {this.startDate}&nbsp;&nbsp;&nbsp;*/}
+                            {/*        끝 날짜:{this.state.endDate}*/}
+                            {/*    </td>*/}
+                            {/*</tr>*/}
+                            {/*<tr>*/}
+                            {/*    <td className={classes.tableCellIndexText}>사유</td>*/}
+                            {/*    <td className={classes.formCell}>*/}
+                            {/*        <TextFieldComponent label={"사유"} onChange={this.changeReason}/>*/}
+                            {/*    </td>*/}
+                            {/*</tr>*/}
+                            {/*<tr>*/}
+                            {/*    <td colSpan={4} style={{*/}
+                            {/*        textAlign: "center",*/}
+                            {/*        padding: "20px 0 20px 0"*/}
+                            {/*    }}>*/}
+                            {/*    <FormControl>*/}
+                            {/*    <Select>*/}
+                            {/*        <Box style={{display: 'flex', justifyContent: 'space-evenly'}}/>*/}
+                            {/*            /!*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*!/*/}
+                            {/*            <BlackButtonComponent onButtonClick={() => {this.props.args[0]()}} title={"취소"}/>*/}
+                            {/*        </Select>*/}
+                            {/*    </FormControl>*/}
+                            {/*</td>*/}
+                            {/*</tr>*/}
                             <tr>
                                 <td className={classes.tableCellIndexText}>연차 개수</td>
                                 <td className={classes.formCell}>
