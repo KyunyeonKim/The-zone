@@ -3,25 +3,23 @@ import React, {Component} from "react";
 import {withStyles} from "@material-ui/core/styles";
 
 const styles = (theme) => ({
-
+//variant="outlined" color="primary"
     button :{
         fontSize:'18px',
         whiteSpace: 'nowrap',
         borderRadius:'8px',
-        color:"black",
+        border:'1px solid #2055E8',
+        backgroundColor:"cornflowerblue",
         // backgroundColor:"#2F79DA",
         fontFamily: 'Noto Sans KR, sans-serif',
         height:"55px",
-        backgroundColor:"white",
         fontWeight:'bold',
-        border:'1px solid black',
         width:"180px"
-
     }
 
 });
 
-class BlackButtonComponent extends Component{
+class SettingButtonComponent extends Component{
 
     constructor(props){
         super(props);
@@ -30,9 +28,9 @@ class BlackButtonComponent extends Component{
     render(){
         const {classes,title,onButtonClick,disabled} = this.props;
         return(
-            <Button className={classes.button}  onClick={onButtonClick} disabled={disabled}> {title} </Button>
+            <Button className={classes.button} onClick={onButtonClick} disabled={disabled} > {title} </Button>
         )
     }
 }
 
-export default withStyles(styles)(BlackButtonComponent);
+export default withStyles(styles)(SettingButtonComponent);

@@ -4,6 +4,7 @@ import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
 import AddButtonComponent from "../Component/Button/AddButtonComponent";
 import BlackButtonComponent from "../Component/Button/BlackButtonComponent";
+import SettingButtonComponent from "../Component/Button/SettingButtonComponent";
 
 // const {closeModal} = this.props
 
@@ -14,7 +15,8 @@ const styles = (theme) => ({
         width: "70%",
         borderTop: "2px solid black",
         height: "700px",
-        marginTop:"20px"
+        marginTop:"20px",
+        marginBottom:"40px"
     },
 
     formCell: {
@@ -255,13 +257,13 @@ class VacationDefaultSetting extends Component {
                 <Box style={{width:"1200px"}}>
                     <Box
                         sx={{
-                            width:"100%",
+                            width:"90%",
                             fontSize:'25px',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: 'auto',
-                            paddingBottom: '10px'
+                            paddingBottom: '10px',
                         }}>
                         근속 연수에 따른 연차 개수 설정
                     </Box>
@@ -319,11 +321,11 @@ class VacationDefaultSetting extends Component {
                                     <td className={classes.formCell} colSpan={4} style={{
                                         textAlign: "center",
 
-                                        padding: "20px 0 20px 0"
+                                        padding: "20px 0 20px 0",border:'0px'
                                     }}>
                                         <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                             <BlackButtonComponent title={"취소"} onButtonClick={this.props.args[0]}/>
-                                            <AddButtonComponent type="submit" onButtonClick={this.submitForm}
+                                            <SettingButtonComponent type="submit" onButtonClick={this.submitForm}
                                                                 title={"설정"}/>
                                         </Box>
                                     </td>

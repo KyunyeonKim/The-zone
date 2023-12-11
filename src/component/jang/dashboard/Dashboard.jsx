@@ -40,7 +40,7 @@ import {useStyles} from "@material-ui/pickers/views/Year/Year";
 
 
 export default function Dashboard(props) {
-    let drawerWidth = sessionStorage.getItem('userType') === 'manager' ? 240 : 0;
+    let drawerWidth = sessionStorage.getItem('userType') === 'manager' ? 340 : 0;
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -303,7 +303,7 @@ export default function Dashboard(props) {
                                                         <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '150px',  }}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',  }}/>
                                                     </Box>
                                                 </Slider>
                                             </Box>

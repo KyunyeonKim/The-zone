@@ -30,13 +30,13 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text: {
-        fontSize: '18px',
+        fontSize: '16px',
         fontFamily: 'Noto Sans KR, sans-serif',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText: {
-        fontSize: '22px',
+        fontSize: '20px',
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight: 'bold',
         whiteSpace: 'nowrap'

@@ -19,6 +19,7 @@ import AddButtonComponent from "../Component/Button/AddButtonComponent";
 import BlackButtonComponent from "../Component/Button/BlackButtonComponent";
 import Grid from "@material-ui/core/Grid";
 import {stateStore} from "../../../index";
+import SettingButtonComponent from "../Component/Button/SettingButtonComponent";
 
 
 // const {closeModal} = this.props
@@ -29,7 +30,8 @@ const styles = (theme) => ({
         width: "70%",
         borderTop: "2px solid black",
         height: "700px",
-        marginTop: "20px"
+        marginTop: "20px",
+        marginBottom:"40px"
     },
     formCell: {
         padding: theme.spacing(2),
@@ -338,7 +340,7 @@ class VacationRequest extends Component {
             <Box style={{width:'1200px'}}>
                 <Box
                     sx={{
-                        width:"100%",
+                        width:"90%",
                         fontSize: '25px',
                         fontFamily: 'Noto Sans KR, sans-serif',
                         fontWeight: 'bold',
@@ -444,7 +446,7 @@ class VacationRequest extends Component {
                             </tr>
                             <tr>
                                 <td colSpan={4} style={{
-                                    textAlign: "center", backgroundColor: "#F9F9F9", padding: "20px 0 20px 0"
+                                    textAlign: "center", backgroundColor: "#F9F9F9", padding: "20px 0 20px 0",border:'0px'
                                 }}>
                                     <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                         {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
@@ -454,7 +456,7 @@ class VacationRequest extends Component {
                                                               title={"취소"}
                                         />
 
-                                        <AddButtonComponent
+                                        <SettingButtonComponent
                                             type="submit"
                                             onButtonClick={this.submitForm}
                                             title={"신청"}
