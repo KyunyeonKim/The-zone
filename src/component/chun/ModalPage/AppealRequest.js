@@ -24,9 +24,9 @@ const styles = (theme) => ({
         margin: "0 auto",
         borderCollapse: "collapse",
         width: "45%",
-        borderTop:"2px solid black",
-        height:"600px"
-
+        borderTop: "2px solid black",
+        height: "600px",
+        marginTop:"20px"
     },
     formCell: {
         padding: theme.spacing(2),
@@ -41,15 +41,15 @@ const styles = (theme) => ({
         marginRight:"30px",
         height:"50px"
     },
-    tableCellIndexText:{
-        fontSize:'18px',
+    tableCellIndexText: {
+        fontSize: '18px',
         fontFamily: 'Noto Sans KR, sans-serif',
-        fontWeight:'bold',
+        fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor:"#C2DCF0",
+        backgroundColor: "#E4F3FF",
         textAlign: "right",
         paddingRight: '15px',
-        width:"30%",
+        width: "35%",
         whiteSpace: 'nowrap'
     }
 
@@ -194,7 +194,7 @@ class AppealRequest extends Component {
         const { classes } = this.props;
         return (
             <>
-                <Grid item lg={10}>
+                <Grid item lg={12}>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>근태 조정 신청</DialogTitle>
                     <DialogContent>
@@ -207,7 +207,12 @@ class AppealRequest extends Component {
 
                 <Box>
                     <Box
-                        sx={{fontSize:'20px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                        sx={{width:"60%",
+                            fontSize:'20px',
+                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontWeight:'bold',
+                            borderBottom:'solid 1px black',
+                            margin: 'auto',
                             paddingBottom: '10px'
                         }} >
                         근태 조정 요청
@@ -310,7 +315,7 @@ class AppealRequest extends Component {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td  colSpan={4} style={{ textAlign: "center", backgroundColor:"#F9F9F9",padding: "20px 0 20px 0" }}>
+                                    <td  colSpan={4} style={{ textAlign: "center", padding: "20px 0 20px 0" }}>
                                         <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                             {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}
                                             <BlackButtonComponent title={"취소"} onButtonClick={this.props.args[2]}/>

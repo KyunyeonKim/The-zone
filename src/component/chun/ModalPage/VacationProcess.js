@@ -341,7 +341,7 @@ class VacationProcess extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <Box style={{width: '80%', margin: 'auto'}}>
+                <Box >
                     <Box
                         sx={{
                             fontSize: '1.5rem',

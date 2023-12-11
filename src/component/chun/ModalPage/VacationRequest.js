@@ -26,7 +26,8 @@ const styles = (theme) => ({
         borderCollapse: "collapse",
         width: "45%",
         borderTop: "2px solid black",
-        height: "600px"
+        height: "600px",
+        marginTop:"20px"
     },
     formCell: {
         padding: theme.spacing(2),
@@ -63,7 +64,7 @@ const styles = (theme) => ({
         fontFamily: 'Noto Sans KR, sans-serif',
         fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor: "#C2DCF0",
+        backgroundColor: "#E4F3FF",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
@@ -321,7 +322,7 @@ class VacationRequest extends Component {
     render() {
         const {classes} = this.props;
         return (
-            <Grid item lg={6}>
+            <Grid item lg={12}>
 
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 신청</DialogTitle>
@@ -335,14 +336,15 @@ class VacationRequest extends Component {
                     </DialogActions>
                 </Dialog>
 
-                <Box style={{width: '80%', margin: 'auto'}}>
+                <Box>
                     <Box
                         sx={{
+                            width:"60%",
                             fontSize: '1.5rem',
                             fontFamily: 'Noto Sans KR, sans-serif',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
-                            margin: '20px 0 20px 0',
+                            margin: 'auto',
                             paddingBottom: '10px'
                         }}>
                         연차 신청
@@ -402,7 +404,6 @@ class VacationRequest extends Component {
                                 <tr>
                                     <td colSpan={4} style={{
                                         textAlign: "center",
-                                        backgroundColor: "#F9F9F9",
                                         padding: "20px 0 20px 0"
                                     }}>
                                         <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>

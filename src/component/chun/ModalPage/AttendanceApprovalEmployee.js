@@ -234,7 +234,7 @@ class AttendanceApprovalEmployee extends Component {
 
         return (
             <div>
-                <Box style={{width: '80%', margin: 'auto'}}>
+                <Box style={{width:"1500px"}}>
                     <Box
                         sx={{
                             fontSize: '1.5rem',

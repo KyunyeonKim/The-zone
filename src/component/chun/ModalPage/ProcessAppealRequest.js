@@ -337,7 +337,7 @@ class ProcessAppealRequest extends Component{
                     </DialogActions>
                 </Dialog>
 
-                <Box  style={{ width: '80%', margin: 'auto' }}>
+                <Box >
                     <Box
                         sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                             paddingBottom: '10px'
@@ -380,7 +380,7 @@ class ProcessAppealRequest extends Component{
                         </FormControl>
                     </Box>
                     <TableContainer component={Paper}>
-                        <Table className={classes.table} stickyHeader="true" >
+                        <Table className={classes.table} >
                             <TableHead className={classes.tableHead}>
                                 <TableRow>
                                     <TableCell align="center" className={classes.titleText}>일련 번호</TableCell>
