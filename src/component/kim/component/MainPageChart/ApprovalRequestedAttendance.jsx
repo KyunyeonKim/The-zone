@@ -48,10 +48,16 @@ class ApprovalRequestedAttendance extends Component {
     };
 
     componentDidMount() {
-        this.loadrequestAttendanceCount();
+        this.loadApprovedMonthVacationData();
+    }
+    loopStop=false;
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(!this.loopStop){
+            this.loadApprovedMonthVacationData();
+        }
     }
 
-    loadrequestAttendanceCount = () => {
+    loadApprovedMonthVacationData = () => {
         const {year, month} = this.props;
         //TODO: 로그인 기능 삭제
 
@@ -68,6 +74,7 @@ class ApprovalRequestedAttendance extends Component {
     }
 
     render() {
+        this.loopStop=!this.loopStop;
         const {approvalRequestedAttendance} = this.state;
         const {classes, month} = this.props;
 

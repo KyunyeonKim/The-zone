@@ -50,6 +50,12 @@ class VacationRequestedInfo extends Component {
     componentDidMount() {
         this.loadRequestedMonthVacationData();
     }
+    loopStop=false;
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(!this.loopStop){
+            this.loadRequestedMonthVacationData();
+        }
+    }
 
     loadRequestedMonthVacationData = () => {
         const {year, month} = this.props;
@@ -67,6 +73,7 @@ class VacationRequestedInfo extends Component {
     }
 
     render() {
+        this.loopStop=!this.loopStop;
         const {requestedVacationCount} = this.state;
         const {classes, month} = this.props;
 
