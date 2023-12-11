@@ -35,6 +35,7 @@ import styled from 'styled-components';
 import Button from "@material-ui/core/Button";
 
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import {useStyles} from "@material-ui/pickers/views/Year/Year";
 
 
 
@@ -141,8 +142,6 @@ export default function Dashboard(props) {
                 cursor: 'pointer',
             },
         },
-
-        }
     }));
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -338,8 +337,6 @@ export default function Dashboard(props) {
                     </Grid>
                 </Grid>
             </Grid>
-
-
         </main>
     </div>);
 }
