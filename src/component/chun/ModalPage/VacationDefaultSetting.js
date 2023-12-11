@@ -198,6 +198,7 @@ class VacationDefaultSetting extends Component {
             }
         }
 
+
     };
 
     buttonClick = () => {
@@ -205,6 +206,7 @@ class VacationDefaultSetting extends Component {
     }
 
     handleClose = () => {
+        this.props.args[0]()
         this.setState({...this.state, open: false});
     }
 
@@ -318,7 +320,7 @@ class VacationDefaultSetting extends Component {
                                         padding: "20px 0 20px 0"
                                     }}>
                                         <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                                            <BlackButtonComponent title={"취소"}/>
+                                            <BlackButtonComponent title={"취소"} onButtonClick={this.props.args[0]}/>
                                             <AddButtonComponent type="submit" onButtonClick={this.submitForm}
                                                                 title={"설정"}/>
                                         </Box>

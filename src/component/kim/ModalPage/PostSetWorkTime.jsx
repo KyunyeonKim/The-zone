@@ -29,11 +29,11 @@ class PostSetWorkTime extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        axios.defaults.withCredentials = true;
-        let loginForm = new FormData();
-        loginForm.append("loginId", "200001012");
-        loginForm.append("password", "test");
-        await axios.post("http://localhost:8080/login", loginForm);
+        // axios.defaults.withCredentials = true;
+        // let loginForm = new FormData();
+        // loginForm.append("loginId", "200001012");
+        // loginForm.append("password", "test");
+        // await axios.post("http://localhost:8080/login", loginForm);
         const {
             adjustedStartHour,
             adjustedStartMinute,
@@ -75,6 +75,7 @@ class PostSetWorkTime extends Component {
             const response = await axios.post('http://localhost:8080/manager/adjustment', formData, {});
             console.log("근무 시간 조정 결과", response.data);
             alert("근무 시간이 성공적으로 조정되었습니다.");
+            this.props.args[0]()
         } catch (error) {
             if (error.response) {
                 switch (error.response.status) {
@@ -94,6 +95,7 @@ class PostSetWorkTime extends Component {
             } else {
                 console.error('Error:', error);
                 alert("An error occurred while fetching data!");
+
             }
         }
     };

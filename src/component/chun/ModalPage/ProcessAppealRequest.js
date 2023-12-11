@@ -184,7 +184,6 @@ class ProcessAppealRequest extends Component{
             }
             return;
         }
-
     }
 
     handleSearchButtonClick = async(e) => {
@@ -229,7 +228,6 @@ class ProcessAppealRequest extends Component{
                     isSearch:true,
                     sort:"",
                     desc:""
-
                 });
 
             } catch (error) {
@@ -299,8 +297,6 @@ class ProcessAppealRequest extends Component{
 
     };
     componentDidMount() {
-        const { employeeId } = this.props;
-
         const page='';
         this.fetchData(page);
     }

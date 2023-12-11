@@ -9,7 +9,7 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select,
+    Select, Typography,
 } from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
@@ -17,6 +17,8 @@ import TextFieldComponent from "../Component/TextFieldComponent";
 import AddButtonComponent from "../Component/Button/AddButtonComponent";
 import BlackButtonComponent from "../Component/Button/BlackButtonComponent";
 import Grid from "@material-ui/core/Grid";
+import {stateStore} from "../../../index";
+import defaultPersonImage from "../../kim/static/defaultPersonImage.png";
 
 // const {closeModal} = this.props
 const styles = (theme) => ({
@@ -51,7 +53,9 @@ const styles = (theme) => ({
         paddingRight: '15px',
         width:"30%",
         whiteSpace: 'nowrap'
-    }
+    },uploadInput: {
+        display: 'none'
+    },
 
 });
 
@@ -69,7 +73,12 @@ class AppealRequest extends Component {
         this.state = {
             targetDate: `${year} / ${month} / ${day}`, //TODO : 추후 props 이용
             attendanceInfoId:this.props.args[1],// TODO : 추후 props로 받아오도록 해야함
-            addOpen:false
+            addOpen:false,
+            selectedYear:year,
+            selectedMonth:month,
+            selectedDay:day,
+            uploadFile: null,
+            defaultPersonImage: defaultPersonImage,
         };
 
         this.attendanceHour="";
@@ -83,7 +92,7 @@ class AppealRequest extends Component {
         this.attendanceMinuteChange=this.attendanceMinuteChange.bind(this);
         this.leavingHourChange=this.leavingHourChange.bind(this);
         this.leavingMinuteChange=this.leavingMinuteChange.bind(this);
-        this.login=this.login.bind(this);
+        // this.login=this.login.bind(this);
         this.buttonClick=this.buttonClick.bind(this);
         this.handleClose=this.handleClose.bind(this);
         this.submitForm=this.submitForm.bind(this);
@@ -111,17 +120,17 @@ class AppealRequest extends Component {
         this.leavingMinute=e.target.value;
     }
 
-    login=async ()=> {
-        axios.defaults.withCredentials = true;
-        let loginForm = new FormData();
-        loginForm.append("loginId", "200001012");
-        loginForm.append("password", "test");
-        try {
-            const login = await axios.post("http://localhost:8080/login", loginForm);
-        } catch (error) {
-            console.log("error 발생 !");
-        }
-    }
+    // login=async ()=> {
+    //     axios.defaults.withCredentials = true;
+    //     let loginForm = new FormData();
+    //     loginForm.append("loginId", "200001012");
+    //     loginForm.append("password", "test");
+    //     try {
+    //         const login = await axios.post("http://localhost:8080/login", loginForm);
+    //     } catch (error) {
+    //         console.log("error 발생 !");
+    //     }
+    // }
 
     buttonClick = ()=>{
         this.setState({...this.state,addOpen:true});
@@ -132,6 +141,11 @@ class AppealRequest extends Component {
         this.setState({...this.state,addOpen:false});
         this.props.args[2]()
     }
+
+    handleImageUpload = (e) => {
+        const imageFile = e.target.files[0];
+        this.setState({uploadFile: imageFile});
+    };
 
     submitForm = async(e) => {
         if(this.attendanceHour===""|| this.attendanceMinute===""|| this.leavingHour===""|| this.leavingMinute===""||this.reason===""){
@@ -163,6 +177,16 @@ class AppealRequest extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
+
+            if (this.state.uploadFile instanceof File) {
+                const uploadFileUrl = "http://localhost:8080/admin/upload/appeal";
+                const uploadFormData = new FormData();
+                uploadFormData.append("identifier",this.props.args[1]);
+                uploadFormData.append("uploadFile", this.state.uploadFile);
+
+                const uploadResponse = await axios.post(uploadFileUrl, uploadFormData);
+                alert("이미지 업로드 결과", uploadResponse.data);
+            }
             this.buttonClick();
         }catch (error){
             if (error.response.status === 400) {
@@ -178,6 +202,9 @@ class AppealRequest extends Component {
                 return;
             }
         }
+        alert(`stateStore.chartContainerStateSet.setState ${new Date(this.props.args[0])}`)
+
+        stateStore.calendarContainerStateSet.setState(this.state.selectedYear.toString(),this.state.selectedMonth.toString(),new Date(this.props.args[0]))
     };
 
     reasonChange = (e)=>{
@@ -185,13 +212,14 @@ class AppealRequest extends Component {
     }
 
     componentDidMount() {
-        this.login();
+        // this.login();
         console.log("로그인함");
     }
 
     render() {
         {console.log("리랜더링")}
         const { classes } = this.props;
+        const uploadFile = this.state.uploadFile
         return (
             <>
                 <Grid item lg={10}>
@@ -308,6 +336,39 @@ class AppealRequest extends Component {
                                         <TextFieldComponent id="reason" label={"사유"}  onChange={this.reasonChange}/>
 
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCellIndexText}>증명 자료</td>
+                                    <td className={classes.formCell}>
+                                    <Box className={classes.uploadContainer}>
+                                        <input
+                                            accept="image/*"
+                                            className={classes.uploadInput}
+                                            id="upload-file"
+                                            type="file"
+                                            onChange={this.handleImageUpload}
+                                        />
+                                        <label htmlFor="upload-file" className={classes.uploadLabel}>
+                                            {uploadFile ? (
+                                                <img
+                                                    src={URL.createObjectURL(uploadFile)}
+                                                    alt="Employee"
+                                                    className={classes.uploadIcon}
+                                                    style={{ width: '100px', height: '100px' }} // 원하는 크기로 조절
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={this.state.defaultPersonImage}
+                                                    alt="Default"
+                                                    className={classes.uploadIcon}
+                                                    style={{ width: '100px', height: '100px' }} // 원하는 크기로 조절
+                                                />
+                                            )}
+                                        </label>
+
+                                    </Box>
+                                    </td>
+
                                 </tr>
                                 <tr>
                                     <td  colSpan={4} style={{ textAlign: "center", backgroundColor:"#F9F9F9",padding: "20px 0 20px 0" }}>

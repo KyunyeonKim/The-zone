@@ -21,6 +21,9 @@ import SetWorkTime from "../../kim/ModalPage/SetWorkTime";
 import Box from "@material-ui/core/Box";
 import {Dialog, DialogContent} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
+import VacationRequestedInfo from "../../kim/component/MainPageChart/VacationRequestedInfo";
+import VacationInfo from "./VacationInfo";
+import AppealInfo from "./AppealInfo";
 // const {closeModal} = this.props
 
 const styles = theme => ({
@@ -241,9 +244,27 @@ class ModalContainer extends Component {
                 </>
                 break;
 
+            case 'AppealRequestedInfo':
+                return <>
+                    <Grid container lg={12} justifyContent={'center'}>
+                        <AppealInfo args={this.state.args}></AppealInfo>
+                    </Grid>
+                </>
+                break;
+
+
+            case 'VacationRequested':
+                return <>
+                    <Grid container lg={12} justifyContent={'center'}>
+                        <VacationInfo args={this.state.args}></VacationInfo>
+                    </Grid>
+                </>
+                break;
+
             default:
                 console.log('지원하지 않는 Inner Container 이름입니다.');
         }
+
     }
 
     render() {

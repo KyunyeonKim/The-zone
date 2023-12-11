@@ -164,16 +164,17 @@ export default function Dashboard(props) {
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
             <Container maxWidth="lg" className={classes.container} >
+                <Grid item>
                 {/* inernal container*/}
                 {sessionStorage.getItem('userType') !== 'admin' ?
                     <Grid container xs={12} md={12} lg={12}>
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper style={{height:"300px"}}>
-                                {/*<ChartContainer/>*/}
+                                <ChartContainer/>
                             </Paper>
                         </Grid>
                     </Grid>:<></>}
-
+                </Grid>
                 <Grid container xs={12} md={12} lg={12} style={{flexDirection:'row', marginTop:'10px'}}>
                     {sessionStorage.getItem('userType') !== 'admin' ?
                         <Grid item xs={3} md={3} lg={3}>

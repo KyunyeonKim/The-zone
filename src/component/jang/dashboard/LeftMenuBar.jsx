@@ -37,27 +37,43 @@ class LeftMenuBar extends Component {
 
     render() {
         const {classes, open, handleDrawerClose, toggleModalShowing} = this.props;
-        const firstMenuHandler = () => {
-            toggleModalShowing('firstMenu', 'ddd', 'fff')
-        }
-        const secondMenuHandler = () => {
-            toggleModalShowing('secondMenuHandler', 'ddd', 'fff')
-        }
-        const thirdMenuHandler = () => {
-            toggleModalShowing('thirdMenuHandler', 'ddd', 'fff')
-        }
-        const fourthMenuHandler = () => {
-            toggleModalShowing('fourthMenuHandler', 'ddd', 'fff')
-        }
-        const fifthMenuHandler = () => {
-            toggleModalShowing('fifthMenuHandler', 'ddd', 'fff')
-        }
-        const sixthMenuHandler = () => {
-            toggleModalShowing('sixthMenuHandler', 'ddd', 'fff')
-        }
-        return (
 
-            <Drawer
+        const EmployeeReportModalHandler = () => {
+            toggleModalShowing('EmployeeDashboard', this.props.toggleModalShowing)
+        }
+        const AttendanceApprovalAllEmployeesHandler = () => {
+            toggleModalShowing('AttendanceApprovalAllEmployees', 'ddd', 'fff')
+        }
+        const AttendanceApprovalEmployeeHandler = () => {
+            toggleModalShowing('AttendanceApprovalEmployee', 'ddd', 'fff')
+        }
+        const ProcessAppealRequestHandler = () => {
+            toggleModalShowing('ProcessAppealRequest', 'ddd', 'fff')
+        }
+        const VacationDefaultSettingHandler = () => {
+            toggleModalShowing('VacationDefaultSetting', this.props.toggleModalShowing)
+        } 
+        const VacationProcessHandler = () => {
+            toggleModalShowing('VacationProcess', this.props.toggleModalShowing, 'fff')
+        }
+
+        const GetVacationHistoryHandler = () => {
+            toggleModalShowing('GetVacationHistory', this.props.toggleModalShowing, 'fff')
+        }
+        const GetAttendanceHistoryHandler = () => {
+            toggleModalShowing('GetAttendanceHistory', this.props.toggleModalShowing, 'fff')
+        }
+        const GetHistoryOfVacationDefaultSettingHandler = () => {
+            toggleModalShowing('GetHistoryOfVacationDefaultSetting', this.props.toggleModalShowing, 'fff')
+        }
+        const PostSetWorkTimeHandler = () => {
+            toggleModalShowing('PostSetWorkTime', this.props.toggleModalShowing, 'fff')
+        }
+        const CreateEmployeeHandler = () => {
+            toggleModalShowing('CreateEmployee', this.props.toggleModalShowing, 'fff')
+        }
+
+        return (<Drawer
                 variant="permanent"
                 classes={{
                     paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -113,43 +129,88 @@ class LeftMenuBar extends Component {
                 {/*</List>*/}
                 {/*<Divider/>*/}
                 <List>
+                    <div style={{display : sessionStorage.getItem('userType')!=='admin'?'block':'none'}}>
+                        <Divider/>
+                        <ListSubheader inset className={classes.subheader}>사원 메뉴</ListSubheader>
+
+                        <ListItem button onClick={GetVacationHistoryHandler}>
+                            <ListItemIcon>
+                                <AssignmentIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="개인용 근태 정보 보고서 모달"/>
+                        </ListItem>
+                        <ListItem button onClick={AttendanceApprovalEmployeeHandler}>
+                            <ListItemIcon>
+                                <AssignmentIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="개인용 근태 승인 내역 조회"/>
+                        </ListItem>
+                        {/*<ListItem button onClick={AttendanceApprovalAllEmployeesHandler}>*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon/>*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="thirdMenuHandler"/>*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem button onClick={fourthMenuHandler}>*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon/>*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="fourthMenuHandler"/>*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem button onClick={fifthMenuHandler}>*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon/>*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="fifthMenuHandler"/>*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem button onClick={sixthMenuHandler}>*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon/>*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="sixthMenuHandler"/>*/}
+                        {/*</ListItem>*/}
+                    </div>
+                </List>
+                <Divider/>
+                <List>
                     <div style={{display: sessionStorage.getItem('userType') === 'manager' ? 'block' : 'none'}}>
                         <ListSubheader inset className={classes.subheader}>관리자 메뉴</ListSubheader>
-                        <ListItem button onClick={firstMenuHandler}>
+                        <ListItem button onClick={GetVacationHistoryHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="firstMenuHandler"/>
+                            <ListItemText primary="전사원 연차 사용 내역 검색"/>
                         </ListItem>
-                        <ListItem button onClick={secondMenuHandler}>
+                        <ListItem button onClick={EmployeeReportModalHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="secondMenuHandler"/>
+                            <ListItemText primary="전사원에 대한 보고서 출력"/>
                         </ListItem>
-                        <ListItem button onClick={thirdMenuHandler}>
+                        <ListItem button onClick={AttendanceApprovalAllEmployeesHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="thirdMenuHandler"/>
+                            <ListItemText primary="전사원 근태 이상 승인 내역 검색"/>
                         </ListItem>
-                        <ListItem button onClick={fourthMenuHandler}>
+
+                        <ListItem button onClick={ProcessAppealRequestHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="fourthMenuHandler"/>
+                            <ListItemText primary="근태 이상 조정 요청 처리"/>
                         </ListItem>
-                        <ListItem button onClick={fifthMenuHandler}>
+                        <ListItem button onClick={VacationDefaultSettingHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="fifthMenuHandler"/>
+                            <ListItemText primary="근속 년수에 따른 연차 개수 조정"/>
                         </ListItem>
-                        <ListItem button onClick={sixthMenuHandler}>
+                        <ListItem button onClick={VacationProcessHandler}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="sixthMenuHandler"/>
+                            <ListItemText primary="연차 요청 처리"/>
                         </ListItem>
                         <Divider/>
                     </div>
@@ -193,6 +254,62 @@ class LeftMenuBar extends Component {
                     {/*    </ListItem>*/}
                     {/*    <Divider/>*/}
                     {/*</div>*/}
+                    <div>
+                        <ListItem button onClick={GetAttendanceHistoryHandler}>
+                            <ListItemIcon>
+                                <AssignmentIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="조정 요청 내역 조회"/>
+                        </ListItem>
+
+                        <ListItem button onClick={GetHistoryOfVacationDefaultSettingHandler}>
+                            <ListItemIcon>
+                                <AssignmentIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="연차 요청 처리"/>
+                        </ListItem>
+                        <ListItem button onClick={PostSetWorkTimeHandler}>
+                            <ListItemIcon>
+                                <AssignmentIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="근무 시간 조정"/>
+                        </ListItem>
+                        <Divider/>
+                    </div>
+                    <div style={{display : sessionStorage.getItem('userType')==='admin'?'block':'none'}}>
+                        <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>
+                        <ListItem button onClick={CreateEmployeeHandler} >
+                            <ListItemIcon>
+                                <AssignmentIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="사원 정보 생성" />
+                        </ListItem>
+                        {/*<ListItem button onClick={thirdMenuHandler} >*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon />*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="thirdMenuHandler" />*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem button onClick={fourthMenuHandler} >*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon />*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="fourthMenuHandler" />*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem button onClick={fifthMenuHandler} >*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon />*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="fifthMenuHandler" />*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem button onClick={sixthMenuHandler} >*/}
+                        {/*    <ListItemIcon>*/}
+                        {/*        <AssignmentIcon />*/}
+                        {/*    </ListItemIcon>*/}
+                        {/*    <ListItemText primary="sixthMenuHandler" />*/}
+                        {/*</ListItem>*/}
+                        <Divider/>
+                    </div>
                 </List>
 
             </Drawer>);

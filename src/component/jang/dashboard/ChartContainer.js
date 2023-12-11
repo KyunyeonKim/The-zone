@@ -18,7 +18,7 @@ class ChartContainer extends Component {
 
     render() {
         return (
-            <Grid>
+            <Grid item>
                 {`chart of ${JSON.stringify(this.state)}`}
                 <VacationDashBoard currentYear={this.state.year} currentMonth={this.state.month}></VacationDashBoard>
             </Grid>

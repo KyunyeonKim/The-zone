@@ -171,12 +171,12 @@ class CreateEmployee extends Component {
 
         try {
 
-            axios.defaults.withCredentials = true;
-            let loginForm = new FormData();
-            await axios.get("http://localhost:8080/logout");
-            loginForm.append("loginId", "admin");
-            loginForm.append("password", "admin");
-            await axios.post("http://localhost:8080/login", loginForm);
+            // axios.defaults.withCredentials = true;
+            // let loginForm = new FormData();
+            // await axios.get("http://localhost:8080/logout");
+            // loginForm.append("loginId", "admin");
+            // loginForm.append("password", "admin");
+            // await axios.post("http://localhost:8080/login", loginForm);
 
             const employeeAddUrl = "http://localhost:8080/admin/register";
             const createForm = new FormData();
@@ -192,7 +192,7 @@ class CreateEmployee extends Component {
             if (uploadFile instanceof File) {
                 const uploadFileUrl = "http://localhost:8080/admin/upload";
                 const uploadFormData = new FormData();
-                uploadFormData.append("employeeId", employeeId);
+                uploadFormData.append("identifier", employeeId);
                 uploadFormData.append("uploadFile", uploadFile);
 
                 const uploadResponse = await axios.post(uploadFileUrl, uploadFormData);

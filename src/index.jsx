@@ -3,9 +3,8 @@ import { render } from 'react-dom'
 
 import './index.css'
 import MainEndPoint from "./component/jang/page/MainEndPoint";
-import EmployeeDashboard from "./component/kim/ModalPage/EmployeeDashboard";
-import PostSetWorkTime from "./component/kim/ModalPage/PostSetWorkTime";
-import CreateEmployee from "./component/kim/ModalPage/CreateEmployee";
+import ErrorBoundary from "./component/jang/page/ErrorBoundary";
+
 export const stateStore={}
 
 export const chartDataStore = {store: {
@@ -19,10 +18,9 @@ export const chartDataStore = {store: {
 
 document.addEventListener('DOMContentLoaded', function() {
   render(
-    // <MainEndPoint/>,
-      <EmployeeDashboard/>,
-    //   <CreateEmployee/>,
-
+      <ErrorBoundary>
+        <MainEndPoint/>
+      </ErrorBoundary>,
     document.body.appendChild(document.createElement('div'))
   )
 })

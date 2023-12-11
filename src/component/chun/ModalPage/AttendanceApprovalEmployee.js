@@ -94,7 +94,7 @@ class AttendanceApprovalEmployee extends Component {
         this.state = {
             /*TODO : 모달 적용시 아래 주석 풀어야함*/
             // employeeId : props.employeeId
-            employeeId: "200001013",
+            employeeId: JSON.parse(sessionStorage.getItem('userData')).loginId,
             activePage: 1,
             showPagiNation: 'flex',
             data: [],
@@ -219,12 +219,8 @@ class AttendanceApprovalEmployee extends Component {
 
 
     componentDidMount() {
-        console.log("componentDidMount");
-        const {employeeId} = this.props;
-
         const page = '';
         this.fetchData(page);
-
     }
 
     render() {
