@@ -22,7 +22,9 @@ export const chartDataStore = {store: {
 
 document.addEventListener('DOMContentLoaded', function() {
   render(
-    <MainEndPoint/>,
+      <ErrorBoundary>
+          <MainEndPoint/>
+      </ErrorBoundary>,
     //   <EmployeeDashboard/>,
     //   <CreateEmployee/>,
 

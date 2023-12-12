@@ -11,11 +11,11 @@ const styles = (theme) => ({
         color:"black",
         // backgroundColor:"#2F79DA",
         fontFamily: 'Noto Sans KR, sans-serif',
-        height:"55px",
+        height:"45px",
         backgroundColor:"white",
         fontWeight:'bold',
         border:'1px solid black',
-        width:"180px"
+        width:"160px"
 
     }
 

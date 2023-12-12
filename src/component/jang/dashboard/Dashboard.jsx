@@ -101,7 +101,21 @@ export default function Dashboard(props) {
             paddingTop:'8px',
             paddingBottom:'8px',
             fontWeight:'bold'
-        },slickSlider: {
+        },infoBox:{
+            borderTopLeftRadius:'10px',
+            borderTopRightRadius:'10px',
+            backgroundColor:'steelblue',
+        },
+        info:{
+            fontFamily:'Noto Sans KR,sans-serif',
+            fontSize:'20px',
+            color:"white",
+            paddingLeft:'15px',
+            marginBottom:'10px',
+            paddingTop:'8px',
+            fontWeight:'bold'
+        },
+        slickSlider: {
             position: 'relative',
             marginTop: '10px',
             marginBottom: '-20px',
@@ -109,7 +123,7 @@ export default function Dashboard(props) {
             '& .slick-list': { //.slickSlider 클래스에 속한 하위 요소를 지칭하기 위해 &. 사용
                 position: 'absolute',
                 width: '100%',
-                height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',
+                height: '120px',
                 overflow: 'hidden',
                 borderRadius:"15px"
             },
@@ -118,7 +132,7 @@ export default function Dashboard(props) {
             },
             '& .slick-track': {
                 display: 'flex',
-                height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',
+                height: '120px',
             },
             '& .slick-arrow': {
                 padding: '4px 6px',
@@ -235,14 +249,14 @@ export default function Dashboard(props) {
         <main className={classes.content}>
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
-            <Grid container>
-                <Grid item style={{ width: '1200px', margin: '0 auto' }}>
+            <Grid container style={{backgroundImage:'url(../src/component/jang/component/images/wave6.png)',backgroundSize:'cover' }}>
+                <Grid item style={{ width: '1200px', margin: '0 auto'}}>
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
                         {sessionStorage.getItem('userType') !== 'admin' ?
                             <Grid container xs={12} md={12} lg={12}>
                                 <Grid item xs={12} md={12} lg={12} >
-                                    <Paper style={{padding:'20px 10px 5px 20px'}}>
+                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(../src/component/jang/component/images/wave3.png)',backgroundSize:'cover'}}>
                                         <ChartContainer/>
                                     </Paper>
 
@@ -254,7 +268,7 @@ export default function Dashboard(props) {
                             {sessionStorage.getItem('userType') !== 'admin' ?
                                 <Grid item xs={3} md={3} lg={3}>
                                     <Grid container  spacing={2} xs={12} md={12} lg={12} style={{flexDirection:'column'}}>
-                                        {sessionStorage.getItem('userType') === 'employee' ?
+                                        {sessionStorage.getItem('userType') !== 'admin' ?
                                             <Grid container xs={12} md={12} lg={12}>
                                                 <Grid item xs={12} md={12} lg={12} style={{margin:"10px 0px 0px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
 
@@ -283,12 +297,36 @@ export default function Dashboard(props) {
                                                     <AttendanceInfoButtonContainer/>: <></>}
                                             </Paper>
                                         </Grid>
+                                        {/*<Grid item   xs={12} md={12} lg={12}>*/}
+                                        {/*    <Paper style={{marginTop:"8px"}}>*/}
+                                        {/*        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>*/}
+                                        {/*            사용자 정보*/}
+                                        {/*        </Typography>*/}
+                                        {/*        <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}*/}
+                                        {/*                        employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}*/}
+                                        {/*                        profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}*/}
+                                        {/*                        toggleModalShowing={props.toggleModalShowing}/>*/}
+                                        {/*    </Paper>*/}
+                                        {/*</Grid>*/}
+
                                         <Grid item   xs={12} md={12} lg={12}>
                                             <Paper style={{marginTop:"8px"}}>
-                                                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>
-                                                    사용자 정보
-                                                </Typography>
+                                                <Box className={classes.infoBox}>
+                                                    <Grid container>
+                                                        <Grid item xs={7} md={7} lg={7}>
+                                                            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.info} >
+                                                                사용자 정보
+                                                            </Typography>
 
+                                                        </Grid>
+                                                        <Grid item xs={5} md={5} lg={5} style={{display:"flex",alignItems:"center"}}>
+                                                            <Button variant="contained"   style={{color:"white",backgroundColor:"#004C99",width:'100px',height:'30px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
+                                                                보기/수정
+                                                            </Button>
+
+                                                        </Grid>
+                                                    </Grid>
+                                                </Box>
                                                 <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                 employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
                                                                 profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
@@ -299,13 +337,13 @@ export default function Dashboard(props) {
                                             <Box component={'div'} className={classes.slickSlider}>
                                                 <Slider  {...settings}>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',}}/>
+                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: '120px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',}}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: '120px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',  }}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: '120px',  }}/>
                                                     </Box>
                                                 </Slider>
                                             </Box>
