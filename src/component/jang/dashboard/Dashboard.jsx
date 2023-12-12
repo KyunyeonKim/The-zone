@@ -83,7 +83,7 @@ export default function Dashboard(props) {
         }, appBarSpacer: theme.mixins.toolbar, content: {
             flexGrow: 1, height: '100%'
         }, container: {
-            paddingTop: theme.spacing(4), paddingBottom: theme.spacing(4),justifyContent:"center"
+            paddingTop: "15px", paddingBottom: theme.spacing(4),justifyContent:"center"
         }, paper: {
             padding: theme.spacing(2), display: 'flex', overflow: 'auto', flexDirection: 'column',
         }, fixedHeight: {
@@ -109,7 +109,7 @@ export default function Dashboard(props) {
             '& .slick-list': { //.slickSlider 클래스에 속한 하위 요소를 지칭하기 위해 &. 사용
                 position: 'absolute',
                 width: '100%',
-                height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',
+                height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',
                 overflow: 'hidden',
                 borderRadius:"15px"
             },
@@ -118,7 +118,7 @@ export default function Dashboard(props) {
             },
             '& .slick-track': {
                 display: 'flex',
-                height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',
+                height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',
             },
             '& .slick-arrow': {
                 padding: '4px 6px',
@@ -144,7 +144,7 @@ export default function Dashboard(props) {
         },
     }));
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -168,15 +168,18 @@ export default function Dashboard(props) {
         <CssBaseline/>
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
             <Toolbar className={classes.toolbar}>
-                <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                >
-                    <MenuIcon/>
-                </IconButton>
+                {sessionStorage.getItem('userType') === 'manager' ?
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    : <></>}
+
                 <SvgIcon component={AccessTimeIcon} inheritViewBox style={{marginLeft:"10px",marginRight:"10px",fontSize:"xx-large"}}/>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     근태 관리 시스템
@@ -233,13 +236,13 @@ export default function Dashboard(props) {
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
             <Grid container>
-                <Grid item style={{ width: '1350px', margin: '0 auto' }}>
+                <Grid item style={{ width: '1200px', margin: '0 auto' }}>
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
                         {sessionStorage.getItem('userType') !== 'admin' ?
                             <Grid container xs={12} md={12} lg={12}>
                                 <Grid item xs={12} md={12} lg={12} >
-                                    <Paper style={{padding:'15px 10px 5px 20px'}}>
+                                    <Paper style={{padding:'20px 10px 5px 20px'}}>
                                         <ChartContainer/>
                                     </Paper>
 
@@ -253,7 +256,7 @@ export default function Dashboard(props) {
                                     <Grid container  spacing={2} xs={12} md={12} lg={12} style={{flexDirection:'column'}}>
                                         {sessionStorage.getItem('userType') === 'employee' ?
                                             <Grid container xs={12} md={12} lg={12}>
-                                                <Grid item xs={12} md={12} lg={12} style={{margin:"20px 0px 10px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
+                                                <Grid item xs={12} md={12} lg={12} style={{margin:"10px 0px 0px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
 
                                                     <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
                                                         버튼 1
@@ -264,7 +267,7 @@ export default function Dashboard(props) {
 
                                                 </Grid>
                                             </Grid>:<></>}
-                                        <Grid item  xs={12} md={12} lg={12} style={{margin:"8px 0px 8px 0px"}}>
+                                        <Grid item  xs={12} md={12} lg={12} >
                                             {/*<Paper style={{height:"300px"}}>*/}
                                             <Paper>
                                                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>
@@ -290,20 +293,19 @@ export default function Dashboard(props) {
                                                                 employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
                                                                 profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                 toggleModalShowing={props.toggleModalShowing}/>
-
                                             </Paper>
                                         </Grid>
                                         <Grid item   xs={12} md={12} lg={12}>
                                             <Box component={'div'} className={classes.slickSlider}>
                                                 <Slider  {...settings}>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',}}/>
+                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',}}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',}}/>
                                                     </Box>
                                                     <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '150px' : '210px',  }}/>
+                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: sessionStorage.getItem('userType') === 'employee' ? '120px' : '170px',  }}/>
                                                     </Box>
                                                 </Slider>
                                             </Box>
@@ -332,8 +334,6 @@ export default function Dashboard(props) {
                         <Box pt={4} style={{justifyContent:"center"}}>
                             <Copyright/>
                         </Box>
-
-
                     </Grid>
                 </Grid>
             </Grid>

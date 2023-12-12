@@ -21,7 +21,7 @@ const drawerWidth = 340;
 
 const styles = (theme) => ({
     toolbarIcon: {
-        display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '0 8px', ...theme.mixins.toolbar,
+        display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ...theme.mixins.toolbar,height:"60px"
     }, drawerPaper: {
         position: 'relative', whiteSpace: 'nowrap', width: drawerWidth, transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp, duration: theme.transitions.duration.enteringScreen,
@@ -114,27 +114,30 @@ class LeftMenuBar extends Component {
                     </div>
 
                     <List>
+                            <br/>
+                            <Divider/>
+                            <br/>
                             <ListItem button onClick={GetVacationHistoryHandler}>
                                 <ListItemIcon>
-                                    <ListIcon/>
+                                    <ListIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="전사원 연차 사용 내역"/>
                             </ListItem>
                             <ListItem button onClick={AttendanceApprovalAllEmployeesHandler}>
                                 <ListItemIcon>
-                                    <ListIcon/>
+                                    <ListIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="전사원 근태 이상 승인 내역"/>
                             </ListItem>
                             <ListItem button onClick={GetAttendanceHistoryHandler}>
                                 <ListItemIcon>
-                                    <ListIcon/>
+                                    <ListIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="조정 요청 내역"/>
                             </ListItem>
                             <ListItem button onClick={GetHistoryOfVacationDefaultSettingHandler}>
                                 <ListItemIcon>
-                                    <ListIcon/>
+                                    <ListIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="근속년수 기준 연차 개수 조정 내역"/>
                             </ListItem>
@@ -143,13 +146,13 @@ class LeftMenuBar extends Component {
                             <br/>
                             <ListItem button onClick={ProcessAppealRequestHandler}>
                                 <ListItemIcon>
-                                    <CheckCircleOutlineIcon/>
+                                    <CheckCircleOutlineIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="근태 이상 조정 요청 처리"/>
                             </ListItem>
                             <ListItem button onClick={VacationProcessHandler}>
                                 <ListItemIcon>
-                                    <CheckCircleOutlineIcon/>
+                                    <CheckCircleOutlineIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="연차 요청 처리"/>
                             </ListItem>
@@ -158,13 +161,13 @@ class LeftMenuBar extends Component {
                             <br/>
                             <ListItem button onClick={VacationDefaultSettingHandler}>
                                 <ListItemIcon>
-                                    <BuildIcon/>
+                                    <BuildIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="근속 년수에 따른 연차 개수 조정"/>
                             </ListItem>
                             <ListItem button onClick={PostSetWorkTimeHandler}>
                                 <ListItemIcon>
-                                    <BuildIcon/>
+                                    <BuildIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="근무 시간 조정"/>
                             </ListItem>
@@ -173,7 +176,7 @@ class LeftMenuBar extends Component {
                             <br/>
                             <ListItem button onClick={EmployeeReportModalHandler}>
                                 <ListItemIcon>
-                                    <PrintIcon/>
+                                    <PrintIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="전사원에 대한 보고서 출력"/>
                             </ListItem>
@@ -181,11 +184,14 @@ class LeftMenuBar extends Component {
                             <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>
                             <ListItem button onClick={CreateEmployeeHandler}>
                                 <ListItemIcon>
-                                    <AssignmentIcon/>
+                                    <AssignmentIcon style={{color:"#1B4986",fontSize:"25px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="사원 정보 생성"/>
                             </ListItem>
                         </div>
+                        <br/>
+                        <Divider/>
+                        <br/>
                     </List>
 
                 </Drawer>

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import MainChart from "./MainChart";
-import {CircularProgress, withStyles} from "@material-ui/core";
+import {CircularProgress, Typography, withStyles} from "@material-ui/core";
 import {stateStore} from "../../../../index";
 
 const styles = theme => ({
@@ -40,7 +40,7 @@ const styles = theme => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        height: '300px',
+        height: '200px',
     },
     divider: {
         // Divider의 높이는 내용에 맞게 자동으로 조정될 것입니다.
@@ -50,6 +50,7 @@ const styles = theme => ({
 
     chartContainer: {
         flexGrow: 5,
+        height:"205px"
 
     },
     chartDescriptionContainer: {
@@ -76,6 +77,15 @@ const styles = theme => ({
         // 새로운 스타일 추가
         margin: theme.spacing(1),
         fontWeight: 'bold',
+    },titleRight: {
+        // '근태현황' 제목에 적용할 스타일
+        flex: 1, // 남는 공간을 차지하도록 flex-grow 값 설정
+        textAlign: 'center', // 텍스트를 오른쪽 정렬
+        paddingLeft: theme.spacing(1), // 왼쪽 패딩 추가
+        fontFamily:'Noto Sans KR,sans-serif',
+        fontWeight:'bold',
+        color:"#2568ac",
+        fontSize:"20px"
     },
 
 
@@ -124,9 +134,9 @@ class VacationMineEChart extends Component {
     transformData = (data) => {
         const remainingVacation = data.totalVacation - data.useVacation;
         return [
-            {value: data.useVacation, name: '연차 사용 갯수'},
-            {value: remainingVacation, name: '연차 잔여 갯수'},
-            {value: data.totalVacation, name:'연차 총 갯수'}
+            {value: data.useVacation, name: '연차 사용 개수 '},
+            {value: remainingVacation, name: '연차 잔여 개수 '},
+            {value: data.totalVacation, name:'연차 총 개수 '}
 
         ];
     }
@@ -150,6 +160,9 @@ class VacationMineEChart extends Component {
                             </div>
                         </div>
                         <div className={classes.chartContainer}>
+                            <Typography variant="h5" className={classes.titleRight}>
+                                올해 연차 개수
+                            </Typography>
                             <MainChart data={chartData}/>
                         </div>
                     </>

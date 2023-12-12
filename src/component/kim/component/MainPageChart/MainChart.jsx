@@ -1,22 +1,22 @@
 import React, {Component} from "react";
 import * as echarts from 'echarts';
-import {Box, Typography, withStyles} from "@material-ui/core";
+import {Box, Paper, Typography, withStyles} from "@material-ui/core";
 
 const styles = theme => ({
     root: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center'
 
     },
     details: {
         marginRight: theme.spacing(5),
-
         alignItems: 'center'
     },
     chartContainer: {
-        width: '80%',
-        height: '250px'
+        width: '200px',
+        height: '200px'
     },
     detailText: {
         // 기존 스타일 유지
@@ -94,14 +94,16 @@ class MainChart extends Component {
 
     renderDetails = (data) => {
         return data.map((item, index) => (
-            <Box key={index} display="flex" justifyContent="space-between">
-                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
-                    {item.name}&nbsp;
-                </Typography>
-                <Typography variant="subtitle1" style={{fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',whiteSpace:'nowrap' }}>
-                    {item.value}
-                </Typography>
-            </Box>
+
+                <Box key={index} display="flex" justifyContent="space-between">
+                        <Typography variant="subtitle1" style={ {fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',whiteSpace:'nowrap' ,fontWeight: 'bold',marginBottom:"10px"}}>
+                            {item.name}&nbsp;
+                        </Typography>
+                        <Typography variant="subtitle1" style={{fontFamily:'Noto Sans KR,sans-serif',fontSize:'18px',whiteSpace:'nowrap',marginBottom:"10px" }}>
+                            {item.value} 개
+                        </Typography>
+                </Box>
+
         ));
     };
 
@@ -111,9 +113,6 @@ class MainChart extends Component {
         return (
             <Box className={classes.root}>
                 <Box className={classes.details}>
-                    <Box display="flex" justifyContent="space-between" width="120%">
-
-                    </Box>
                     {this.renderDetails(data)}
                 </Box>
                 <Box ref={this.chartRef} className={classes.chartContainer}/>

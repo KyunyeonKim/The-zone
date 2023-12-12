@@ -5,9 +5,9 @@ import Icon from '@material-ui/icons/EventNote';
 
 const styles = theme => ({
     paper: {
-        padding: theme.spacing(2),
+        padding: "15px",
         backgroundColor: 'white', // Set the background color to white
-        borderRadius: 15,
+        borderRadius: '10px',
         borderStyle: 'none',
         margin: theme.spacing(1),
         display: 'flex',
@@ -15,6 +15,8 @@ const styles = theme => ({
         alignItems: 'center',
         flexGrow: 1,
         justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
+        width:"220px",
+        height:"50px"
     },
     title: {
         fontWeight: 'bold',
@@ -22,10 +24,9 @@ const styles = theme => ({
         flexGrow: 1,
         fontFamily:'Noto Sans KR,sans-serif',
         verticalAlign: 'middle', // 수직 가운데 정렬
-        fontSize:"18px"
+        fontSize:"16px"
     },
     infoText: {
-        paddingTop: theme.spacing(1),
         fontFamily:'Noto Sans KR,sans-serif',
         fontSize:"18px"
     },
@@ -33,13 +34,14 @@ const styles = theme => ({
         fontWeight: 'bold',
         fontFamily:'Noto Sans KR,sans-serif',
         verticalAlign: 'middle', // 수직 가운데 정렬
-        fontSize:"18px"
+        fontSize:"16px"
 
     },
     countMonthTitle:{
         fontWeight: 'bold',
         fontFamily:'Noto Sans KR,sans-serif',
-        color:'#2568ac'
+        color:'#2568ac',
+        fontSize:"16px"
 
     }
     // If you had other styles, make sure they are included here
@@ -80,19 +82,20 @@ class ApprovalRequestedAttendance extends Component {
 
         return (
             <Paper className={classes.paper}>
+                <span style={{ marginRight: '8px', verticalAlign: 'middle' }}>•</span>
+                    <Typography variant="h6"  className={classes.countMonthTitle}>
+                        {monthName}
+                    </Typography>
+                    <Typography variant="h6"  className={classes.monthTitle}>
+                        &nbsp;근태&nbsp;
+                    </Typography>
+                    <Typography variant="h6"  className={classes.title}>
+                        이상 요청중
+                    </Typography>
+                    <Typography variant="h5" className={classes.infoText}>
+                        {approvalRequestedAttendance !== null ? approvalRequestedAttendance : 'Loading...'}
+                    </Typography>
 
-                <Typography variant="h6" gutterBottom className={classes.countMonthTitle}>
-                   {monthName}
-                </Typography>
-                <Typography variant="h6" gutterBottom className={classes.monthTitle}>
-                    &nbsp;근태&nbsp;
-                </Typography>
-                <Typography variant="h6" gutterBottom className={classes.title}>
-                    이상 요청중
-                </Typography>
-                <Typography variant="h5" className={classes.infoText}>
-                    {approvalRequestedAttendance !== null ? approvalRequestedAttendance : 'Loading...'}
-                </Typography>
             </Paper>
         );
     }

@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import {
-    Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Button, Popover
+    Paper,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
+    Typography,
+    Button,
+    Popover,
+    withStyles,
+    Box
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -9,6 +19,10 @@ import axios from "axios";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import CheckIcon from '@material-ui/icons/Check';
 import Grid from "@material-ui/core/Grid";
+
+import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 class NotificationListForEmployee extends Component {
     employeeNumber
@@ -202,7 +216,7 @@ class NotificationListForEmployee extends Component {
                         vertical: 'top', horizontal: 'left',
                     }}
                 >
-                    <Paper elevation={3} style={{padding: '16px', width: '300px'}}>
+                    <Paper elevation={3} style={{padding: '30px', width: '300px'}}>
                         <List>
                             <Grid
                                 container
@@ -210,26 +224,42 @@ class NotificationListForEmployee extends Component {
                                 justifyContent="space-evenly"
                                 alignItems="center"
                             >
+                                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'23px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
+                                    새 메시지
+                                </Typography>
+
                                 {requests.map((request) => (
 
-                                    <ListItem key={request.id} spacing={2}>
+                                    <ListItem key={request.id} spacing={2} style={{padding:"0px", borderBottom: '1px solid #ddd'}}>
+
                                         <Grid item xs={10} sm={10} md={10}>
-                                            <ListItemText primary={request.content}/>
+                                            <ListItemText primary={request.content} />
                                         </Grid>
                                         <Grid item>
                                             <IconButton edge="end" aria-label="check"
                                                         onClick={() => this.changeToRead(request.id)}>
-                                                <CheckIcon color={request.unread ? "primary" : "secondary"}/>
+                                                <CheckBoxRoundedIcon color={request.unread ? "gray" : "secondary"}/>
                                             </IconButton>
                                         </Grid>
                                     </ListItem>))}
                             </Grid>
                         </List>
                         <div>
-                            <Typography variant="body2" color="primary" onClick={this.readMore}
-                                        style={{textDecoration: 'underline', marginTop: '10px'}}>
-                                새로운 메세지 확인
-                            </Typography>
+                            <Box style={{display:"flex",justifyContent:"center"}}>
+                                {/*<IconButton edge="end" onClick={this.readMore}>*/}
+                                {/*    <MoreHorizIcon*/}
+                                {/*                    style={{color:"primary",textDecoration: 'underline', marginTop: '10px'}}/>*/}
+                                {/*</IconButton>*/}
+                                <Button onClick={this.readMore}  style={{color:"black",fontSize:"20px", marginTop: '10px',fontFamily:'Noto Sans KR,sans-serif',border:'0px'}}>
+                                    더보기
+                                </Button>
+
+                            </Box>
+                            {/*<Typography variant="body2" color="primary" onClick={this.readMore}*/}
+                            {/*            style={{textDecoration: 'underline', marginTop: '10px'}}>*/}
+                            {/*    더보기*/}
+                            {/*</Typography>*/}
+
                         </div>
                     </Paper>
                 </Popover>
