@@ -53,7 +53,7 @@ class ButtonInListComponent extends Component {
                         </TableCell>
                     ))}
 
-                    <TableCell style={{textAlign: "center"}}>
+                    <TableCell style={{textAlign: "center",padding:'10px'}}>
                         <BlackButtonComponent onButtonClick={this.onButtonClick} title={title}/>
                     </TableCell>
                 </TableRow>

@@ -69,7 +69,7 @@ const styles = (theme) => ({
     },
     titleText:{
         fontSize:'22px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold'
     },
 });

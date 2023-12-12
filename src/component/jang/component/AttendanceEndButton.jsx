@@ -32,7 +32,7 @@ class AttendanceEndButton extends Component {
 
     render() {
         return (<div>
-            <Button variant="outlined" color="primary" onClick={this.dialogShowToggle} style={{width:'110px',height:'40px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
+            <Button variant="outlined" color="primary" onClick={this.dialogShowToggle} style={{width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
                 퇴근 입력
             </Button>
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">

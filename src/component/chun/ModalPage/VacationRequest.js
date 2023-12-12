@@ -37,7 +37,7 @@ const styles = (theme) => ({
         padding: theme.spacing(2),
         border: "1px solid #ddd",
         fontSize: '18px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         textAlign: 'center'
     }, formControl: {
         width: "60%", marginBottom: theme.spacing(2),
@@ -46,12 +46,12 @@ const styles = (theme) => ({
     }, button: {
         marginTop: theme.spacing(2), height: "60px", width: "100px", fontSize: "1rem", // 원하는 크기로 조정
     }, text: {
-        fontSize: '18px', fontFamily: 'Noto Sans KR, sans-serif'
+        fontSize: '18px', fontFamily:'IBM Plex Sans KR'
     }, titleText: {
-        fontSize: '18px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight: 'bold'
+        fontSize: '18px', fontFamily:'IBM Plex Sans KR', fontWeight: 'bold'
     }, tableCellIndexText: {
         fontSize: '18px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         border: "1px solid gray",
         backgroundColor: "#E4F3FF",
@@ -342,7 +342,7 @@ class VacationRequest extends Component {
                     sx={{
                         width:"90%",
                         fontSize: '25px',
-                        fontFamily: 'Noto Sans KR, sans-serif',
+                        fontFamily:'IBM Plex Sans KR',
                         fontWeight: 'bold',
                         borderBottom: 'solid 1px black',
                         margin: 'auto',

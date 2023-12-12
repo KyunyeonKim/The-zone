@@ -51,7 +51,7 @@ class TopBarUserInfo extends Component {
         };
 
         const profilePictureStyle = {
-            width: '150px', height: '150px', borderRadius: '50%', marginRight: '8px', border:'0.5px solid #EFEFEF'
+            width: '140px', height: '140px', borderRadius: '50%', marginTop: '10px', border:'0.5px solid #EFEFEF'
         };
 
         const {anchorEl, requests} = this.state;
@@ -62,17 +62,17 @@ class TopBarUserInfo extends Component {
                 <img onClick={this.handleProfileClick} src={profilePicture} alt="Profile" style={profilePictureStyle}/>
 
                 <Box component={"div"} style={{display:"flex", marginTop:'10px'}}>
-                    <Box style={{padding:"6px 10px 10px 10px",color:"#3f51b5",fontFamily:'Noto Sans KR,sans-serif', fontWeight:"bold",fontSize:'20px', borderRadius:'8px'}}>
+                    <Box style={{padding:"6px 10px 10px 10px",color:"#3f51b5",fontFamily:'IBM Plex Sans KR', fontWeight:"bold",fontSize:'20px', borderRadius:'8px'}}>
                         사원 번호
                     </Box>
                     < p onClick={this.handleProfileClick}
-                        style={{padding:"6px 10px 10px 10px",margin: 0,fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',fontWeight:"bold"}}> {employeeNumber}</p>
+                        style={{padding:"6px 10px 10px 10px",margin: 0,fontFamily:'IBM Plex Sans KR',fontSize:'20px',fontWeight:"bold"}}> {employeeNumber}</p>
                 </Box>
                 <Box component={"div"} style={{display:"flex"}}>
-                    <Box style={{padding:"0px 10px 10px 10px",color:"#3f51b5",fontFamily:'Noto Sans KR,sans-serif', fontWeight:"bold",fontSize:'20px',borderRadius:'8px'}}>
+                    <Box style={{padding:"0px 10px 10px 10px",color:"#3f51b5",fontFamily:'IBM Plex Sans KR', fontWeight:"bold",fontSize:'20px',borderRadius:'8px'}}>
                         이름
                     </Box>
-                    <p onClick={this.handleProfileClick} style={{padding:"0px 10px 10px 10px",margin: 0,fontFamily:'Noto Sans KR,sans-serif',fontSize:'20px',fontWeight:"bold"}}>{employeeName} </p>
+                    <p onClick={this.handleProfileClick} style={{padding:"0px 10px 10px 10px",margin: 0,fontFamily:'IBM Plex Sans KR',fontSize:'20px',fontWeight:"bold"}}>{employeeName} </p>
                 </Box>
                 <Popover
                     open={isOpen}

@@ -29,11 +29,11 @@ const styles = (theme) => ({
     },
     text :{
         fontSize:'1rem',
-        fontFamily: 'Noto Sans KR, sans-serif'
+        fontFamily:'IBM Plex Sans KR'
     },
     titleText:{
         fontSize:'1.2rem',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold'
     },
     button :{
@@ -398,7 +398,7 @@ class EmployeeVacationSetting extends Component {
 
                 <Box  style={{ width: '80%', margin: 'auto' }}>
                     <Box
-                         sx={{fontSize:'1.5rem', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                         sx={{fontSize:'1.5rem', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                              paddingBottom: '10px'
                          }} >
                         사원 연차 설정

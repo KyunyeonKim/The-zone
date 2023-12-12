@@ -109,7 +109,7 @@ function Login() {
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon/>
                         </Avatar>
-                        <Typography component="h1" variant="h4" style={{color:"black"}}>
+                        <Typography component="h1" variant="h4" style={{color:"midnightblue",fontFamily:'IBM Plex Sans KR',fontWeight:"bold"}}>
                             Login
                         </Typography>
                     <form className={classes.form} noValidate>

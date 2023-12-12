@@ -23,22 +23,22 @@ const styles = theme => ({
         fontWeight: 'bold',
         color: '#1976D2', // Ensure the title text is blue
         flexGrow: 1,
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontSize:"16px"
     },
     infoText: {
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontSize:"18px"
     },
     monthTitle:{
         fontWeight: 'bold',
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         verticalAlign: 'middle', // 수직 가운데 정렬
         fontSize:"16px"
 
     }, countMonthTitle:{
         fontWeight: 'bold',
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         color:'#2568ac',
         fontSize:"16px"
 

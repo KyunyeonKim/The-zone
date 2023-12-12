@@ -13,10 +13,10 @@ const styles = (theme) => ({
     formControl: {
         margin: theme.spacing(1), minWidth: 120,
     }, text: {
-        fontSize: '12px', fontFamily: 'Noto Sans KR, sans-serif', textAlign: 'center', whiteSpace: 'nowrap'
+        fontSize: '12px', fontFamily:'IBM Plex Sans KR', textAlign: 'center', whiteSpace: 'nowrap'
     }, titleText: {
         fontSize: '15px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         textAlign: 'center',
         whiteSpace: 'nowrap'

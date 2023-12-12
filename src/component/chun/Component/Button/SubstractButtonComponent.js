@@ -5,14 +5,14 @@ import {withStyles} from "@material-ui/core/styles";
 const styles = (theme) => ({
 
     button :{
-        fontSize:'18px',
+        fontSize:'16px',
         whiteSpace: 'nowrap',
         borderRadius:'8px',
         border:'1px solid #E82034',
         color:"#E82034",
         fontWeight:"bold",
         // backgroundColor:"#2F79DA",
-        fontFamily: 'Noto Sans KR, sans-serif'
+        fontFamily:'IBM Plex Sans KR'
     }
 
 });

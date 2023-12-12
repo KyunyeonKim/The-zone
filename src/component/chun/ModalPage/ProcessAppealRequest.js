@@ -29,13 +29,13 @@ const styles = (theme) => ({
     },
     text :{
         fontSize:'16px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText:{
         fontSize:'20px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold',
         textAlign: 'center',
         whiteSpace: 'nowrap'
@@ -335,7 +335,7 @@ class ProcessAppealRequest extends Component{
                 <Grid item lg={12}>
                     <Box style={{width:"1600px", margin:"40px 40px 40px 40px"}}>
                         <Box
-                            sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            sx={{fontSize:'25px', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                                 paddingBottom: '10px'
                             }} >
                             근태 조정 신청 처리

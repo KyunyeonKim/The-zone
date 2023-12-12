@@ -82,7 +82,7 @@ const styles = theme => ({
         flex: 1, // 남는 공간을 차지하도록 flex-grow 값 설정
         textAlign: 'center', // 텍스트를 오른쪽 정렬
         paddingLeft: theme.spacing(1), // 왼쪽 패딩 추가
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold',
         color:"#2568ac",
         fontSize:"20px"

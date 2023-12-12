@@ -24,12 +24,12 @@ const styles = (theme) => ({
     },
     text: {
         fontSize: '1rem',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         textAlign: 'center'
     },
     titleText: {
         fontSize: '1.2rem',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold'
     },
     button: {
@@ -233,7 +233,7 @@ class AttendanceApprovalEmployee extends Component {
                     <Box
                         sx={{
                             fontSize: '1.5rem',
-                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: '20px 0 20px 0',

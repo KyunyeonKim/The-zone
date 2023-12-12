@@ -31,13 +31,13 @@ const styles = (theme) => ({
     },
     text: {
         fontSize: '16px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         textAlign: 'center',
         whiteSpace: 'nowrap'
     },
     titleText: {
         fontSize: '20px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         whiteSpace: 'nowrap'
     },
@@ -354,7 +354,7 @@ class VacationProcess extends Component {
                         <Box
                             sx={{
                                 fontSize: '25px',
-                                fontFamily: 'Noto Sans KR, sans-serif',
+                                fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 borderBottom: 'solid 1px black',
                                 margin: '20px 0 20px 0',

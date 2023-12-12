@@ -66,8 +66,11 @@ export default function Dashboard(props) {
         }, menuButtonHidden: {
             display: 'none',
         }, title: {
-            flexGrow: 1,
-            fontFamily:'Noto Sans KR,sans-serif',
+            flexGrow:"1",
+            display:"flex",
+            height:"100%",
+            alignItems:"center",
+            fontFamily:'IBM Plex Sans KR',
             fontSize:'25px',
             fontWeight:'bold'
         }, drawerPaper: {
@@ -90,7 +93,7 @@ export default function Dashboard(props) {
             height: 240,
         },
         paperTitle:{
-            fontFamily:'Noto Sans KR,sans-serif',
+            fontFamily:'IBM Plex Sans KR',
             fontSize:'20px',
             color:"white",
             paddingLeft:'15px',
@@ -107,7 +110,7 @@ export default function Dashboard(props) {
             backgroundColor:'steelblue',
         },
         info:{
-            fontFamily:'Noto Sans KR,sans-serif',
+            fontFamily:'IBM Plex Sans KR',
             fontSize:'20px',
             color:"white",
             paddingLeft:'15px',
@@ -193,53 +196,51 @@ export default function Dashboard(props) {
                         <MenuIcon/>
                     </IconButton>
                     : <></>}
+                    <Box style={{display:"flex",height:"100%",alignItems:"center"}}>
+                        <SvgIcon component={AccessTimeIcon} inheritViewBox style={{marginLeft:"10px",marginRight:"10px",fontSize:"25px"}}/>
+                    </Box>
 
-                <SvgIcon component={AccessTimeIcon} inheritViewBox style={{marginLeft:"10px",marginRight:"10px",fontSize:"xx-large"}}/>
-                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    근태 관리 시스템
-                </Typography>
+                    <Typography color="inherit" noWrap className={classes.title}>
+                        근태 관리 시스템
+                    </Typography>
 
-                {sessionStorage.getItem('userType') === 'admin' ?
-                    <SvgIcon component={SupervisorAccountIcon} inheritViewBox style={{marginLeft:"10px",marginRight:"10px",fontSize:"xx-large"}}/>
-                    : <></>}
-                {sessionStorage.getItem('userType') === 'admin' ?
-                    <Typography component="h1" variant="h6" color="inherit" noWrap >
-                        Admin 계정 &nbsp;
-                    </Typography>:<></>}
+                <Box style={{display:"flex",flexDirection:"row"}}>
+                    <Box style={{height:"24px"}}>
+                        {sessionStorage.getItem('userType') === 'admin' ?
+                            <SupervisorAccountIcon style={{marginLeft:"10px",marginRight:"10px"}}/>
+                            : <></>}
+                    </Box>
+                    <Box>
+                        {sessionStorage.getItem('userType') === 'admin' ?
+                            <Typography  noWrap style={{fontFamily:'IBM Plex Sans KR'}} >
+                                Admin 계정 &nbsp;
+                            </Typography>:<></>}
+                    </Box>
+                </Box>
 
-                <Grid item>
-                    <Grid container spacing={10}>
+                <Box style={{display:"flex",flexDirection:"row"}}>
+                    <Box>
+                        {sessionStorage.getItem('userType') !== 'admin' ? (
+                            <IconButton color="inherit">
+                                <NotificationListForEmployee />
+                            </IconButton>
+                        ) : null}
+                    </Box>
+                    <Box style={{marginLeft:"10px"}}>
+                        {sessionStorage.getItem('userType') === 'manager' ? (
+                            <IconButton color="inherit">
+                                <NotificationListForManager />
+                            </IconButton>
+                        ) : null}
+                    </Box>
+                    <Box style={{marginLeft:"10px"}}>
+                        <IconButton color="inherit">
+                            <LogoutButton onLogout={() => alert('logout success')} />
+                        </IconButton>
+                    </Box>
 
-                        {sessionStorage.getItem('userType') !== 'admin' ? <Grid item xs={1} md={1} lg={1}>
-                            <Grid container spacing={1}>
-                                <Grid item>
-                                    <IconButton color="inherit">
-                                        <NotificationListForEmployee/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </Grid> : <></>}
-                        {sessionStorage.getItem('userType') === 'manager' ? <Grid item xs={1} md={1} lg={1}>
-                            <Grid container spacing={1}>
-                                <Grid item>
-                                    <IconButton color="inherit">
-                                        <NotificationListForManager/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </Grid> : <></>}
+                </Box>
 
-                        <Grid item xs={1} md={1} lg={1}>
-                            <Grid container spacing={1}>
-                                <Grid item>
-                                    <IconButton color="inherit">
-                                        <LogoutButton onLogout={() => alert('logout success')}/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
             </Toolbar>
         </AppBar>
         <div style={{display : sessionStorage.getItem('userType')==='manager'?'block':'none'}}>
@@ -249,7 +250,7 @@ export default function Dashboard(props) {
         <main className={classes.content}>
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
-            <Grid container style={{backgroundImage:'url(../src/component/jang/component/images/wave6.png)',backgroundSize:'cover' }}>
+            <Grid container style={{backgroundImage:'url(../src/component/jang/component/images/wave9.png)',backgroundSize:'cover' }}>
                 <Grid item style={{ width: '1200px', margin: '0 auto'}}>
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
@@ -272,10 +273,10 @@ export default function Dashboard(props) {
                                             <Grid container xs={12} md={12} lg={12}>
                                                 <Grid item xs={12} md={12} lg={12} style={{margin:"10px 0px 0px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
 
-                                                    <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
+                                                    <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
                                                         버튼 1
                                                     </Button>
-                                                    <Button variant="contained" color="primary"style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold'}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
+                                                    <Button variant="contained" color="primary"style={{width:'150px',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'5px',fontWeight:'bold'}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
                                                         버튼 2
                                                     </Button>
 
@@ -320,7 +321,7 @@ export default function Dashboard(props) {
 
                                                         </Grid>
                                                         <Grid item xs={5} md={5} lg={5} style={{display:"flex",alignItems:"center"}}>
-                                                            <Button variant="contained"   style={{color:"white",backgroundColor:"#004C99",width:'100px',height:'30px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
+                                                            <Button variant="contained"   style={{color:"white",backgroundColor:"#004C99",width:'100px',height:'30px',fontFamily:'IBM Plex Sans KR',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
                                                                 보기/수정
                                                             </Button>
 

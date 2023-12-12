@@ -224,7 +224,7 @@ class NotificationListForEmployee extends Component {
                                 justifyContent="space-evenly"
                                 alignItems="center"
                             >
-                                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'Noto Sans KR,sans-serif',fontSize:'23px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
+                                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'IBM Plex Sans KR',fontSize:'23px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
                                     새 메시지
                                 </Typography>
 
@@ -250,7 +250,7 @@ class NotificationListForEmployee extends Component {
                                 {/*    <MoreHorizIcon*/}
                                 {/*                    style={{color:"primary",textDecoration: 'underline', marginTop: '10px'}}/>*/}
                                 {/*</IconButton>*/}
-                                <Button onClick={this.readMore}  style={{color:"black",fontSize:"20px", marginTop: '10px',fontFamily:'Noto Sans KR,sans-serif',border:'0px'}}>
+                                <Button onClick={this.readMore}  style={{color:"black",fontSize:"20px", marginTop: '10px',fontFamily:'IBM Plex Sans KR',border:'0px'}}>
                                     더보기
                                 </Button>
 

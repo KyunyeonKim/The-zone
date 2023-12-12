@@ -104,7 +104,7 @@ class GetAttendanceHistory extends Component {
                 <Box
                     sx={{
                         fontSize: '25px',
-                        fontFamily: 'Noto Sans KR, sans-serif',
+                        fontFamily:'IBM Plex Sans KR',
                         fontWeight: 'bold',
                         borderBottom: 'solid 1px black',
                         margin: '20px 0',

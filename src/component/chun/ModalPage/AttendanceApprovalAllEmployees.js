@@ -27,14 +27,14 @@ const styles = (theme) => ({
             minWidth: 120,
         },
         text :{
-            fontSize:'18px',
-            fontFamily: 'Noto Sans KR, sans-serif',
+            fontSize:'16px',
+            fontFamily:'IBM Plex Sans KR',
             textAlign: 'center',
             padding:'0px'
         },
         titleText:{
-            fontSize:'22px',
-            fontFamily: 'Noto Sans KR, sans-serif',
+            fontSize:'20px',
+            fontFamily:'IBM Plex Sans KR',
             fontWeight:'bold',
 
         },
@@ -297,7 +297,7 @@ class AttendanceApprovalAllEmployees extends Component{
                 <Grid item lg={12}>
                     <Box style={{width:"1200px", margin:"40px 40px 40px 40px"}}>
                         <Box
-                            sx={{fontSize:'25px', fontFamily: 'Noto Sans KR, sans-serif', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            sx={{fontSize:'25px', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                                 paddingBottom: '10px'
                             }} >
                             전 사원 근태 승인 내역 조회

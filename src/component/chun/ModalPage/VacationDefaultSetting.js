@@ -23,7 +23,7 @@ const styles = (theme) => ({
         padding: theme.spacing(2),
         border: "1px solid #ddd",
         fontSize: '18px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         textAlign: 'center'
 
     },
@@ -33,16 +33,16 @@ const styles = (theme) => ({
     },
     text: {
         fontSize: '18px',
-        fontFamily: 'Noto Sans KR, sans-serif'
+        fontFamily:'IBM Plex Sans KR'
     },
     titleText: {
         fontSize: '18px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold'
     },
     tableCellIndexText: {
         fontSize: '18px',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         border: "1px solid gray",
         backgroundColor: "#E4F3FF",
@@ -259,7 +259,7 @@ class VacationDefaultSetting extends Component {
                         sx={{
                             width:"90%",
                             fontSize:'25px',
-                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: 'auto',

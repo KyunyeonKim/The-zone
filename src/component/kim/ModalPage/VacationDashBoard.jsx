@@ -48,7 +48,7 @@ const styles = theme => ({
         // '연차사용현황' 제목에 적용할 스타일
         flex: 1, // 남는 공간을 차지하도록 flex-grow 값 설정
         textAlign: 'center', // 텍스트를 왼쪽 정렬
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold',
         color:"#2568ac",
         fontSize:"20px",
@@ -59,7 +59,7 @@ const styles = theme => ({
         flex: 1, // 남는 공간을 차지하도록 flex-grow 값 설정
         textAlign: 'center', // 텍스트를 오른쪽 정렬
         paddingLeft: theme.spacing(1), // 왼쪽 패딩 추가
-        fontFamily:'Noto Sans KR,sans-serif',
+        fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold',
         color:"#2568ac",
         fontSize:"20px"

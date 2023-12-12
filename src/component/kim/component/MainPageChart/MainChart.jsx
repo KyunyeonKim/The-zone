@@ -96,10 +96,10 @@ class MainChart extends Component {
         return data.map((item, index) => (
 
                 <Box key={index} display="flex" justifyContent="space-between">
-                        <Typography variant="subtitle1" style={ {fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',whiteSpace:'nowrap' ,fontWeight: 'bold',marginBottom:"10px"}}>
+                        <Typography variant="subtitle1" style={ {fontFamily:'IBM Plex Sans KR',fontSize:'17px',whiteSpace:'nowrap' ,fontWeight: 'bold',marginBottom:"10px"}}>
                             {item.name}&nbsp;
                         </Typography>
-                        <Typography variant="subtitle1" style={{fontFamily:'Noto Sans KR,sans-serif',fontSize:'18px',whiteSpace:'nowrap',marginBottom:"10px" }}>
+                        <Typography variant="subtitle1" style={{fontFamily:'IBM Plex Sans KR',fontSize:'18px',whiteSpace:'nowrap',marginBottom:"10px" }}>
                             {item.value} 개
                         </Typography>
                 </Box>

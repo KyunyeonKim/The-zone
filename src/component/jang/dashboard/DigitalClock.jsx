@@ -35,7 +35,7 @@ class DigitalClock extends Component {
         };
 
         const timeStyle = {
-            fontFamily:'Noto Sans KR,sans-serif',
+            fontFamily:'IBM Plex Sans KR',
             fontSize: '20px',
             color: '#2568ac',
             marginTop: '40px',
