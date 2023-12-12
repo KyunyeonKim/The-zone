@@ -166,11 +166,6 @@ class GetHistoryOfVacationDefaultSetting extends Component {
     }
 
 
-    resetSearch = () => {
-        this.setState({
-            searchPerformed: false,
-        });
-    };
 
     formatDate(dateString) {
         const date = new Date(dateString);
@@ -199,7 +194,6 @@ class GetHistoryOfVacationDefaultSetting extends Component {
             pageSize,
             orderBy,
             order,
-            searchParameter
         } = this.state;
 
         return (

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Box, Button, Checkbox, FormControlLabel, FormGroup, Paper, TextField, Typography,Grid} from "@material-ui/core";
+import {Box, Button, Checkbox, FormControlLabel,Select, MenuItem ,Paper, TextField, Typography,Grid} from "@material-ui/core";
 import {KeyboardDatePicker, MuiPickersUtilsProvider,} from '@material-ui/pickers';
 import axios from "axios";
 import DateFnsUtils from '@date-io/date-fns';
@@ -28,9 +28,11 @@ const styles = theme => ({
     },
     paper: {
         display: 'flex',
-        flexDirection: 'height',
+        flexDirection: 'column',
         boxShadow: theme.shadows[5],
-        borderRadius: theme.shape.borderRadius
+        borderRadius: theme.shape.borderRadius,
+
+
     },
     reportTitle: {
         marginTop: '50px', // 이 값을 조정하여 제목의 위치를 변경
@@ -44,16 +46,16 @@ const styles = theme => ({
         flex: 1,
     },
     formContainer: {
-        padding: theme.spacing(11), // padding 조정
         backgroundColor: 'white',
-        width: '1000%',
-        maxWidth: 'none',// 최대 가로 길이 제한 없음
+        borderTop: '2px solid black', // 굵기와 색상을 변경
 
     },
     uploadContainer: {
         padding: theme.spacing(3),
-        backgroundColor:'#719FE4',
-        display:'flex',
+        backgroundColor: '#719FE4',
+        display: 'flex',
+        justifyContent: 'flex-start', // 요소들을 왼쪽으로 정렬
+        alignItems: 'center', // 교차 축에서 중앙 정렬 (필요에 따라 조정)
     },
     uploadInput: {
         display: 'none'
@@ -61,7 +63,7 @@ const styles = theme => ({
     uploadLabel: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'left',
         justifyContent: 'center',
         margin: theme.spacing(1),
         padding: theme.spacing(2),
@@ -83,7 +85,7 @@ const styles = theme => ({
             marginTop: theme.spacing(1),
             marginRight: theme.spacing(1), // 오른쪽 마진 추가
             backgroundColor: '#719FE4', // 버튼 배경색 지정
-            // ... 기타 스타일 ...
+            color: '#FFFFFF', // 추가 버튼의 텍스트 색상
         },
         cancelButton: {
             marginTop: theme.spacing(1),
@@ -92,11 +94,25 @@ const styles = theme => ({
             // ... 기타 스타일 ...
         },
 
+   tableCell:{
+  backgroundColor:'gray',
+},
+    grayBackground:{
+      backgroundColor:'#E4F3FF',
+        textAlign:'right',
+    },
 
 
     errorMessage: {
         color: theme.palette.error.main,
         marginTop: theme.spacing(2)
+    },
+
+    buttonContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        paddingLeft: theme.spacing(1), // 버튼 사이의 간격을 줄이기 위한 왼쪽 패딩
+        paddingRight: theme.spacing(1), // 버튼 사이의 간격을 줄이기 위한 오른쪽 패딩
     },
 
 });
@@ -212,12 +228,12 @@ class CreateEmployee extends Component {
 
         try {
 
-            // axios.defaults.withCredentials = true;
-            // let loginForm = new FormData();
+            axios.defaults.withCredentials = true;
+            let loginForm = new FormData();
             // await axios.get("http://localhost:8080/logout");
-            // loginForm.append("loginId", "admin");
-            // loginForm.append("password", "admin");
-            // await axios.post("http://localhost:8080/login", loginForm);
+            loginForm.append("loginId", "admin");
+            loginForm.append("password", "admin");
+            await axios.post("http://localhost:8080/login", loginForm);
 
             const employeeAddUrl = "http://localhost:8080/admin/register";
             const createForm = new FormData();
@@ -273,20 +289,11 @@ class CreateEmployee extends Component {
         }
     };
 
-
-
-
-    onChange = (e) => {
-        const {name, value} = e.target;
-        this.setState({[name]: value});
-        console.log(value);
+    handleAttendanceManagerChange = (event) => {
+        this.setState({ attendanceManager: event.target.value === 'true' });
     };
 
-    onToggleChange = () => {
-        this.setState((prevState) => ({
-            attendanceManager: !prevState.attendanceManager,
-        }));
-    };
+
 
 
     handleImageUpload = (e) => {
@@ -301,200 +308,224 @@ class CreateEmployee extends Component {
         // 모달이 아니라면 페이지를 이전 상태로 되돌리거나 다른 액션을 취해야 합니다.
     };
 
-    render() {
-        const { classes } = this.props;
-        const { employeeId, passWord, name, attendanceManager, hireDate, uploadFile, formError } = this.state;
+        render() {
+            const { classes } = this.props;
+            const { employeeId, passWord, name, attendanceManager, hireDate, uploadFile, formError } = this.state;
 
-        return (
-            <Box className={classes.container}>
+            return (
                 <Container>
-                    <Typography variant="h2" className={classes.reportTitle} align="center">사원 생성</Typography>
+                <Box className={classes.container}>
 
-                    <Paper>
-                        <Box className={classes.uploadContainer} justifyContent="center" alignItems="center">
-                            <input
-                                accept="image/*"
-                                className={classes.uploadInput}
-                                id="upload-file"
-                                type="file"
-                                onChange={this.handleImageUpload}
-                            />
-                            <label htmlFor="upload-file" className={classes.uploadLabel}>
-                                {uploadFile ? (
-                                    <img
-                                        src={URL.createObjectURL(uploadFile)}
-                                        alt="Employee"
-                                        className={classes.uploadIcon}
-                                    />
-                                ) : (
-                                    <img
-                                        src={defaultPersonImage}
-                                        alt="Default"
-                                        className={classes.uploadIcon}
-                                    />
-                                )}
-                            </label>
-                            {/* 버튼 컨테이너 */}
-                            <Box display="flex" flexDirection="column" alignItems="center">
-                                <Box display="flex" flexDirection="row"  mb={3}>
-                                    <Button
-                                        variant="contained"
-                                        component="span"
-                                        className={classes.addButton}
-                                        onClick={() => document.getElementById('upload-file').click()}
-                                    >
-                                        추가
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        component="span"
-                                        className={classes.removeButton}
-                                        onClick={this.handleImageRemove}
-                                        disabled={!uploadFile}
-                                    >
-                                        삭제
-                                    </Button>
-                                </Box>
-                                <Typography variant="h5" style={{ color: 'white' }}>
-                                    프로필 이미지를 등록해주세요
-                                </Typography>
-                            </Box>
+                        <Box
+                            sx={{
+                                width:"100%",
+                                fontSize:'25px',
+                                fontFamily: 'Noto Sans KR, sans-serif',
+                                fontWeight: 'bold',
+                                borderBottom: 'solid 1px black',
+                                margin: 'auto',
+                                marginBottom: '40px', // 여기에 marginBottom 추가
+                            }}>
+                            사원 생성
                         </Box>
-                    </Paper>
+                        <Paper>
+                            <Box className={classes.uploadContainer} justifyContent="center" alignItems="center">
+                                <input
+                                    accept="image/*"
+                                    className={classes.uploadInput}
+                                    id="upload-file"
+                                    type="file"
+                                    onChange={this.handleImageUpload}
+                                />
+                                <label htmlFor="upload-file" className={classes.uploadLabel}>
+                                    {uploadFile ? (
+                                        <img
+                                            src={URL.createObjectURL(uploadFile)}
+                                            alt="Employee"
+                                            className={classes.uploadIcon}
+                                        />
+                                    ) : (
+                                        <img
+                                            src={defaultPersonImage}
+                                            alt="Default"
+                                            className={classes.uploadIcon}
+                                        />
+                                    )}
+                                </label>
+                                {/* 버튼 컨테이너 */}
+                                <Box display="flex" flexDirection="column" alignItems="center" marginTop={'50px'}>
+                                    <Box display="flex" flexDirection="row"  mb={3}>
+                                        <Button
+                                            variant="contained"
+                                            component="span"
+                                            className={classes.addButton}
+                                            onClick={() => document.getElementById('upload-file').click()}
+                                        >
+                                            추가
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            component="span"
+                                            className={classes.removeButton}
+                                            onClick={this.handleImageRemove}
+                                            disabled={!uploadFile}
+                                        >
+                                            삭제
+                                        </Button>
+                                    </Box>
+                                    <Typography variant="h5" style={{ color: 'white', marginTop: '30px' }}>
+                                        프로필 이미지를 등록해주세요
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Paper>
 
+                        <Paper className={classes.paper}>
+                            <Box
+                                sx={{
+                                    width:"100%",
+                                    fontSize:'25px',
+                                    fontFamily: 'Noto Sans KR, sans-serif',
+                                    fontWeight: 'bold',
+                                    margin: 'auto',
+                                    marginTop: '40px', // 여기에 marginBottom 추가
+                                }}>
+                                사원 생성
+                            </Box>
 
-                    <Paper className={classes.paper}>
-                        <TableContainer component={Box} className={classes.formContainer}>
-                            <Table>
-                                <TableBody>
-                                    {/* 사원번호 입력 */}
-                                    <TableRow>
-                                        <TableCell component="th" scope="row">
-                                            <Typography variant="subtitle1">사원번호</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <TextField
-                                                label="Employee ID"
-                                                variant="outlined"
-                                                value={employeeId}
-                                                onChange={e => this.setState({ employeeId: e.target.value })}
-                                                margin="normal"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-
-                                    {/* 비밀번호 입력 */}
-                                    <TableRow>
-                                        <TableCell component="th" scope="row">
-                                            <Typography variant="subtitle1">비밀번호</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <TextField
-                                                label="Password"
-                                                variant="outlined"
-                                                type="password"
-                                                value={passWord}
-                                                onChange={e => this.setState({ passWord: e.target.value })}
-                                                margin="normal"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-
-                                    {/* 이름 입력 */}
-                                    <TableRow>
-                                        <TableCell component="th" scope="row">
-                                            <Typography variant="subtitle1">사원이름</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <TextField
-                                                label="Name"
-                                                variant="outlined"
-                                                value={name}
-                                                onChange={e => this.setState({ name: e.target.value })}
-                                                margin="normal"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-
-                                    {/* 근태 관리자 여부 */}
-                                    <TableRow>
-                                        <TableCell component="th" scope="row">
-                                            <Typography variant="subtitle1">근태 관리자 여부</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={attendanceManager}
-                                                        onChange={e => this.setState({ attendanceManager: e.target.checked })}
-                                                    />
-                                                }
-                                                label="Attendance Manager"
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-
-                                    {/* 입사 날짜 선택 */}
-                                    <TableRow>
-                                        <TableCell component="th" scope="row">
-                                            <Typography variant="subtitle1">입사 날짜</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                <KeyboardDatePicker
+                            <TableContainer component={Box} className={classes.formContainer} flex='center'>
+                                <Table>
+                                    <TableBody>
+                                        {/* 사원번호 입력 */}
+                                        <TableRow>
+                                            <TableCell component="th" scope="row" className={classes.grayBackground}>
+                                                사원번호
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    label="Employee ID"
+                                                    variant="outlined"
+                                                    value={employeeId}
+                                                    onChange={e => this.setState({ employeeId: e.target.value })}
                                                     margin="normal"
-                                                    label="Hire Date"
-                                                    format="yyyy/MM/dd"
-                                                    value={hireDate}
-                                                    onChange={date => this.setState({ hireDate: date })}
-                                                    KeyboardButtonProps={{ 'aria-label': 'change date' }}
                                                     fullWidth
                                                 />
-                                            </MuiPickersUtilsProvider>
-                                        </TableCell>
-                                    </TableRow>
-
-                                    {/* 폼 에러 메시지 표시 */}
-                                    {formError && (
-                                        <TableRow>
-                                            <TableCell colSpan={2}>
-                                                <Typography className={classes.errorMessage}>{formError}</Typography>
                                             </TableCell>
                                         </TableRow>
-                                    )}
 
-                                    {/* 등록 및 취소 버튼 */}
-                                    <TableRow>
-                                        <TableCell colSpan={2}>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Button
-                                                    variant="contained"
-                                                    className={classes.submitButton}
-                                                    onClick={this.handleCreateEmployee}
+                                        {/* 비밀번호 입력 */}
+                                        <TableRow>
+                                            <TableCell component="th" scope="row" className={classes.grayBackground}>
+                                                비밀번호
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    label="Password"
+                                                    type="password"
+                                                    variant="outlined"
+                                                    value={passWord}
+                                                    onChange={e => this.setState({ passWord: e.target.value })}
+                                                    margin="normal"
+                                                    fullWidth
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+
+                                        {/* 사원이름 입력 */}
+                                        <TableRow>
+                                            <TableCell component="th" scope="row" className={classes.grayBackground}>
+                                                사원이름
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    label="Name"
+                                                    variant="outlined"
+                                                    value={name}
+                                                    onChange={e => this.setState({ name: e.target.value })}
+                                                    margin="normal"
+                                                    fullWidth
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+
+                                        {/* 근태 관리자 여부 */}
+                                        <TableRow>
+                                            <TableCell component="th" scope="row" className={classes.grayBackground}>
+                                                근태 관리자 여부
+                                            </TableCell>
+                                            <TableCell>
+                                                <Select
+                                                    value={attendanceManager ? 'true' : 'false'}
+                                                    onChange={this.handleAttendanceManagerChange}
+                                                    fullWidth
                                                 >
-                                                    등록
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    className={classes.cancelButton}
-                                                    onClick={this.handleCancel}
-                                                >
-                                                    취소
-                                                </Button>
-                                            </Box>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Paper>
+                                                    <MenuItem value="true">근태 관리자</MenuItem>
+                                                    <MenuItem value="false">사원</MenuItem>
+                                                </Select>
+                                            </TableCell>
+                                        </TableRow>
+
+                                        {/* 입사 날짜 선택 */}
+                                        <TableRow>
+                                            <TableCell component="th" scope="row" className={classes.grayBackground}>
+                                                입사 날짜
+                                            </TableCell>
+                                            <TableCell>
+                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                    <KeyboardDatePicker
+                                                        margin="normal"
+                                                        label="Hire Date"
+                                                        format="yyyy/MM/dd"
+                                                        value={hireDate}
+                                                        onChange={date => this.setState({ hireDate: date })}
+                                                        KeyboardButtonProps={{ 'aria-label': 'change date' }}
+                                                        fullWidth
+                                                    />
+                                                </MuiPickersUtilsProvider>
+                                            </TableCell>
+                                        </TableRow>
+
+                                        {/* 폼 에러 메시지 표시 */}
+                                        {formError && (
+                                            <TableRow>
+                                                <TableCell colSpan={2}>
+                                                    <Typography className={classes.errorMessage}>{formError}</Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+
+                                        {/* 등록 및 취소 버튼 */}
+                                        <TableRow>
+                                            <TableCell colSpan={2}>
+                                                <Box className={classes.buttonContainer}>
+                                                    <Button
+                                                        variant="contained"
+                                                        className={classes.submitButton}
+                                                        onClick={this.handleCreateEmployee}
+                                                    >
+                                                        등록
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained"
+                                                        className={classes.cancelButton}
+                                                        onClick={this.handleCancel}
+                                                    >
+                                                        취소
+                                                    </Button>
+                                                </Box>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Paper>
+                </Box>
                 </Container>
-            </Box>
-        );
-    }
+
+
+
+            );
+        }
 }
 
 export default withStyles(styles)(CreateEmployee);
