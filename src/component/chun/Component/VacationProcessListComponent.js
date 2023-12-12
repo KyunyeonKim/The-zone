@@ -37,7 +37,7 @@ class VacationProcessListComponent extends Component {
         const formData= new FormData();
         formData.append('employeeId',employeeId);
         formData.append('vacationRequestKey',vacationRequestKey);
-        formData.append('vacationRequestStateCategoryKey','permitted')
+        formData.append('vacationRequestStateCategoryKey','연차 요청 승인')
 
         try{
             const response = await axios.post('http://localhost:8080/manager/vacation/process',formData,{
@@ -68,7 +68,7 @@ class VacationProcessListComponent extends Component {
         const formData= new FormData();
         formData.append('employeeId',employeeId);
         formData.append('vacationRequestKey',vacationRequestKey);
-        formData.append('vacationRequestStateCategoryKey','rejected')
+        formData.append('vacationRequestStateCategoryKey','연차 요청 반려')
         formData.append('reasonForRejection',reason);
 
         try{
@@ -101,7 +101,8 @@ class VacationProcessListComponent extends Component {
     };
 
     onRejectButtonClick = async(e)=>{
-        if(this.state.clickRejectBtn === false){
+        if(!this.state.clickRejectBtn){
+            this.props.parentRerender()
             this.setState({clickRejectBtn:true},()=>{
                 console.log("this.state.clickRejectBtn : ",this.state.clickRejectBtn);
             });

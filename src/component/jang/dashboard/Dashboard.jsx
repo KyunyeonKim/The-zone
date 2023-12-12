@@ -255,10 +255,10 @@ export default function Dashboard(props) {
                                             <Grid container xs={12} md={12} lg={12}>
                                                 <Grid item xs={12} md={12} lg={12} style={{margin:"20px 0px 10px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
 
-                                                    <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}}>
+                                                    <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
                                                         버튼 1
                                                     </Button>
-                                                    <Button variant="contained" color="primary"style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold'}}>
+                                                    <Button variant="contained" color="primary"style={{width:'150px',height:'60px',fontFamily:'Noto Sans KR,sans-serif',fontSize:'17px',borderRadius:'5px',fontWeight:'bold'}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
                                                         버튼 2
                                                     </Button>
 

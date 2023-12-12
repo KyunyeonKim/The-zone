@@ -260,6 +260,13 @@ class ModalContainer extends Component {
                     </Grid>
                 </>
                 break;
+            case 'EmployeeDashboard':
+                return <>
+                    <Grid container lg={12} justifyContent={'center'}>
+                        <EmployeeDashboard args={this.state.args}></EmployeeDashboard>
+                    </Grid>
+                </>
+                break;
 
             default:
                 console.log('지원하지 않는 Inner Container 이름입니다.');

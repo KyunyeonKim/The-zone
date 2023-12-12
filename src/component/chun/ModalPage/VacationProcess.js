@@ -117,6 +117,7 @@ class VacationProcess extends Component {
         this.onApproveBtnClick = this.onApproveBtnClick.bind(this);
         this.onRejectBtnClick = this.onRejectBtnClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.reRnderer = this.reRnderer.bind(this);
     }
 
     searchKeywordChange = (e) => {
@@ -310,6 +311,9 @@ class VacationProcess extends Component {
         const page = '';
         this.fetchData(page);
     }
+    reRnderer = function(value){
+        this.setState(value)
+    }
 
     render() {
         const {searchKeyword, data} = this.state;
@@ -425,6 +429,7 @@ class VacationProcess extends Component {
                                                                       onRejectBtnClick={this.onRejectBtnClick}
                                                                       key={row.vacationRequestKey} row={row}
                                                                       keyData={row.vacationRequestKey}
+                                                                      parentRerender={this.reRnderer}
                                                                       title={["승인", "반려"]}/>
                                     ))}
                                 </TableBody>

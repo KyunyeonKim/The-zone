@@ -397,7 +397,7 @@ class ProcessAppealRequest extends Component{
                                 <TableBody>
                                     {data.map((row) => (
                                         /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                        <ProcessAppealRequestListComponent className={classes.text} id={JSON.parse(sessionStorage.getItem('userData')).loginId} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
+                                        <ProcessAppealRequestListComponent className={classes.text} parentRerender = {this.setState} id={JSON.parse(sessionStorage.getItem('userData')).loginId} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
                                     ))}
                                 </TableBody>
                             </Table>

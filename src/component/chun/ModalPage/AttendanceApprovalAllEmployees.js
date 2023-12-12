@@ -351,7 +351,7 @@ class AttendanceApprovalAllEmployees extends Component{
                                 </TableHead>
                                 <TableBody>
                                     {data.map((row) => (
-                                        <ButtonInListComponent  className={classes.text} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
+                                        <ButtonInListComponent  className={classes.text} toggleModalShowing={this.props.args[0]} key={row.employeeId} row={row} keyData={row.employeeId} title="승인 내역 조회" />
                                     ))}
                                 </TableBody>
                             </Table>

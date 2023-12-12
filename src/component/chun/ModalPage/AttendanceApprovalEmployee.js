@@ -94,7 +94,7 @@ class AttendanceApprovalEmployee extends Component {
         this.state = {
             /*TODO : 모달 적용시 아래 주석 풀어야함*/
             // employeeId : props.employeeId
-            employeeId: JSON.parse(sessionStorage.getItem('userData')).loginId,
+            employeeId: this.props.employeeId,
             activePage: 1,
             showPagiNation: 'flex',
             data: [],
@@ -109,7 +109,6 @@ class AttendanceApprovalEmployee extends Component {
         this.fetchData = this.fetchData.bind(this);
         this.sortChange = this.sortChange.bind(this);
         this.descChange = this.descChange.bind(this);
-
     }
 
     fetchData = async (page) => {

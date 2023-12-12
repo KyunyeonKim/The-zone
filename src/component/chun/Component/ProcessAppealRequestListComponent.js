@@ -38,7 +38,7 @@ class ProcessAppealRequestListComponent extends Component {
         const formData= new FormData();
         formData.append('employeeId',employeeId);
         formData.append('attendanceAppealRequestId',attendanceAppealRequestId);
-        formData.append('status','approved')
+        formData.append('status','조정 요청 승인')
 
         try{
             const response = await axios.post('http://localhost:8080/manager/appeal/process',formData,{
@@ -108,8 +108,9 @@ class ProcessAppealRequestListComponent extends Component {
     onRejectButtonClick = async(e)=>{
         if(this.state.clickRejectBtn === false){
             console.log("onRejectButtonClick");
-            this.setState({clickRejectBtn:true},()=>{
-            });
+            this.props.parentRerender()
+            // this.setState({clickRejectBtn:true},()=>{
+            // });
 
         }
         else{

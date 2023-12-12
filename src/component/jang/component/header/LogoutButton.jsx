@@ -7,6 +7,7 @@ class LogoutButton extends Component {
         try {
             axios.defaults.withCredentials = true;
             await axios.get('http://localhost:8080/logout');
+            sessionStorage.clear();
             alert('logout success')
             window.location.href = 'http://localhost:3000/login';
         } catch (error) {
