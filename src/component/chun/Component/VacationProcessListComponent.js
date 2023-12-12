@@ -48,6 +48,7 @@ class VacationProcessListComponent extends Component {
             alert('employeeId 전송 성공: '+employeeId);
             console.log("전송 성공");
             this.onApproveBtnClick();
+            this.props.parentRerender()
         }catch(error) {
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
@@ -80,6 +81,7 @@ class VacationProcessListComponent extends Component {
             alert('employeeId 전송 성공: '+employeeId);
             console.log("전송 성공");
             this.onRejectBtnClick();
+            this.props.parentRerender()
 
         }catch(error) {
             if (error.response.status === 400) {
@@ -102,7 +104,7 @@ class VacationProcessListComponent extends Component {
 
     onRejectButtonClick = async(e)=>{
         if(!this.state.clickRejectBtn){
-            this.props.parentRerender()
+
             this.setState({clickRejectBtn:true},()=>{
                 console.log("this.state.clickRejectBtn : ",this.state.clickRejectBtn);
             });
@@ -113,6 +115,7 @@ class VacationProcessListComponent extends Component {
                 alert("반려 사유를 반드시 입력하세요!");
                 return;
             }
+
             this.sendRejectData( this.row.employeeId, this.row.vacationRequestKey,this.inputValue);
         }
 

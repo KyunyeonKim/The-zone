@@ -84,7 +84,7 @@ class ProcessAppealRequestListComponent extends Component {
             console.log(this.onRejectBtnClick);
             this.onRejectBtnClick();
             // this.setState({clickRejectBtn:false});
-
+            this.props.parentRerender()
         }catch(error) {
             if (error.response.status === 400) {
                 alert("400 Bad Request Error!");
@@ -106,11 +106,11 @@ class ProcessAppealRequestListComponent extends Component {
     };
 
     onRejectButtonClick = async(e)=>{
-        if(this.state.clickRejectBtn === false){
+        if(!this.state.clickRejectBtn){
             console.log("onRejectButtonClick");
-            this.props.parentRerender()
-            // this.setState({clickRejectBtn:true},()=>{
-            // });
+
+            this.setState({clickRejectBtn:true},()=>{
+            });
 
         }
         else{
@@ -118,6 +118,7 @@ class ProcessAppealRequestListComponent extends Component {
                 alert("반려 사유를 반드시 입력하세요!");
                 return;
             }
+
             this.sendRejectData(this.row.employeeId,this.row.attendanceAppealRequestId,this.inputValue);
         }
 
@@ -179,7 +180,7 @@ class ProcessAppealRequestListComponent extends Component {
                 </TableCell>
 
                 <TableCell>
-                    <TextFieldComponent  label={"반려사유"} onChange={this.reasonChange}  disabled={!this.state.clickRejectBtn||isButtonDisabled} ></TextFieldComponent>
+                    <TextFieldComponent  label={"반려사유"} onChange={this.reasonChange}  disabled={!this.state.clickRejectBtn} ></TextFieldComponent>
                 </TableCell>
 
             </TableRow>
