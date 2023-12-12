@@ -12,9 +12,9 @@ const styles = (theme) => ({
         backgroundColor:"cornflowerblue",
         // backgroundColor:"#2F79DA",
         fontFamily: 'Noto Sans KR, sans-serif',
-        height:"55px",
+        height:"45px",
         fontWeight:'bold',
-        width:"180px"
+        width:"160px"
     }
 
 });
