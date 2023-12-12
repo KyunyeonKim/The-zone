@@ -33,7 +33,7 @@ const styles = (theme) => ({
             width: theme.spacing(9),
         },
     }, subheader: {
-        fontSize: '20px', color: 'white', background: '#5984CE', fontFamily: 'Noto Sans KR,sans-serif', fontWeight:"bold",width:"100%"
+        display:"flex",alignItems:"center",fontSize: '20px', color: 'white', background: '#5984CE', fontFamily: 'Noto Sans KR,sans-serif', fontWeight:"bold",width:"100%",height:"100%"
     }, forHeight: {
         display: 'flex', height: '100%'
     },
