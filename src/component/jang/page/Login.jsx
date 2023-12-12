@@ -106,12 +106,12 @@ function Login() {
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon/>
+                        </Avatar>
+                        <Typography component="h1" variant="h4" style={{color:"black"}}>
+                            Login
+                        </Typography>
                     <form className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
