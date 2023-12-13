@@ -81,7 +81,7 @@ import axios from 'axios';
 import {withStyles} from '@material-ui/core/styles';
 import Calendar from 'react-calendar';
 import moment from 'moment';
-
+import 'react-calendar/dist/Calendar.css';
 const styles = (theme) => ({
 
     normal_attendance: {
