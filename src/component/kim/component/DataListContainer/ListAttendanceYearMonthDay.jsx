@@ -68,7 +68,7 @@ const styles = theme => ({
             backgroundColor: '#FFF59D',
             opacity: 0.9,
         },
-        width: '60%', // 버튼의 너비를 부모 컨테이너에 맞춤
+        width: '100%', // 버튼의 너비를 부모 컨테이너에 맞춤
         height: '36px', // 버튼의 높이를 고정
         padding: '8px 16px', // 상하, 좌우 패딩 설정
         textOverflow: 'ellipsis', // 긴 텍스트는 말줄임표로 처리
@@ -86,7 +86,7 @@ const styles = theme => ({
             backgroundColor: '#66BB6A',
             opacity: 0.9,
         },
-        width: '60%', // 버튼의 너비를 부모 컨테이너에 맞춤
+        width: '100%', // 버튼의 너비를 부모 컨테이너에 맞춤
         height: '36px', // 버튼의 높이를 고정
         padding: '8px 16px', // 상하, 좌우 패딩 설정
         textOverflow: 'ellipsis', // 긴 텍스트는 말줄임표로 처리
@@ -104,7 +104,7 @@ const styles = theme => ({
             backgroundColor: '#FFAB91',
             opacity: 0.9,
         },
-        width: '60%', // 버튼의 너비를 부모 컨테이너에 맞춤
+        width: '100%', // 버튼의 너비를 부모 컨테이너에 맞춤
         height: '36px', // 버튼의 높이를 고정
         padding: '8px 16px', // 상하, 좌우 패딩 설정
         textOverflow: 'ellipsis', // 긴 텍스트는 말줄임표로 처리
@@ -121,12 +121,15 @@ const styles = theme => ({
     text: {
         fontFamily: `IBM Plex Sans KR, sans-serif`,
         fontWeight: 'bold',
+        textAlign:'center',
+        fontSize:'16px'
 
     },
    titleText: {
         fontSize: '22px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
+       textAlign:'center'
     },
 
 });
@@ -192,7 +195,7 @@ class ListAttendanceYearMonthDay extends Component {
                                 <TableRow key={index}>
                                     <TableCell className={classes.text}>{item.name}</TableCell>
                                     <TableCell className={classes.text}>{item.employeeId}</TableCell>
-                                    <TableCell>
+                                    <TableCell style={{display:"flex",justifyContent:"center"}}>
                                         {this.getVacationStatusButton(item)}
                                     </TableCell>
                                     <TableCell className={classes.text}>{item.reason}</TableCell>

@@ -19,22 +19,14 @@ import Box from "@material-ui/core/Box";
 
 // const {closeModal} = this.props
 
-const theme = createMuiTheme({
-    typography: {
-        fontFamily: [
-            'IBM Plex Sans KR',
-            'sans-serif',
-        ].join(','),
-    },
-    // 여기에 다른 테마 설정을 추가할 수 있습니다.
-});
-
 const styles = (theme) => ({
     root: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: theme.spacing(2),
+        width:"1400px",
+        padding:"10px 30px 30px 30px"
+
     },
     title: {
         fontSize: '40px',
@@ -42,7 +34,7 @@ const styles = (theme) => ({
     },
     tableContainer: {
         marginTop: theme.spacing(2),
-        width:"1600px",
+        width:"100%",
     },
     pagination: {
         display: 'flex',
@@ -81,13 +73,15 @@ const styles = (theme) => ({
     },
     titleText:{
         fontSize:'22px',
-        fontFamily: 'IBM Plex Sans KR, sans-serif',
-        fontWeight:'bold'
-    },
-    text: {
+        fontFamily:'IBM Plex Sans KR',
+        fontWeight:'bold',
+        textAlign:'center'
+    }, text: {
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-    },
+        textAlign:'center',
+        fontSize:"16px"
+    }
 });
 
 class GetHistoryOfVacationDefaultSetting extends Component {
@@ -231,10 +225,21 @@ class GetHistoryOfVacationDefaultSetting extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (
-            <ThemeProvider theme={theme}>
             <div className={classes.root}>
-                <h2 className={classes.title}>근속년수 기준 연차 개수 조정 내역</h2>
-                <Box display="flex" justifyContent="flex-end" width="80%">
+                {/*<h2 className={classes.title}>근속년수 기준 연차 개수 조정 내역</h2>*/}
+                <Box
+                    sx={{
+                        fontSize: '30px',
+                        fontFamily: 'IBM Plex Sans KR',
+                        fontWeight: 'bold',
+                        borderBottom: 'solid 1px black',
+                        margin: '20px 0',
+                        paddingBottom: '10px',
+                        width:"100%"
+                    }}>
+                    근속년수 기준 연차 개수 조정 내역
+                </Box>
+                <Box display="flex" justifyContent="flex-end" width="100%">
                     <Select
                         value={orderBy}
                         onChange={this.handleChangeOrderBy}
@@ -271,12 +276,12 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                         <TableBody>
                             {historyOfVacation.length > 0 ? historyOfVacation.map((item, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.employeeId}</TableCell>
-                                    <TableCell>{item.freshman}</TableCell>
-                                    <TableCell>{item.senior}</TableCell>
-                                    <TableCell>{item.settingTime}</TableCell>
-                                    <TableCell>{item.targetDate}</TableCell>
+                                    <TableCell className={classes.text}>{item.name}</TableCell>
+                                    <TableCell className={classes.text}>{item.employeeId}</TableCell>
+                                    <TableCell className={classes.text}>{item.freshman}</TableCell>
+                                    <TableCell className={classes.text}>{item.senior}</TableCell>
+                                    <TableCell className={classes.text}>{item.settingTime}</TableCell>
+                                    <TableCell className={classes.text}>{item.targetDate}</TableCell>
                                 </TableRow>
                             )) : (
                                 <TableRow>
@@ -318,7 +323,6 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                     </DialogActions>
                 </Dialog>
             </div>
-            </ThemeProvider>
         );
     }
 }

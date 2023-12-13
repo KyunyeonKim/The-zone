@@ -21,23 +21,43 @@
     import Table from "@material-ui/core/Table";
     import Paper from "@material-ui/core/Paper";
     import {withStyles} from "@material-ui/core/styles";
+    import BlackButtonComponent from "../../chun/Component/Button/BlackButtonComponent";
+    import SettingButtonComponent from "../../chun/Component/Button/SettingButtonComponent";
 
 
 
      const styles = (theme) =>({
 
-        tableContainer: {
-            width:"1000px",
-            display: 'flex',
-            maxHeight: '1100px', // 기존보다 높이 증가
-            height: '100%',
-            borderTop: '2px solid black', // 굵기와 색상을 변경
-        },
+        // tableContainer: {
+        //     width:"1200px",
+        //     display: 'flex',
+        //     maxHeight: '1100px', // 기존보다 높이 증가
+        //     height: '100%',
+        //     borderTop: '2px solid black', // 굵기와 색상을 변경
+        // },
         subText:{
-            textAlign:'center',
-            border: '1px solid #ddd',
-            backgroundColor: "#E4F3FF",
+            fontSize: '18px',
+            fontFamily:'IBM Plex Sans KR',
+            fontWeight: 'bold',
+            backgroundColor: "#F2F2F2",
+            textAlign: "right",
+            paddingRight: '15px',
+            width: "35%",
+            whiteSpace: 'nowrap',
+
         },
+         reasonText:{
+             fontSize: '18px',
+             fontFamily:'IBM Plex Sans KR',
+             fontWeight: 'bold',
+             backgroundColor: "#F2F2F2",
+             textAlign: "center",
+             paddingRight: '15px',
+             width: "35%",
+             whiteSpace: 'nowrap',
+
+
+         },
         subTextRow:{
             textAlign:'center',
             border: '1px solid #ddd',
@@ -60,8 +80,13 @@
              // 기타 스타일
          },
 
-         form:{
-           height:'800px',
+         formTable: {
+             margin: "0 auto",
+             borderCollapse: "collapse",
+             width: "70%",
+             borderTop: "2px solid black",
+             marginTop:"20px",
+             marginBottom:"100px"
          },
 
     });
@@ -98,6 +123,8 @@
 
             // 형식에 맞게 날짜와 시간을 조정
             const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+
+            // 형식에 맞게 시간을 조정
             const formattedStartTime = `${adjustedStartHour.toString().padStart(2, '0')}:${adjustedStartMinute.toString().padStart(2, '0')}:00`;
             const formattedEndTime = `${adjustedEndHour.toString().padStart(2, '0')}:${adjustedEndMinute.toString().padStart(2, '0')}:00`;
 
@@ -156,7 +183,6 @@
             }
         };
 
-
         renderHourOptions = () => {
             let hours = [];
             for (let i = 1; i <= 24; i++) {
@@ -203,26 +229,26 @@
             const {classes} = this.props;
             const { dialogOpen, dialogTitle, dialogMessage } = this.state;
             return (
-                <div className={classes.container}>
+                <Box style={{width:"1200px"}}>
 
                     <Box
                         sx={{
                             width:"90%",
-                            fontSize:'25px',
+                            fontSize:'30px',
                             fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: 'auto',
-                            marginBottom: '40px', // 여기에 marginBottom 추가
+                            padding: '10px 0px 10px 0px', // 여기에 marginBottom 추가
                         }}>
                         근무 시간 조정
                     </Box>
 
 
-                    <form onSubmit={this.handleSubmit}className={classes.form}>
+                    <form onSubmit={this.handleSubmit}className={classes.formTable}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <TableContainer component={Paper} className={classes.tableContainer}>
-                                <Table>
+                            <TableContainer className={classes.tableContainer}>
+                                <Table style={{height:"600px"}}>
                                     <TableBody>
                                         <TableRow>
                                             <TableCell className={classes.subText}>
@@ -291,7 +317,7 @@
                                         </TableRow>
 
                                         <TableRow>
-                                            <TableCell className={classes.subText} align="center" colSpan={3}>
+                                            <TableCell className={classes.reasonText} align="center" colSpan={3}>
                                                 사유
                                             </TableCell>
                                         </TableRow>
@@ -320,12 +346,33 @@
 
                                         {/* 제출 버튼 */}
                                         <TableRow>
-                                            <TableCell colSpan={4} align="center">
-                                                <Button type="submit" color="#007bff" variant="contained">
-                                                    변경 사항 저장
-                                                </Button>
+                                            <TableCell colSpan={4} align="center" style={{padding: "20px 0 20px 0",border:'0px'}}>
+                                                <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                                                                <BlackButtonComponent title={"취소"} onButtonClick={this.props.args[0]}/>
+                                                                <Button type="submit" color="#007bff" variant="contained"
+                                                                        style={{fontSize:'16px', whiteSpace: 'nowrap', borderRadius:'8px', border:'1px solid #2055E8',backgroundColor:"cornflowerblue", fontFamily:'IBM Plex Sans KR', height:"45px", fontWeight:'bold', width:"160px"}}>
+                                                                    설정
+                                                                </Button>
+                                                </Box>
+
                                             </TableCell>
                                         </TableRow>
+
+
+                                        {/*<tr>*/}
+                                        {/*    <td className={classes.formCell} colSpan={4} style={{*/}
+                                        {/*        textAlign: "center",*/}
+
+                                        {/*        padding: "20px 0 20px 0",border:'0px'*/}
+                                        {/*    }}>*/}
+                                        {/*        <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>*/}
+                                        {/*            <BlackButtonComponent title={"취소"} onButtonClick={this.props.args[0]}/>*/}
+                                        {/*            <SettingButtonComponent type="submit" onButtonClick={this.submitForm}*/}
+                                        {/*                                    title={"설정"}/>*/}
+                                        {/*        </Box>*/}
+                                        {/*    </td>*/}
+                                        {/*</tr>*/}
+
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -351,7 +398,6 @@
                             </Button>
                         </DialogActions>
                     </Dialog>
-
                 </div>
             );
         }

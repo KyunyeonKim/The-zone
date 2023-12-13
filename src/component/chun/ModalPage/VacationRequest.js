@@ -54,7 +54,7 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor: "#E4F3FF",
+        backgroundColor: "#F2F2F2",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
@@ -329,12 +329,13 @@ class VacationRequest extends Component {
                 <Box
                     sx={{
                         width:"90%",
-                        fontSize: '25px',
+                        fontSize: '30px',
                         fontFamily:'IBM Plex Sans KR',
                         fontWeight: 'bold',
                         borderBottom: 'solid 1px black',
                         margin: 'auto',
-                        paddingBottom: '10px'
+                        padding: '10px 0px 10px 0px',
+
                     }}>
                     연차 신청
                 </Box>
@@ -434,7 +435,7 @@ class VacationRequest extends Component {
                             </tr>
                             <tr>
                                 <td colSpan={4} style={{
-                                    textAlign: "center", backgroundColor: "#F9F9F9", padding: "20px 0 20px 0",border:'0px'
+                                    textAlign: "center",  padding: "20px 0 20px 0",border:'0px'
                                 }}>
                                     <Box style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                         {/*TODO : 추후 취소 버튼 클릭시 모달창이 닫히도록 구현*/}

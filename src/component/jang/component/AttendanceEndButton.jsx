@@ -64,13 +64,14 @@ class AttendanceEndButton extends Component {
         }
 
         return (<div>
-            {endTime===null?<Button variant="outlined" color="primary" onClick={this.dialogShowToggle} style={{border:"1px solid #FF9933",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
+            {endTime===null?<Button variant="outlined" onClick={this.dialogShowToggle} style={{color:"black",border:"1px solid #FF9933",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
                 퇴근 입력
-            </Button>:<Typography>
-                {
-                    endTime
-                }
+            </Button>:<Typography style={{
+                fontFamily:'IBM Plex Sans KR',fontSize:'17px',fontWeight:'bold',textAlign:'center'
+            }}>
+                퇴근 <br/> {endTime}
             </Typography>}
+            {alert("퇴근 : "+endTime)}
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 종료</DialogTitle>
                 <DialogContent>

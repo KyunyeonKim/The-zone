@@ -54,7 +54,7 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         border: "1px solid gray",
-            backgroundColor: "#E4F3FF",
+        backgroundColor: "#F2F2F2",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
@@ -331,12 +331,12 @@ class VacationDefaultSetting extends Component {
                     <Box
                         sx={{
                             width:"90%",
-                            fontSize:'25px',
+                            fontSize:'30px',
                             fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: 'auto',
-                            paddingBottom: '10px',
+                            padding: '10px 0px 10px 0px',
                         }}>
                         근속 연수에 따른 연차 개수 설정
                     </Box>

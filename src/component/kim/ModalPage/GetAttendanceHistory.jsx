@@ -11,8 +11,9 @@ const styles = theme => ({
         width:"1600px",
     },
     container: {
-        width: '100%',
+        width: '1400px',
         maxWidth: '1920px', // 또는 원하는 최대 너비
+        padding:"10px 30px 30px 30px"
     },
     // 기타 스타일 정의
 });
@@ -122,7 +123,7 @@ class GetAttendanceHistory extends Component {
             <Box className={classes.container}>
                 <Box
                     sx={{
-                        fontSize: '25px',
+                        fontSize: '30px',
                         fontFamily:'IBM Plex Sans KR',
                         fontWeight: 'bold',
                         borderBottom: 'solid 1px black',

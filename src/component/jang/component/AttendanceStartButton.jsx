@@ -65,11 +65,12 @@ class AttendanceStartButton extends Component {
 
 
         return (<div>
-            {startTime===null?<Button variant="contained" color="primary" onClick={this.dialogShowToggle} style={{backgroundColor:"#FFCA6E",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}}>출근 입력</Button>
-            :<Typography>
-                {
-                    startTime
-                }
+            {startTime===null?<Button variant="contained" onClick={this.dialogShowToggle} style={{color:"black",backgroundColor:"#FFCA6E",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}}>출근 입력</Button>
+            :
+                <Typography style={{
+                    fontFamily:'IBM Plex Sans KR',fontSize:'17px',fontWeight:'bold',textAlign:'center'
+                }}>
+                    출근 <br/> {startTime}
             </Typography>}
 
 

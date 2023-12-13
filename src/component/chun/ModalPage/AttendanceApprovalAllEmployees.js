@@ -39,10 +39,11 @@ const styles = (theme) => ({
             fontSize:'16px',
             fontFamily:'IBM Plex Sans KR',
             textAlign: 'center',
-            padding:'0px'
+            padding:'0px',
+            fontWeight: 'bold'
         },
         titleText:{
-            fontSize:'20px',
+            fontSize:'22px',
             fontFamily:'IBM Plex Sans KR',
             fontWeight:'bold',
 
@@ -206,7 +207,7 @@ class AttendanceApprovalAllEmployees extends Component{
 
     }
 
-
+    }
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
@@ -350,20 +351,28 @@ class AttendanceApprovalAllEmployees extends Component{
         return(
             <div>
                 <Grid item lg={12}>
-                    <Box style={{width:"1200px", margin:"40px 40px 40px 40px"}}>
+                    <Box style={{width:"1400px", margin:"10px 30px 30px 30px"}}>
                         <Box
-                            sx={{fontSize:'25px', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                            sx={{fontSize:'30px', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                                 paddingBottom: '10px'
                             }} >
                             전 사원 근태 승인 내역 조회
                         </Box>
-                        <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
-                            <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"60px"}} onChange={this.searchKeywordChange}/>
-                            </Box>
-                            <Box component="span" >
-                                <SvgIcon style={{borderRadius:'6px' , width: "3.5%",border:'1px solid #c1c1c1', height:"60px"}}
-                                         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
+                        <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
+                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"56px"}} onChange={this.searchKeywordChange}/>
+
+                            <IconButton
+                                onClick={this.handleSearchButtonClick}
+                                style={{
+                                    borderRadius: '6px',
+                                    width: "4%",
+                                    border: '1px solid #c1c1c1',
+                                    height: "56px"}}>
+                                <SearchIcon />
+                            </IconButton>
+
+                                {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
+                                {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
                                 {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                             </Box>
                         </Box>

@@ -5,6 +5,7 @@ import BlackButtonComponent from "./Button/BlackButtonComponent";
 import {Dialog, DialogActions, DialogContent} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import AttendanceApprovalEmployee from "../ModalPage/AttendanceApprovalEmployee";
+import AttendanceApproveEmployeeButtonComponent from "./Button/AttendanceApproveEmployeeButtonComponent";
 
 class ButtonInListComponent extends Component {
 
@@ -54,7 +55,7 @@ class ButtonInListComponent extends Component {
                     ))}
 
                     <TableCell style={{textAlign: "center",padding:'10px'}}>
-                        <BlackButtonComponent onButtonClick={this.onButtonClick} title={title}/>
+                        <AttendanceApproveEmployeeButtonComponent onButtonClick={this.onButtonClick} title={title}/>
                     </TableCell>
                 </TableRow>
             </>

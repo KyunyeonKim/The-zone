@@ -288,8 +288,8 @@ export default function Dashboard(props) {
                                             //     </Grid>
                                             // </Grid>
                                             <Box style={{margin:"8px 8px 0px 8px"}}>
-                                                <Button variant="contained" style={{color:"white",backgroundColor:"#5984CE",width:'100%',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'10px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
-                                                    종합 정보
+                                                <Button variant="contained" style={{color:"white",backgroundColor:"#5984CE",width:'100%',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'20px',borderRadius:'15px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
+                                                    종합 정보 보기
                                                 </Button>
 
                                             </Box>

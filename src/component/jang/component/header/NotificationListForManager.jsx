@@ -192,7 +192,7 @@
 
 import React, {Component} from 'react';
 import {
-    Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Button, Popover
+    Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Button, Popover, Box
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -410,9 +410,12 @@ class NotificationListForManager extends Component {
                                 justifyContent="space-evenly"
                                 alignItems="center"
                             >
+                                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'IBM Plex Sans KR',fontSize:'23px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
+                                    새 메시지
+                                </Typography>
                                 {requests.map((request) => (
 
-                                    <ListItem key={request.id} spacing={2}>
+                                    <ListItem key={request.id} spacing={2} style={{padding:"0px", borderBottom: '1px solid #ddd'}}>
                                         <Grid item xs={10} sm={10} md={10}>
                                             <ListItemText primary={request.content}/>
                                         </Grid>
@@ -426,10 +429,11 @@ class NotificationListForManager extends Component {
                             </Grid>
                         </List>
                         <div>
-                            <Typography variant="body2" color="primary" onClick={this.readMore}
-                                        style={{textDecoration: 'underline', marginTop: '10px'}}>
-                                새로운 메세지 확인
-                            </Typography>
+                            <Box style={{display:"flex",justifyContent:"center"}}>
+                                <Button onClick={this.readMore}  style={{color:"black",fontSize:"20px", marginTop: '10px',fontFamily:'IBM Plex Sans KR',border:'0px'}}>
+                                    더보기
+                                </Button>
+                            </Box>
                         </div>
                     </Paper>
                 </Popover>
