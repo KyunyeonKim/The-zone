@@ -64,8 +64,8 @@ class MainChart extends Component {
                     type: 'pie',
                     radius: ['50%', '70%'],
                     data: [
-                        { value: data[0].value, name: data[0].name, itemStyle: { color: '#007bff' } }, // 연차 사용 갯수
-                        { value: data[1].value, name: data[1].name, itemStyle: { color: 'skyblue' } } // 연차 잔여 갯수
+                        { value: data[0].value, name: data[0].name, itemStyle: { color: '#5984CE' } }, // 연차 사용 갯수
+                        { value: data[1].value, name: data[1].name, itemStyle: { color: '#F2F2F2' } } // 연차 잔여 갯수
                     ],
                     label: {
                         normal: {

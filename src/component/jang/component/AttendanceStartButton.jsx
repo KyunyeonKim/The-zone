@@ -31,7 +31,7 @@ class AttendanceStartButton extends Component {
 
     render() {
         return (<div>
-            <Button variant="contained" color="primary" onClick={this.dialogShowToggle} style={{width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}}>
+            <Button variant="contained" onClick={this.dialogShowToggle} style={{backgroundColor:"#FFCA6E",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}}>
                 출근 입력
             </Button>
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
