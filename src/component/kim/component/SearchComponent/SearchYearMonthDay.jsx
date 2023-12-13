@@ -41,7 +41,7 @@ class SearchYearMonthDay extends Component {
 
     render() {
         return (
-            <Box component="form" onSubmit={this.handleSubmit} style={{ border: '3px solid #1D89DB', padding: '20px', borderRadius: '10px', width:"1600px" }}>
+            <Box component="form" onSubmit={this.handleSubmit} style={{ border: '3px solid #1D89DB', padding: '20px', borderRadius: '10px', width:"1400px" }}>
                 <Grid container spacing={1} alignItems="center" justify="flex-end">
 
                     <Grid item xs>

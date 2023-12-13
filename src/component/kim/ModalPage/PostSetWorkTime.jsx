@@ -1,6 +1,20 @@
     import React, { Component } from "react";
     import axios from "axios";
-    import {Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, TextField, Box,TableRow,TableCell,TableBody} from "@material-ui/core";
+    import {
+    Button,
+    Grid,
+    Typography,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    TextField,
+    Box,
+    TableRow,
+    TableCell,
+    TableBody,
+    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+    } from "@material-ui/core";
     import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
     import DateFnsUtils from "@date-io/date-fns";
     import TableContainer from "@material-ui/core/TableContainer";
@@ -63,6 +77,10 @@
                 adjustedEndMinute: "",
                 reason: "",
                 targetDate: new Date(),
+                dialogOpen: false,
+                dialogTitle: '',
+                dialogMessage: '',
+
             };
         }
 
@@ -109,30 +127,29 @@
             try {
                 const response = await axios.post('http://localhost:8080/manager/adjustment', formData, {
                 });
-                console.log("근무 시간 조정 결과", response.data);
-                alert("근무 시간이 성공적으로 조정되었습니다.");
-                this.props.args[0]()
+                this.showDialog("Success", "근무 시간이 성공적으로 조정되었습니다.");
+                this.props.args[0](); // 추가적인 처리 (예: 상태 업데이트)
             } catch (error) {
+                let errorMessage = "An error occurred!";
                 if (error.response) {
                     switch (error.response.status) {
                         case 400:
-                            alert("400 Bad Request 에러!");
+                            errorMessage = "400 Bad Request 에러!";
                             break;
                         case 500:
-                            alert("500 Internal Server 에러!");
+                            errorMessage = "500 Internal Server 에러!";
                             break;
                         case 403:
-                            alert("403 Forbidden 에러!");
+                            errorMessage = "403 Forbidden 에러!";
                             break;
                         default:
-                            alert("An error occurred!");
+                            errorMessage = "An error occurred while fetching data!";
                             break;
                     }
                 } else {
                     console.error('Error:', error);
-                    alert("An error occurred while fetching data!");
-
                 }
+                this.showErrorDialog('Error', errorMessage);
             }
         };
 
@@ -154,11 +171,33 @@
 
         };
 
+        showErrorDialog = (title, message) => {
+            this.setState({
+                dialogOpen: true,
+                dialogTitle: title,
+                dialogMessage: message,
+            });
+        };
+
+        // 다이얼로그 닫기 함수
+        closeDialog = () => {
+            this.setState({ dialogOpen: false });
+        };
+
+
+        showDialog = (title, message) => {
+            this.setState({
+                dialogOpen: true,
+                dialogTitle: title,
+                dialogMessage: message,
+            });
+        };
 
 
         render() {
             const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;
             const {classes} = this.props;
+            const { dialogOpen, dialogTitle, dialogMessage } = this.state;
             return (
                 <div className={classes.container}>
 
@@ -288,6 +327,26 @@
                             </TableContainer>
                         </MuiPickersUtilsProvider>
                     </form>
+
+
+                    <Dialog
+                        open={dialogOpen}
+                        onClose={this.closeDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {dialogMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.closeDialog} color="primary">
+                                확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             );
         }

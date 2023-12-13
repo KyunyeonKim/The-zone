@@ -8,12 +8,11 @@ const styles = theme => ({
         margin: theme.spacing(1),
         textAlign: "center",
         color: theme.palette.primary.main,
-        width:"1900px",
+        width:"1600px",
     },
     container: {
         width: '100%',
         maxWidth: '1920px', // 또는 원하는 최대 너비
-        // 기타 스타일
     },
     // 기타 스타일 정의
 });
@@ -26,13 +25,15 @@ class GetAttendanceHistory extends Component {
             totalElement: 0,
             size: 10,
             page: 1,
-            year: '',
-            month: '',
+            year: '2023',
+            month: '1',
             day: '',
             searchParameter: ""
         };
     }
-
+    componentDidMount() {
+        this.fetchData(); // 컴포넌트 마운트 시 데이터 로드
+    }
 
     handleSearchSubmit = ({year, month, day, searchParameter}) => {
         this.setState({year, month, day, searchParameter, page: 1}, this.fetchData);

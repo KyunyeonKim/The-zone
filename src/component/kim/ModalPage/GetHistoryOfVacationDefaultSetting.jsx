@@ -8,7 +8,8 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow,
+    DialogContent, Dialog, DialogContentText, DialogTitle, DialogActions, Button
 } from "@material-ui/core";
 import axios from "axios";
 import Pagination from "react-js-pagination";
@@ -85,6 +86,9 @@ class GetHistoryOfVacationDefaultSetting extends Component {
             orderBy: "settingTime",
             order: "asc",
             searchPerormed: "false",
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleChangeOrderBy = this.handleChangeOrderBy.bind(this);
@@ -143,27 +147,41 @@ class GetHistoryOfVacationDefaultSetting extends Component {
             });
             console.log(response);
         } catch (error) {
+            let errorMessage = "An error occurred!";
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
-                        alert("400 Bad Request 에러!");
+                        errorMessage = "400 Bad Request 에러!";
                         break;
                     case 500:
-                        alert("500 Internal Server 에러!");
+                        errorMessage = "500 Internal Server 에러!";
                         break;
                     case 403:
-                        alert("403 Forbidden - 에러!");
+                        errorMessage = "403 Forbidden - 에러!";
                         break;
                     default:
-                        alert("An error occurred!");
+                        errorMessage = "An error occurred!";
                         break;
                 }
             } else {
                 console.error("Error fetching data: ", error);
-                alert("데이터가 존재하지 않습니다!");
+                errorMessage = "데이터가 존재하지 않습니다!";
             }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
 
 
 
@@ -195,6 +213,7 @@ class GetHistoryOfVacationDefaultSetting extends Component {
             orderBy,
             order,
         } = this.state;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (
             <div className={classes.root}>
@@ -263,6 +282,25 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                         activeClass={classes.activePageItem}
                     />
                 )}
+
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

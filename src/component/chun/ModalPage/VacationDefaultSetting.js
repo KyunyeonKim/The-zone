@@ -45,7 +45,7 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor: "#E4F3FF",
+            backgroundColor: "#E4F3FF",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
