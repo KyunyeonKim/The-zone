@@ -4,9 +4,10 @@ import {
     Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@material-ui/core';
 import axios from "axios";
+import Typography from "@material-ui/core/Typography";
 
 class AttendanceEndButton extends Component {
-    state = {dialogOn :false ,dialogOff:true}
+    state = {dialogOn :false ,dialogOff:true,endTime:null}
     dialogOn=false
     dialogOff=true
     dialogShowToggle = () => {
@@ -22,19 +23,54 @@ class AttendanceEndButton extends Component {
         try{
             let response = await axios.post('http://localhost:8080/employee/leave')
             alert("업무 종료!!")
-            this.setState({dialogOn :false ,dialogOff:true})
-        }catch(error) {
-            alert(`퇴근 요청 도중 문제 발생 : ${error.response.data.message}`)
-            this.setState({dialogOn :false ,dialogOff:true})
-        }
+            axios.defaults.withCredentials=true;
+            let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
+            let {endTime} = responseOfTodayInfo.data;
+            alert('endTime '+ responseOfTodayInfo.data.endTime)
+            if(endTime!=="null")
+                this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
 
+        }catch(error) {
+            alert(`출근 요청 도중 문제 발생 : ${error.response.data.message}`)
+            axios.defaults.withCredentials=true;
+            let response = await axios.get('http://localhost:8080/employee/attendance/today')
+            let {endTime} = response.data;
+            alert('endTime '+ response.data.endTime)
+            if(endTime!=="null")
+                this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
+        }
+    }
+
+    async componentDidMount() {
+        axios.defaults.withCredentials=true;
+        let response = await axios.get('http://localhost:8080/employee/attendance/today')
+        let {endTime} = response.data;
+        alert(`endTime ${endTime}`)
+        if(endTime!=="null")
+            this.setState({endTime:endTime})
+        else{
+            alert("퇴근 정보 없음")
+        }
     }
 
     render() {
+        let endTime=null;
+        if(this.state.endTime!==null){
+            let currentDate = new Date(this.state.endTime);
+            let hours = currentDate.getHours();
+            let minutes = currentDate.getMinutes();
+            let seconds = currentDate.getSeconds();
+            endTime =hours + ':' + minutes + ':' + seconds;
+        }
+
         return (<div>
-            <Button variant="outlined" onClick={this.dialogShowToggle} style={{border:"1px solid #FF9933",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
+            {endTime===null?<Button variant="outlined" color="primary" onClick={this.dialogShowToggle} style={{border:"1px solid #FF9933",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
                 퇴근 입력
-            </Button>
+            </Button>:<Typography>
+                {
+                    endTime
+                }
+            </Typography>}
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 종료</DialogTitle>
                 <DialogContent>

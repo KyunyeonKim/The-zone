@@ -13,6 +13,7 @@ import EmployeeAttendanceChart from "../ReportChart/EmployeeAttendanceChart";
 import EmployeeBarChart from "../ReportChart/EmployeeBarChart";
 import Container from "@material-ui/core/Container";
 import Calendar from "react-calendar";
+import * as PropTypes from "prop-types";
 
 const styles = theme => ({
     root: {
@@ -148,7 +149,6 @@ const StyleTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 
-
 class EmployeeReport extends Component {
     state = {
         vacationData: {}, // 연차 데이터
@@ -227,7 +227,7 @@ class EmployeeReport extends Component {
         const { classes, year, months } = this.props;
         const { vacationData, attendanceData } = this.state;
         const monthlyChartData = this.aggregateMonthlyData();
-
+        const mark=this.mark;
         return (
             <Container className={classes.root}>
                 <TableContainer component={Paper}>
@@ -273,7 +273,7 @@ class EmployeeReport extends Component {
                                         <StyledTableCell rowSpan={2} style={{ width: '45%' }}>
                                             TODO:달력 컴포넌트 들어갈 자리입니다
                                             {/* 달력 컴포넌트 */}
-                                            <Calendar tileClassName={classes.calendarTile} />
+                                           <InnerCalendar month={month}></InnerCalendar>
                                         </StyledTableCell>
                                     </TableRow>
 
