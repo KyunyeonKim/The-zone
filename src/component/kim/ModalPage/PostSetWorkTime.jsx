@@ -209,7 +209,7 @@
                         sx={{
                             width:"90%",
                             fontSize:'25px',
-                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: 'auto',

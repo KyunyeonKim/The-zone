@@ -39,7 +39,7 @@ const styles = theme => ({
     grayBackground: {
         textAlign: 'right',
         backgroundColor: '#E4F3FF',
-        fontFamily: 'Noto Sans KR, sans-serif', // 변경된 글꼴
+        fontFamily:'IBM Plex Sans KR', // 변경된 글꼴
     },
     tableCell: {
         padding: theme.spacing(1),
@@ -224,7 +224,7 @@ class EmployeeMine extends Component {
                         sx={{
                             width:"100%",
                             fontSize:'25px',
-                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
                             margin: 'auto',
@@ -244,7 +244,7 @@ class EmployeeMine extends Component {
                                     />
                             </label>
                             <Box display="flex" flexDirection="column" alignItems="center" marginTop={'50px'}>
-                                <Typography variant="h5" style={{color: 'white', marginTop: '30px',fontFamily: 'Noto Sans KR, sans-serif'}}>
+                                <Typography variant="h5" style={{color: 'white', marginTop: '30px',fontFamily:'IBM Plex Sans KR'}}>
                                     프로필 이미지 입니다
                                 </Typography>
                             </Box>
@@ -254,7 +254,7 @@ class EmployeeMine extends Component {
                         sx={{
                             width:"100%",
                             fontSize:'25px',
-                            fontFamily: 'Noto Sans KR, sans-serif',
+                            fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             margin: 'auto',
                             marginTop:'40px',

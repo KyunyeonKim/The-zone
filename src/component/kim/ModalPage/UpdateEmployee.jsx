@@ -40,7 +40,7 @@ const styles = theme => ({
     grayBackground: {
         textAlign: 'right',
         backgroundColor: '#E4F3FF',
-        fontFamily: 'Noto Sans KR, sans-serif', // 변경된 글꼴
+        fontFamily:'IBM Plex Sans KR', // 변경된 글꼴
     },
     tableCell: {
         padding: theme.spacing(1),
@@ -383,7 +383,7 @@ class UpdateEmployee extends Component {
                             sx={{
                                 width: "100%",
                                 fontSize: '25px',
-                                fontFamily: 'Noto Sans KR, sans-serif',
+                                fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 borderBottom: 'solid 1px black',
                                 margin: 'auto',
@@ -432,7 +432,7 @@ class UpdateEmployee extends Component {
                             sx={{
                                 width: "100%",
                                 fontSize: '25px',
-                                fontFamily: 'Noto Sans KR, sans-serif',
+                                fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 margin: 'auto',
                                 marginTop: '40px',
