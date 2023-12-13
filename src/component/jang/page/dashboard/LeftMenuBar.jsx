@@ -51,7 +51,7 @@ class LeftMenuBar extends Component {
         const {classes, open, handleDrawerClose, toggleModalShowing} = this.props;
 
         const EmployeeReportModalHandler = () => {
-            toggleModalShowing('EmployeeDashboard', toggleModalShowing)
+            toggleModalShowing('ReportForManager', toggleModalShowing)
         }
         const AttendanceApprovalAllEmployeesHandler = () => {
             toggleModalShowing('AttendanceApprovalAllEmployees', toggleModalShowing)

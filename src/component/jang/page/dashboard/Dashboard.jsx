@@ -14,15 +14,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CalendarContainer from "./CalendarContainer";
 import DigitalClock from "./DigitalClock";
 import {Card, CardMedia, SvgIcon} from "@material-ui/core";
-import TopBarUserInfo from "../component/header/TopBarUserInfo";
+import TopBarUserInfo from "../../component/header/TopBarUserInfo";
 import Copyright from "./Copyright";
-import NotificationListForEmployee from "../component/header/NotificationListForEmployee";
-import LogoutButton from "../component/header/LogoutButton";
+import NotificationListForEmployee from "../../component/header/NotificationListForEmployee";
+import LogoutButton from "../../component/header/LogoutButton";
 import LeftMenuBar from "./LeftMenuBar";
 import ChartContainer from "./ChartContainer";
-import NotificationListForManager from "../component/header/NotificationListForManager";
+import NotificationListForManager from "../../component/header/NotificationListForManager";
 import AttendanceInfoButtonContainer from "./AttendanceInfoButtonContainer";
-import EmployeeSettingTableContainer from "../page/EmployeeSettingTableContainer";
+import EmployeeSettingTableContainer from "../EmployeeSettingTableContainer";
 import ProcessAppealRequest from "./admin/AdminTablePartContainer";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
@@ -288,8 +288,8 @@ export default function Dashboard(props) {
                                             //     </Grid>
                                             // </Grid>
                                             <Box style={{margin:"8px 8px 0px 8px"}}>
-                                                <Button variant="contained" style={{color:"white",backgroundColor:"#5984CE",width:'100%',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'10px',fontWeight:'bold', marginRight:"10px"}}>
-                                                    버튼 1
+                                                <Button variant="contained" style={{color:"white",backgroundColor:"#5984CE",width:'100%',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'10px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
+                                                    종합 정보
                                                 </Button>
 
                                             </Box>

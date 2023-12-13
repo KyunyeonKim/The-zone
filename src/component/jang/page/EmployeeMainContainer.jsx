@@ -2,7 +2,7 @@ import React from 'react'
 
 import {stateStore} from "../../../index";
 import ModalContainer from "./ModalContainer";
-import Dashboard from "../dashboard/Dashboard";
+import Dashboard from "./dashboard/Dashboard";
 
 export default class EmployeeMainContainer extends React.Component {
 

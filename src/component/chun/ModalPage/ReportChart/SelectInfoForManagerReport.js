@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import BlackButtonComponent from "../Button/BlackButtonComponent";
+import BlackButtonComponent from "../../Component/Button/BlackButtonComponent";
 import {chartDataStore} from "../../../../index";
 
 class SelectInfoForManagerReport extends Component {

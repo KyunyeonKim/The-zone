@@ -17,7 +17,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Pagination from "react-js-pagination";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon} from "@material-ui/core";
-import BlackButtonComponent from "../../../chun/Component/Button/BlackButtonComponent";
+import BlackButtonComponent from "../../../../chun/Component/Button/BlackButtonComponent";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import {ToggleButton} from "@material-ui/lab";
