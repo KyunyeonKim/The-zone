@@ -14,6 +14,7 @@ import EmployeeBarChart from "../ReportChart/EmployeeBarChart";
 import Container from "@material-ui/core/Container";
 import Calendar from "react-calendar";
 import * as PropTypes from "prop-types";
+import InnerCalendar from "./InnerCalendar";
 
 const styles = theme => ({
     root: {
@@ -271,9 +272,8 @@ class EmployeeReport extends Component {
                                         </StyledTableCell>
                                         {/* 달력 셀은 여기서 병합을 시작하고 두 번째 행까지 확장 */}
                                         <StyledTableCell rowSpan={2} style={{ width: '45%' }}>
-                                            TODO:달력 컴포넌트 들어갈 자리입니다
                                             {/* 달력 컴포넌트 */}
-                                           <InnerCalendar month={month}></InnerCalendar>
+                                           <InnerCalendar month={month} year={year}></InnerCalendar>
                                         </StyledTableCell>
                                     </TableRow>
 

@@ -14,6 +14,9 @@ export const chartDataStore = {
         store[month] = {...store[month], ...data}//이전에 있던 data, 새로 입력된 data를 merge
     }, updateChart: undefined
 }
+export const IntegratedChartOfAttendanceStore = []
+export const IntegratedChartOfVacationStore = []
+
 
 document.addEventListener('DOMContentLoaded', function () {
     render(<>
