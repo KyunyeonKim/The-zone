@@ -97,7 +97,7 @@ export default function Dashboard(props) {
             fontSize:'20px',
             color:"white",
             paddingLeft:'15px',
-            backgroundColor:'steelblue',
+            backgroundColor:'#5984CE',
             marginBottom:'10px',
             borderTopLeftRadius:'10px',
             borderTopRightRadius:'10px',
@@ -107,7 +107,7 @@ export default function Dashboard(props) {
         },infoBox:{
             borderTopLeftRadius:'10px',
             borderTopRightRadius:'10px',
-            backgroundColor:'steelblue',
+            backgroundColor:'#5984CE',
         },
         info:{
             fontFamily:'IBM Plex Sans KR',
@@ -123,19 +123,21 @@ export default function Dashboard(props) {
             marginTop: '10px',
             marginBottom: '-20px',
             width: '100%',
+            height:'100px',
+            padding:'0px 8px',
             '& .slick-list': { //.slickSlider 클래스에 속한 하위 요소를 지칭하기 위해 &. 사용
                 position: 'absolute',
                 width: '100%',
-                height: '120px',
+                height: '100px',
                 overflow: 'hidden',
-                borderRadius:"15px"
+                borderRadius:"10px"
             },
             '& .slick-slider': {
                 display: 'flex',
             },
             '& .slick-track': {
                 display: 'flex',
-                height: '120px',
+                height: '100px',
             },
             '& .slick-arrow': {
                 padding: '4px 6px',
@@ -158,6 +160,13 @@ export default function Dashboard(props) {
                 left: '810px',
                 cursor: 'pointer',
             },
+            '& .slick-initialized':{
+                height:"100px"
+            },
+            '& .slick-dots':{
+                position:'absolute',
+                bottom:'0px'
+            }
         },
     }));
     const classes = useStyles();
@@ -250,14 +259,15 @@ export default function Dashboard(props) {
         <main className={classes.content}>
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
-            <Grid container style={{backgroundImage:'url(../src/component/jang/component/images/wave9.png)',backgroundSize:'cover' }}>
+            <Grid container>
+                   {/*style={{backgroundImage:'url(../src/component/jang/component/images/4wave1.png)',backgroundSize:'cover' }}>*/}
                 <Grid item style={{ width: '1200px', margin: '0 auto'}}>
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
                         {sessionStorage.getItem('userType') !== 'admin' ?
                             <Grid container xs={12} md={12} lg={12}>
                                 <Grid item xs={12} md={12} lg={12} >
-                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(../src/component/jang/component/images/wave3.png)',backgroundSize:'cover'}}>
+                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(../src/component/jang/component/images/wave11.png)',backgroundSize:'cover'}}>
                                         <ChartContainer/>
                                     </Paper>
 
@@ -270,18 +280,20 @@ export default function Dashboard(props) {
                                 <Grid item xs={3} md={3} lg={3}>
                                     <Grid container  spacing={2} xs={12} md={12} lg={12} style={{flexDirection:'column'}}>
                                         {sessionStorage.getItem('userType') !== 'admin' ?
-                                            <Grid container xs={12} md={12} lg={12}>
-                                                <Grid item xs={12} md={12} lg={12} style={{margin:"10px 0px 0px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
+                                            // <Grid container xs={12} md={12} lg={12}>
+                                            //     <Grid item xs={12} md={12} lg={12} style={{margin:"10px 0px 0px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
+                                            //         <Button variant="contained" style={{backgroundColor:"#FFCA6E",width:'100%',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'10px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
+                                            //             버튼 1
+                                            //         </Button>
+                                            //     </Grid>
+                                            // </Grid>
+                                            <Box style={{margin:"8px 8px 0px 8px"}}>
+                                                <Button variant="contained" style={{color:"white",backgroundColor:"#5984CE",width:'100%',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'10px',fontWeight:'bold', marginRight:"10px"}}>
+                                                    버튼 1
+                                                </Button>
 
-                                                    <Button variant="contained" color="primary" style={{width:'150px',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'5px',fontWeight:'bold', marginRight:"10px"}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
-                                                        버튼 1
-                                                    </Button>
-                                                    <Button variant="contained" color="primary"style={{width:'150px',height:'60px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'5px',fontWeight:'bold'}} onClick={() => props.toggleModalShowing('EmployeeDashboard',JSON.parse(sessionStorage.getItem('userData')).loginId)}>
-                                                        버튼 2
-                                                    </Button>
-
-                                                </Grid>
-                                            </Grid>:<></>}
+                                            </Box>
+                                            :<></>}
                                         <Grid item  xs={12} md={12} lg={12} >
                                             {/*<Paper style={{height:"300px"}}>*/}
                                             <Paper>
@@ -310,8 +322,8 @@ export default function Dashboard(props) {
                                         {/*    </Paper>*/}
                                         {/*</Grid>*/}
 
-                                        <Grid item   xs={12} md={12} lg={12}>
-                                            <Paper style={{marginTop:"8px"}}>
+                                        <Grid item   xs={12} md={12} lg={12} style={{padding:"0px 8px 0px 8px"}}>
+                                            <Paper>
                                                 <Box className={classes.infoBox}>
                                                     <Grid container>
                                                         <Grid item xs={7} md={7} lg={7}>
@@ -321,7 +333,7 @@ export default function Dashboard(props) {
 
                                                         </Grid>
                                                         <Grid item xs={5} md={5} lg={5} style={{display:"flex",alignItems:"center"}}>
-                                                            <Button variant="contained"   style={{color:"white",backgroundColor:"#004C99",width:'100px',height:'30px',fontFamily:'IBM Plex Sans KR',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
+                                                            <Button variant="contained"   style={{color:"black",backgroundColor:"#FFCA6E",width:'100px',height:'30px',fontFamily:'IBM Plex Sans KR',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
                                                                 보기/수정
                                                             </Button>
 
@@ -334,21 +346,21 @@ export default function Dashboard(props) {
                                                                 toggleModalShowing={props.toggleModalShowing}/>
                                             </Paper>
                                         </Grid>
-                                        <Grid item   xs={12} md={12} lg={12}>
-                                            <Box component={'div'} className={classes.slickSlider}>
-                                                <Slider  {...settings}>
-                                                    <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: '120px',}}/>
-                                                    </Box>
-                                                    <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: '120px',}}/>
-                                                    </Box>
-                                                    <Box component={'div'}>
-                                                        <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: '120px',  }}/>
-                                                    </Box>
-                                                </Slider>
-                                            </Box>
-                                        </Grid>
+
+                                        <Box component={'div'} className={classes.slickSlider}>
+                                            <Slider  {...settings}>
+                                                <Box component={'div'}>
+                                                    <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: '100px',}}/>
+                                                </Box>
+                                                <Box component={'div'}>
+                                                    <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: '100px',}}/>
+                                                </Box>
+                                                <Box component={'div'}>
+                                                    <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: '100px',  }}/>
+                                                </Box>
+                                            </Slider>
+                                        </Box>
+
                                     </Grid>
                                 </Grid>:<></>}
                             <Grid item xs={9} md={9} lg={9}>

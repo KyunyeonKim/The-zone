@@ -85,7 +85,7 @@ const styles = theme => ({
         fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold',
         color:"#2568ac",
-        fontSize:"20px"
+        fontSize:"23px"
     },
 
 

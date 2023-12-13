@@ -33,10 +33,14 @@ const styles = (theme) => ({
             width: theme.spacing(9),
         },
     }, subheader: {
-        display:"flex",alignItems:"center",fontSize: '20px', color: 'white', background: '#5984CE', fontFamily: 'Noto Sans KR,sans-serif', fontWeight:"bold",width:"100%",height:"100%"
+        display:"flex",alignItems:"center",fontSize: '22px', color: 'white', background: '#5984CE', fontFamily:'IBM Plex Sans KR', fontWeight:"bold",width:"100%",height:"100%"
     }, forHeight: {
         display: 'flex', height: '100%'
-    },
+    }, listItemText:{
+        fontSize:"18px",
+        fontFamily:'IBM Plex Sans KR',
+        fontWeight: 'bold'
+    }
 
 });
 
@@ -120,25 +124,25 @@ class LeftMenuBar extends Component {
                                 <ListItemIcon>
                                     <ListIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="전사원 연차 사용 내역"/>
+                                <ListItemText primary="전사원 연차 사용 내역" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <ListItem button onClick={AttendanceApprovalAllEmployeesHandler}>
                                 <ListItemIcon>
                                     <ListIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="전사원 근태 이상 승인 내역"/>
+                                <ListItemText primary="전사원 근태 이상 승인 내역" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <ListItem button onClick={GetAttendanceHistoryHandler}>
                                 <ListItemIcon>
                                     <ListIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="조정 요청 내역"/>
+                                <ListItemText primary="조정 요청 내역" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <ListItem button onClick={GetHistoryOfVacationDefaultSettingHandler}>
                                 <ListItemIcon>
                                     <ListIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="근속년수 기준 연차 개수 조정 내역"/>
+                                <ListItemText primary="근속년수 기준 연차 개수 조정 내역" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <br/>
                             <Divider/>
@@ -147,13 +151,13 @@ class LeftMenuBar extends Component {
                                 <ListItemIcon>
                                     <CheckCircleOutlineIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="근태 이상 조정 요청 처리"/>
+                                <ListItemText primary="근태 이상 조정 요청 처리" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <ListItem button onClick={VacationProcessHandler}>
                                 <ListItemIcon>
                                     <CheckCircleOutlineIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="연차 요청 처리"/>
+                                <ListItemText primary="연차 요청 처리" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <br/>
                             <Divider/>
@@ -162,13 +166,13 @@ class LeftMenuBar extends Component {
                                 <ListItemIcon>
                                     <BuildIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="근속 년수에 따른 연차 개수 조정"/>
+                                <ListItemText primary="근속 년수에 따른 연차 개수 조정" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <ListItem button onClick={PostSetWorkTimeHandler}>
                                 <ListItemIcon>
                                     <BuildIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="근무 시간 조정"/>
+                                <ListItemText primary="근무 시간 조정" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <br/>
                             <Divider/>
@@ -177,7 +181,7 @@ class LeftMenuBar extends Component {
                                 <ListItemIcon>
                                     <PrintIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="전사원에 대한 보고서 출력"/>
+                                <ListItemText primary="전사원에 대한 보고서 출력" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                         <div style={{display: sessionStorage.getItem('userType') === 'admin' ? 'block' : 'none'}}>
                             <ListSubheader inset className={classes.subheader}>ADMIN 메뉴</ListSubheader>
@@ -185,7 +189,7 @@ class LeftMenuBar extends Component {
                                 <ListItemIcon>
                                     <AssignmentIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
-                                <ListItemText primary="사원 정보 생성"/>
+                                <ListItemText primary="사원 정보 생성" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                         </div>
                         <br/>

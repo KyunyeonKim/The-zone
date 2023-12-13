@@ -6,7 +6,7 @@ import AttendanceEndButton from "../component/AttendanceEndButton";
 export default class AttendanceInfoButtonContainer extends React.Component {
     render() {
         return (
-            <Grid container spacing={4} direction="row" justifyContent="center" alignItems="center" >
+            <Grid container style={{padding:"10px 0px 10px 0px",display:"flex",justifyContent:"space-evenly"}}  >
                 <Grid item  style={{display:"flex",justifyContent:"center"}} >
                     <AttendanceStartButton/>
                 </Grid>
