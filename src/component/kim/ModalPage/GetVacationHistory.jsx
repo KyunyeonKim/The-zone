@@ -94,7 +94,7 @@ class GetVacationHistory extends Component {
                         errorMessage = "500 Internal Server 에러!";
                         break;
                     case 403:
-                        errorMessage = "403 Forbidden 에러!";
+                        errorMessage = "403 권한이 없습니다!";
                         break;
                 }
             } else {

@@ -9,7 +9,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    DialogContent, Dialog, DialogContentText, DialogTitle, DialogActions, Button
+    ThemeProvider,
+    DialogContent, Dialog, DialogContentText, DialogTitle, DialogActions, Button, createMuiTheme
 } from "@material-ui/core";
 import axios from "axios";
 import Pagination from "react-js-pagination";
@@ -17,6 +18,16 @@ import {withStyles} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
 // const {closeModal} = this.props
+
+const theme = createMuiTheme({
+    typography: {
+        fontFamily: [
+            'IBM Plex Sans KR',
+            'sans-serif',
+        ].join(','),
+    },
+    // 여기에 다른 테마 설정을 추가할 수 있습니다.
+});
 
 const styles = (theme) => ({
     root: {
@@ -70,8 +81,12 @@ const styles = (theme) => ({
     },
     titleText:{
         fontSize:'22px',
-        fontFamily:'IBM Plex Sans KR',
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight:'bold'
+    },
+    text: {
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
     },
 });
 
@@ -114,13 +129,13 @@ class GetHistoryOfVacationDefaultSetting extends Component {
     }
 
     async fetchPagedData(pageNumber, pageSize) {
-        axios.defaults.withCredentials = true;
-        let loginForm = new FormData();
-        loginForm.append("loginId", "123");
-        loginForm.append("password", "12345");
+        // axios.defaults.withCredentials = true;
+        // let loginForm = new FormData();
+        // loginForm.append("loginId", "123");
+        // loginForm.append("password", "12345");
 
         try {
-            await axios.post("http://localhost:8080/login", loginForm);
+            // await axios.post("http://localhost:8080/login", loginForm);
 
             const response = await axios.get(
                 `http://localhost:8080/manager/vacation/setting_history/vacation_default`, {
@@ -216,6 +231,7 @@ class GetHistoryOfVacationDefaultSetting extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (
+            <ThemeProvider theme={theme}>
             <div className={classes.root}>
                 <h2 className={classes.title}>근속년수 기준 연차 개수 조정 내역</h2>
                 <Box display="flex" justifyContent="flex-end" width="80%">
@@ -244,12 +260,12 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                     <Table>
                         <TableHead className={classes.TableHead}>
                             <TableRow>
-                                <TableCell classNmae={classes.titleText}>사원이름</TableCell>
-                                <TableCell classNmae={classes.titleText}>사원번호</TableCell>
-                                <TableCell classNmae={classes.titleText}>1년이하</TableCell>
-                                <TableCell classNmae={classes.titleText}>1년이상</TableCell>
-                                <TableCell classNmae={classes.titleText}>설정한 시간</TableCell>
-                                <TableCell classNmae={classes.titleText}>적용 시간</TableCell>
+                                <TableCell className={classes.titleText}>사원이름</TableCell>
+                                <TableCell className={classes.titleText}>사원번호</TableCell>
+                                <TableCell className={classes.titleText}>1년이하</TableCell>
+                                <TableCell className={classes.titleText}>1년이상</TableCell>
+                                <TableCell className={classes.titleText}>설정한 시간</TableCell>
+                                <TableCell className={classes.titleText}>적용 시간</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -302,6 +318,7 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                     </DialogActions>
                 </Dialog>
             </div>
+            </ThemeProvider>
         );
     }
 }

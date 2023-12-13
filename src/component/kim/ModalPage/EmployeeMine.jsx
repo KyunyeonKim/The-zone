@@ -3,9 +3,9 @@ import {
     Box,
     Button, InputAdornment,
     Paper,
-
+    Dialog, DialogContentText, DialogTitle, DialogActions,
     TextField,
-    Typography,
+    Typography, DialogContent,
 } from "@material-ui/core";
 import axios from "axios";
 import "../static/UpdateEmployee.css";
@@ -114,6 +114,9 @@ class EmployeeMine extends Component {
             isPasswordModalOpen: false, // 비밀번호 변경 모달 상태
             formError: "",
             uploadFile: null,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
     }
 
@@ -135,10 +138,6 @@ class EmployeeMine extends Component {
     async componentDidMount() {
         try {
             axios.defaults.withCredentials = true;
-            let loginForm = new FormData();
-            loginForm.append("loginId", "12345");
-            loginForm.append("password", "12345");
-            await axios.post("http://localhost:8080/login", loginForm);
 
             const response = await axios.get("http://localhost:8080/employee/information");
             const employeeData = response.data;
@@ -163,10 +162,29 @@ class EmployeeMine extends Component {
                 uploadFile: uploadFileUrl,
             });
         } catch (error) {
-            console.error("직원 데이터를 가져오지 못했습니다", error);
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 Forbidden - 에러!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred!";
+                        break;
+                }
+            } else {
+                console.error("Error fetching data: ", error);
+                errorMessage = "데이터가 존재하지 않습니다!";
+            }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
-
 
     onChange = (e) => {
         const {name, value} = e.target;
@@ -177,6 +195,17 @@ class EmployeeMine extends Component {
     handleClickShowPassword = () => {
         this.setState({ showPassword: !this.state.showPassword });
     };
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
 
 
 
@@ -185,6 +214,7 @@ class EmployeeMine extends Component {
             employeeId,  passWord ,name, attendanceManager, hireYear, isPasswordModalOpen, formError, uploadFile
         } = this.state;
         const { classes } = this.props;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (
             <Box className={classes.container}>
@@ -334,6 +364,24 @@ class EmployeeMine extends Component {
 
                 <PasswordChangeModal isOpen={isPasswordModalOpen} onClose={this.closePasswordModal}/>
                 </Container>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         );
     }

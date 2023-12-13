@@ -95,26 +95,18 @@
         handleSubmit = async (e) => {
             e.preventDefault();
             const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;
-            const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
 
-            // 형식에 맞게 시간을 조정
+            // 형식에 맞게 날짜와 시간을 조정
+            const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
             const formattedStartTime = `${adjustedStartHour.toString().padStart(2, '0')}:${adjustedStartMinute.toString().padStart(2, '0')}:00`;
             const formattedEndTime = `${adjustedEndHour.toString().padStart(2, '0')}:${adjustedEndMinute.toString().padStart(2, '0')}:00`;
 
-            // FormData 객체 생성
-            const formData = new FormData();
-            const employeeId = "200001012";
-            formData.append("employeeId", employeeId);
-            formData.append("adjustedStartTime", formattedStartTime);
-            formData.append("adjustedEndTime", formattedEndTime);
-            formData.append("reason", reason);
-            formData.append("targetDate", formattedDate);
+            // 데이터 검증
             if (/[^a-zA-Z0-9가-힣\s]/.test(reason)) {
                 alert("사유에 특수 문자를 포함할 수 없습니다.");
                 return;
             }
-
-            if(formattedStartTime>formattedEndTime){
+            if (formattedStartTime > formattedEndTime) {
                 alert("시작출근시간보다 퇴근시간이 시간이 더 큽니다. 다시 입력해주세요")
                 return;
             }
@@ -123,12 +115,22 @@
                 return;
             }
 
+            // FormData 객체 생성
+            const formData = new FormData();
+            formData.append("adjustedStartTime", formattedStartTime);
+            formData.append("adjustedEndTime", formattedEndTime);
+            formData.append("reason", reason);
+            formData.append("targetDate", formattedDate);
 
             try {
-                const response = await axios.post('http://localhost:8080/manager/adjustment', formData, {
-                });
-                this.showDialog("Success", "근무 시간이 성공적으로 조정되었습니다.");
-                this.props.args[0](); // 추가적인 처리 (예: 상태 업데이트)
+                const response = await axios.post('http://localhost:8080/manager/adjustment', formData);
+
+                // 성공한 경우 다이얼로그 표시
+                if (response.status === 200 || response.status === 201) {
+                    this.showDialog("Success", "근무 시간이 성공적으로 조정되었습니다.");
+                } else {
+                    this.showDialog("Error", "Unexpected server response");
+                }
             } catch (error) {
                 let errorMessage = "An error occurred!";
                 if (error.response) {
@@ -140,7 +142,7 @@
                             errorMessage = "500 Internal Server 에러!";
                             break;
                         case 403:
-                            errorMessage = "403 Forbidden 에러!";
+                            errorMessage = "403 권한이 없습니다!";
                             break;
                         default:
                             errorMessage = "An error occurred while fetching data!";
@@ -148,10 +150,12 @@
                     }
                 } else {
                     console.error('Error:', error);
+                    errorMessage = "An error occurred while fetching data!";
                 }
                 this.showErrorDialog('Error', errorMessage);
             }
         };
+
 
         renderHourOptions = () => {
             let hours = [];
@@ -347,6 +351,7 @@
                             </Button>
                         </DialogActions>
                     </Dialog>
+
                 </div>
             );
         }

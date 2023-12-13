@@ -5,13 +5,21 @@ import TextFieldComponent from "./TextFieldComponent";
 import axios from "axios";
 import AddButtonComponent from "./Button/AddButtonComponent";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
+import {
+
+    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button
+} from "@material-ui/core";
 
 class ProcessAppealRequestListComponent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            clickRejectBtn:false
+            clickRejectBtn:false,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
+
         };
 
         this.inputValue=""
@@ -33,6 +41,19 @@ class ProcessAppealRequestListComponent extends Component {
         this.inputValue=e.target.value;
     };
 
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
     sendApproveData = async(employeeId, attendanceAppealRequestId)=>{
 
         const formData= new FormData();
@@ -49,19 +70,28 @@ class ProcessAppealRequestListComponent extends Component {
 
             console.log("전송 성공");
             this.onApproveBtnClick();
-        }catch(error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+        }catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한 에러!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
 
@@ -85,19 +115,28 @@ class ProcessAppealRequestListComponent extends Component {
             this.onRejectBtnClick();
             // this.setState({clickRejectBtn:false});
             this.props.parentRerender()
-        }catch(error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+        }catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한 에러!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
 
@@ -129,9 +168,28 @@ class ProcessAppealRequestListComponent extends Component {
         this.row=row;
         this.onRejectBtnClick=onRejectBtnClick;
         this.onApproveBtnClick=onApproveBtnClick;
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
         return (
             <TableRow key={keyData}>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 {Object.entries(row).map(([key, value]) => {
                     if (key === "startTime") {

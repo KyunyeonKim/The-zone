@@ -9,7 +9,8 @@ import {
     Paper,
     Typography,
     Grid,
-    Box
+    Box,
+    Dialog, DialogContentText, DialogTitle, DialogActions, DialogContent, Button,
 } from '@material-ui/core';
 import axios from "axios";
 import {withStyles} from "@material-ui/core/styles";
@@ -86,20 +87,62 @@ class VacationInfo extends Component {
     constructor(props, context) {
         super(props, context);
         this.state={
-            data:[]
+            data:[],
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         }
         this.identifier = this.props.args[0]
     }
     identifier
     async componentDidMount() {
         axios.defaults.withCredentials = true;
-        let response = await axios.get(`http://localhost:8080/employee/vacation/historyOf/${this.identifier}`);
-        alert(JSON.stringify(response.data))
-        this.setState({data:response.data})
-    }
+
+        try {
+            let response = await axios.get(`http://localhost:8080/employee/vacation/historyOf/${this.identifier}`);
+            alert(JSON.stringify(response.data));
+            this.setState({ data: response.data });
+        } catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 Forbidden - 에러!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred!";
+                        break;
+                }
+            } else {
+                console.error("Error fetching data: ", error);
+                errorMessage = "데이터가 존재하지 않습니다!";
+            }
+            this.showErrorDialog('Error', errorMessage);
+        }
+    };
+
+    showErrorDialog = (message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: 'Error',
+            dialogMessage: message,
+        });
+    };
+
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
 
 
     render() {
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         const {classes}=this.props;
         let {data} = this.state;
         data = [data]
@@ -144,7 +187,24 @@ class VacationInfo extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         );
     }

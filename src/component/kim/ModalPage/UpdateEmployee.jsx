@@ -268,7 +268,11 @@ class UpdateEmployee extends Component {
             });
 
             const response = await axios.post(employeeUpdateUrl, updateForm);
-            console.log("업데이트 로그", response.data);
+            if (response.status === 200 || response.status === 201) {
+                this.showSuccessDialog("요청이 성공적으로 처리되었습니다.");
+            } else {
+                this.showErrorDialog(`Unexpected server response: ${response.status}`);
+            }
 
             // 이미지를 수정한 경우에만 파일 업로드 수행
             if (uploadFile && uploadFile instanceof File) {
@@ -328,11 +332,7 @@ class UpdateEmployee extends Component {
     };
 
 
-    onToggleChange = () => {
-        this.setState((prevState) => ({
-            attendanceManager: !prevState.attendanceManager,
-        }));
-    };
+
     handleAttendanceManagerChange = (event) => {
         this.setState({attendanceManager: event.target.value === 'true'});
     };
@@ -371,6 +371,8 @@ class UpdateEmployee extends Component {
             formError,
         } = this.state;
         const {classes} = this.props;
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
+
 
 
         return (

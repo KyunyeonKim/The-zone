@@ -1,4 +1,13 @@
-import {Box, Grid, SvgIcon} from "@material-ui/core";
+import {
+    Box, Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Grid,
+    SvgIcon
+} from "@material-ui/core";
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
@@ -92,7 +101,10 @@ class AttendanceApprovalAllEmployees extends Component{
             data:[],
             empPageData:{},
             desc:"",
-            sort:""
+            sort:"",
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
 
         };
         this.searchKeyword="";
@@ -169,18 +181,32 @@ class AttendanceApprovalAllEmployees extends Component{
 
 
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
 
     }
+
+
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
@@ -229,15 +255,27 @@ class AttendanceApprovalAllEmployees extends Component{
                 this.desc = "";
 
             } catch (error) {
-                if (error.response.status === 400) {
-                    alert("400 Bad Request Error!");
+                let errorMessage = "An error occurred!";
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            errorMessage = "400 Bad Request 에러!";
+                            break;
+                        case 500:
+                            errorMessage = "500 Internal Server 에러!";
+                            break;
+                        case 403:
+                            errorMessage = "403 권한이 없습니다!";
+                            break;
+                        default:
+                            errorMessage = "An error occurred while fetching data!";
+                            break;
+                    }
+                } else {
+                    console.error('Error:', error);
+                    errorMessage = "An error occurred while fetching data!";
                 }
-                if (error.response.status === 500) {
-                    alert("500 Internal Server Error !");
-                }
-                if (error.response.status === 403) {
-                    alert("403 Forbidden - Access denied !");
-                }
+                this.showErrorDialog('Error', errorMessage);
             }
         }
     };
@@ -287,10 +325,27 @@ class AttendanceApprovalAllEmployees extends Component{
         this.fetchData(page);
     }
 
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
+
+
+
 
     render() {
         const {data} = this.state;
         const {classes} = this.props;
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
         return(
             <div>
@@ -371,6 +426,25 @@ class AttendanceApprovalAllEmployees extends Component{
                                 />
                         </Box>
                     </Box>
+                    <Dialog
+                        open={dialogOpen}
+                        onClose={this.closeDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {dialogMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.closeDialog} color="primary">
+                                확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
                 </Grid>
             </div>
         )
