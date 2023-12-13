@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios from 'axios';
 import SearchYearMonthDay from "../component/SearchComponent/SearchYearMonthDay";
 import ListAttendanceYearMonthDay from "../component/DataListContainer/ListAttendanceYearMonthDay";
-import {Box, withStyles} from "@material-ui/core";
+import {Box, withStyles,DialogContent, Dialog, DialogContentText, DialogTitle, DialogActions, Button} from "@material-ui/core";
 const styles = theme => ({
     header: {
         margin: theme.spacing(1),
@@ -28,7 +28,10 @@ class GetAttendanceHistory extends Component {
             year: '2023',
             month: '1',
             day: '',
-            searchParameter: ""
+            searchParameter: "",
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
     }
     componentDidMount() {
@@ -75,31 +78,46 @@ class GetAttendanceHistory extends Component {
                 page: response.data.page
             });
         } catch (error) {
+            let errorMessage = "An error occurred!";
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
-                        alert("400 Bad Request 에러!");
+                        errorMessage = "400 Bad Request 에러!";
                         break;
                     case 500:
-                        alert("500 Internal Server 에러!");
+                        errorMessage = "500 Internal Server 에러!";
                         break;
                     case 403:
-                        alert("403 Forbidden 에러!");
+                        errorMessage = "403 Forbidden - 에러!";
                         break;
                     default:
-                        alert("An error occurred!");
+                        errorMessage = "An error occurred!";
                         break;
                 }
             } else {
-                console.error('Error fetching data:', error);
-                alert("An error occurred while fetching data!");
+                console.error("Error fetching data: ", error);
+                errorMessage = "데이터가 존재하지 않습니다!";
             }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
 
     render() {
         const {data, totalElement, size, page} = this.state;
         const { classes } = this.props;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (
             <Box className={classes.container}>
                 <Box
@@ -127,6 +145,24 @@ class GetAttendanceHistory extends Component {
                     onPageChange={this.handlePageChange}
                 />
                 </Box>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         );
     }

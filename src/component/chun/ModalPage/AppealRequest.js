@@ -82,7 +82,10 @@ class AppealRequest extends Component {
             selectedDay:day,
             uploadFile: null,
             defaultPersonImage: defaultPersonImage,
-            showForm:false
+            showForm:false,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
 
         this.attendanceHour="";
@@ -123,6 +126,28 @@ class AppealRequest extends Component {
     leavingMinuteChange=(e)=>{
         this.leavingMinute=e.target.value;
     }
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
+
+    showDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
 
     // login=async ()=> {
     //     axios.defaults.withCredentials = true;
@@ -192,19 +217,28 @@ class AppealRequest extends Component {
                 alert("이미지 업로드 결과", uploadResponse.data);
             }
             this.buttonClick();
-        }catch (error){
-            if (error.response.status === 400) {
-                alert("400 Bad Request 잘못된 요청입니다!");
-                return;
+        }catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
         alert(`stateStore.chartContainerStateSet.setState ${new Date(this.props.args[0])}`)
 
@@ -379,6 +413,7 @@ class AppealRequest extends Component {
         {console.log("리랜더링")}
         // const { classes } = this.props;
         // const uploadFile = this.state.uploadFile
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (
             <>
                 <Grid item lg={12}>
@@ -561,6 +596,25 @@ class AppealRequest extends Component {
                     </Box>
 
                 </Box>
+                    <Dialog
+                        open={dialogOpen}
+                        onClose={this.closeDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {dialogMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.closeDialog} color="primary">
+                                확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
                 </Grid>
         </>
         );

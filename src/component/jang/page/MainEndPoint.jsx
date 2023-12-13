@@ -9,6 +9,7 @@ import NotFoundPage from "./ErrorPage/NotFoundPage";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 
+
 class MainEndPoint extends Component {
     loggedIn;
     userData;
@@ -19,7 +20,7 @@ class MainEndPoint extends Component {
         this.state = {
             loggedIn: false,
             userData: {manager: false, admin: false},
-            openAlert : false
+            openAlert: false
         }
         console.log(" MainEndPoint constructor" + JSON.stringify(this.state))
         this.setOpenAlert = this.setOpenAlert.bind(this)
@@ -52,7 +53,7 @@ class MainEndPoint extends Component {
             }
             sessionStorage.setItem('userType', userType)
 
-            this.loginData = {loggedIn: this.loggedIn, userData: this.userData,openAlert:true}
+            this.loginData = {loggedIn: this.loggedIn, userData: this.userData, openAlert: true}
             console.log(`${JSON.stringify(this.loginData)}`)
             this.setState(this.loginData)
             // this.state=this.loginData
@@ -61,7 +62,7 @@ class MainEndPoint extends Component {
                 alert('로그인 정보 검색 실패')
             }
             console.log(" MainEndPoint error " + JSON.stringify(this.state))
-            this.setState({loggedIn: false, userData: {manager: 'dddd'}, openAlert:true})
+            this.setState({loggedIn: false, userData: {manager: 'dddd'}, openAlert: true})
             // this.state={loggedIn:false,userData: null}
         }
     };
@@ -71,12 +72,12 @@ class MainEndPoint extends Component {
     };
 
     setOpenAlert = (input) => {
-        this.setState({openAlert:input})
+        this.setState({openAlert: input})
     }
 
 
     render() {
-        const {loggedIn, userData,openAlert} = this.state;
+        const {loggedIn, userData, openAlert} = this.state;
         const handleCloseAlert = this.handleCloseAlert;
 
         return (
@@ -96,9 +97,9 @@ class MainEndPoint extends Component {
                                             '세션 로그인에 성공하였습니다'
                                         </Alert>
                                     </Snackbar>
-                                <AdminMain userType={'admin'}/></>
+                                    <AdminMain userType={'admin'}/></>
                                 :
-                                userData.manager === true ?<>
+                                userData.manager === true ? <>
                                         <Snackbar
                                             open={openAlert}
                                             autoHideDuration={6000}

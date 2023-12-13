@@ -10,7 +10,15 @@ import axios from "axios";
 import {withStyles} from "@material-ui/core/styles";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
 import AddButtonComponent from "./Button/AddButtonComponent";
+import {
+    Button,
 
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from "@material-ui/core";
 
 const styles = (theme) => ({
     formControl: {
@@ -25,7 +33,10 @@ class EmployeeVacationSettingListComponent extends Component {
         this.state={
             vacationType:"",
             countInput:"",
-            reasonInput:""
+            reasonInput:"",
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         }
 
         this.vacationTypeChange = this.vacationTypeChange.bind(this);
@@ -123,23 +134,33 @@ class EmployeeVacationSettingListComponent extends Component {
 
             isAddButton===true?this.props.AddHandleOpen(employeeId):this.props.DeleteHandleOpen(employeeId);
             console.log("전송 성공");
-        }catch(error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+        }catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
     render() {
         const {isButtonDisabled,data,keyData,classes,title,className} = this.props;
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
         return (
             <TableRow key={keyData} >
@@ -198,6 +219,24 @@ class EmployeeVacationSettingListComponent extends Component {
                     />
                     {/*<Button className={classes.button} variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>*/}
                 </TableCell>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </TableRow>
 
         );

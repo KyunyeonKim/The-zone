@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Box} from "@material-ui/core";
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -100,7 +100,10 @@ class AttendanceApprovalEmployee extends Component {
             data: [],
             pageData: {},
             desc: '',
-            sort: ''
+            sort: '',
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
 
         }
         this.desc = "";
@@ -111,6 +114,27 @@ class AttendanceApprovalEmployee extends Component {
         this.descChange = this.descChange.bind(this);
     }
 
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
+
+    showDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
     fetchData = async (page) => {
         // console.log("PageNationStyle",PageNationStyle);
 
@@ -154,15 +178,27 @@ class AttendanceApprovalEmployee extends Component {
             console.log(this.state);
 
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
 
     }
@@ -225,6 +261,7 @@ class AttendanceApprovalEmployee extends Component {
     render() {
         const {data} = this.state;
         const {classes} = this.props;
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
 
         return (
@@ -300,6 +337,24 @@ class AttendanceApprovalEmployee extends Component {
                         />
                     </Box>
                 </Box>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }

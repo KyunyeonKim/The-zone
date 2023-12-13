@@ -74,8 +74,11 @@ class VacationRequest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            endDate: "", addOpen: false, remainVacation: "", getData: "", isDialogOpen: false, dialogMessage: '',
+            endDate: "", addOpen: false, remainVacation: "", getData: "", isDialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
+
         let dateObject = this.props.args[2]
         const year = dateObject.getFullYear();
         const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고 두 자릿수로 만듦
@@ -104,9 +107,19 @@ class VacationRequest extends Component {
 
     // getData;
 
+    showDialog = (title, message) => {
+        this.setState({
+            isDialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
     handleDialogClose = () => {
         this.setState({
-            isDialogOpen: false, dialogMessage: '',
+            isDialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         });
     };
 
@@ -126,7 +139,7 @@ class VacationRequest extends Component {
             }
             if (error.response.status === 403) {
                 this.setState({
-                    isDialogOpen: true, dialogMessage: "권한이 없는 작업 요청입니다. 로그인 정보를 다식 확인해주세요",
+                    isDialogOpen: true, dialogMessage: "권한이 없는 작업 요청입니다. 로그인 정보를 다시 확인해주세요",
                 });
                 return;
             }
@@ -145,29 +158,23 @@ class VacationRequest extends Component {
     }
 
     submitForm = async (e) => {
-
+        e.preventDefault();
         if (this.state.getData === "") {
-            this.setState({
-                isDialogOpen: true, dialogMessage: "신청 연차 개수를 입력하세요",
-            });
+            this.showDialog("Validation Error", "신청 연차 개수를 입력하세요");
             return;
         }
 
         if (this.vacationType === "" || this.vacationType === null) {
-            this.setState({
-                isDialogOpen: true, dialogMessage: "신청 연차 종류를 선택하세요",
-            });
+            this.showDialog("Validation Error", "신청 연차 종류를 선택하세요");
             return;
         }
 
         if (this.reason === "" || this.reason === null) {
-            this.setState({
-                isDialogOpen: true, dialogMessage: "신청 사유를 입력하세요",
-            });
+            this.showDialog("Validation Error", "신청 사유를 입력하세요");
             return;
         }
 
-        e.preventDefault();
+
 
         const formData = new FormData();
         formData.append("vacationCategoryKey", this.vacationType);
@@ -189,18 +196,17 @@ class VacationRequest extends Component {
             stateStore.calendarContainerStateSet.setState(this.props.args[2].getFullYear(), (this.props.args[2].getMonth() + 1).toString().padStart(2, '0'), new Date(this.props.args[2]))
             this.buttonClick();
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+            let errorMessage = "Error";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400: errorMessage = "400 잘못된 요청입니다"; break;
+                    case 500: errorMessage = "500 Internal Server Error!"; break;
+                    case 403: errorMessage = "403 Forbidden - Access denied!"; break;
+                }
+            } else {
+                errorMessage = "An unexpected error occurred!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showDialog("Error", errorMessage);
         }
 
     };
@@ -229,12 +235,10 @@ class VacationRequest extends Component {
 
     inputCountChange = (e) => {
         const inputValue = e.target.value;
-        // this.state.getData = e.target.value;
+
         if (inputValue === "") {
             this.vacationCount = "";
-            this.setState({
-                getData: "", endDate: "",
-            });
+            this.setState({ getData: "", endDate: "" });
             alert("개수에 0 이상의 정수 데이터를 입력하세요!");
             return;
         }
@@ -243,36 +247,31 @@ class VacationRequest extends Component {
 
         if (isNaN(parsedValue)) {
             this.vacationCount = "";
-            this.setState({
-                getData: "", endDate: "",
-            });
+            this.setState({ getData: "", endDate: "" });
             alert("개수에 0 이상의 정수 데이터를 입력하세요!");
             return;
         }
         if (parsedValue > this.state.remainVacation) {
             this.vacationCount = "";
-            this.setState({
-                getData: "", endDate: "",
-            });
+            this.setState({ getData: "", endDate: "" });
             alert("존재 연차 개수보다 작게 입력해주세요");
             return;
         }
 
         if (parsedValue > this.props.args[1]) {
             this.vacationCount = "";
-            this.setState({
-                getData: "", endDate: "",
-            });
+            this.setState({ getData: "", endDate: "" });
             alert("최대 사용 연차 개수보다 작게 입력해주세요");
             return;
         }
 
-        if (parsedValue > 0) {
-            this.vacationCount = parsedValue;
-            this.setState({
-                getData: inputValue, endDate: this.addDays(this.startDate, parsedValue),
-            });
-        }
+        // 유효한 값인 경우
+        this.vacationCount = parsedValue;
+        this.setState({
+            getData: inputValue,
+            endDate: this.addDays(this.startDate, parsedValue),
+        });
+
         // } else {
         //     this.setState({
         //         getData: "",
@@ -312,19 +311,8 @@ class VacationRequest extends Component {
 
     render() {
         const {classes} = this.props;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (<Grid item lg={12}>
-            <Dialog open={this.state.isDialogOpen} onClose={this.handleDialogClose}>
-                <DialogTitle>CHECK!</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>{this.state.dialogMessage}</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.handleDialogClose} color="primary">
-                        확인
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
             <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                 <DialogTitle>연차 신청</DialogTitle>
                 <DialogContent>
@@ -469,6 +457,17 @@ class VacationRequest extends Component {
                 </form>
             </Box>
         </Box>
+            <Dialog open={this.state.isDialogOpen} onClose={this.handleDialogClose}>
+                <DialogTitle>{this.state.dialogTitle}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>{this.state.dialogMessage}</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={this.handleDialogClose} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
     </Grid>)
         ;
     }

@@ -133,23 +133,45 @@ class EmployeeVacationSetting extends Component {
         this.searchKeyword = e.target.value;
     }
 
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
+
+    showDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
 
     login=async ()=>{
 
-        axios.defaults.withCredentials = true;
-        let loginForm = new FormData();
-        loginForm.append('loginId', '200001012');
-        loginForm.append('password', 'test');
-        try{
-            const login = await axios.post('http://localhost:8080/login', loginForm);
-
-            // TODO :  this.loginId에 props로 전달받은 id를 설정해주어야 함
-            this.loginId=login.data.loginId;
-
-        }
-        catch(error){
-            console.log("error 발생 !");
-        }
+        // axios.defaults.withCredentials = true;
+        // let loginForm = new FormData();
+        // loginForm.append('loginId', '200001012');
+        // loginForm.append('password', 'test');
+        // try{
+        //     const login = await axios.post('http://localhost:8080/login', loginForm);
+        //
+        //     // TODO :  this.loginId에 props로 전달받은 id를 설정해주어야 함
+        //     this.loginId=login.data.loginId;
+        //
+        // }
+    //     catch(error){
+    //         console.log("error 발생 !");
+    //     }
     }
 
     fetchData=async(page)=> {
@@ -207,16 +229,27 @@ class EmployeeVacationSetting extends Component {
             });
 
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-            }
-            return;
+            this.showErrorDialog('Error', errorMessage);
         }
 
     }
@@ -285,7 +318,7 @@ class EmployeeVacationSetting extends Component {
 
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
-            alert("올바르지 않은 입력입니다.");
+            this.showDialog("올바르지 않는 입력입니다")
             return;
         }
 
@@ -301,7 +334,7 @@ class EmployeeVacationSetting extends Component {
                 console.log("searchResponse : ",searchResponse);
 
                 if(searchResponse===""){
-                    alert("검색 결과가 없습니다!");
+                    this.showDialog("검색 결과가 없습니다 ")
                     return;
                 }
 
@@ -333,17 +366,28 @@ class EmployeeVacationSetting extends Component {
                 });
                 console.log("this.state",this.state);
 
-            } catch(error) {
-                if (error.response.status === 400) {
-                    alert("400 Bad Request Error!");
+            } catch (error) {
+                let errorMessage = "An error occurred!";
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            errorMessage = "400 Bad Request 에러!";
+                            break;
+                        case 500:
+                            errorMessage = "500 Internal Server 에러!";
+                            break;
+                        case 403:
+                            errorMessage = "403 권한이 없습니다!";
+                            break;
+                        default:
+                            errorMessage = "An error occurred while fetching data!";
+                            break;
+                    }
+                } else {
+                    console.error('Error:', error);
+                    errorMessage = "An error occurred while fetching data!";
                 }
-                if (error.response.status === 500) {
-                    alert("500 Internal Server Error !");
-                }
-                if (error.response.status === 403) {
-                    alert("403 Forbidden - Access denied !");
-                }
-                return;
+                this.showErrorDialog('Error', errorMessage);
             }
         }
 
@@ -359,7 +403,7 @@ class EmployeeVacationSetting extends Component {
     render() {
         const { classes } = this.props;
         const { combineData} = this.state; // render() 안에 있는 vacationType를 사용 하는 함수는 render 함수 내에 정의
-
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
         // vacationType state 값을 업데이트
 
 
@@ -485,6 +529,24 @@ class EmployeeVacationSetting extends Component {
                         />
                     </Box>
                 </Box>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
 
         );

@@ -1,5 +1,14 @@
 import React, {Component} from "react";
-import {Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField,} from "@material-ui/core";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField,
+} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
 import AddButtonComponent from "../Component/Button/AddButtonComponent";
@@ -64,7 +73,10 @@ class VacationDefaultSetting extends Component {
             newFreshManCount: "",
             oldSeniorCount: "",
             newSeniorCount: "",
-            open: false
+            open: false,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
 
         };
         this.targetYear = ""
@@ -89,15 +101,15 @@ class VacationDefaultSetting extends Component {
     }
 
     login = async () => {
-        axios.defaults.withCredentials = true;
-        let loginForm = new FormData();
-        loginForm.append("loginId", "200001012");
-        loginForm.append("password", "test");
-        try {
-            const login = await axios.post("http://localhost:8080/login", loginForm);
-        } catch (error) {
-            console.log("error 발생 !");
-        }
+        // // axios.defaults.withCredentials = true;
+        // // let loginForm = new FormData();
+        // // loginForm.append("loginId", "200001012");
+        // // loginForm.append("password", "test");
+        // try {
+        //     const login = await axios.post("http://localhost:8080/login", loginForm);
+        // } catch (error) {
+        //     console.log("error 발생 !");
+        // }
     }
 
     oldVacationCountAndYearSetting = async () => {
@@ -120,15 +132,27 @@ class VacationDefaultSetting extends Component {
                 oldSeniorCount: oldSeniorCount.data
             });
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
     };
 
@@ -187,18 +211,27 @@ class VacationDefaultSetting extends Component {
                 newSeniorCount: ""
             });
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 데이터가 없습니다 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
 
 
@@ -232,13 +265,53 @@ class VacationDefaultSetting extends Component {
         }
         this.setState({...this.state, newSeniorCount: newSeniorChange});
     }
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
+
+    showDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
 
 
     render() {
         const {classes} = this.props;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (
             <div>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>근속 연수에 따른 연차 개수 설정</DialogTitle>
                     <DialogContent>

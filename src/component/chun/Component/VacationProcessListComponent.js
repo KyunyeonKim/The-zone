@@ -5,6 +5,7 @@ import TextFieldComponent from "./TextFieldComponent";
 import axios from "axios";
 import AddButtonComponent from "./Button/AddButtonComponent";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 
 class VacationProcessListComponent extends Component {
 
@@ -12,7 +13,10 @@ class VacationProcessListComponent extends Component {
         super(props);
         this.state = {
             vacationRequestKey: "",
-            clickRejectBtn:false
+            clickRejectBtn:false,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
         this.inputValue=""
         this.row=null
@@ -49,19 +53,28 @@ class VacationProcessListComponent extends Component {
             console.log("전송 성공");
             this.onApproveBtnClick();
             this.props.parentRerender()
-        }catch(error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+        } catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
 
@@ -83,19 +96,28 @@ class VacationProcessListComponent extends Component {
             this.onRejectBtnClick();
             this.props.parentRerender()
 
-        }catch(error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
-                return;
+        } catch (error) {
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-                return;
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-                return;
-            }
+            this.showErrorDialog('Error', errorMessage);
         }
     }
     onApprovalButtonClick =() => {
@@ -127,7 +149,7 @@ class VacationProcessListComponent extends Component {
         this.row=row;
         this.onRejectBtnClick=onRejectBtnClick;
         this.onApproveBtnClick=onApproveBtnClick;
-
+        const { dialogOpen, dialogTitle, dialogMessage } = this.state;
         console.log(JSON.stringify(this.state));
         return (
                 <TableRow key={keyData}>
@@ -148,8 +170,26 @@ class VacationProcessListComponent extends Component {
                     <TableCell>
                         <TextFieldComponent label={"반려 사유"} onChange={this.reasonChange} disabled={!this.state.clickRejectBtn} ></TextFieldComponent>
                     </TableCell>
-
+                    <Dialog
+                        open={dialogOpen}
+                        onClose={this.closeDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {dialogMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.closeDialog} color="primary">
+                                확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </TableRow>
+
         );
     }
 }

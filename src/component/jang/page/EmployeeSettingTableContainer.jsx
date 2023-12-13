@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import {Dialog, DialogContentText, DialogTitle, DialogActions, DialogContent} from '@material-ui/core';
 class EmployeeSettingTableContainer extends Component {
     searchInput = ''
 
@@ -17,6 +17,9 @@ class EmployeeSettingTableContainer extends Component {
             searchValue: '', // 검색어를 저장할 상태
             currentPage: 1, // 현재 페이지를 저장할 상태
             totalElements: 0, // 전체 요소 수
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
         };
     }
 
@@ -34,7 +37,27 @@ class EmployeeSettingTableContainer extends Component {
                 employeeNumbers: response.data.data, totalElements: response.data.totalElement,
             });
         } catch (error) {
-            console.error('Error fetching data:', error);
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 Forbidden - 에러!";
+                        break;
+                    default:
+                        errorMessage = "An error occurred!";
+                        break;
+                }
+            } else {
+                console.error("Error fetching data: ", error);
+                errorMessage = "데이터가 존재하지 않습니다!";
+            }
+            this.showErrorDialog('Error', errorMessage);
         }
     };
 
@@ -45,7 +68,20 @@ class EmployeeSettingTableContainer extends Component {
         });
     };
 
+    showErrorDialog = (message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: 'Error',
+            dialogMessage: message,
+        });
+    };
+
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
     render() {
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (
             <Grid item>
                 <Grid container>
@@ -109,6 +145,24 @@ class EmployeeSettingTableContainer extends Component {
                         </Grid>
                     </Grid>
                 </Grid>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Grid>
         );
     }

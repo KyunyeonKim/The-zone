@@ -95,7 +95,10 @@ class ProcessAppealRequest extends Component{
             data:[],
             pageData:{},
             approveOpen:false,
-            rejectOpen:false
+            rejectOpen:false,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
 
         };
 
@@ -173,18 +176,51 @@ class ProcessAppealRequest extends Component{
             });
 
         } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
+            let errorMessage = "An error occurred!";
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        errorMessage = "400 Bad Request 에러!";
+                        break;
+                    case 500:
+                        errorMessage = "500 Internal Server 에러!";
+                        break;
+                    case 403:
+                        errorMessage = "403 권한이 없습니다";
+                        break;
+                    default:
+                        errorMessage = "An error occurred while fetching data!";
+                        break;
+                }
+            } else {
+                console.error('Error:', error);
+                errorMessage = "An error occurred while fetching data!";
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-            }
-            return;
+            this.showErrorDialog('Error', errorMessage);
         }
     }
+
+    showDialog = (title, message) => {
+        this.setState({
+            isDialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
@@ -198,11 +234,11 @@ class ProcessAppealRequest extends Component{
         if(searchKeyword === ""){
             const page="";
             this.fetchData(page);
-        }else{
-            try{
+        }else {
+            try {
                 const searchRawData = await axios.get(`http://localhost:8080/manager/search/appeal/all/requested?searchParameter=${searchKeyword}`);
-                console.log("searchRawData : ",searchRawData);
-                if(searchRawData.data===""){
+                console.log("searchRawData : ", searchRawData);
+                if (searchRawData.data === "") {
                     alert("검색 결과가 없습니다!");
                     return;
                 }
@@ -224,22 +260,34 @@ class ProcessAppealRequest extends Component{
                 this.setState({
                     ...this.state,
                     data: getSearchAppealAllRequest,
-                    showPagiNation:"None",
-                    isSearch:true,
-                    sort:"",
-                    desc:""
+                    showPagiNation: "None",
+                    isSearch: true,
+                    sort: "",
+                    desc: ""
                 });
 
             } catch (error) {
-                if (error.response.status === 400) {
-                    alert("400 Bad Request Error!");
+                let errorMessage = "An error occurred!";
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            errorMessage = "400 Bad Request 에러!";
+                            break;
+                        case 500:
+                            errorMessage = "500 Internal Server 에러!";
+                            break;
+                        case 403:
+                            errorMessage = "403 권한이 없습니다";
+                            break;
+                        default:
+                            errorMessage = "An error occurred while fetching data!";
+                            break;
+                    }
+                } else {
+                    console.error('Error:', error);
+                    errorMessage = "An error occurred while fetching data!";
                 }
-                if (error.response.status === 500) {
-                    alert("500 Internal Server Error !");
-                }
-                if (error.response.status === 403) {
-                    alert("403 Forbidden - Access denied !");
-                }
+                this.showErrorDialog('Error', errorMessage);
             }
         }
     };
@@ -303,8 +351,28 @@ class ProcessAppealRequest extends Component{
     render(){
         const {searchKeyword,data} = this.state;
         const {classes} = this.props;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return(
             <div>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <Dialog open={this.state.approveOpen} onClose={this.handleClose}>
                     <DialogTitle>근태 조정 신청 승인</DialogTitle>
                     <DialogContent>

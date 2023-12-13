@@ -1,3 +1,6 @@
+
+//Todo: 이거 승인반려 다이어 로그 처리못함
+
 import Box from "@material-ui/core/Box";
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
@@ -100,7 +103,10 @@ class VacationProcess extends Component {
             data: [],
             pageData: {},
             approveOpen: false,
-            rejectOpen: false
+            rejectOpen: false,
+            dialogOpen: false,
+            dialogTitle: '',
+            dialogMessage: '',
 
         };
 
@@ -169,21 +175,50 @@ class VacationProcess extends Component {
                 desc: this.desc,
                 sort: this.sort
             });
-        } catch (error) {
-            if (error.response.status === 400) {
-                alert("400 Bad Request Error!");
+        }catch (error) {
+
+            let errorMessage = "데이터를 불러오는 중 오류가 발생했습니다.";
+            if (error.response) {
+                const { status } = error.response;
+                if (status === 400) {
+                    errorMessage = "400 잘못된 요청입니다";
+                } else if (status === 500) {
+                    errorMessage = "500 Internal Server Error!";
+                } else if (status === 403) {
+                    errorMessage = "403 Forbidden Error!";
+                }
+            } else {
+                console.error('Error:', error);
             }
-            if (error.response.status === 500) {
-                alert("500 Internal Server Error !");
-            }
-            if (error.response.status === 403) {
-                alert("403 Forbidden - Access denied !");
-            }
-            return;
+            this.showErrorDialog('Error', errorMessage);
         }
 
 
     }
+
+
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
+
+    showDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
 
     handleSearchButtonClick = async (e) => {
         // 검색 버튼 클릭 시 수행할 로직
@@ -234,15 +269,27 @@ class VacationProcess extends Component {
                 });
 
             } catch (error) {
-                if (error.response.status === 400) {
-                    alert("400 Bad Request Error!");
+                let errorMessage = "An error occurred!";
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            errorMessage = "400 Bad Request 에러!";
+                            break;
+                        case 500:
+                            errorMessage = "500 Internal Server 에러!";
+                            break;
+                        case 403:
+                            errorMessage = "403 권한이 없습니다!";
+                            break;
+                        default:
+                            errorMessage = "An error occurred while fetching data!";
+                            break;
+                    }
+                } else {
+                    console.error('Error:', error);
+                    errorMessage = "An error occurred while fetching data!";
                 }
-                if (error.response.status === 500) {
-                    alert("500 Internal Server Error !");
-                }
-                if (error.response.status === 403) {
-                    alert("403 Forbidden - Access denied !");
-                }
+                this.showErrorDialog('Error', errorMessage);
             }
         }
     };
@@ -305,7 +352,6 @@ class VacationProcess extends Component {
     };
 
     componentDidMount() {
-        console.log("componentDidMount");
         const {employeeId} = this.props;
 
         const page = '';
@@ -318,8 +364,27 @@ class VacationProcess extends Component {
     render() {
         const {searchKeyword, data} = this.state;
         const {classes} = this.props;
+        const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (
             <div>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <Dialog open={this.state.approveOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 신청 승인</DialogTitle>
                     <DialogContent>
@@ -450,6 +515,10 @@ class VacationProcess extends Component {
                             />
                         </Box>
                     </Box>
+
+
+
+
                 </Grid>
             </div>
 
