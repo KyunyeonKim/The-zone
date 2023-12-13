@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import axios from "axios";
-import {stateStore} from "../../../index";
+import {stateStore} from "../../../../index";
 
 export default class CalendarContainer extends React.Component {
 

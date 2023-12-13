@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {stateStore} from "../../../index";
+import {stateStore} from "../../../../index";
 import Grid from "@material-ui/core/Grid";
-import VacationDashBoard from "../../kim/ModalPage/VacationDashBoard";
+import VacationDashBoard from "../../../kim/ModalPage/VacationDashBoard";
 
 class ChartContainer extends Component {
 
