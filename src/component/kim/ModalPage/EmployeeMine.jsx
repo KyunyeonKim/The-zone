@@ -110,7 +110,7 @@ class EmployeeMine extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employeeId: this.props.employeeId,
+            employeeId: JSON.parse(sessionStorage.getItem('userData')).loginId,
             passWord: "",
             name: "",
             attendanceManager: false,

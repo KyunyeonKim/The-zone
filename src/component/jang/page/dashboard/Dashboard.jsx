@@ -327,7 +327,7 @@ export default function Dashboard(props) {
 
                                                         </Grid>
                                                         <Grid item xs={5} md={5} lg={5} style={{display:"flex",alignItems:"center"}}>
-                                                            <Button variant="contained"   style={{color:"black",backgroundColor:"#FFCA6E",width:'100px',height:'30px',fontFamily:'IBM Plex Sans KR',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
+                                                            <Button variant="contained" onClick={() => props.toggleModalShowing('EmployeeMine')}  style={{color:"black",backgroundColor:"#FFCA6E",width:'100px',height:'30px',fontFamily:'IBM Plex Sans KR',fontSize:'15px',borderRadius:'20px',fontWeight:'bold'}}>
                                                                 보기/수정
                                                             </Button>
 
