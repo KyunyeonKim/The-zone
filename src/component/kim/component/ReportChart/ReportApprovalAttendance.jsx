@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from "axios";
-import { Grid, Typography, Paper, withStyles } from "@material-ui/core";
+import {Paper, Typography, withStyles} from "@material-ui/core";
 
 
 const styles = theme => ({

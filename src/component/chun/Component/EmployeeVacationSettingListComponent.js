@@ -10,15 +10,7 @@ import axios from "axios";
 import {withStyles} from "@material-ui/core/styles";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
 import AddButtonComponent from "./Button/AddButtonComponent";
-import {
-    Button,
-
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from "@material-ui/core";
 
 const styles = (theme) => ({
     formControl: {

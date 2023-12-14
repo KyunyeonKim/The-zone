@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Paper, Typography, withStyles} from '@material-ui/core';
+import {Grid, Typography, withStyles} from '@material-ui/core';
 import VacationApprovalInfo from '../component/MainPageChart/VacationApprovalInfo';
 import VacationRequestedInfo from '../component/MainPageChart/VacationRequestedInfo';
 import VacationRejectedInfo from '../component/MainPageChart/VacationRejectedInfo';
@@ -7,7 +7,6 @@ import VacationMineEChart from '../component/MainPageChart/VacationMineEChart';
 import UnApprovalAttendance from "../component/MainPageChart/UnApprovalAttendance";
 import ApprovalAttendance from "../component/MainPageChart/ApprovalAttendance";
 import ApprovalRequestedAttendance from "../component/MainPageChart/ApprovalRequestedAttendance";
-import Icon from '@material-ui/icons/EventAvailable';
 
 // const {closeModal} = this.props
 

@@ -1,28 +1,11 @@
 import React, {Component} from 'react';
-import {
-    Paper,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemSecondaryAction,
-    IconButton,
-    Typography,
-    Button,
-    Popover,
-    withStyles,
-    Box
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import {Box, Button, IconButton, List, ListItem, ListItemText, Paper, Popover, Typography} from '@material-ui/core';
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import axios from "axios";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import CheckIcon from '@material-ui/icons/Check';
 import Grid from "@material-ui/core/Grid";
 
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
-import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 class NotificationListForEmployee extends Component {
     employeeNumber

@@ -5,10 +5,7 @@ import TextFieldComponent from "./TextFieldComponent";
 import axios from "axios";
 import AddButtonComponent from "./Button/AddButtonComponent";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
-import {
-
-    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button
-} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 
 class ProcessAppealRequestListComponent extends Component {
 

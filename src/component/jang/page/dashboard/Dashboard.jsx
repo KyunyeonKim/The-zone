@@ -7,13 +7,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import CalendarContainer from "./CalendarContainer";
 import DigitalClock from "./DigitalClock";
-import {Card, CardMedia, SvgIcon} from "@material-ui/core";
+import {SvgIcon} from "@material-ui/core";
 import TopBarUserInfo from "../../component/header/TopBarUserInfo";
 import Copyright from "./Copyright";
 import NotificationListForEmployee from "../../component/header/NotificationListForEmployee";
@@ -22,7 +21,6 @@ import LeftMenuBar from "./LeftMenuBar";
 import ChartContainer from "./ChartContainer";
 import NotificationListForManager from "../../component/header/NotificationListForManager";
 import AttendanceInfoButtonContainer from "./AttendanceInfoButtonContainer";
-import EmployeeSettingTableContainer from "../EmployeeSettingTableContainer";
 import ProcessAppealRequest from "./admin/AdminTablePartContainer";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
@@ -30,13 +28,9 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
-import styled from 'styled-components';
 import Button from "@material-ui/core/Button";
 
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import {useStyles} from "@material-ui/pickers/views/Year/Year";
-
 
 
 export default function Dashboard(props) {

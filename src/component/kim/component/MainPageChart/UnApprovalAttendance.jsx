@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {Paper, Typography, withStyles} from "@material-ui/core";
-import Icon from '@material-ui/icons/EventBusy';
 
 const styles = theme => ({
     paper: {

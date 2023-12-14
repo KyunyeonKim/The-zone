@@ -1,11 +1,16 @@
 import React, {Component} from "react";
 import {
     Box,
-    Button, InputAdornment,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    InputAdornment,
     Paper,
-    Dialog, DialogContentText, DialogTitle, DialogActions,
     TextField,
-    Typography, DialogContent,
+    Typography,
 } from "@material-ui/core";
 import axios from "axios";
 import "../static/UpdateEmployee.css";

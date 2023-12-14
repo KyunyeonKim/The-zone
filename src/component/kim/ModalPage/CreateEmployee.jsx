@@ -2,18 +2,26 @@ import React, {Component} from "react";
 import {
     Box,
     Button,
-    Select,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     MenuItem,
     Paper,
+    Select,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
     TextField,
-    Typography,
-    DialogContent, Dialog, DialogContentText, DialogTitle, DialogActions
+    Typography
 } from "@material-ui/core";
 import axios from "axios";
 import defaultPersonImage from '../static/defaultPersonImage.png'
 import {withStyles} from '@material-ui/core/styles';
 import Container from "@material-ui/core/Container";
-import {Table, TableBody, TableCell, TableContainer, TableRow} from "@material-ui/core";
 
 const styles = theme => ({
     container: {

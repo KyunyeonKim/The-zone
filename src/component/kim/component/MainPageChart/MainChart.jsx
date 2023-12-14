@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import * as echarts from 'echarts';
-import {Box, Paper, Typography, withStyles} from "@material-ui/core";
+import {Box, Typography, withStyles} from "@material-ui/core";
 
 const styles = theme => ({
     root: {

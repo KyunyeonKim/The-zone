@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import * as echarts from 'echarts';
 
 class EmployeeVacationChart extends Component {

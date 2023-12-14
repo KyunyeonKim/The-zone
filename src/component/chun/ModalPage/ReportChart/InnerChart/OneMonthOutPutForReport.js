@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Grid, Paper, withStyles} from '@material-ui/core';
- import {IntegratedChartOfAttendanceStore} from "../../../../../index";
+import {IntegratedChartOfAttendanceStore} from "../../../../../index";
 import IntegratedChartOfAttendance from "./IntegratedChartOfAttendance";
 import IntegratedChartOfVacation from "./IntegratedChartOfVacation";
 // 스타일 정의

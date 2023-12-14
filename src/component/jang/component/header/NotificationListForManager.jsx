@@ -191,11 +191,7 @@
 // export default NotificationListForManager;
 
 import React, {Component} from 'react';
-import {
-    Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Button, Popover
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import {IconButton, List, ListItem, ListItemText, Paper, Popover, Typography} from '@material-ui/core';
 import Badge from "@material-ui/core/Badge";
 import axios from "axios";
 import AssignmentIcon from "@material-ui/icons/Assignment";

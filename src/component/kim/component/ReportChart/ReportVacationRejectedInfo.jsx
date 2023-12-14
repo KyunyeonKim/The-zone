@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import {  Typography, Paper, withStyles } from "@material-ui/core";
-import Icon from '@material-ui/icons/EventBusy';
+import {Paper, Typography, withStyles} from "@material-ui/core";
+
 const styles = theme => ({
     paper: {
         display: 'flex', // 플렉스 컨테이너로 내부 아이템을 수평 정렬합니다.

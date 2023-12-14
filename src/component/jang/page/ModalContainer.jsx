@@ -21,7 +21,6 @@ import SetWorkTime from "../../kim/ModalPage/SetWorkTime";
 import Box from "@material-ui/core/Box";
 import {Dialog, DialogContent} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import VacationRequestedInfo from "../../kim/component/MainPageChart/VacationRequestedInfo";
 import VacationInfo from "./VacationInfo";
 import AppealInfo from "./AppealInfo";
 import ReportForManager from "../../chun/ModalPage/ReportChart/ReportForManager";

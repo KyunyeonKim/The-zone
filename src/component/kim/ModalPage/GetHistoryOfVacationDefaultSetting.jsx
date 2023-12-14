@@ -1,5 +1,12 @@
 import React, {Component} from "react";
 import {
+    Button,
+    createMuiTheme,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     MenuItem,
     Paper,
     Select,
@@ -9,8 +16,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    ThemeProvider,
-    DialogContent, Dialog, DialogContentText, DialogTitle, DialogActions, Button, createMuiTheme
+    ThemeProvider
 } from "@material-ui/core";
 import axios from "axios";
 import Pagination from "react-js-pagination";

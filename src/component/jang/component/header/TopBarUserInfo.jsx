@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
-import {
-    Box,
-    Popover
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import {Box, Popover} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-
-import Grid from "@material-ui/core/Grid";
 
 class TopBarUserInfo extends Component {
 

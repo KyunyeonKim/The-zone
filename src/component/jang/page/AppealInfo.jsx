@@ -1,18 +1,8 @@
 import React, {Component} from 'react';
-import {
-    Box,
-    Grid,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
-} from '@material-ui/core';
+import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import axios from "axios";
 import {withStyles} from "@material-ui/core/styles";
+
 const styles = (theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -116,7 +106,7 @@ class AppealInfo extends Component {
                         margin: '20px 0 20px 0',
                         paddingBottom: '10px'
                     }}>
-                    근태 승인 내역
+                    근태 정보
                 </Box>
 
                 <TableContainer component={Paper}>

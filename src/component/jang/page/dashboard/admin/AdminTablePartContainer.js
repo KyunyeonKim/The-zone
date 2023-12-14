@@ -8,13 +8,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
 import Pagination from "react-js-pagination";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon} from "@material-ui/core";
 import BlackButtonComponent from "../../../../chun/Component/Button/BlackButtonComponent";
@@ -22,7 +15,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import {ToggleButton} from "@material-ui/lab";
 import CheckIcon from "@material-ui/icons/Check";
-import TableCellContainer from "../TableCellContainer";
 import TablePartContainer from "../TablePartContainer";
 
 const styles = (theme) => ({

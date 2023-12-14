@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {
     Button,
+    createMuiTheme,
     Paper,
     Table,
     TableBody,
@@ -8,8 +9,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    ThemeProvider,
     withStyles,
-    createMuiTheme, ThemeProvider, // CssBaseline을 import합니다.
 } from "@material-ui/core";
 import Pagination from "react-js-pagination";
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';

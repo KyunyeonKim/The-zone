@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Paper, Typography, withStyles,Table, TableRow, TableBody, TableCell,TableContainer} from '@material-ui/core';
+import React, {Component} from 'react';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography, withStyles} from '@material-ui/core';
 
 // 차트 컴포넌트들을 임포트
 import ReportApprovalAttendance from "../ReportChart/ReportApprovalAttendance";
@@ -12,8 +12,6 @@ import EmployeeVacationChart from "../ReportChart/EmployeeVacationChart";
 import EmployeeAttendanceChart from "../ReportChart/EmployeeAttendanceChart";
 import EmployeeBarChart from "../ReportChart/EmployeeBarChart";
 import Container from "@material-ui/core/Container";
-import Calendar from "react-calendar";
-import * as PropTypes from "prop-types";
 import InnerCalendar from "./InnerCalendar";
 
 const styles = theme => ({

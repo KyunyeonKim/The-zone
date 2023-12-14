@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Paper, Typography, withStyles} from "@material-ui/core";
-import Icon from '@material-ui/icons/EventNote';
+import {stateStore} from "../../../../index";
 
 const styles = theme => ({
     paper: {
@@ -52,8 +52,23 @@ class ApprovalRequestedAttendance extends Component {
         approvalRequestedAttendance: null,
     };
 
+    constructor(props, context) {
+        super(props, context);
+        stateStore.appealRequestStateSet={state:this.state,setState:this.setState}
+    }
+
     componentDidMount() {
         this.loadrequestAttendanceCount();
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const newData = await axios.get(`http://localhost:8080/chart/requested?year=${year}&month=${month}`)
+        if(prevState.approvalRequestedAttendance !== newData.data){
+            this.setState({approvalRequestedAttendance: newData.data});
+            if (this.props.onDataLoaded) {
+                this.props.onDataLoaded(newData.data);
+            }
+        }
     }
 
     loadrequestAttendanceCount = () => {

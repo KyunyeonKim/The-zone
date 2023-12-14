@@ -67,16 +67,16 @@ class IntegratedChartOfAttendance extends Component {
 
         }
 
-        this.loadApprovedMonthVacationData = this.loadApprovedMonthVacationData.bind(this);
-        IntegratedChartOfAttendanceStore[this.props.month]=(this.loadApprovedMonthVacationData);
+        this.loadApprovedMonthAttendanceData = this.loadApprovedMonthAttendanceData.bind(this);
+        IntegratedChartOfAttendanceStore[this.props.month]=(this.loadApprovedMonthAttendanceData);
     }
 
     componentDidMount() {
         const {year, month} = this.props;
-        this.loadApprovedMonthVacationData(year,month);
+        this.loadApprovedMonthAttendanceData(year,month);
     }
 
-    loadApprovedMonthVacationData = async (year, month) => {
+    loadApprovedMonthAttendanceData = async (year, month) => {
         alert(`loadApprovedMonthVacationData ${year + '' + month}`)
         let responseAttendanceNormal = await axios.get(`http://localhost:8080/chart/manager/attendance/normal?year=${year}&month=${month}`)
         this.attendanceNormal = responseAttendanceNormal.data !== undefined ? responseAttendanceNormal.data : 0;

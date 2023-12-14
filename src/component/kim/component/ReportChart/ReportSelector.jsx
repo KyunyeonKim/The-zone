@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-import { FormControl, FormControlLabel, InputLabel, Select, MenuItem, Checkbox, Button } from "@material-ui/core";
+import React, {Component} from "react";
+import {Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-
 
 
 const styles = theme => ({

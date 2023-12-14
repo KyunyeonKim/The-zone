@@ -263,6 +263,7 @@ class AppealRequest extends Component {
         alert(`stateStore.chartContainerStateSet.setState ${new Date(this.props.args[0])}`)
 
         stateStore.calendarContainerStateSet.setState(this.state.selectedYear.toString(), this.state.selectedMonth.toString(), new Date(this.props.args[0]))
+        stateStore.appealRequestStateSet.setState()
     };
 
     reasonChange = (e) => {
