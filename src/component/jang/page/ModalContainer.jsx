@@ -310,15 +310,16 @@ class ModalContainer extends Component {
                 height: '70%'
             },
             close: {
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                fontSize: '40px',
+                fontSize: '30px',
                 cursor: 'pointer',
                 color:'red',
-                marginRight:"20px",
+                marginRight:"auto",
                 border:'1px solid red',
-                borderRadius: '5px'
+                position:'absolute',
+                right:'5px',
+                width:'25px',
+                lineHeight:'normal',
+                textAlignLast:'center'
 
             },
         };
@@ -331,8 +332,18 @@ class ModalContainer extends Component {
             return (
                 // <Dialog open={true} maxWidth="false" fullWidth='true'>
                 <Dialog open={true} maxWidth="false">
+
                     <DialogContent>
-                        <span style={modalStyle.close} className="close" onClick={close}>&times;</span>
+                        <div style={{ position: 'relative' }}>
+                              <span
+                                  style={modalStyle.close}
+                                  className="close"
+                                  onClick={close}
+                              >
+                                &times;
+                              </span>
+                        </div>
+                        {/*<span style={modalStyle.close} className="close" onClick={close}>&times;</span>*/}
                         {/*<p>This is {innerContainerName} the modal content.</p>*/}
                         {this.handleInnerContainer(this.state.innerContainerName)}
                     </DialogContent>

@@ -5,7 +5,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Grid,
+    Grid, IconButton,
     SvgIcon
 } from "@material-ui/core";
 import React, {Component} from "react";
@@ -207,7 +207,7 @@ class AttendanceApprovalAllEmployees extends Component{
 
     }
 
-    }
+
 
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
@@ -315,11 +315,11 @@ class AttendanceApprovalAllEmployees extends Component{
                 }
                 console.log("this.desc : ",this.desc)
                 this.setState({...this.state,data: empData,desc:this.desc});
-
+``
         };
     };
 
-    componentDidMount() {
+    componentDidMount(){
          const { employeeId } = this.props;
 
         const page='';
@@ -374,8 +374,8 @@ class AttendanceApprovalAllEmployees extends Component{
                                 {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
                                 {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
                                 {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
-                            </Box>
                         </Box>
+
 
                         <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
                             <FormControl className={classes.formControl}>
@@ -453,7 +453,6 @@ class AttendanceApprovalAllEmployees extends Component{
                             </Button>
                         </DialogActions>
                     </Dialog>
-
                 </Grid>
             </div>
         )

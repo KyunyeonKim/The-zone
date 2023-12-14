@@ -122,11 +122,11 @@ const styles = theme => ({
         fontFamily: `IBM Plex Sans KR, sans-serif`,
         fontWeight: 'bold',
         textAlign:'center',
-        fontSize:'16px'
+        fontSize:'15px'
 
     },
    titleText: {
-        fontSize: '22px',
+        fontSize: '20px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
        textAlign:'center'
@@ -182,11 +182,11 @@ class ListAttendanceYearMonthDay extends Component {
                             <TableRow>
                                 <TableCell className={classes.titleText}>사원이름</TableCell>
                                 <TableCell className={classes.titleText}>사원번호</TableCell>
-                                <TableCell className={classes.titleText}>상태(신청결과)</TableCell>
+                                <TableCell className={classes.titleText}>상태</TableCell>
                                 <TableCell className={classes.titleText}>신청사유</TableCell>
                                 <TableCell className={classes.titleText}>조정출근시간</TableCell>
                                 <TableCell className={classes.titleText}>조정퇴근시간</TableCell>
-                                <TableCell className={classes.titleText}>조정요청시간</TableCell>
+                                <TableCell className={classes.titleText}>요청시간</TableCell>
                                 <TableCell className={classes.titleText}>반려이유</TableCell>
                             </TableRow>
                         </TableHead>

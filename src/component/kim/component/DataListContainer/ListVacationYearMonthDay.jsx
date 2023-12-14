@@ -77,6 +77,10 @@ const styles = theme => ({
         display: 'flex', // 플렉스 박스 모델 적용
         justifyContent: 'center', // 내용을 가로 방향으로 가운데 정렬
         alignItems: 'center', // 내용을 세로 방향으로 가운데 정렬
+
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
     },
 
     vacationApprovedButton: {
@@ -95,6 +99,10 @@ const styles = theme => ({
         display: 'flex', // 플렉스 박스 모델 적용
         justifyContent: 'center', // 내용을 가로 방향으로 가운데 정렬
         alignItems: 'center', // 내용을 세로 방향으로 가운데 정렬
+
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
     },
 
     vacationDeniedButton: {
@@ -113,6 +121,11 @@ const styles = theme => ({
         display: 'flex', // 플렉스 박스 모델 적용
         justifyContent: 'center', // 내용을 가로 방향으로 가운데 정렬
         alignItems: 'center', // 내용을 세로 방향으로 가운데 정렬
+
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
+
     },
 
 
@@ -140,7 +153,8 @@ const styles = theme => ({
         fontWeight: 'bold',
         textAlign:'center',
         display:"flex",
-        justifyContent:"center"
+        justifyContent:"center",
+
     }
 
 });
@@ -193,7 +207,7 @@ class ListVacationYearMonthDay extends Component {
                             <TableRow>
                                 <TableCell className={classes.titleText}>사원이름</TableCell>
                                 <TableCell className={classes.titleText}>사원번호</TableCell>
-                                <TableCell className={classes.titleText}>상태(신청결과)</TableCell>
+                                <TableCell className={classes.titleText}>상태</TableCell>
                                 <TableCell className={classes.titleText}>연차시작날짜</TableCell>
                                 <TableCell className={classes.titleText}>연차끝날짜</TableCell>
                                 <TableCell className={classes.titleText}>사유</TableCell>

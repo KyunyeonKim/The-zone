@@ -333,6 +333,7 @@
                                                             multiline
                                                             minRows={3}
                                                             fullWidth
+                                                            variant={'outlined'}
                                                             InputProps={{
                                                                 style: {
                                                                     textAlign: 'center',
@@ -398,7 +399,7 @@
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </div>
+                </Box>
             );
         }
     }

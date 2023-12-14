@@ -138,7 +138,7 @@ class GetVacationHistory extends Component {
                 </Box>
 
                 {/* ListVacationYearMonthDay 컴포넌트 상하에 마진 추가 */}
-                <Box my={7}>
+                <Box>
                     <ListVacationYearMonthDay
                         data={data}
                         totalElement={totalElement}

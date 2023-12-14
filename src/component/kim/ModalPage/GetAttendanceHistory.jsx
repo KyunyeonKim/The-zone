@@ -11,7 +11,7 @@ const styles = theme => ({
         width:"1600px",
     },
     container: {
-        width: '1400px',
+        width: '1700px',
         maxWidth: '1920px', // 또는 원하는 최대 너비
         padding:"10px 30px 30px 30px"
     },
@@ -137,7 +137,7 @@ class GetAttendanceHistory extends Component {
                     onSearch={this.handleSearchSubmit}
                 />
                 </Box>
-                <Box my={7}>
+                <Box>
                 <ListAttendanceYearMonthDay
                     data={data}
                     totalElement={totalElement}

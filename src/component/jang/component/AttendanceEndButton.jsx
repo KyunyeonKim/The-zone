@@ -26,7 +26,7 @@ class AttendanceEndButton extends Component {
             axios.defaults.withCredentials=true;
             let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
             let {endTime} = responseOfTodayInfo.data;
-            alert('endTime '+ responseOfTodayInfo.data.endTime)
+            alert('attendanceEnded의 endTime '+ responseOfTodayInfo.data.endTime)
             if(endTime!=="null")
                 this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
 
@@ -57,9 +57,9 @@ class AttendanceEndButton extends Component {
         let endTime=null;
         if(this.state.endTime!==null){
             let currentDate = new Date(this.state.endTime);
-            let hours = currentDate.getHours();
-            let minutes = currentDate.getMinutes();
-            let seconds = currentDate.getSeconds();
+            let hours = currentDate.getHours().toString().padStart(2,'0');
+            let minutes = currentDate.getMinutes().toString().padStart(2,'0');
+            let seconds = currentDate.getSeconds().toString().padStart(2,'0');
             endTime =hours + ':' + minutes + ':' + seconds;
         }
 
