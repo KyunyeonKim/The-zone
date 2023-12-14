@@ -85,6 +85,11 @@ class LeftMenuBar extends Component {
             toggleModalShowing('CreateEmployee', this.props.toggleModalShowing, 'fff')
         }
 
+        const SetWorkTimeHandler = () => {
+            toggleModalShowing('SetWorkTime', this.props.toggleModalShowing, 'fff')
+        }
+
+
         return (
             <div className={classes.forHeight}>
                 <Drawer
@@ -143,6 +148,12 @@ class LeftMenuBar extends Component {
                                     <ListIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="근속년수 기준 연차 개수 조정 내역" classes={{primary:classes.listItemText}}/>
+                            </ListItem>
+                            <ListItem button onClick={SetWorkTimeHandler}>
+                                <ListItemIcon>
+                                    <ListIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
+                                </ListItemIcon>
+                                <ListItemText primary="정규 출/퇴근 시간 설정 내역" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <br/>
                             <Divider/>
