@@ -27,12 +27,13 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8), display: 'flex', flexDirection: 'column', alignItems: 'center',
+        padding:'60px 0px 60px 0px' ,display: 'flex', flexDirection: 'column', alignItems: 'center'
     }, avatar: {
         margin: theme.spacing(1), backgroundColor: theme.palette.secondary.main,
     }, form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+        margin:"60px 0px 0px 0px"
+
     }, submit: {
         margin: theme.spacing(3, 0, 2),
     },
@@ -47,9 +48,9 @@ function Login() {
 
     const styles = {
 
-        backgroundImage: `url(${loginImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        // backgroundImage: `url(${loginImg})`,
+        // backgroundSize: 'cover',
+        // backgroundPosition: 'center',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -101,70 +102,74 @@ function Login() {
 
     return (
 
-        <div className={classes.root} style={styles}>
+        <div style={styles}>
+                <div style={{display:"flex",width:"60%",height:"70%",justifyContent:'center',alignItems:'center',boxShadow: '0px 4px 8px gray'}}>
+                    <Box component={"div"} style={{backgroundImage:'url(../src/component/jang/component/images/building.png)',width:"40%",height:"100%"}}/>
+                    {/*'url(../src/component/jang/component/images/wave11.png)'*/}
 
-            <Container component="main" maxWidth="xs">
-                <CssBaseline/>
-                <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon/>
-                        </Avatar>
-                        <Typography component="h1" variant="h4" style={{color:"midnightblue",fontFamily:'IBM Plex Sans KR',fontWeight:"bold"}}>
-                            Login
-                        </Typography>
-                    <form className={classes.form} noValidate>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="employeeNumberInput"
-                            label="사번"
-                            name="employeeNumber"
-                            autoFocus
-                            value={employeeNumber}
-                            onChange={(e) => setEmployeeNumber(e.target.value)}
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="비밀번호"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        {/* 알림창 */}
-                        <Snackbar
-                            open={openAlert}
-                            autoHideDuration={6000}
-                            onClose={handleCloseAlert}
-                        >
-                            <Alert onClose={handleCloseAlert} severity="error">
-                                {alertMessage}
-                            </Alert>
-                        </Snackbar>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            onClick={handleLogin}
-                        >
-                            LogIn
-                        </Button>
-                    </form>
-
-
+                    <Box component={"div"} style={{backgroundColor:"#F6FAFD",width:"60%",height:"100%",display:"flex",justifyContent:"center"}}>
+                            <div className={classes.paper}>
+                                    <Avatar className={classes.avatar}>
+                                        <LockOutlinedIcon/>
+                                    </Avatar>
+                                    <Typography component="h1" variant="h4" style={{color:"midnightblue",fontFamily:'IBM Plex Sans KR',fontWeight:"bold"}}>
+                                        Login
+                                    </Typography>
+                                <form className={classes.form} noValidate>
+                                    <TextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="employeeNumberInput"
+                                        label="사번"
+                                        name="employeeNumber"
+                                        autoFocus
+                                        value={employeeNumber}
+                                        onChange={(e) => setEmployeeNumber(e.target.value)}
+                                        style={{margin:"0px 0px 30px 0px",border:"1px solid lightgray"}}
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        style={{margin:"0px 0px 60px 0px",border:"1px solid lightgray"}}
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="비밀번호"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                    {/* 알림창 */}
+                                    <Snackbar
+                                        open={openAlert}
+                                        autoHideDuration={6000}
+                                        onClose={handleCloseAlert}
+                                    >
+                                        <Alert onClose={handleCloseAlert} severity="error">
+                                            {alertMessage}
+                                        </Alert>
+                                    </Snackbar>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleLogin}
+                                        style={{height:"60px"}}
+                                    >
+                                        LogIn
+                                    </Button>
+                                </form>
+                            </div>
+                    </Box>
                 </div>
+
+
                 <Box mt={8}>
                     <Copyright/>
                 </Box>
-            </Container>
         </div>);
 }
 
