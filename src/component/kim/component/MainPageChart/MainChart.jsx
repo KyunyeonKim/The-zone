@@ -11,7 +11,6 @@ const styles = theme => ({
 
     },
     details: {
-        marginRight: theme.spacing(5),
         alignItems: 'center'
     },
     chartContainer: {
@@ -99,7 +98,7 @@ class MainChart extends Component {
                         <Typography variant="subtitle1" style={ {fontFamily:'IBM Plex Sans KR',fontSize:'17px',whiteSpace:'nowrap' ,fontWeight: 'bold',marginBottom:"10px"}}>
                             {item.name}&nbsp;
                         </Typography>
-                        <Typography variant="subtitle1" style={{fontFamily:'IBM Plex Sans KR',fontSize:'18px',whiteSpace:'nowrap',marginBottom:"10px" }}>
+                        <Typography variant="subtitle1" style={{fontFamily:'IBM Plex Sans KR',fontSize:'18px',whiteSpace:'nowrap',marginBottom:"10px",fontWeight: 'bold' }}>
                             {item.value} 개
                         </Typography>
                 </Box>
