@@ -69,7 +69,7 @@ class AdminTablePartContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchKeyword: "", employeeNumberList: ['', ''], activePage: 1, // showPagiNation: 'flex',
+            searchKeyword: "", employeeNumberList: [], activePage: 1, // showPagiNation: 'flex',
             size: 10, hasNext: false, totalElements: 0, desc: "", sort: "", isManager: false
         };
 
@@ -101,8 +101,7 @@ class AdminTablePartContainer extends Component {
     //searchText.trim()
     fetchData = async (searchKeyword, page) => {
         const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
-
-        console.log("pagedEmployeeNumberListData : ", JSON.stringify(pagedEmployeeNumberListData.data))
+        alert("pagedEmployeeNumberListData : "+ JSON.stringify(pagedEmployeeNumberListData.data))
         this.page = page!==null?page:this.page;
         this.searchKeyword = searchKeyword!==null?searchKeyword:this.searchKeyword;
 
@@ -299,15 +298,6 @@ class AdminTablePartContainer extends Component {
                                 <MenuItem value={"desc"}>내림차순</MenuItem>
                             </Select>
                         </FormControl>
-
-                        {/*<ToggleButtonGroup exclusive value={this.isManager} onChange={this.isManagerToggle} aria-label="text formatting">*/}
-                        {/*    <ToggleButton value="true" aria-label="ON">*/}
-                        {/*        <BusinessCenterIcon />*/}
-                        {/*    </ToggleButton>*/}
-                        {/*    <ToggleButton value="false" aria-label="OFF">*/}
-                        {/*        <CancelIcon />*/}
-                        {/*    </ToggleButton>*/}
-                        {/*</ToggleButtonGroup>*/}
 
                         <ToggleButton
                             value="check"

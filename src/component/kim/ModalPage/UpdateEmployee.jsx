@@ -110,7 +110,7 @@ class UpdateEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employeeId: "",
+            employeeId: props.args[0],
             passWord: "",
             name: "",
             attendanceManager: false,
@@ -121,6 +121,7 @@ class UpdateEmployee extends Component {
             dialogTitle: '',
             dialogMessage: '',
         };
+
     }
 
     closeModal = () => {
@@ -131,20 +132,20 @@ class UpdateEmployee extends Component {
         try {
 
             //Todo:props로 전달받아야함
-            axios.defaults.withCredentials = true;
-            let loginForm = new FormData();
-            loginForm.append("loginId", "admin");
-            loginForm.append("password", "admin");
-            await axios.post("http://localhost:8080/login", loginForm);
+            // axios.defaults.withCredentials = true;
+            // let loginForm = new FormData();
+            // loginForm.append("loginId", "admin");
+            // loginForm.append("password", "admin");
+            // await axios.post("http://localhost:8080/login", loginForm);
 
             //더미데이터
-            const employeeId = "200001011";
+
             const response = await axios.get(
-                `http://localhost:8080/admin/employee/information/${employeeId}`
+                `http://localhost:8080/admin/employee/information/${this.state.employeeId}`
             );
 
             const image = await axios.get(
-                `http://localhost:8080/admin/download/${employeeId}`,
+                `http://localhost:8080/admin/download/${this.state.employeeId}`,
                 {responseType: "arraybuffer"}
             );
 
@@ -160,7 +161,6 @@ class UpdateEmployee extends Component {
             const formattedHireYear = hireYear.toISOString().split("T")[0];
 
             this.setState({
-                employeeId: employeeData.employeeId,
                 passWord: employeeData.password,
                 name: employeeData.name,
                 attendanceManager: employeeData.attendanceManager,
