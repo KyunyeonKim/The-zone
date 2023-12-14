@@ -243,7 +243,7 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                         paddingBottom: '10px',
                         width:"100%"
                     }}>
-                    근속년수 기준 연차 개수 조정 내역
+                    근속 년수 기준 연차 개수 조정 내역
                 </Box>
                 <Box display="flex" justifyContent="flex-end" width="100%">
                     <Select
@@ -271,10 +271,10 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                     <Table>
                         <TableHead className={classes.TableHead}>
                             <TableRow>
-                                <TableCell className={classes.titleText}>사원이름</TableCell>
-                                <TableCell className={classes.titleText}>사원번호</TableCell>
-                                <TableCell className={classes.titleText}>1년이하</TableCell>
-                                <TableCell className={classes.titleText}>1년이상</TableCell>
+                                <TableCell className={classes.titleText}>설정 사원 이름</TableCell>
+                                <TableCell className={classes.titleText}>설정 사원 번호</TableCell>
+                                <TableCell className={classes.titleText}>1년 이하 연차 개수</TableCell>
+                                <TableCell className={classes.titleText}>1년 이상 연차 개수</TableCell>
                                 <TableCell className={classes.titleText}>설정한 시간</TableCell>
                                 <TableCell className={classes.titleText}>적용 시간</TableCell>
                             </TableRow>
