@@ -259,7 +259,7 @@ class SetWorkTime extends Component {
                                 <TableCell className={classes.titleText}>출근 시간</TableCell>
                                 <TableCell className={classes.titleText}>퇴근 시간</TableCell>
                                 <TableCell className={classes.titleText}>사유</TableCell>
-                                <TableCell className={classes.titleText}>조정 수행 날짜</TableCell>
+                                <TableCell className={classes.titleText}>적용 시작 날짜</TableCell>
                                 <TableCell className={classes.titleText}>설정 날짜</TableCell>
                             </TableRow>
                         </TableHead>

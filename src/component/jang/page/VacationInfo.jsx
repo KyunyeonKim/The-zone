@@ -160,7 +160,7 @@ class VacationInfo extends Component {
                         margin: '20px 0 20px 0',
                         paddingBottom: '10px'
                     }}>
-                    근태 승인 내역
+                    연차 신청 정보
                 </Box>
 
                 <TableContainer component={Paper}>

@@ -106,7 +106,7 @@ class AppealInfo extends Component {
                         margin: '20px 0 20px 0',
                         paddingBottom: '10px'
                     }}>
-                    근태 정보
+                    근태 조정 요청 정보
                 </Box>
 
                 <TableContainer component={Paper}>
