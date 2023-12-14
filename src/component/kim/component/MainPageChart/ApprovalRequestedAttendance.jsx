@@ -55,19 +55,16 @@ class ApprovalRequestedAttendance extends Component {
     constructor(props, context) {
         super(props, context);
         stateStore.appealRequestStateSet={state:this.state,setState:this.setState}
+        this.loadrequestAttendanceCount = this.loadrequestAttendanceCount.bind(this)
     }
 
     componentDidMount() {
         this.loadrequestAttendanceCount();
     }
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        const newData = await axios.get(`http://localhost:8080/chart/requested?year=${year}&month=${month}`)
-        if(prevState.approvalRequestedAttendance !== newData.data){
-            this.setState({approvalRequestedAttendance: newData.data});
-            if (this.props.onDataLoaded) {
-                this.props.onDataLoaded(newData.data);
-            }
+    loopStop=false;
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(!this.loopStop){
+            this.loadrequestAttendanceCount();
         }
     }
 
