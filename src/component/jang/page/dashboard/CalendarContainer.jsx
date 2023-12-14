@@ -77,7 +77,7 @@ export default class CalendarContainer extends React.Component {
         this.props.toggleModalShowing()
     }
 
-    refreshDataAndSetState = function(year,month,initDate){
+    refreshDataAndSetState = function (year, month, initDate) {
         this.refreshCurrentDate()
         console.log("calendar loaded!")
         // //TODO: 로그인 로직 분리하기
@@ -167,17 +167,21 @@ export default class CalendarContainer extends React.Component {
         const vacationRequestedInfo = await axios.get(`http://localhost:8080/system/calendar/vacation_info?year=${this.currentYear}&month=${this.currentMonth}`)
         const newVacationableData = []
         //TODO : 기 연차요청이 있는 날 데이터 출력 필요
-
+        if (holidayData.data.body !== undefined) {
+            holidayData.data = holidayData.data.body
+        }
         console.log('vacationInfo' + JSON.stringify(vacationRequestedInfo.data))
 
         //this.vacationableData에서 유효한 데이터만 다시 추출하여 이벤트 생성
         outloop : for (let i = 0; i < this.vacationableData.length; i++) {
-            // 휴일에 대해서는 연차 요청 불가능
+
             for (const holiday of holidayData.data) {
                 if (holiday.date === this.vacationableData[i].date) {
                     continue outloop;
                 }
             }
+
+            // 휴일에 대해서는 연차 요청 불가능
 
             for (const vacation of vacationRequestedInfo.data) {
                 if (vacation.date === this.vacationableData[i].date) {
@@ -259,23 +263,28 @@ export default class CalendarContainer extends React.Component {
                 break;
             case 'attendance_info':
                 alert(`attendance_info clicked! ${JSON.stringify(clickInfo.event)}`)
-                if(
-                    clickInfo.event.extendedProps.status ==="이상 근태(결근)" ||
-                    clickInfo.event.extendedProps.status ==="이상 근태(조기 퇴근)" ||
-                    clickInfo.event.extendedProps.status ==="이상 근태(지각, 조기 퇴근)" ||
-                    clickInfo.event.extendedProps.status ==="이상 근태(지각)" ||
-                    clickInfo.event.extendedProps.status ==="이상 근태(퇴근 정보 없음)" ||
-                    clickInfo.event.extendedProps.status ==="이상 근태(지각, 퇴근 정보 없음)" ||
-                    clickInfo.event.extendedProps.status ==="이상 근태(퇴근 정보 없음)"
+                if (
+                    clickInfo.event.extendedProps.status === "이상 근태(결근)" ||
+                    clickInfo.event.extendedProps.status === "이상 근태(조기 퇴근)" ||
+                    clickInfo.event.extendedProps.status === "이상 근태(지각, 조기 퇴근)" ||
+                    clickInfo.event.extendedProps.status === "이상 근태(지각)" ||
+                    clickInfo.event.extendedProps.status === "이상 근태(퇴근 정보 없음)" ||
+                    clickInfo.event.extendedProps.status === "이상 근태(지각, 퇴근 정보 없음)" ||
+                    clickInfo.event.extendedProps.status === "이상 근태(퇴근 정보 없음)"
                 )
                     this.props.toggleModalShowing('AppealRequest', `${clickInfo.event.start}`, `${clickInfo.event.extendedProps.identifier}`, this.props.toggleModalShowing)
-                else if(
-                    clickInfo.event.extendedProps.status ==="조정 요청 중" ||
-                    clickInfo.event.extendedProps.status ==="조정 요청 중" ||
-                    clickInfo.event.extendedProps.status ==="조정 요청 중"
-                ){
+                else if (
+                    clickInfo.event.extendedProps.status === "조정 요청 중"
+                ) {
                     this.props.toggleModalShowing('AppealRequestedInfo', `${clickInfo.event.extendedProps.identifier}`, this.props.toggleModalShowing)
-                }else if(clickInfo.event.extendedProps.status ==="정상 근태"){
+                } else if (clickInfo.event.extendedProps.status === "정상 근태") {
+
+                } else if (clickInfo.event.extendedProps.status === "승인|이상 근태(조기 퇴근)" ||
+                    clickInfo.event.extendedProps.status === "승인|이상 근태(결근)" ||
+                    clickInfo.event.extendedProps.status === "승인|이상 근태(지각, 조기 퇴근)" ||
+                    clickInfo.event.extendedProps.status === "승인|이상 근태(지각)" ||
+                    clickInfo.event.extendedProps.status === "승인|이상 근태(지각, 퇴근 정보 없음)" ||
+                    clickInfo.event.extendedProps.status === "승인|이상 근태(퇴근 정보 없음)") {
 
                 }
 

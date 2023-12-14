@@ -108,6 +108,14 @@ const styles = (theme) => ({
         display: 'flex',
         marginLeft: '1px',
     },
+    approved_abnormal_attendance: {
+        height: '4px',
+        width: '4px',
+        backgroundColor: '#54040f',
+        borderRadius: '50%',
+        display: 'flex',
+        marginLeft: '1px',
+    },
     permitted_vacation: {
         height: '4px',
         width: '4px',
@@ -180,6 +188,15 @@ class InnerCalendar extends Component {
                                 return {
                                     date: moment(data.attendanceDate).format('YYYY-MM-DD'),
                                     category: classes.abnormal_attendance
+                                }
+                            case "승인|이상 근태(조기 퇴근)":
+                            case "승인|이상 근태(결근)":
+                            case "승인|이상 근태(지각, 조기 퇴근)":
+                            case "승인|이상 근태(지각)":
+                            case "승인|이상 근태(지각, 퇴근 정보 없음)":
+                                return {
+                                    date: moment(data.attendanceDate).format('YYYY-MM-DD'),
+                                    category: classes.approved_abnormal_attendance
                                 }
 
                             case "조정 요청 중":
