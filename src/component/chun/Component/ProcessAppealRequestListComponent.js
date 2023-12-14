@@ -97,7 +97,7 @@ class ProcessAppealRequestListComponent extends Component {
         const formData= new FormData();
         formData.append('employeeId',employeeId);
         formData.append('attendanceAppealRequestId',attendanceAppealRequestId);
-        formData.append('status','rejected')
+        formData.append('status','조정 요청 반려')
         formData.append('reasonForRejection',reason);
 
         try{

@@ -24,7 +24,7 @@ class AttendanceEndButton extends Component {
             axios.defaults.withCredentials=true;
             let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
             let {endTime} = responseOfTodayInfo.data;
-            alert('endTime '+ responseOfTodayInfo.data.endTime)
+            alert('attendanceEnded의 endTime '+ responseOfTodayInfo.data.endTime)
             if(endTime!=="null")
                 this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
 
@@ -55,20 +55,21 @@ class AttendanceEndButton extends Component {
         let endTime=null;
         if(this.state.endTime!==null){
             let currentDate = new Date(this.state.endTime);
-            let hours = currentDate.getHours();
-            let minutes = currentDate.getMinutes();
-            let seconds = currentDate.getSeconds();
+            let hours = currentDate.getHours().toString().padStart(2,'0');
+            let minutes = currentDate.getMinutes().toString().padStart(2,'0');
+            let seconds = currentDate.getSeconds().toString().padStart(2,'0');
             endTime =hours + ':' + minutes + ':' + seconds;
         }
 
         return (<div>
-            {endTime===null?<Button variant="outlined" color="primary" onClick={this.dialogShowToggle} style={{border:"1px solid #FF9933",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
+            {endTime===null?<Button variant="outlined" onClick={this.dialogShowToggle} style={{color:"black",border:"1px solid #FF9933",width:'110px',height:'40px',fontFamily:'IBM Plex Sans KR',fontSize:'17px',borderRadius:'20px',fontWeight:'bold'}} >
                 퇴근 입력
-            </Button>:<Typography>
-                {
-                    endTime
-                }
+            </Button>:<Typography style={{
+                fontFamily:'IBM Plex Sans KR',fontSize:'17px',fontWeight:'bold',textAlign:'center'
+            }}>
+                퇴근 <br/> {endTime}
             </Typography>}
+            {alert("퇴근 : "+endTime)}
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 종료</DialogTitle>
                 <DialogContent>

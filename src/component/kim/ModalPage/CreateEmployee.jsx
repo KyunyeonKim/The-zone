@@ -114,7 +114,7 @@ const styles = theme => ({
     grayBackground: {
         backgroundColor: '#E4F3FF',
         textAlign: 'right',
-        fontFamily: 'Noto Sans KR, sans-serif',
+        fontFamily:'IBM Plex Sans KR',
     },
 
 
@@ -359,7 +359,7 @@ class CreateEmployee extends Component {
                             sx={{
                                 width: "100%",
                                 fontSize: '25px',
-                                fontFamily: 'Noto Sans KR, sans-serif',
+                                fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 borderBottom: 'solid 1px black',
                                 margin: 'auto',
@@ -424,7 +424,7 @@ class CreateEmployee extends Component {
                                 sx={{
                                     width: "100%",
                                     fontSize: '25px',
-                                    fontFamily: 'Noto Sans KR, sans-serif',
+                                    fontFamily:'IBM Plex Sans KR',
                                     fontWeight: 'bold',
                                     margin: 'auto',
                                     marginTop: '40px',

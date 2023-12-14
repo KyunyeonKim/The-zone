@@ -42,7 +42,7 @@ class SearchYearMonthDay extends Component {
 
     render() {
         return (
-            <Box component="form" onSubmit={this.handleSubmit} style={{ border: '3px solid #1D89DB', padding: '20px', borderRadius: '10px', width:"1400px" }}>
+            <Box component="form" onSubmit={this.handleSubmit} style={{border:'1px solid black', padding:'10px',borderRadius:'10px'}}>
                 <Grid container spacing={1} alignItems="center" justify="flex-end">
 
                     <Grid item xs>
@@ -104,8 +104,8 @@ class SearchYearMonthDay extends Component {
                     </Grid>
 
                     <Grid item>
-                        <Box style={{ border: '3px solid #1D89DB', padding: ' 5px ', borderRadius: '10px' }}>
-                        <IconButton type="submit" color="primary" style={{ marginLeft: '0px' }}>
+                        <Box >
+                        <IconButton type="submit" style={{borderRadius:'6px' , width: "100%",border:'1px solid #c1c1c1', height:"56px"}}>
                             <SearchIcon />
                         </IconButton>
                         </Box>

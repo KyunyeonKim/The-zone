@@ -62,13 +62,14 @@ const styles = theme => ({
             border: "1px solid #ddd",
         },
     },vacationPendingButton: {
+
         backgroundColor: '#FFFACD', // 부드러운 노란색
         color: '#000',
         '&:hover': {
             backgroundColor: '#FFFACD',
             opacity: 0.9,
         },
-        width: '60%', // 버튼의 너비를 부모 컨테이너에 맞춤
+        width: '100%', // 버튼의 너비를 부모 컨테이너에 맞춤
         height: '36px', // 버튼의 높이를 고정
         padding: '8px 16px', // 상하, 좌우 패딩 설정
         textOverflow: 'ellipsis', // 긴 텍스트는 말줄임표로 처리
@@ -77,6 +78,10 @@ const styles = theme => ({
         display: 'flex', // 플렉스 박스 모델 적용
         justifyContent: 'center', // 내용을 가로 방향으로 가운데 정렬
         alignItems: 'center', // 내용을 세로 방향으로 가운데 정렬
+
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
     },
 
     vacationApprovedButton: {
@@ -86,7 +91,7 @@ const styles = theme => ({
             backgroundColor: '#ADD8E6',
             opacity: 0.9,
         },
-        width: '60%', // 버튼의 너비를 부모 컨테이너에 맞춤
+        width: '100%', // 버튼의 너비를 부모 컨테이너에 맞춤
         height: '36px', // 버튼의 높이를 고정
         padding: '8px 16px', // 상하, 좌우 패딩 설정
         textOverflow: 'ellipsis', // 긴 텍스트는 말줄임표로 처리
@@ -95,6 +100,10 @@ const styles = theme => ({
         display: 'flex', // 플렉스 박스 모델 적용
         justifyContent: 'center', // 내용을 가로 방향으로 가운데 정렬
         alignItems: 'center', // 내용을 세로 방향으로 가운데 정렬
+
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
     },
 
     vacationDeniedButton: {
@@ -104,7 +113,7 @@ const styles = theme => ({
             backgroundColor: '#FFB6C1',
             opacity: 0.9,
         },
-        width: '60%', // 버튼의 너비를 부모 컨테이너에 맞춤
+        width: '100%', // 버튼의 너비를 부모 컨테이너에 맞춤
         height: '36px', // 버튼의 높이를 고정
         padding: '8px 16px', // 상하, 좌우 패딩 설정
         textOverflow: 'ellipsis', // 긴 텍스트는 말줄임표로 처리
@@ -113,6 +122,11 @@ const styles = theme => ({
         display: 'flex', // 플렉스 박스 모델 적용
         justifyContent: 'center', // 내용을 가로 방향으로 가운데 정렬
         alignItems: 'center', // 내용을 세로 방향으로 가운데 정렬
+
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
+
     },
 
 
@@ -121,6 +135,7 @@ const styles = theme => ({
         fontSize: '22px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
+        textAlign:'center'
     },
 
     TableHead: {
@@ -131,7 +146,17 @@ const styles = theme => ({
     text: {
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
+        textAlign:'center',
+        fontSize:'16px'
     },
+    button:{
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
+        display:"flex",
+        justifyContent:"center",
+
+    }
 
 });
 
@@ -183,7 +208,7 @@ class ListVacationYearMonthDay extends Component {
                             <TableRow>
                                 <TableCell className={classes.titleText}>사원이름</TableCell>
                                 <TableCell className={classes.titleText}>사원번호</TableCell>
-                                <TableCell className={classes.titleText}>상태(신청결과)</TableCell>
+                                <TableCell className={classes.titleText}>상태</TableCell>
                                 <TableCell className={classes.titleText}>연차시작날짜</TableCell>
                                 <TableCell className={classes.titleText}>연차끝날짜</TableCell>
                                 <TableCell className={classes.titleText}>사유</TableCell>
@@ -195,7 +220,7 @@ class ListVacationYearMonthDay extends Component {
                                 <TableRow key={index}>
                                     <TableCell className={classes.text}>{item.name}</TableCell>
                                     <TableCell className={classes.text}>{item.employeeId}</TableCell>
-                                    <TableCell className={classes.text}>
+                                    <TableCell className={classes.button}>
                                         {this.getVacationStatusButton(item)}
                                     </TableCell>
                                     <TableCell className={classes.text}>{item.vacationStartDate}</TableCell>

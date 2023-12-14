@@ -20,7 +20,16 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Pagination from "react-js-pagination";
 import VacationProcessListComponent from "../Component/VacationProcessListComponent";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, SvgIcon} from "@material-ui/core";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Grid,
+    IconButton,
+    SvgIcon
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import {stateStore} from "../../../index";
 
@@ -36,7 +45,8 @@ const styles = (theme) => ({
         fontSize: '16px',
         fontFamily:'IBM Plex Sans KR',
         textAlign: 'center',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        fontWeight:'bold'
     },
     titleText: {
         fontSize: '20px',
@@ -415,10 +425,10 @@ class VacationProcess extends Component {
 
 
                 <Grid item lg={12}>
-                    <Box style={{width:"1600px", margin:"40px 40px 40px 40px"}} >
+                    <Box style={{width:"1600px",margin:"10px 30px 30px 30px"}} >
                         <Box
                             sx={{
-                                fontSize: '25px',
+                                fontSize: '30px',
                                 fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 borderBottom: 'solid 1px black',
@@ -427,21 +437,28 @@ class VacationProcess extends Component {
                             }}>
                             연차 요청 처리
                         </Box>
-                        <Box style={{border: '3px solid #1D89DB', padding: '20px 10px 20px 10px', borderRadius: '10px'}}>
-                            <Box component="span" sx={{marginRight: '10px', flex: 1}}>
-                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined"
-                                           style={{width: "95%", height:"60px"}} onChange={this.searchKeywordChange}/>
-                            </Box>
-                            <Box component="span">
-                                <SvgIcon style={{
+                        <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width: "95%", height:"56px"}} onChange={this.searchKeywordChange}/>
+
+                            <IconButton
+                                onClick={this.handleSearchButtonClick}
+                                style={{
                                     borderRadius: '6px',
-                                    width: "3.5%",
+                                    width: "4%",
                                     border: '1px solid #c1c1c1',
-                                    height:"60px"
-                                }}
-                                         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick}/>
+                                    height: "56px"}}>
+                                <SearchIcon />
+                            </IconButton>
+
+                                {/*<SvgIcon style={{*/}
+                                {/*    borderRadius: '6px',*/}
+                                {/*    width: "4%",*/}
+                                {/*    border: '1px solid #c1c1c1',*/}
+                                {/*    height:"56px"*/}
+                                {/*}}*/}
+                                {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick}/>*/}
                                 {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
-                            </Box>
+
                         </Box>
 
                         <Box component="" style={{display: "flex", justifyContent: "flex-end", marginBottom: '10px'}}>

@@ -19,11 +19,12 @@ const styles = theme => ({
         margin: theme.spacing(1),
         textAlign: "center",
         color: theme.palette.primary.main,
-        width: "1600px",
+        width: "1400px",
     },
     container: {
-        width: '100%',
+        width: '1400px',
         maxWidth: '1920px', // 또는 원하는 최대 너비
+        padding:"10px 30px 30px 30px"
         // 기타 스타일
     },
     // 기타 스타일 정의
@@ -123,7 +124,7 @@ class GetVacationHistory extends Component {
             <Box className={classes.container}>
                 <Box
                     sx={{
-                        fontSize: '25px',
+                        fontSize: '30px',
                         fontFamily: 'IBM Plex Sans KR',
                         fontWeight: 'bold',
                         borderBottom: 'solid 1px black',
@@ -137,7 +138,7 @@ class GetVacationHistory extends Component {
                 </Box>
 
                 {/* ListVacationYearMonthDay 컴포넌트 상하에 마진 추가 */}
-                <Box my={7}>
+                <Box>
                     <ListVacationYearMonthDay
                         data={data}
                         totalElement={totalElement}

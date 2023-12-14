@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {Container, Paper, Typography, withStyles} from "@material-ui/core";
+import {Typography, withStyles, Container, Paper, Grid} from "@material-ui/core";
 import ReportSelector from "../component/ReportChart/ReportSelector";
 import EmployeeReport from "../component/ReportChart/EmployeeReport";
 import Table from "@material-ui/core/Table";

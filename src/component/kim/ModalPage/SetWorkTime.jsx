@@ -25,33 +25,67 @@ import Box from "@material-ui/core/Box";
 
 const styles = (theme) => ({
     root: {
-        display: "flex", flexDirection: "column", alignItems: "center", padding: theme.spacing(2),
-    }, title: {
-        fontSize: "40px", marginBottom: theme.spacing(8),
-    }, tableContainer: {
-        maxWidth: "80%", marginTop: theme.spacing(2),
-    }, pagination: {
-        display: "flex", justifyContent: "center", marginTop: "10px", listStyle: "none", padding: 0,
-    }, pageItem: {
-        margin: "0 8px", "& a": {
-            textDecoration: "none",
-            color: "black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "35px",
-            width: "35px",
-            borderRadius: "50%",
-        }, "&:hover": {
-            border: "1px solid #ddd",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width:"1400px",
+        padding:"10px 30px 30px 30px"
+
+    },
+    title: {
+        fontSize: '40px',
+        marginBottom: theme.spacing(8),
+    },
+    tableContainer: {
+        marginTop: theme.spacing(2),
+        width:"100%",
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '10px',
+        listStyle: 'none',
+        padding: 0,
+    },
+    pageItem: {
+        margin: '0 8px',
+        '& a': {
+            textDecoration: 'none',
+            color: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '35px',
+            width: '35px',
+            borderRadius: '50%',
         },
-    }, activePageItem: {
-        "& a": {
-            color: "#007bff",
-        }, "&:hover": {
-            border: "1px solid #ddd",
+        '&:hover': {
+            border: '1px solid #ddd',
         },
     },
+    activePageItem: {
+        '& a': {
+            color: '#007bff',
+        },
+        '&:hover': {
+            border: '1px solid #ddd',
+        },
+    },
+    TableHead: {
+        backgroundColor: '#C2DCF0 !important',
+        borderTop: '1.5px solid black',
+    },
+    titleText:{
+        fontSize:'22px',
+        fontFamily:'IBM Plex Sans KR',
+        fontWeight:'bold',
+        textAlign:'center'
+    }, text: {
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        fontWeight: 'bold',
+        textAlign:'center',
+        fontSize:"16px"
+    }
 });
 
 class SetWorkTime extends Component {
@@ -182,16 +216,27 @@ class SetWorkTime extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (<div className={classes.root}>
-                <h2 className={classes.title}>정규출퇴근시간 설정내역</h2>
-                <Box display="flex" justifyContent="flex-end" width="80">
+                <Box
+                    sx={{
+                        fontSize: '30px',
+                        fontFamily: 'IBM Plex Sans KR',
+                        fontWeight: 'bold',
+                        borderBottom: 'solid 1px black',
+                        margin: '20px 0',
+                        paddingBottom: '10px',
+                        width:"100%"
+                    }}>
+                    정규 출/퇴근 시간 설정 내역
+                </Box>
+                <Box display="flex" justifyContent="flex-end" width="100%">
                     <Select
                         value={orderBy}
                         onChange={this.handleChangedOrderBy}
                         displayEmpty
                         inputProps={{"aria-label": "Without label"}}
                     >
-                        <MenuItem value="regularTimeAdjustmentTime">조정수행날짜</MenuItem>
-                        <MenuItem value="targetDate">설정날짜</MenuItem>
+                        <MenuItem value="regularTimeAdjustmentTime">조정 수행 날짜</MenuItem>
+                        <MenuItem value="targetDate">설정 날짜</MenuItem>
                     </Select>
                     <Select
                         value={order}
@@ -206,43 +251,43 @@ class SetWorkTime extends Component {
                 </Box>
 
                 <TableContainer component={Paper} className={classes.tableContainer}>
-                    <Table stickyHeader={true}>
-                        <TableHead>
+                    <Table >
+                        <TableHead className={classes.TableHead}>
                             <TableRow>
-                                <TableCell>사원이름</TableCell>
-                                <TableCell>사원번호</TableCell>
-                                <TableCell>출근시간</TableCell>
-                                <TableCell>퇴근시간</TableCell>
-                                <TableCell>사유</TableCell>
-                                <TableCell>조정수행날짜</TableCell>
-                                <TableCell>설정날짜</TableCell>
+                                <TableCell className={classes.titleText}>사원 이름</TableCell>
+                                <TableCell className={classes.titleText}>사원 번호</TableCell>
+                                <TableCell className={classes.titleText}>출근 시간</TableCell>
+                                <TableCell className={classes.titleText}>퇴근 시간</TableCell>
+                                <TableCell className={classes.titleText}>사유</TableCell>
+                                <TableCell className={classes.titleText}>조정 수행 날짜</TableCell>
+                                <TableCell className={classes.titleText}>설정 날짜</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {workTime.length > 0 ? workTime.map((item, index) => (<TableRow key={index}>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.employeeId}</TableCell>
-                                    <TableCell>{item.adjustedStartTime}</TableCell>
-                                    <TableCell>{item.adjustedEndTime}</TableCell>
-                                    <TableCell>{item.reason}</TableCell>
-                                    <TableCell>{item.regularTimeAdjustmentTime}</TableCell>
-                                    <TableCell>{item.targetDate}</TableCell>
-                                </TableRow>)) : (<TableRow>
-                                    <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
-                                </TableRow>)}
+                                <TableCell className={classes.text}>{item.name}</TableCell>
+                                <TableCell className={classes.text}>{item.employeeId}</TableCell>
+                                <TableCell className={classes.text}>{item.adjustedStartTime}</TableCell>
+                                <TableCell className={classes.text}>{item.adjustedEndTime}</TableCell>
+                                <TableCell className={classes.text}>{item.reason}</TableCell>
+                                <TableCell className={classes.text}>{item.regularTimeAdjustmentTime}</TableCell>
+                                <TableCell className={classes.text}>{item.targetDate}</TableCell>
+                            </TableRow>)) : (<TableRow>
+                                <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
+                            </TableRow>)}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 {!searchPerformed && (<Pagination
-                        activePage={currentPage}
-                        itemsCountPerPage={pageSize}
-                        totalItemsCount={totalElements}
-                        pageRangeDisplayed={5}
-                        onChange={this.handlePageChange}
-                        innerClass={classes.pagination}
-                        itemClass={classes.pageItem}
-                        activeClass={classes.activePageItem}
-                    />)}
+                    activePage={currentPage}
+                    itemsCountPerPage={pageSize}
+                    totalItemsCount={totalElements}
+                    pageRangeDisplayed={5}
+                    onChange={this.handlePageChange}
+                    innerClass={classes.pagination}
+                    itemClass={classes.pageItem}
+                    activeClass={classes.activePageItem}
+                />)}
 
                 <Dialog
                     open={dialogOpen}
