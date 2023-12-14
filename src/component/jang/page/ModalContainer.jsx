@@ -309,16 +309,17 @@ class ModalContainer extends Component {
                 height: '70%'
             },
             close: {
-                fontSize: '30px',
+                fontSize: '25px',
                 cursor: 'pointer',
                 color:'red',
                 marginRight:"auto",
                 border:'1px solid red',
                 position:'absolute',
                 right:'5px',
-                width:'25px',
+                width:'30px',
                 lineHeight:'normal',
-                textAlignLast:'center'
+                textAlignLast:'center',
+                borderRadius:"50%"
 
             },
         };
