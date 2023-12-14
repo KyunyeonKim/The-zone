@@ -33,6 +33,16 @@ export default class CalendarContainer extends React.Component {
         console.log(`current stateStore : ${JSON.stringify(stateStore)}`)
     }
 
+    componentDidMount() {
+        const toolbarElement = document.querySelector('.fc .fc-toolbar');
+        toolbarElement.style.justifyContent='end';
+        toolbarElement.style.flexDirection='row-reverse'
+
+        const title = document.querySelector('.fc .fc-toolbar-title');
+        title.style.marginRight='170px'
+
+    }
+
     render() {
 
         return (
@@ -66,7 +76,9 @@ export default class CalendarContainer extends React.Component {
                         viewDidMount={this.calendarMountedEventHandler.bind(this)}
                         initialDate={this.state.initDate}
                     />
+
                 </div>
+
                 {/*<div onClick={this.props.toggleModalShowing}>modal ON!</div>*/}
             </div>)
     }
