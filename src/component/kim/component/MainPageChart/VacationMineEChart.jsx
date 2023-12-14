@@ -53,12 +53,7 @@ const styles = theme => ({
         height:"205px"
 
     },
-    chartDescriptionContainer: {
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column', // 이 부분을 column으로 유지
-        alignItems: 'center', // 가운데 정렬
-    },
+
     totalVacationWrapper: {
         display: 'flex',
         flexDirection: 'row', // 가로 방향으로 정렬
@@ -150,15 +145,6 @@ class VacationMineEChart extends Component {
             <div className={classes.container}>
                 {loading ? <CircularProgress/> : chartData && (
                     <>
-                        <div className={classes.chartDescriptionContainer}>
-                            <div className={classes.columnContainer}>
-                                {chartData.map((item, index) => (
-                                    <div key={index} className={classes.chartInfoBox}>
-                                        <div className={classes.colorSquare}></div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
                         <div className={classes.chartContainer}>
                             <Typography variant="h5" className={classes.titleRight}>
                                 올해 연차 개수
