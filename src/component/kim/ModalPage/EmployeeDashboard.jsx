@@ -11,8 +11,7 @@ import SelectInfoForEmployeeReport from "../component/SearchComponent/SelectInfo
 
 const styles = theme => ({
     root: {
-      margin :theme.spacing(0,2),
-
+      width:"1048px"
     },
 
     containertitle: {

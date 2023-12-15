@@ -72,7 +72,7 @@ const styles = (theme) => ({
         },
     },
     tableHead: {
-        backgroundColor: '#C2DCF0',
+        backgroundColor: '#F2F2F2',
         borderTop: '1.5px solid black',
 
     }

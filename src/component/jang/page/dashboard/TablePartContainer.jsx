@@ -44,7 +44,7 @@ const styles = (theme) => ({
             border: '1px solid #ddd',
         },
     }, tableHead: {
-        backgroundColor: '#C2DCF0', borderTop: '1.5px solid black',
+        backgroundColor: '#F2F2F2', borderTop: '1.5px solid black',
     },
 
 });

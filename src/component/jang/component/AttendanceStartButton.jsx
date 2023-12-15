@@ -24,7 +24,6 @@ class AttendanceStartButton extends Component {
             axios.defaults.withCredentials=true;
             let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
             let {startTime} = responseOfTodayInfo.data;
-            alert('startTime '+ responseOfTodayInfo.data.startTime)
             if(startTime!=="null")
                 this.setState({startTime:startTime,dialogOn :false ,dialogOff:true})
 
@@ -33,7 +32,6 @@ class AttendanceStartButton extends Component {
             axios.defaults.withCredentials=true;
             let response = await axios.get('http://localhost:8080/employee/attendance/today')
             let {startTime} = response.data;
-            alert('startTime '+ response.data.startTime)
             if(startTime!=="null")
                 this.setState({startTime:startTime,dialogOn :false ,dialogOff:true})
         }
@@ -45,9 +43,9 @@ class AttendanceStartButton extends Component {
         let {startTime} = response.data;
         if(startTime!=="null")
             this.setState({startTime:startTime})
-        else{
-            alert("출근 정보 없음")
-        }
+        // else{
+        //     alert("출근 정보 없음")
+        // }
     }
     render() {
         let startTime=null;
@@ -59,7 +57,6 @@ class AttendanceStartButton extends Component {
             let seconds = currentDate.getSeconds().toString().padStart(2, '0');
             startTime =hours + ':' + minutes + ':' + seconds;
         }
-        alert(`start time ${this.state.startTime}`)
 
 
         return (<div>

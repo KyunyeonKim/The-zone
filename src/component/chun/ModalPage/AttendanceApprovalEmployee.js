@@ -78,7 +78,7 @@ const styles = (theme) => ({
     //     textAlign: 'center'
     // },
     tableHead: {
-        backgroundColor: '#C2DCF0',
+        backgroundColor: '#F2F2F2',
         borderTop: '1.5px solid black'
     }
 
@@ -273,7 +273,7 @@ class AttendanceApprovalEmployee extends Component {
                             fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
-                            margin: '20px 0 20px 0',
+                            margin: '0 0 20px 0',
                             paddingBottom: '10px'
                         }}>
                         근태 승인 내역

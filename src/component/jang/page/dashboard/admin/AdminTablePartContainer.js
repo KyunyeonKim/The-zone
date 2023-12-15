@@ -53,7 +53,7 @@ const styles = (theme) => ({
             border: '1px solid #ddd',
         },
     }, tableHead: {
-        backgroundColor: '#C2DCF0', borderTop: '1.5px solid black',
+        backgroundColor: '#F2F2F2', borderTop: '1.5px solid black',
     }
 
 
@@ -102,7 +102,6 @@ class AdminTablePartContainer extends Component {
     //searchText.trim()
     fetchData = async (searchKeyword, page) => {
         const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
-        alert("pagedEmployeeNumberListData : "+ JSON.stringify(pagedEmployeeNumberListData.data))
         this.page = page!==null?page:this.page;
         this.searchKeyword = searchKeyword!==null?searchKeyword:this.searchKeyword;
 

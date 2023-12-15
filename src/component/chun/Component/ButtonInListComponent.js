@@ -36,16 +36,18 @@ class ButtonInListComponent extends Component {
 
         return (<>
                 <Dialog open={this.state.isDialogOpen} onClose={this.handleCloseDialog} maxWidth="false">
-                    <DialogContent>
-                        {/* Customize the content of the dialog as needed */}
-                        <AttendanceApprovalEmployee employeeId={this.state.employeeId}></AttendanceApprovalEmployee>
-                        {/* Add more details if needed */}
-                    </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleCloseDialog} color="primary">
                             닫기
                         </Button>
                     </DialogActions>
+
+                    <DialogContent>
+                        {/* Customize the content of the dialog as needed */}
+                        <AttendanceApprovalEmployee employeeId={this.state.employeeId}></AttendanceApprovalEmployee>
+                        {/* Add more details if needed */}
+                    </DialogContent>
+
                 </Dialog>
                 <TableRow key={keyData}>
                     {Object.entries(row).map(([key, value]) => (

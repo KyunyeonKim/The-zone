@@ -325,7 +325,6 @@ class ModalContainer extends Component {
         };
 
 
-        alert(`handleInnerContainer ${this.state.innerContainerName} ${this.handleInnerContainer(this.state.innerContainerName)}`)
 
         if (this.state.modalShow) {
             console.log(`modal Toggled. current status : ${this.state.modalShow}`)

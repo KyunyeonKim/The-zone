@@ -33,7 +33,6 @@ class TableCellContainer extends Component {
     async componentDidMount() {
         let response = await axios.get(`http://localhost:8080/admin/employee/${this.state.employeeNumber}`)
         let responseData = response.data
-        alert(`${JSON.stringify(responseData)}`)
         this.setState(
             {
                 employeeNumber: responseData.employeeId,
@@ -59,9 +58,7 @@ class TableCellContainer extends Component {
     }
 
     deleteEmployee = async () => {
-        alert(`called delete ${this.state.employeeNumber}`)
         let response = axios.get(`http://localhost:8080/admin/employee/delete/${this.state.employeeNumber}`)
-        alert(`${JSON.stringify(response)}`);
         this.setState({showDeleteDialog:!this.state.showDeleteDialog})
         this.props.reRender(null,null)
     }

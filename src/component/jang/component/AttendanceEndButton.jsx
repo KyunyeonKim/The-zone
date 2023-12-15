@@ -24,7 +24,6 @@ class AttendanceEndButton extends Component {
             axios.defaults.withCredentials=true;
             let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
             let {endTime} = responseOfTodayInfo.data;
-            alert('attendanceEnded의 endTime '+ responseOfTodayInfo.data.endTime)
             if(endTime!=="null")
                 this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
 
@@ -33,7 +32,6 @@ class AttendanceEndButton extends Component {
             axios.defaults.withCredentials=true;
             let response = await axios.get('http://localhost:8080/employee/attendance/today')
             let {endTime} = response.data;
-            alert('endTime '+ response.data.endTime)
             if(endTime!=="null")
                 this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
         }
@@ -43,12 +41,11 @@ class AttendanceEndButton extends Component {
         axios.defaults.withCredentials=true;
         let response = await axios.get('http://localhost:8080/employee/attendance/today')
         let {endTime} = response.data;
-        alert(`endTime ${endTime}`)
         if(endTime!=="null")
             this.setState({endTime:endTime})
-        else{
-            alert("퇴근 정보 없음")
-        }
+        // else{
+        //     alert("퇴근 정보 없음")
+        // }
     }
 
     render() {
@@ -69,7 +66,6 @@ class AttendanceEndButton extends Component {
             }}>
                 퇴근 <br/> {endTime}
             </Typography>}
-            {alert("퇴근 : "+endTime)}
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 종료</DialogTitle>
                 <DialogContent>

@@ -32,7 +32,7 @@ class TopBarUserInfo extends Component {
         if(sessionStorage.getItem('userType')!=='admin'){
             let employeeNumber = `${JSON.stringify(this.props.employeeNumber)}`
             this.props.toggleModalShowing(`profile of ${employeeNumber}`)
-            alert(`event handler requested ${employeeNumber}`)
+
         }
     }
     handleProfileClickBind

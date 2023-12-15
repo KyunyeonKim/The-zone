@@ -8,6 +8,7 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
         padding: theme.spacing(3),
+        width:"1000px"
     },
     paper: {
         padding: theme.spacing(3),

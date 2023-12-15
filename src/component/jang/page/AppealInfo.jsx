@@ -64,7 +64,7 @@ const styles = (theme) => ({
     //     textAlign: 'center'
     // },
     tableHead: {
-        backgroundColor: '#C2DCF0',
+        backgroundColor: '#F2F2F2',
         borderTop: '1.5px solid black'
     }
 
@@ -86,7 +86,7 @@ class AppealInfo extends Component {
     async componentDidMount() {
         axios.defaults.withCredentials = true;
         let response = await axios.get(`http://localhost:8080/employee/appeal/historyOf/${this.identifier}`);
-        alert(JSON.stringify(response.data))
+
         this.setState({data: response.data})
     }
 

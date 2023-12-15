@@ -79,7 +79,7 @@ const styles = (theme) => ({
     //     textAlign: 'center'
     // },
     tableHead: {
-        backgroundColor: '#C2DCF0',
+        backgroundColor: '#F2F2F2',
         borderTop: '1.5px solid black'
     }
 
@@ -103,7 +103,7 @@ class VacationInfo extends Component {
 
         try {
             let response = await axios.get(`http://localhost:8080/employee/vacation/historyOf/${this.identifier}`);
-            alert(JSON.stringify(response.data));
+
             this.setState({ data: response.data });
         } catch (error) {
             let errorMessage = "An error occurred!";

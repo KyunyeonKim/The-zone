@@ -199,7 +199,7 @@ class SelectInfoForManagerReport extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <BlackButtonComponent title={"전체 선택"} onButtonClick={this.allClick} />
+                        <BlackButtonComponent title={"전체 월 선택"} onButtonClick={this.allClick} />
                     </Grid>
                     <Grid item>
                         <BlackButtonComponent title={"보고서 생성"} onButtonClick={this.makeReport} />

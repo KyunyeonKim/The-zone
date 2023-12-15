@@ -49,7 +49,6 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            alert('employeeId 전송 성공: '+employeeId);
             console.log("전송 성공");
             this.onApproveBtnClick();
             this.props.parentRerender()
@@ -91,7 +90,6 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            alert('employeeId 전송 성공: '+employeeId);
             console.log("전송 성공");
             this.onRejectBtnClick();
             this.props.parentRerender()

@@ -193,7 +193,17 @@
 import React, {Component} from 'react';
 
 import {
-    Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Button, Popover, Box
+    Paper,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
+    Typography,
+    Button,
+    Popover,
+    Box,
+    DialogTitle, DialogContent, DialogContentText, DialogActions, Dialog
 } from '@material-ui/core';
 import Badge from "@material-ui/core/Badge";
 import axios from "axios";
@@ -217,14 +227,13 @@ class NotificationListForManager extends Component {
         this.employeeNumber = JSON.parse(sessionStorage.getItem('userData')).loginId
 
         this.state = {
-            anchorEl: null, requests: [{id: 1, content: 'dummy'}], totalCount: 0, page: 1
+            anchorEl: null, requests: [{id: 1, content: 'dummy'}], totalCount: 0, page: 1,dialogOpen: false
         };
         this.eventSource = new EventSource(`http://localhost:8080/register/manager?employeeNumber=${this.employeeNumber}&userType=${this.userType}`);
 
         this.messageEventHandler = async function (event) {
             let requests = await axios.get(`http://localhost:8080/unread/manager/${this.employeeNumber}?page=${this.state.page}`)
             let id = this.state.requests.length + 1
-            alert(`sse recv! ${JSON.stringify({id: JSON.stringify(event.id), content: JSON.stringify(event.data)})}`)
             let getTotalCount = requests.data.totalElement
             let hasNext = requests.data.hasNext
             this.setState({
@@ -238,30 +247,27 @@ class NotificationListForManager extends Component {
         }.bind(this);
 
         this.eventSource.onmessage = this.messageEventHandler
-
         this.eventSource.onerror = this.onErrorHandler.bind(this,this.onErrorHandler.bind(this));
-
         this.registerAgain = this.registerAgain.bind(this)
         this.handleToggleList = this.handleToggleList.bind(this)
+        this.showErrorDialog=this.showErrorDialog.bind(this);
+        this.closeDialog=this.closeDialog.bind(this);
     }
 
     onErrorHandler = async function(callback) {
 
-        alert('manager registerAgain!')
         this.eventSource.close()
         this.eventSource = new EventSource(`http://localhost:8080/register/manager?employeeNumber=${this.employeeNumber}&userType=${this.userType}`) // 화살표 함수로 외부 this를 가져오면 경고가 없어진다
         this.eventSource.onmessage = this.messageEventHandler
         this.eventSource.onerror=callback.bind(this,callback.bind(this))
 
         let response = await axios.get(`http://localhost:8080/unread/manager/${this.employeeNumber}?page=${this.state.page}`)
-        alert(`unread msg from server ${JSON.stringify(response.data.data)}`)
         let unreadMsg = response.data.data// dto를 담은 배열
         let mappedUnreadMsg = unreadMsg.map((request) => (({
             id: request.messageId,
             content: request.message,
             unread: request.readTime === null
         })))//dto에서 필요한 message 데이터를 새로운 id를 부여하여 requests에 담기
-        alert(`setState ${JSON.stringify(mappedUnreadMsg)}`)
         let getTotalCount = response.data.totalElement
         let hasNext = response.data.hasNext
         this.setState({
@@ -274,7 +280,6 @@ class NotificationListForManager extends Component {
 
     async componentDidMount() {
         let requests = await axios.get(`http://localhost:8080/unread/manager/${this.employeeNumber}?page=1`)
-        alert(`unread msg from server ${JSON.stringify(requests.data)}`)
         let unreadMsg = requests.data.data// dto를 담은 배열
         let mappedUnreadMsg = unreadMsg.map((request) => (({
                 id: request.messageId,
@@ -282,7 +287,6 @@ class NotificationListForManager extends Component {
                 unread: request.readTime === null,
                 forManager: request.forManager
             })))//dto에서 필요한 message 데이터를 새로운 id를 부여하여 requests에 담기
-        alert(`setState ${JSON.stringify(mappedUnreadMsg)}`)
         let getTotalCount = requests.data.totalElement
         let hasNext = requests.data.hasNext
         this.setState({
@@ -301,10 +305,8 @@ class NotificationListForManager extends Component {
         this.eventSource.onmessage = async function (event) {
             let response = (await axios.get(`http://localhost:8080/unread/manager/${this.employeeNumber}?page=${this.state.page}`))
             let id = this.state.requests.length + 1
-            alert(`sse recv! ${JSON.stringify({id: id, content: JSON.stringify(event.data)})}`)
             let getTotalCount = response.data.totalElement
             let hasNext = response.data.hasNext
-            alert(`totalcount : ${getTotalCount}`)
             this.setState({
                 anchorEl: this.state.anchorEl,
                 requests: this.state.requests,
@@ -335,10 +337,6 @@ class NotificationListForManager extends Component {
 
     readMore = async function () {
         let response = (await axios.get(`http://localhost:8080/unread/manager/${this.employeeNumber}?page=${this.state.hasNext ? this.state.page + 1 : this.state.page}`))
-        alert(`more message! ${JSON.stringify({
-            newMessageLength: response.data.data.length, content: JSON.stringify(response.data.data)
-        })}`)
-        alert(`old message! ${JSON.stringify(this.state.requests.map((saved) => saved.id))}`)
 
         let unreadMsg = response.data.data// dto를 담은 배열
         let mappedUnreadMsg = unreadMsg.map((request) => (({
@@ -346,12 +344,14 @@ class NotificationListForManager extends Component {
                 content: request.message,
                 unread: request.readTime === null
             })))//dto에서 필요한 message 데이터를 새로운 id를 부여하여 requests에 담기
-        alert(`mappedUnreadNewMsg ${JSON.stringify(mappedUnreadMsg)}`)
         mappedUnreadMsg = mappedUnreadMsg.filter((newPageMessage) => !this.state.requests.map((saved) => saved.id).includes(newPageMessage.id))
-        alert(`mappedUnreadNewMsg ${JSON.stringify(mappedUnreadMsg)}`)
+
+        if(mappedUnreadMsg.length===0){
+            this.showErrorDialog();
+        }
+
         let getTotalCount = response.data.totalElement
         let hasNext = response.data.hasNext
-        alert(`totalcount : ${getTotalCount}`)
         if (mappedUnreadMsg.length > 0) {
             this.setState({
                 anchorEl: this.state.anchorEl,
@@ -367,9 +367,7 @@ class NotificationListForManager extends Component {
         try {
             let response = await axios.get(`http://localhost:8080/notification/manager/read/${messageId}`)
             if (response.status === 200) {
-                alert(`read message ${messageId}`)
                 let filteredMsg = this.state.requests.filter((entity) => entity.id !== messageId)
-                alert(`${JSON.stringify(filteredMsg)}`)
                 //TODO: totalCount도 다시 바꾸기 - 백엔드에서 전달받기
                 this.setState({requests: filteredMsg, totalCount: response.data.totalcount})
             } else {
@@ -378,6 +376,17 @@ class NotificationListForManager extends Component {
             alert(`메세지 전환 실패 ${error.response.status}`)
         }
     }.bind(this)
+
+    showErrorDialog = () => {
+        this.setState({
+            dialogOpen: true,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
 
     render() {
         const {anchorEl, requests, totalCount} = this.state;
@@ -390,6 +399,26 @@ class NotificationListForManager extends Component {
                                     fontSize={"large"}>
                     </AssignmentIcon>
                 </Badge>
+
+                <Dialog
+                    open={this.state.dialogOpen}
+                    onClose={this.closeDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">새 메시지 없음</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            새 메시지 없음
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <Popover
                     open={isOpen}
                     anchorEl={anchorEl}
@@ -401,7 +430,7 @@ class NotificationListForManager extends Component {
                         vertical: 'top', horizontal: 'left',
                     }}
                 >
-                    <Paper elevation={3} style={{padding: '16px', width: '300px'}}>
+                    <Paper elevation={3} style={{padding: '30px', width: '400px'}}>
                         <List>
                             <Grid
                                 container
@@ -409,9 +438,15 @@ class NotificationListForManager extends Component {
                                 justifyContent="space-evenly"
                                 alignItems="center"
                             >
+                                <Typography variant="subtitle1" style={ {color:'#2568ac',fontFamily:'IBM Plex Sans KR',fontSize:'23px',whiteSpace:'nowrap' ,fontWeight: 'bold'}}>
+                                    새 메시지
+                                </Typography>
+
                                 {requests.map((request) => (
 
-                                    <ListItem key={request.id} spacing={2}>
+                                    <ListItem key={request.id} spacing={2}
+                                              style={{padding:"0px",
+                                                  borderBottom: '1px solid #ddd'}}>
                                         <Grid item xs={10} sm={10} md={10}>
                                             <ListItemText primary={request.content}/>
                                         </Grid>
@@ -425,10 +460,16 @@ class NotificationListForManager extends Component {
                             </Grid>
                         </List>
                         <div>
-                            <Typography variant="body2" color="primary" onClick={this.readMore}
-                                        style={{textDecoration: 'underline', marginTop: '10px'}}>
-                                새로운 메세지 확인
-                            </Typography>
+                            <Box style={{display:"flex",justifyContent:"center"}}>
+                                {/*<IconButton edge="end" onClick={this.readMore}>*/}
+                                {/*    <MoreHorizIcon*/}
+                                {/*                    style={{color:"primary",textDecoration: 'underline', marginTop: '10px'}}/>*/}
+                                {/*</IconButton>*/}
+                                <Button onClick={this.readMore}  style={{color:"black",fontSize:"20px", marginTop: '10px',fontFamily:'IBM Plex Sans KR',border:'0px'}}>
+                                    더보기
+                                </Button>
+
+                            </Box>
                         </div>
                     </Paper>
                 </Popover>

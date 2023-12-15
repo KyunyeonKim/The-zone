@@ -50,7 +50,7 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         border: "1px solid gray",
-        backgroundColor: "#E4F3FF",
+        backgroundColor: "#F2F2F2",
         textAlign: "right",
         paddingRight: '15px',
         width: "35%",
@@ -121,7 +121,6 @@ class AppealRequest extends Component {
     };
 
     doApprove = async function () {
-        alert('승인 요청 보내기!')
 
         axios.defaults.withCredentials = true;
         try {
@@ -241,7 +240,6 @@ class AppealRequest extends Component {
                 uploadFormData.append("uploadFile", this.state.uploadFile);
 
                 const uploadResponse = await axios.post(uploadFileUrl, uploadFormData);
-                alert("이미지 업로드 결과", uploadResponse.data);
             }
             this.buttonClick();
         } catch (error) {
@@ -267,7 +265,6 @@ class AppealRequest extends Component {
             }
             this.showErrorDialog('Error', errorMessage);
         }
-        alert(`stateStore.chartContainerStateSet.setState ${new Date(this.props.args[0])}`)
 
         stateStore.calendarContainerStateSet.setState(this.state.selectedYear.toString(), this.state.selectedMonth.toString(), new Date(this.props.args[0]))
         stateStore.appealRequestStateSet.setState()

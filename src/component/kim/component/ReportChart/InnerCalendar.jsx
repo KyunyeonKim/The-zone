@@ -198,7 +198,6 @@ class InnerCalendar extends Component {
                 `http://localhost:8080/employee/attendance_info/?year=${this.year}&month=${this.month}&page=1&size=32`
             );
             let mappedAttendance = []
-            alert(`attendanceInfo ${JSON.stringify(attendanceInfo)}`)
 
             if(attendanceInfo.status!==204){
                 mappedAttendance = attendanceInfo.data.data.map((data) => {
@@ -277,7 +276,6 @@ class InnerCalendar extends Component {
                 }
             );
             // alert(`mappedVacation ${JSON.stringify(mappedVacation)}`)
-            alert(`state mark : ${JSON.stringify(mappedAttendance.concat(mappedVacation))}`)
             this.setState({mark: mappedAttendance.concat(mappedVacation)});
 
 

@@ -23,6 +23,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 import {withStyles} from "@material-ui/core/styles";
+import BlackButtonComponent from "../../chun/Component/Button/BlackButtonComponent";
 
 
 const styles = (theme) =>({
@@ -43,6 +44,7 @@ const styles = (theme) =>({
             paddingRight: '15px',
             width: "35%",
             whiteSpace: 'nowrap',
+            height:"120px"
 
         },
          reasonText:{
@@ -54,8 +56,7 @@ const styles = (theme) =>({
              paddingRight: '15px',
              width: "35%",
              whiteSpace: 'nowrap',
-
-
+             height:"80px"
          },
         subTextRow:{
             textAlign:'center',
@@ -210,6 +211,7 @@ const styles = (theme) =>({
         // 다이얼로그 닫기 함수
         closeDialog = () => {
             this.setState({ dialogOpen: false });
+            this.props.args[0]()
         };
 
 

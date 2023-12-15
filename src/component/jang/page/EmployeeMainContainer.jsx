@@ -24,7 +24,7 @@ export default class EmployeeMainContainer extends React.Component {
     if (stateStore.modalContainerStateSet !== undefined) {
       console.log("toggleModalShow")
       console.log(`${JSON.stringify(stateStore)}`)
-      alert(`${innerContainerName} modal On! args=${args}`)
+
       stateStore.modalContainerStateSet.setState(innerContainerName,...args)
     }
   }

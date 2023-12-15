@@ -240,17 +240,14 @@ export default class CalendarContainer extends React.Component {
         let mappedCurrentEventsOfVacationRequested = this.state.currentEvents.filter((event) => event.extendedProps.kind === 'vacationRequested').map((event) => new Date(event.date))
         mappedCurrentEventsOfHoliday = mappedCurrentEventsOfHoliday.concat(mappedCurrentEventsOfVacationRequested)
         mappedCurrentEventsOfHoliday = mappedCurrentEventsOfHoliday.sort(sortByDate).filter((event) => event - today > 0)
-        alert(`mappedCurrentEventsOfHoliday : ${mappedCurrentEventsOfHoliday}`)
 
         let countVacationRequestLimit = mappedCurrentEventsOfHoliday === null || mappedCurrentEventsOfHoliday === undefined ? -1 : mappedCurrentEventsOfHoliday[0] - today > 0 ? Math.floor((mappedCurrentEventsOfHoliday[0] - today) / 24 / 3600 / 1000) : -1;
 
         if (countVacationRequestLimit !== -1) {
             daysUntilSaturday = daysUntilSaturday > countVacationRequestLimit ? countVacationRequestLimit : daysUntilSaturday
-            alert(`limit ${daysUntilSaturday}`)
             return daysUntilSaturday
         }
 
-        alert(`no additional holiday event, vacationRequest. so get saturday limit ${daysUntilSaturday}`)
         return daysUntilSaturday;
     }
 
@@ -258,23 +255,18 @@ export default class CalendarContainer extends React.Component {
         let eventKind = `${clickInfo.event.extendedProps.kind}`
 
 
-        // alert(`${eventKind}`)
         switch (eventKind) {
             case 'holiday':
-                alert(`event handler requested ${eventKind}`)
 
                 break;
             case 'vacationable':
-                alert(`event handler requested ${clickInfo.event.start}`)
                 this.props.toggleModalShowing('VacationRequest', this.props.toggleModalShowing, this.getClosestSaturday(clickInfo.event.start), clickInfo.event.start)
 
                 break;
             case 'vacationRequested':
-                alert(`event handler requested ${eventKind} quantity ${clickInfo.event.extendedProps.quantity} ${new Date(clickInfo.event.start)} ${clickInfo.event.extendedProps.requestId}`)
                 this.props.toggleModalShowing('VacationRequested', `${clickInfo.event.extendedProps.requestId}`, this.props.toggleModalShowing)
                 break;
             case 'attendance_info':
-                alert(`attendance_info clicked! ${JSON.stringify(clickInfo.event)}`)
                 if (
                     clickInfo.event.extendedProps.status === "이상 근태(결근)" ||
                     clickInfo.event.extendedProps.status === "이상 근태(조기 퇴근)" ||
@@ -301,7 +293,6 @@ export default class CalendarContainer extends React.Component {
                 }
 
             default:
-                alert(`kind of no handler event ${eventKind}`)
         }
 
     }
