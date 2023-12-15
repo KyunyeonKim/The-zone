@@ -70,7 +70,6 @@ const styles = theme => ({
 
     },
 
-
 })
 
 
@@ -97,8 +96,8 @@ class EmployeeDashboard extends Component {
 
                     <SelectInfoForEmployeeReport onSelectionChange={this.handleSelectionChange} />
 
-                {selectedMonths.length > 0 && (<EmployeeReport year={selectedYear} months={selectedMonths} />)}
 
+                {selectedMonths.length > 0 && (<EmployeeReport year={selectedYear} months={selectedMonths} />)}
 
 
             </Container>

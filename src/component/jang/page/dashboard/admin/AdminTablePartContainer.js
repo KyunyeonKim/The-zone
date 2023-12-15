@@ -21,10 +21,11 @@ const styles = (theme) => ({
     // style={{ textAlign: 'center',whiteSpace: 'nowrap' }}
     formControl: {
         margin: theme.spacing(1), minWidth: 120,
+        fontFamily:'IBM Plex Sans KR',
     }, text: {
-        fontSize: '12px', fontFamily:'IBM Plex Sans KR', textAlign: 'center', whiteSpace: 'nowrap'
+        fontSize: '20px', fontFamily:'IBM Plex Sans KR', textAlign: 'center', whiteSpace: 'nowrap'
     }, titleText: {
-        fontSize: '15px',
+        fontSize: '16px',
         fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         textAlign: 'center',
@@ -53,7 +54,20 @@ const styles = (theme) => ({
             border: '1px solid #ddd',
         },
     }, tableHead: {
-        backgroundColor: '#F2F2F2', borderTop: '1.5px solid black',
+        backgroundColor: '#C2DCF0', borderTop: '1.5px solid black',
+    },
+    createbutton :{
+        fontSize:'16px',
+        whiteSpace: 'nowrap',
+
+        border:'1px solid #2055E8',
+        fontFamily:'IBM Plex Sans KR',
+        height:"45px",
+        fontWeight:'bold',
+        width:"160px",
+        marginRight:'750px',
+        marginTop:'15px',
+        backgroundColor:"#FFCA6E", borderTop: '1.5px solid black',
     }
 
 
@@ -102,6 +116,7 @@ class AdminTablePartContainer extends Component {
     //searchText.trim()
     fetchData = async (searchKeyword, page) => {
         const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
+        alert("pagedEmployeeNumberListData : "+ JSON.stringify(pagedEmployeeNumberListData.data))
         this.page = page!==null?page:this.page;
         this.searchKeyword = searchKeyword!==null?searchKeyword:this.searchKeyword;
 
@@ -280,7 +295,9 @@ class AdminTablePartContainer extends Component {
 
                     <Box component=""
                          style={{display: "flex", justifyContent: "flex-end", marginBottom: '10px'}}>
-                        <Button variant="contained" color='primary' onClick={this.CreateModalShow}>Create Employee</Button>
+
+                        <Button variant="contained" className={classes.createbutton} onClick={this.CreateModalShow}>사원 생성</Button>
+
                         <FormControl className={classes.formControl}>
                             <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
                             <Select

@@ -113,9 +113,10 @@ const styles = theme => ({
         backgroundColor: 'gray',
     },
     grayBackground: {
-        backgroundColor: '#E4F3FF',
         textAlign: 'right',
-        fontFamily:'IBM Plex Sans KR',
+        backgroundColor: '#E4F3FF',
+        fontFamily:'IBM Plex Sans KR', // 변경된 글꼴
+        fontSize:'18px'
     },
 
 
@@ -355,11 +356,11 @@ class CreateEmployee extends Component {
 
             <Box className={classes.container}>
                 <Container>
-                    <Paper className={classes.papers}>
+                    <Box className={classes.papers}>
                         <Box
                             sx={{
                                 width: "100%",
-                                fontSize: '25px',
+                                fontSize:'30px',
                                 fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 borderBottom: 'solid 1px black',
@@ -413,14 +414,14 @@ class CreateEmployee extends Component {
                                             삭제
                                         </Button>
                                     </Box>
-                                    <Typography variant="h5" style={{color: 'white', marginTop: '30px'}}>
+                                    <Typography variant="h5" style={{color: 'white',marginLeft:'30px', marginTop: '30px'}}>
                                         프로필 이미지를 등록해주세요
                                     </Typography>
                                 </Box>
                             </Box>
                         </Paper>
 
-                        <Paper className={classes.paper}>
+                        <Box className={classes.paper}>
                             <Box
                                 sx={{
                                     width: "100%",
@@ -554,8 +555,8 @@ class CreateEmployee extends Component {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Paper>
-                    </Paper>
+                        </Box>
+                    </Box>
                 </Container>
 
                 <Dialog

@@ -41,6 +41,7 @@ const styles = theme => ({
         textAlign: 'right',
         backgroundColor: '#E4F3FF',
         fontFamily:'IBM Plex Sans KR', // 변경된 글꼴
+        fontSize:'18px'
     },
     tableCell: {
         padding: theme.spacing(1),
@@ -113,12 +114,13 @@ class UpdateEmployee extends Component {
             passWord: "",
             name: "",
             attendanceManager: false,
-            uploadFile: null,
             hireYear: "",
             formError: "",
             dialogOpen: false,
             dialogTitle: '',
             dialogMessage: '',
+            uploadFile: null, // 실제 파일 객체를 위한 상태
+            previewUrl: null, // 이미지 미리보기 URL을 위한 상태
         };
 
     }
@@ -129,23 +131,13 @@ class UpdateEmployee extends Component {
 
     async componentDidMount() {
         try {
-
-            //Todo:props로 전달받아야함
-            // axios.defaults.withCredentials = true;
-            // let loginForm = new FormData();
-            // loginForm.append("loginId", "admin");
-            // loginForm.append("password", "admin");
-            // await axios.post("http://localhost:8080/login", loginForm);
-
-            //더미데이터
-
             const response = await axios.get(
                 `http://localhost:8080/admin/employee/information/${this.state.employeeId}`
             );
 
             const image = await axios.get(
                 `http://localhost:8080/admin/download/${this.state.employeeId}`,
-                {responseType: "arraybuffer"}
+                { responseType: "arraybuffer" }
             );
 
             const employeeData = response.data;
@@ -165,6 +157,7 @@ class UpdateEmployee extends Component {
                 attendanceManager: employeeData.attendanceManager,
                 hireYear: formattedHireYear,
                 uploadFile: `data:${image.headers["content-type"]};base64,${employeeImagedata}`,
+                previewUrl: `data:${image.headers["content-type"]};base64,${employeeImagedata}`,
             });
         } catch (error) {
             let errorMessage = "error";
@@ -276,13 +269,12 @@ class UpdateEmployee extends Component {
 
             // 이미지를 수정한 경우에만 파일 업로드 수행
             if (uploadFile && uploadFile instanceof File) {
-                const uploadFileAdd = "http://localhost:8080/admin/upload";
                 const uploadFileData = new FormData();
-                uploadFileData.append("employeeId", employeeId);
+                uploadFileData.append("identifier", employeeId); // Change the key to 'identifier'
                 uploadFileData.append("uploadFile", uploadFile);
 
                 const uploadResponse = await axios.post(
-                    uploadFileAdd,
+                    "http://localhost:8080/admin/upload",
                     uploadFileData
                 );
                 console.log("파일 업로드 성공", uploadResponse.data);
@@ -327,7 +319,11 @@ class UpdateEmployee extends Component {
     setPreviewImg = (event) => {
         const file = event.target.files[0];
         if (file) {
-            this.setState({uploadFile: URL.createObjectURL(file)});
+            const previewUrl = URL.createObjectURL(file);
+            this.setState({
+                uploadFile: file, // 파일 객체 저장
+                previewUrl: previewUrl // 미리보기 URL 저장
+            });
         }
     };
 
@@ -365,8 +361,8 @@ class UpdateEmployee extends Component {
             passWord,
             name,
             attendanceManager,
-            uploadFile,
             hireYear,
+            previewUrl,
 
             formError,
         } = this.state;
@@ -378,18 +374,18 @@ class UpdateEmployee extends Component {
         return (
             <Box className={classes.container}>
 
-                    <Paper className={classes.paper}>
+                    <Box className={classes.paper}>
                         <Box
                             sx={{
                                 width: "100%",
-                                fontSize: '25px',
+                                fontSize:'30px',
                                 fontFamily:'IBM Plex Sans KR',
                                 fontWeight: 'bold',
                                 borderBottom: 'solid 1px black',
                                 margin: 'auto',
                                 marginBottom: '40px', // 여기에 marginBottom 추가
                             }}>
-                            직원 수정
+                            사원 정보 수정
                         </Box>
                         <Paper>
                             <Box className={classes.uploadContainer} justifyContent="center" alignItems="center">
@@ -401,9 +397,9 @@ class UpdateEmployee extends Component {
                                     onChange={this.setPreviewImg}
                                 />
                                 <label htmlFor="upload-file" className={classes.uploadLabel}>
-                                    {uploadFile ? (
+                                    {previewUrl ? (
                                         <img
-                                            src={uploadFile}
+                                            src={previewUrl}
                                             alt="Employee"
                                             className={classes.uploadIcon}
                                         />
@@ -422,7 +418,7 @@ class UpdateEmployee extends Component {
                                             수정
                                         </Button>
                                     </Box>
-                                    <Typography variant="h5" style={{color: 'white', marginTop: '30px'}}>
+                                    <Typography variant="h5" style={{color: 'white', marginLeft:'50px',marginTop: '20px'}}>
                                         프로필 이미지를 수정해주세요
                                     </Typography>
                                 </Box>
@@ -550,15 +546,9 @@ class UpdateEmployee extends Component {
                             >
                                 저장
                             </Button>
-                            <Button
-                                variant="contained"
-                                className={classes.cancelButton}
-                                onClick={this.closeModal}
-                            >
-                                취소
-                            </Button>
+
                         </Box>
-                    </Paper>
+                    </Box>
                 <Dialog
                     open={dialogOpen}
                     onClose={this.closeDialog}

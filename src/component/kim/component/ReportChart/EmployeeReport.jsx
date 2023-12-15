@@ -28,18 +28,20 @@ const styles = theme => ({
         height: 200, // 테이블 크기를 지정합니다. 실제 테이블 라이브러리에 맞게 조정해야 합니다.
         margin: '0px', padding: '0px'
     }, title: {
-        fontFamily: 'IBM Plex Sans KR, sans-serif', // 사용할 글꼴 설정
+        fontFamily: 'IBM Plex Sans KR', // 사용할 글꼴 설정
         fontSize: '40px', // 폰트 사이즈를 20px로 설정
 
             backgroundColor: '#f0f0f0', height: '100px', textAlign: 'center', border: '2px solid black',
         lineHeight: '100px',
         padding: theme.spacing(0, 2),
-    }, charttitle: {
-        backgroundColor: '#719FE4', textAlign: 'center', border: '2px solid black', fontSize: '35px', // 이 값을 변경하여 글씨 크기 조절
+    },
+
+
+    charttitle: {
+        backgroundColor: '#f0f0f0', textAlign: 'center', border: '2px solid black', fontSize: '35px', // 이 값을 변경하여 글씨 크기 조절
         lineHeight: '100px', // 이 값을 'height'와 동일하게 설정하여 글자를 수직 가운데 정렬
-        color: 'black', // 글자 색상을 흰색으로 설정
         // Material-UI의 theme.spacing을 사용하여 양 옆에 패딩 추가 (옵션)
-        margin: '0px', padding: '0px'
+        marginTop: '20px', padding: '0px'
 
     }, card: {
         transition: 'transform 0.3s ease-in-out', '&:hover': {
@@ -99,10 +101,21 @@ const styles = theme => ({
         fontSize: '20px', // 폰트 사이즈를 20px로 설정
     },
     spacedTable: {
-        marginBottom: theme.spacing(4), // Table 아래쪽 마진 추가
-        marginTop: theme.spacing(3), // Table 아래쪽 마진 추가
+       marginBottom:'50px',
 },
 
+    tablerow:{
+        marginBottom: '20px',
+    },
+    spacedTableRow: {
+        marginBottom: theme.spacing(4), // 아래쪽 마진 추가
+        // 또는 padding: theme.spacing(4), // 패딩 추가
+    },
+     mainsubtitle: {
+    fontFamily: 'IBM Plex Sans KR, sans-serif', // 사용할 글꼴 설정
+    fontSize: '30px', // 폰트 사이즈를 20px로 설정
+    backgroundColor: '#F2F2F2',
+}
 
 
 
@@ -248,9 +261,9 @@ class EmployeeReport extends Component {
                     <Table>
                         <TableBody>
                             {months.map(month => (<React.Fragment key={month}>
-                                    <TableRow>
+                                    <TableRow className={classes.spacedTableRow}>
                                         <StyledTableCell colSpan={3} style={{textAlign: 'center'}}
-                                                         className={classes.subtitle}>
+                                                         className={classes.mainsubtitle}>
                                             {/* 달의 이름을 사용하여 제목 생성 */}
                                             {`${month}월달 보고서`}
                                         </StyledTableCell>
@@ -294,7 +307,7 @@ class EmployeeReport extends Component {
                                     </TableRow>
 
                                     {/* 두 번째 행: 근태 차트 및 정보 */}
-                                    <TableRow>
+                                    <TableRow className={classes.tablerow}>
                                         <StyleTableCell className={classes.skyBlueBackGround}>
                                             {/* 근태 정보 */}
                                             {this.renderAttendanceMonthData(year, month)}
@@ -315,9 +328,9 @@ class EmployeeReport extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Typography variant="h4" className={classes.title}>월별 막대차트 현황</Typography>
+                <Typography variant="h4" className={classes.charttitle}>월별 막대차트 현황</Typography>
 
-            <div style={{ border: '4px solid #000', padding: '10px' }}>
+            <div style={{  padding: '10px' }}>
                 <EmployeeBarChart monthlyData={monthlyChartData}/>
             </div>
 

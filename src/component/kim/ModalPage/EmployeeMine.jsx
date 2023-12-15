@@ -43,6 +43,7 @@ const styles = theme => ({
         textAlign: 'right',
         backgroundColor: '#E4F3FF',
         fontFamily:'IBM Plex Sans KR', // 변경된 글꼴
+        fontSize:'18px'
     },
     tableCell: {
         padding: theme.spacing(1),
@@ -222,11 +223,11 @@ class EmployeeMine extends Component {
         return (
 
             <Box className={classes.container}>
-                <Paper className={classes.paper}>
+                <Box className={classes.paper}>
                     <Box
                         sx={{
                             width:"100%",
-                            fontSize:'25px',
+                            fontSize:'30px',
                             fontFamily:'IBM Plex Sans KR',
                             fontWeight: 'bold',
                             borderBottom: 'solid 1px black',
@@ -327,6 +328,7 @@ class EmployeeMine extends Component {
                                     <TableCell className={classes.grayBackground}>비밀번호</TableCell>
                                     <TableCell>
                                         <TextField
+                                            style={{ width: '100%' }}
                                             type={this.state.showPassword ? 'text' : 'password'}
                                             value={passWord}
                                             InputProps={{
@@ -382,7 +384,7 @@ class EmployeeMine extends Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </Paper>
+                </Box>
             </Box>
 
 
