@@ -86,69 +86,97 @@ import 'react-calendar/dist/Calendar.css';
 const styles = (theme) => ({
 
     normal_attendance: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#63A1FF',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     abnormal_attendance: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#474698',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     undefined_attendance: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#3d8877',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     approved_abnormal_attendance: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#54040f',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     permitted_vacation: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#39a649',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     request_vacation: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#883794',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     rejected_vacation: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#ff0000',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
     undefined_vacation: {
-        height: '4px',
-        width: '4px',
+        height: '10px',
+        width: '10px',
         backgroundColor: '#fdda00',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
     },
+    calendar: {
+        width: '100%', // 캘린더 전체 너비
+        maxWidth: '800px', // 최대 너비 설정
+        fontSize: '30px', // 캘린더 내 텍스트 기본 폰트 크기
+        height: '100%',
+        maxHeight: '1900px',
+        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', // 그림자 효과 추가
+        border: '1px solid #d3d3d3', // 테두리 색상 변경
+        borderRadius: '10px', // 테두리 둥글게
+        padding: '20px', // 내부 여백
+    },
+    calendarTile: {
+        height: '150px',
+        width: '100px',
+        fontSize: '30px',
+        lineHeight: '120px',
+        margin: '5px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        boxShadow: '0 2px 4px 0 rgba(0,0,0,0.1)',
+        borderRadius: '5px',
+        backgroundColor: 'white', // 타일 배경색
+    },
+
+
+    // 각 날짜 타일의 크기 조절을 위한 스타일
+
 
 });
 
@@ -163,7 +191,6 @@ class InnerCalendar extends Component {
     }
 
     async componentDidMount() {
-        alert('innerCalendar componentDidMount')
         const {classes} = this.props;
         axios.defaults.withCredentials = true;
         try {
@@ -214,11 +241,10 @@ class InnerCalendar extends Component {
             }
 
 
-            alert(`mappedAttendance ${JSON.stringify(mappedAttendance)}`)
             const vacationInfo = await axios.get(
                 `http://localhost:8080/system/calendar/vacation_info?year=${this.year}&month=${this.month}`
             );
-            alert(`vacationInfo ${JSON.stringify(vacationInfo)}`)
+
 
             const mappedVacation = vacationInfo.data.map((data) => {
                     switch (data.extendedProps.status) {
@@ -274,7 +300,7 @@ class InnerCalendar extends Component {
                     maxDetail="month"
                     navigationLabel={null}
                     showNeighboringMonth={false}
-                    className="mx-auto w-full text-sm border-b"
+                    className={`mx-auto w-full text-sm border-b ${classes.calendar}`}
                     tileContent={({date}) => {
                         const html = [];
                         let find = mark.find((x) => x.date === moment(date).format('YYYY-MM-DD'))

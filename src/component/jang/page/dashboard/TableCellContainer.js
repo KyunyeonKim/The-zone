@@ -4,6 +4,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {withStyles} from "@material-ui/core/styles";
+const styles = (theme) => ({});
 
 class TableCellContainer extends Component {
 
@@ -34,10 +36,10 @@ class TableCellContainer extends Component {
         alert(`${JSON.stringify(responseData)}`)
         this.setState(
             {
-                employeeNumber : responseData.employeeId,
-                isManager : responseData.attendanceManager,
-                hireYear:responseData.hireYear,
-                name:"",
+                employeeNumber: responseData.employeeId,
+                isManager: responseData.attendanceManager,
+                hireYear: responseData.hireYear,
+                name: responseData.name, // 이름 설정
                 showDeleteDialog:false,
             }
         )
@@ -65,21 +67,23 @@ class TableCellContainer extends Component {
     }
 
     render() {
+        let {classes}=this.props;
         return (
-            <TableCell>
-                <TextField value={this.state.employeeNumber}/>
-                <TextField value={this.state.isManager}/>
-                <TextField value={this.state.hireYear}/>
-                <TextField value={this.state.name}/>
+            <TableCell className={classes.table}>
 
-                <Button variant="contained" color="primary" onClick={this.callToggleModalShow}>
+                <TextField value={this.state.employeeNumber} style={{ width: '100%' , textAlign:'center' }}/>
+                <TextField value={this.state.isManager} style={{ width: '100%', textAlign:'center' }}/>
+                <TextField value={this.state.hireYear} style={{ width: '100%', textAlign:'center' }}/>
+                <TextField value={this.state.name} style={{ width: '100%', textAlign:'center' }}/>
+
+                <Button variant="contained" color="primary" onClick={this.callToggleModalShow}style={{margin:5}}>
                     UPDATE
                 </Button>
 
-                <Button variant="contained" color="secondary" onClick={this.callDeleteDialog}>
+                <Button variant="contained" color="secondary" onClick={this.callDeleteDialog}style={{margin:5}}>
                     DELETE
                 </Button>
-                <Dialog open={this.state.showDeleteDialog} onClose={this.handleClose}>
+                <Dialog open={this.state.showDeleteDialog} onClose={this.handleClose} >
                     <DialogTitle>사원 정보 삭제</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -100,4 +104,4 @@ class TableCellContainer extends Component {
     }
 }
 
-export default TableCellContainer;
+export default  withStyles(styles)(TableCellContainer);

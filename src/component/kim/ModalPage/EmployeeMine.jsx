@@ -28,14 +28,12 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 const styles = theme => ({
     container: {
-        marginTop: theme.spacing(3),
+        width:"900px",
+        display:'flex',
     },
     paper: {
-        padding: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: theme.shadows[5],
-        borderRadius: theme.shape.borderRadius,
     },
     formContainer: {
         borderTop: '2px solid black', // 굵기와 색상을 변경
@@ -67,7 +65,7 @@ const styles = theme => ({
         margin: theme.spacing(1),
         padding: theme.spacing(2),
         borderRadius: '50%',
-        width: 230,
+        width: 500,
         height: 230,
 
     },
@@ -222,8 +220,8 @@ class EmployeeMine extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
 
         return (
+
             <Box className={classes.container}>
-                <Container>
                 <Paper className={classes.paper}>
                     <Box
                         sx={{
@@ -236,7 +234,7 @@ class EmployeeMine extends Component {
                             marginBottom: '40px',
 
                         }}>
-                        자기 정보
+                        본인 프로필
                     </Box>
                     <Paper>
                         <Box className={classes.uploadContainer} justifyContent="center" alignItems="center">
@@ -248,7 +246,7 @@ class EmployeeMine extends Component {
                                         className={classes.uploadIcon}
                                     />
                             </label>
-                            <Box display="flex" flexDirection="column" alignItems="center" marginTop={'50px'}>
+                            <Box display="flex" flexDirection="column" marginRight={'100px'} marginTop={'50px'}>
                                 <Typography variant="h5" style={{color: 'white', marginTop: '30px',fontFamily:'IBM Plex Sans KR'}}>
                                     프로필 이미지 입니다
                                 </Typography>
@@ -364,30 +362,31 @@ class EmployeeMine extends Component {
                     >
                         비밀번호 변경
                     </Button>
+                    <PasswordChangeModal isOpen={isPasswordModalOpen} onClose={this.closePasswordModal}/>
+
+                    <Dialog
+                        open={dialogOpen}
+                        onClose={this.closeDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {dialogMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.closeDialog} color="primary">
+                                확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Paper>
-
-
-                <PasswordChangeModal isOpen={isPasswordModalOpen} onClose={this.closePasswordModal}/>
-                </Container>
-                <Dialog
-                    open={dialogOpen}
-                    onClose={this.closeDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            {dialogMessage}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.closeDialog} color="primary">
-                            확인
-                        </Button>
-                    </DialogActions>
-                </Dialog>
             </Box>
+
+
+
         );
     }
 }

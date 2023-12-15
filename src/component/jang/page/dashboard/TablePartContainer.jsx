@@ -11,7 +11,7 @@ import {withStyles} from "@material-ui/core/styles";
 
 const styles = (theme) => ({
     formControl: {
-        margin: theme.spacing(1), minWidth: 120,
+        margin: theme.spacing(1),
     }, text: {
         fontSize: '12px', fontFamily:'IBM Plex Sans KR', textAlign: 'center', whiteSpace: 'nowrap'
     }, titleText: {
@@ -19,7 +19,7 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         fontWeight: 'bold',
         textAlign: 'center',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
     }, button: {
         height: "90%", fontSize: '1rem'
     }, pagination: {
@@ -45,7 +45,8 @@ const styles = (theme) => ({
         },
     }, tableHead: {
         backgroundColor: '#C2DCF0', borderTop: '1.5px solid black',
-    }
+    },
+
 });
 
 class TablePartContainer extends Component {
@@ -57,8 +58,12 @@ class TablePartContainer extends Component {
                 <Table className={classes.table}>
                     <TableHead className={classes.tableHead}>
                         <TableRow>
-                            <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
-                            <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
+                            <TableCell align="center" style={{ width: '24%' }} className={classes.titleText}>사원 번호</TableCell>
+                            <TableCell align="center"style={{ width: '24%' }} className={classes.titleText}>직급</TableCell>
+                            <TableCell align="center"style={{ width: '24%' }} className={classes.titleText}>입사 년도</TableCell>
+                            <TableCell align="center" style={{ width: '24%' }}className={classes.titleText}>사원 이름</TableCell>
+                            <TableCell align="center" style={{ width: '23%' }}className={classes.titleText}>사원 수정</TableCell>
+                            <TableCell align="center" style={{ width: '23%' }}className={classes.titleText}>사원 삭제</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

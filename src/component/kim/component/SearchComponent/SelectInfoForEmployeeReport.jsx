@@ -1,15 +1,13 @@
 import React, {Component} from "react";
 import {Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select} from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import BlackButtonComponent from "../../Component/Button/BlackButtonComponent";
-import {chartDataStore} from "../../../../index";
+import BlackButtonComponent from "../../../chun/Component/Button/BlackButtonComponent";
 import {Typography, withStyles} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(5),
     },
     paper: {
         padding: theme.spacing(3),
@@ -19,10 +17,15 @@ const styles = theme => ({
         marginBottom: theme.spacing(2),
         textAlign: 'center',
     },
+    gridContainer: {
+        // border: '1px solid #000', // 이 줄을 제거하거나 주석 처리
+        padding: theme.spacing(2), // 안쪽 여백은 유지
+        // 기타 필요한 스타일
+    },
     // 추가적인 스타일을 여기에 정의할 수 있습니다.
 });
 
-class SelectInfoForManagerReport extends Component {
+class SelectInfoForEmployeeReport extends Component {
     currentYear;
     check;
 
@@ -97,11 +100,11 @@ class SelectInfoForManagerReport extends Component {
         }
 
         return months.map((month) => (<FormControlLabel
-                key={month}
-                control={<Checkbox checked={this.state.Months[month]} onChange={this.clickMonthChange}
-                                   name={String(month)}/>}
-                label={`${month}월`}
-            />));
+            key={month}
+            control={<Checkbox checked={this.state.Months[month]} onChange={this.clickMonthChange}
+                               name={String(month)}/>}
+            label={`${month}월`}
+        />));
     };
 
     allClick = () => {
@@ -127,7 +130,7 @@ class SelectInfoForManagerReport extends Component {
                     12: true
                 }
             }, () => {
-                console.log(this.state);
+
             });
 
         } else {
@@ -147,7 +150,7 @@ class SelectInfoForManagerReport extends Component {
                     12: false
                 }
             }, () => {
-                console.log(this.state);
+
             });
 
         }
@@ -155,34 +158,25 @@ class SelectInfoForManagerReport extends Component {
         this.isChecked = !this.isChecked;
     }
 
+
     makeReport = () => {
-        const selectedMonths = [];
-        const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-        chartDataStore.store = {
-                '1': [], '2': [], '3': [],
-                '4': [], '5': [], '6': [],
-                '7': [], '8': [], '9': [],
-                '10': [], '11': [], '12': []
-        }
-        months.forEach((month) => {
-            if (this.state.Months[month]) {
-                selectedMonths.push(String(month));
-            }
-        });
+        const { inputYear, Months } = this.state;
+        const selectedMonths = Object.keys(Months).filter(month => Months[month]);
 
         if (selectedMonths.length === 0) {
+            alert("한 개 이상의 월을 선택해야 합니다.");
             return;
         }
-        // doReportGenerated();
 
-        this.props.saveSelectYearAndMonth(this.state.inputYear, selectedMonths);
+        this.props.onSelectionChange(inputYear, selectedMonths);
     };
+
 
     render() {
         return (<>
-            <Box>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item>
+
+                <Grid container spacing={4} alignItems="center">
+                    <Grid >
                         <FormControl variant="outlined">
                             <InputLabel id="attendance-hour-label">년도</InputLabel>
                             <Select
@@ -205,15 +199,15 @@ class SelectInfoForManagerReport extends Component {
                         <BlackButtonComponent title={"보고서 생성"} onButtonClick={this.makeReport} />
                     </Grid>
                 </Grid>
-            </Box>
-            <Box>
-                <FormGroup row>
+
+
+
                     {this.allMonths()}
-                </FormGroup>
-            </Box>
+
+
         </>)
     }
 
 }
 
-export default withStyles(styles) (SelectInfoForManagerReport);
+export default withStyles(styles) (SelectInfoForEmployeeReport);

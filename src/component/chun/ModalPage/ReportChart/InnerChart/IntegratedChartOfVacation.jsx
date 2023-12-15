@@ -6,53 +6,44 @@ import {chartDataStore, IntegratedChartOfVacationStore} from '../../../../../ind
 import EmployeeVacationChart2 from "./EmployeeVacationChart2";
 
 const styles = theme => ({
+    paperContainer: {
+        padding: 0,
+        margin: 0,
+        border: '1px solid black',
+        borderRadius: 0, // Set border-radius to 0 for square corners
+    },
+
     paper: {
+        marginBottom: 0,
+        padding: 0,
+        borderRight: '1px solid black',
+        borderRadius: 0, // Set border-radius to 0 for square corners
+        borderTop:'1px solid black' ,
+    },
+    titleSection: {
         padding: theme.spacing(2),
-        backgroundColor: 'white', // Set the background color to white
-        color: '#1976D2', // Set the text color to the blue shade you were using
-        borderRadius: 15,
-        borderStyle: 'none',
-        margin: theme.spacing(1),
+        backgroundColor: '#F2F2F2',
+        borderRadius: 0, // Set border-radius to 0 for square corners
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        textAlign:'center',
+        borderBottom:'1px solid black',
+    },
+    dataSection: {
+        padding: theme.spacing(2),
+        backgroundColor: '#fff',
+        borderRadius: 0, // Set border-radius to 0 for square corners
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        textAlign:'center',
+    },
+    chartGridItem: {
         display: 'flex',
-        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        flexGrow: 1,
-        justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
+        // Add additional styles if needed
     },
-    titleOfNormal: {
-        fontWeight: theme.typography.fontWeightMedium,
-        color: '#1976D2', // Set the text color to the blue shade you were using
-        flexGrow: 1,
-    },
-
-    infoTextOfNormal: {
-        paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: '#1976D2', // Ensure the info text is blue
-    },
-    infoTextOfRejected: {
-        paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: 'red', // Ensure the info text is blue
-    }
-    ,titleOfRejected: {
-        fontWeight: theme.typography.fontWeightMedium,
-        color: 'red', // Set the text color to the blue shade you were using
-        flexGrow: 1,
-    },
-
-    infoTextOfRequested: {
-        paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: '#FFA000', // Set the text color to the blue shade you were using
-    },
-    titleOfRequested: {
-        fontWeight: theme.typography.fontWeightMedium,
-        color: '#FFA000', // Set the text color to the blue shade you were using
-        flexGrow: 1,
-    },
-    // If you had other styles, make sure they are included here
+    // Other styles...
 });
+
 
 class IntegratedChartOfVacation extends Component {
 
@@ -76,8 +67,8 @@ class IntegratedChartOfVacation extends Component {
     }
 
     loadApprovedMonthVacationData = async (year, month) => {
-        alert(`loadApprovedMonthVacationData ${year + '' + month}`)
-        let responseVacationNormal=await axios.get(`http://localhost:8080/chart/manager/vacation/approval?year=${year}&month=${month}`)
+
+        let responseVacationNormal= await axios.get(`http://localhost:8080/chart/manager/vacation/approval?year=${year}&month=${month}`)
         this.responseVacationNormal = responseVacationNormal.data !== undefined ? responseVacationNormal.data : 0;
 
         let responseVacationRejected = await axios.get(`http://localhost:8080/chart/manager/vacation/rejected?year=${year}&month=${month}`)
@@ -90,7 +81,7 @@ class IntegratedChartOfVacation extends Component {
             chartDataStore.updateChart('vacation')
         }
         this.setState({})
-        alert(`${this.responseVacationNormal} ${this.responseVacationRejected} ${this.responseVacationRequested}`)
+
     }
 
     render() {
@@ -99,44 +90,43 @@ class IntegratedChartOfVacation extends Component {
         const monthName = monthNames[month - 1]; // JavaScript에서 월은 0에서 시작하므로 1을 빼줍니다.
 
         return (
-            <>
-                <Grid item xs={12} md={6}>
-                    <Paper className={classes.paper}>
-                        <Icon/>
-                        <Typography variant="h6" gutterBottom className={classes.titleOfNormal}>
-                            {monthName} 연차 승인
-                        </Typography>
-                        <Typography variant="h5" className={classes.infoTextOfNormal}>
-                            {this.responseVacationNormal !== null ? this.responseVacationNormal : 'Loading...'}
-                        </Typography>
-                    </Paper>
-                    <Paper className={classes.paper}>
-                        <Icon/>
-                        <Typography variant="h6" gutterBottom className={classes.titleOfRequested}>
-                            {monthName} 연차 요청
-                        </Typography>
-                        <Typography variant="h5" className={classes.infoTextOfRequested}>
-                            {this.responseVacationRequested !== null ? this.responseVacationRequested : 'Loading...'}
-                        </Typography>
-                    </Paper>
-                    <Paper className={classes.paper}>
-                        <Icon/>
-                        <Typography variant="h6" gutterBottom className={classes.titleOfRejected}>
-                            {monthName} 연차 반려
-                        </Typography>
-                        <Typography variant="h5" className={classes.infoTextOfRejected}>
-                            {this.responseVacationRejected !== null ? this.responseVacationRejected : 'Loading...'}
-                        </Typography>
-                    </Paper>
+            <Paper className={classes.paperContainer}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} md={4}>
+                        <Paper className={classes.paper}>
+                            <Typography variant="h6" gutterBottom className={classes.titleSection}>
+                                {monthName} 연차 승인
+                            </Typography>
+                            <Typography variant="h5" className={classes.dataSection}>
+                                {this.responseVacationNormal !== null ? this.responseVacationNormal : 'Loading...'}
+                            </Typography>
+                        </Paper>
+                        <Paper className={classes.paper}>
+                            <Typography variant="h6" gutterBottom className={classes.titleSection}>
+                                {monthName} 연차 요청
+                            </Typography>
+                            <Typography variant="h5" className={classes.dataSection}>
+                                {this.responseVacationRequested !== null ? this.responseVacationRequested : 'Loading...'}
+                            </Typography>
+                        </Paper>
+                        <Paper className={classes.paper}>
+                            <Typography variant="h6" gutterBottom className={classes.titleSection}>
+                                {monthName} 연차 반려
+                            </Typography>
+                            <Typography variant="h5" className={classes.dataSection}>
+                                {this.responseVacationRejected !== null ? this.responseVacationRejected : 'Loading...'}
+                            </Typography>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={8} className={classes.chartGridItem}>
+                        <EmployeeVacationChart2
+                            approvedVacationCount={this.responseVacationNormal}
+                            rejectedVacationCount={this.responseVacationRejected}
+                            requestedVacationCount={this.responseVacationRequested}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <EmployeeVacationChart2
-                    approvedVacationCount={this.responseVacationNormal}
-                    rejectedVacationCount={this.responseVacationRejected}
-                    requestedVacationCount={this.responseVacationRequested}
-                    />
-                </Grid>
-            </>
+            </Paper>
         );
     }
 }

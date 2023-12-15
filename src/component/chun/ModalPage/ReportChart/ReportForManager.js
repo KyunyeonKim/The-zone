@@ -53,13 +53,12 @@ class EmployeeReport extends Component {
     };
 
     saveSelectYearAndMonth = (year, month)=>{
-        alert("getdata : "+year+month);
+
         this.setState({year:year,month:month,reportGenerated:true});
     }
 
     render() {
         const { classes } = this.props;
-        alert(`current target year : ${this.state.year}`)
         return (
             <div className={classes.root}>
                 <Typography variant="h4" className={classes.title}>

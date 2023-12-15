@@ -88,6 +88,7 @@ class AdminTablePartContainer extends Component {
             this.onRejectBtnClick = this.onRejectBtnClick.bind(this);
             this.handleClose = this.handleClose.bind(this);
             this.searchKeywordChange = this.searchKeywordChange.bind(this);
+            this.CreateModalShow = this.CreateModalShow.bind(this);
         }
     }
 
@@ -194,6 +195,11 @@ class AdminTablePartContainer extends Component {
         });
     };
 
+    CreateModalShow = () => {
+        this.props.toggleModalShowing('CreateEmployee');
+    }
+
+
     handleClose = (employeeId) => {
         this.setState({...this.state, approveOpen: false, rejectOpen: false})
 
@@ -275,6 +281,7 @@ class AdminTablePartContainer extends Component {
 
                     <Box component=""
                          style={{display: "flex", justifyContent: "flex-end", marginBottom: '10px'}}>
+                        <Button variant="contained" color='primary' onClick={this.CreateModalShow}>Create Employee</Button>
                         <FormControl className={classes.formControl}>
                             <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
                             <Select

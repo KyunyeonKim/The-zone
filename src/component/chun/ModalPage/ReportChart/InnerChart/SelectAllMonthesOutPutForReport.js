@@ -32,6 +32,15 @@ class SelectAllMonthesOutPutForReport extends Component {
     getOption = (kindOf) => {
         let data = chartDataStore.store
 
+        const colors = {
+            '연차 승인': '#ADD8E6', // 파란색
+            '연차 반려': '#FFB6C1', // 분홍색
+            '연차 요청중': '#FFFACD', // 연노랑색
+            '근태 정상': '#78E8F7', // 연파란색
+            '근태 이상': '#FFA6EC', // 연분홍색
+            '근태 이상 요청중': '#AAFFBC' // 연녹색
+        };
+
         // const data = chartDataStore.store
         console.log("넘어온 data : ", data);
         // console.log(Object.keys(data));
@@ -86,12 +95,7 @@ class SelectAllMonthesOutPutForReport extends Component {
         };
 
 
-        console.log("this.approvalRequestedAttendance : ", this.approvalRequestedAttendance);
-        console.log("this.unapprovedVacationCount : ", this.attendanceAbnormal);
-        console.log("this.approvedCount : ", this.approvedCount);
-        console.log("this.approvedVacationCount : ", this.approvedVacationCount);
-        console.log("this.rejectedVacationCount : ", this.rejectedVacationCount);
-        console.log("this.requestedVacationCount : ", this.requestedVacationCount);
+
 
         return {
             tooltip: {
@@ -126,6 +130,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
+                    itemStyle: { color: '#ADD8E6' }, // 파란색
                     data: this.approvedVacationCount
                 },
                 {
@@ -138,6 +143,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
+                    itemStyle: { color: '#FFB6C1' }, // 분홍색
                     data: this.rejectedVacationCount
                 },
                 {
@@ -150,6 +156,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
+                    itemStyle: { color: '#FFFACD' }, // 연녹색
                     data: this.requestedVacationCount
                 },
                 {
@@ -162,6 +169,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
+                    itemStyle: { color: '#78E8F7' }, // 연녹색
                     data: this.approvedCount
                 },
                 {
@@ -174,7 +182,8 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    data: this.unapprovedVacationCount
+                    itemStyle: { color: '#FFA6EC' },
+                    data: this.attendanceAbnormal
                 },
                 {
                     name: '근태 이상 요청중',
@@ -186,6 +195,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
+                    itemStyle: { color: '#AAFFBC' }, // 연녹색
                     data: this.approvalRequestedAttendance
                 }
             ]

@@ -6,54 +6,45 @@ import {chartDataStore, IntegratedChartOfAttendanceStore} from '../../../../../i
 import EmployeeAttendanceChart2 from "./EmployeeAttendanceChart2";
 
 const styles = theme => ({
+    paperContainer: {
+        padding: 0,
+        margin: 0,
+        border: '1px solid black',
+        borderRadius: 0, // Set border-radius to 0 for square corners
+    },
     paper: {
+        marginBottom: 0,
+        padding: 0,
+        borderRight: '1px solid black',
+        borderRadius: 0, // Set border-radius to 0 for square corners
+        borderTop:'1px solid black'
+    },
+    titleSection: {
         padding: theme.spacing(2),
-        backgroundColor: 'white', // Set the background color to white
-        color: '#1976D2', // Set the text color to the blue shade you were using
-        borderRadius: 15,
-        borderStyle: 'none',
-        margin: theme.spacing(1),
+        backgroundColor: '#F2F2F2',
+        borderBottom:'1px solid black',
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        textAlign:'center',
+
+        borderRadius: 0, // Set border-radius to 0 for square corners
+    },
+    dataSection: {
+        padding: theme.spacing(2),
+        backgroundColor: '#fff',
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+        textAlign:'center',
+
+        borderRadius: 0, // Set border-radius to 0 for square corners
+    },
+    chartGridItem: {
         display: 'flex',
-        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        flexGrow: 1,
-        justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
-    },
-    titleOfNormal: {
-        fontWeight: theme.typography.fontWeightMedium,
-        color: '#1976D2', // Set the text color to the blue shade you were using
-        flexGrow: 1,
+        // Add additional styles if needed
     },
 
-    infoTextOfNormal: {
-        paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: '#1976D2', // Ensure the info text is blue
-    },
-    infoTextOfAbnormal: {
-        paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: 'red', // Ensure the info text is blue
-    }
-    ,titleOfAbnormal: {
-        fontWeight: theme.typography.fontWeightMedium,
-        color: 'red', // Set the text color to the blue shade you were using
-        flexGrow: 1,
-    },
-
-    infoTextOfRequested: {
-        paddingTop: theme.spacing(1),
-        fontWeight: 'bold',
-        color: '#FFA000', // Set the text color to the blue shade you were using
-    },
-    titleOfRequested: {
-        fontWeight: theme.typography.fontWeightMedium,
-        color: '#FFA000', // Set the text color to the blue shade you were using
-        flexGrow: 1,
-    },
-    // If you had other styles, make sure they are included here
+    // Other styles...
 });
-
 class IntegratedChartOfAttendance extends Component {
 
     attendanceNormal
@@ -77,67 +68,76 @@ class IntegratedChartOfAttendance extends Component {
     }
 
     loadApprovedMonthAttendanceData = async (year, month) => {
-        alert(`loadApprovedMonthVacationData ${year + '' + month}`)
+
         let responseAttendanceNormal = await axios.get(`http://localhost:8080/chart/manager/attendance/normal?year=${year}&month=${month}`)
         this.attendanceNormal = responseAttendanceNormal.data !== undefined ? responseAttendanceNormal.data : 0;
 
-        let responseAttendanceAbnormal = axios.get(`http://localhost:8080/chart/manager/attendance/abnormal?year=${year}&month=${month}`)
+        let responseAttendanceAbnormal =await axios.get(`http://localhost:8080/chart/manager/attendance/abnormal?year=${year}&month=${month}`)
         this.attendanceAbnormal = responseAttendanceAbnormal.data !== undefined ? responseAttendanceAbnormal.data : 0;
 
-        let responseAttendanceRequested = axios.get(`http://localhost:8080/chart/manager/attendance/requested?year=${year}&month=${month}`)
+        let responseAttendanceRequested = await axios.get(`http://localhost:8080/chart/manager/attendance/requested?year=${year}&month=${month}`)
         this.approvalRequestedAttendance = responseAttendanceRequested.data !== undefined ? responseAttendanceRequested.data : 0;
         chartDataStore.appendData(chartDataStore.store,{attendanceNormal:this.attendanceNormal,attendanceAbnormal:this.attendanceAbnormal, approvalRequestedAttendance:this.approvalRequestedAttendance},month)
         if(chartDataStore.updateChart!==undefined){
             chartDataStore.updateChart('attendance')
         }
         this.setState({})
-        alert(`${this.approvedCount} ${this.unapprovedVacationCount} ${this.approvalRequestedAttendance}`)
+
     }
 
     render() {
-        const {classes, month} = this.props;
+        const { classes, month } = this.props;
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-        const monthName = monthNames[month - 1]; // JavaScript에서 월은 0에서 시작하므로 1을 빼줍니다.
+        const monthName = monthNames[month - 1];
 
         return (
-            <>
-                <Grid item xs={12} md={6}>
+
+                <Paper className={classes.paperContainer}>
+                    <Grid container spacing={0}>
+                        <Grid item xs={12} md={4}>
                     <Paper className={classes.paper}>
-                        <Icon/>
-                        <Typography variant="h6" gutterBottom className={classes.titleOfNormal}>
+                        <Typography variant="h6" className={classes.titleSection}>
                             {monthName} 근태 정상
                         </Typography>
-                        <Typography variant="h5" className={classes.infoTextOfNormal}>
+                        <Typography variant="h5" className={classes.dataSection}>
                             {this.attendanceNormal !== null ? this.attendanceNormal : 'Loading...'}
                         </Typography>
                     </Paper>
+
+                    {/* 이상 근태 */}
                     <Paper className={classes.paper}>
-                        <Icon/>
-                        <Typography variant="h6" gutterBottom className={classes.titleOfRequested}>
-                            {monthName} 근태 이상 조정 요청중
-                        </Typography>
-                        <Typography variant="h5" className={classes.infoTextOfRequested}>
-                            {this.approvalRequestedAttendance !== null ? this.approvalRequestedAttendance : 'Loading...'}
-                        </Typography>
-                    </Paper>
-                    <Paper className={classes.paper}>
-                        <Icon/>
-                        <Typography variant="h6" gutterBottom className={classes.titleOfAbnormal}>
+                        <Typography variant="h6" className={classes.titleSection}>
                             {monthName} 근태 이상
                         </Typography>
-                        <Typography variant="h5" className={classes.infoTextOfAbnormal}>
+                        <Typography variant="h5" className={classes.dataSection}
+
+
+                        >
                             {this.attendanceAbnormal !== null ? this.attendanceAbnormal : 'Loading...'}
                         </Typography>
                     </Paper>
+
+                    {/* 조정 요청 중 근태 */}
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6" className={classes.titleSection}>
+                            {monthName} 근태 조정 요청중
+                        </Typography>
+                        <Typography variant="h5" className={classes.dataSection} >
+                            {this.approvalRequestedAttendance !== null ? this.approvalRequestedAttendance : 'Loading...'}
+                        </Typography>
+                    </Paper>
                 </Grid>
-                <Grid item xs={12} md={6}>
+
+                {/* 차트 컴포넌트 또는 기타 요소들 */}
+                <Grid item xs={12} md={8} className={classes.chartGridItem}>
                     <EmployeeAttendanceChart2
-                        approvedCount={this.approvedCount}
-                        unapprovedVacationCount={this.unapprovedVacationCount}
+                        attendanceNormal={this.attendanceNormal}
+                        attendanceAbnormal={this.attendanceAbnormal}
                         approvalRequestedAttendance={this.approvalRequestedAttendance}
                     />
                 </Grid>
-            </>
+                    </Grid>
+                </Paper>
         );
     }
 }

@@ -25,14 +25,13 @@ import TextField from "@material-ui/core/TextField";
 // const {closeModal} = this.props
 const styles = theme => ({
     container: {
-        marginTop: theme.spacing(3),
+
+        width:"900px",
+        displa:'flex',
     },
     paper: {
-        padding: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: theme.shadows[5],
-        borderRadius: theme.shape.borderRadius,
     },
     formContainer: {
         borderTop: '2px solid black', // 굵기와 색상을 변경
@@ -378,7 +377,7 @@ class UpdateEmployee extends Component {
 
         return (
             <Box className={classes.container}>
-                <Container>
+
                     <Paper className={classes.paper}>
                         <Box
                             sx={{
@@ -560,7 +559,6 @@ class UpdateEmployee extends Component {
                             </Button>
                         </Box>
                     </Paper>
-                </Container>
                 <Dialog
                     open={dialogOpen}
                     onClose={this.closeDialog}

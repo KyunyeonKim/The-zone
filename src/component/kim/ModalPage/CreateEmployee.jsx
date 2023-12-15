@@ -25,7 +25,8 @@ import Container from "@material-ui/core/Container";
 
 const styles = theme => ({
     container: {
-        marginTop: theme.spacing(3),
+        width:"900px",
+        display:'flex',
     },
     addButton: {
         marginRight: theme.spacing(1),
@@ -242,12 +243,12 @@ class CreateEmployee extends Component {
         }
         try {
 
-            axios.defaults.withCredentials = true;
-            let loginForm = new FormData();
-            await axios.get("http://localhost:8080/logout");
-            loginForm.append("loginId", "admin");
-            loginForm.append("password", "admin");
-            await axios.post("http://localhost:8080/login", loginForm);
+            // axios.defaults.withCredentials = true;
+            // let loginForm = new FormData();
+            // await axios.get("http://localhost:8080/logout");
+            // loginForm.append("loginId", "admin");
+            // loginForm.append("password", "admin");
+            // await axios.post("http://localhost:8080/login", loginForm);
 
             const employeeAddUrl = "http://localhost:8080/admin/register";
             const createForm = new FormData();
@@ -546,13 +547,6 @@ class CreateEmployee extends Component {
                                                         onClick={this.handleCreateEmployee}
                                                     >
                                                         등록
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        className={classes.cancelButton}
-                                                        onClick={this.handleCancel}
-                                                    >
-                                                        취소
                                                     </Button>
                                                 </Box>
                                             </TableCell>

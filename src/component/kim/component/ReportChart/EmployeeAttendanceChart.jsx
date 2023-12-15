@@ -66,9 +66,9 @@ class EmployeeVacationChart extends Component {
                 left: 'center',
                 top: 'bottom',
                 data: [
-                    { name: '승인', icon: 'circle', textStyle: { color: '#E684FC' } },
-                    { name: '반려', icon: 'circle', textStyle: { color: '#E4A6FF' } },
-                    { name: '요청중', icon: 'circle', textStyle: { color: '#F2E5FF' } }
+                    { name: '승인', icon: 'circle', textStyle: { color: 'black' } },
+                    { name: '반려', icon: 'circle', textStyle: { color: 'black' } },
+                    { name: '요청중', icon: 'circle', textStyle: { color: 'black' } }
                 ]
             },
             series: [
@@ -78,9 +78,9 @@ class EmployeeVacationChart extends Component {
                     radius: ['45%', '70%'],
                     avoidLabelOverlap: false, // 레이블 겹침을 방지합니다.
                     data: [
-                        { value: approvedCount, name: '승인', itemStyle: { color: '#E684FC' } },
-                        { value: unapprovedVacationCount, name: '반려', itemStyle: { color: '#E4A6FF' } },
-                        { value: approvalRequestedAttendance, name: '요청중', itemStyle: { color: '#F2E5FF' } }
+                        { value: approvedCount, name: '승인', itemStyle: { color: '#78E8F7' } },
+                        { value: unapprovedVacationCount, name: '반려', itemStyle: { color: '#FFA6EC' } },
+                        { value: approvalRequestedAttendance, name: '요청중', itemStyle: { color: '#AAFFBC'  } }
                     ],
                     label: {
                         // 이 시리즈의 데이터 포인트 옆에 레이블을 표시하지 않도록 설정

@@ -48,6 +48,7 @@ function Login() {
 
     const styles = {
 
+        backgroundColor: 'steelblue',
         // backgroundImage: `url(${loginImg})`,
         // backgroundSize: 'cover',
         // backgroundPosition: 'center',
