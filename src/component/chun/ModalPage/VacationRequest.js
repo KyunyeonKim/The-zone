@@ -200,8 +200,6 @@ class VacationRequest extends Component {
     submitForm = async (e) => {
         e.preventDefault();
 
-
-
         if(!/^[1-9][0-9]*$/.test(this.state.getData)){
             this.handleCanOnlyNumberSnackbarOpen();
             return;

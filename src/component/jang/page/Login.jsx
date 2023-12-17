@@ -27,7 +27,8 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        padding:'60px 0px 60px 0px' ,display: 'flex', flexDirection: 'column', alignItems: 'center'
+        padding:'10% 0px 10% 0px' ,display: 'flex', flexDirection: 'column', alignItems: 'center'
+
     }, avatar: {
         margin: theme.spacing(1), backgroundColor: theme.palette.secondary.main,
     }, form: {
@@ -104,10 +105,10 @@ function Login() {
     return (
 
         <div style={styles}>
-                <div style={{display:"flex",width:"60%",height:"70%",justifyContent:'center',alignItems:'center',boxShadow: '0px 4px 8px gray'}}>
-                    <Box component={"div"} style={{backgroundImage:'url(../src/component/jang/component/images/building.webp)',width:"40%",height:"100%"}}/>
+                <div style={{display:"flex",width:"1000px",height:"660px",justifyContent:'center',alignItems:'center',boxShadow: '0px 4px 8px gray'}}>
+                    <Box component={"div"} style={{backgroundImage:'url(../src/component/jang/component/images/building.webp)', backgroundSize:'cover',width:"400px",height:"660px"}}/>
 
-                    <Box component={"div"} style={{backgroundColor:"#F6FAFD",width:"60%",height:"100%",display:"flex",justifyContent:"center"}}>
+                    <Box component={"div"} style={{backgroundColor:"#F6FAFD",width:"600px",height:"660px",display:"flex",justifyContent:"center"}}>
                             <div className={classes.paper}>
                                     <Avatar className={classes.avatar}>
                                         <LockOutlinedIcon/>
