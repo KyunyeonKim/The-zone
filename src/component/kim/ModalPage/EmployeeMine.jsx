@@ -130,14 +130,6 @@ class EmployeeMine extends Component {
     };
 
     // 비밀번호 변경 모달 열기
-    openPasswordModal = () => {
-        this.setState({isPasswordModalOpen: true});
-    };
-
-    // 비밀번호 변경 모달 닫기
-    closePasswordModal = () => {
-        this.setState({isPasswordModalOpen: false});
-    };
 
     async componentDidMount() {
         try {
@@ -207,11 +199,15 @@ class EmployeeMine extends Component {
         });
     };
 
-    closeDialog = () => {
-        this.setState({ dialogOpen: false });
+
+
+    openPasswordModal = () => {
+        this.setState({isPasswordModalOpen: true});
     };
 
-
+    closePasswordModal = () => {
+        this.setState({isPasswordModalOpen: false});
+    };
 
     render() {
         const {
@@ -219,7 +215,7 @@ class EmployeeMine extends Component {
         } = this.state;
         const { classes } = this.props;
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
-
+        const { isOpen, onClose } = this.props;
         return (
 
             <Box className={classes.container}>
@@ -366,12 +362,7 @@ class EmployeeMine extends Component {
                     </Button>
                     <PasswordChangeModal isOpen={isPasswordModalOpen} onClose={this.closePasswordModal}/>
 
-                    <Dialog
-                        open={dialogOpen}
-                        onClose={this.closeDialog}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
+                    <Dialog open={isOpen} onClose={onClose}>
                         <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">

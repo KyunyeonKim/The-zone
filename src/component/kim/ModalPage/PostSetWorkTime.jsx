@@ -11,7 +11,7 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select,
+    Select, Snackbar,
     TableBody,
     TableCell,
     TableRow,
@@ -24,6 +24,7 @@ import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 import {withStyles} from "@material-ui/core/styles";
 import BlackButtonComponent from "../../chun/Component/Button/BlackButtonComponent";
+import {Alert} from "@material-ui/lab";
 
 
 const styles = (theme) =>({
@@ -105,6 +106,8 @@ const styles = (theme) =>({
                 dialogOpen: false,
                 dialogTitle: '',
                 dialogMessage: '',
+                snackbarOpen:false,
+                snackbarMessage:"",
 
             };
         }
@@ -113,9 +116,6 @@ const styles = (theme) =>({
             this.setState({ [e.target.name]: e.target.value });
         };
 
-        handleDateChange = (date) => {
-            this.setState({ targetDate: date });
-        };
 
         handleSubmit = async (e) => {
             e.preventDefault();
@@ -128,17 +128,22 @@ const styles = (theme) =>({
 
             // 데이터 검증
             if (/[^a-zA-Z0-9가-힣\s]/.test(reason)) {
-                alert("사유에 특수 문자를 포함할 수 없습니다.");
+                this.setState({ snackbarOpen:true, snackbarMessage :"사유에 특수 문자를 포함할 수 없습니다."});
                 return;
             }
-            if (formattedStartTime > formattedEndTime) {
-                alert("시작출근시간보다 퇴근시간이 시간이 더 큽니다. 다시 입력해주세요")
+            if (formattedStartTime >= formattedEndTime) {
+                this.setState({ snackbarOpen:true, snackbarMessage :"시작출근시간보다 퇴근시간이 시간이 더 큽니다. 다시 입력해주세요"});
                 return;
             }
-            if (!adjustedStartHour || !adjustedStartMinute || !adjustedEndHour || !adjustedEndMinute) {
-                alert("시작 및 종료 시간을 모두 선택해주세요.");
+            if (!adjustedStartHour ||  !adjustedEndHour) {
+                this.setState({ snackbarOpen:true, snackbarMessage :"시작 및 종료시간을 모두 선택해주세요"});
                 return;
             }
+            if (!(targetDate instanceof Date && !isNaN(targetDate))) {
+                this.setState({ snackbarOpen:true, snackbarMessage :"유효한 날짜를 선택해주세요"});
+                return;
+            }
+
 
             // FormData 객체 생성
             const formData = new FormData();
@@ -228,6 +233,8 @@ const styles = (theme) =>({
             const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;
             const {classes} = this.props;
             const { dialogOpen, dialogTitle, dialogMessage } = this.state;
+            const today = new Date().toISOString().split('T')[0]; // 오늘 날짜를 YYYY-MM-DD 형식으로 변환
+            const { hireYear } = this.state; // 기존 상태 사용
             return (
                 <Box style={{width:"1200px"}}>
 
@@ -301,15 +308,17 @@ const styles = (theme) =>({
                                                 정규 퇴근 시간
                                             </TableCell>
                                             <TableCell colSpan={4}>
-                                                <KeyboardDatePicker
-                                                    margin="normal"
-                                                    id="date-picker-dialog"
-                                                    label="날짜 선택"
-                                                    format="yyyy-MM-dd"
-                                                    value={targetDate}
-                                                    onChange={this.handleDateChange}
-                                                    KeyboardButtonProps={{
-                                                        'aria-label': 'change date',
+                                                <TextField
+                                                    label="Hire Year"
+                                                    type="date"
+                                                    variant="outlined"
+                                                    value={hireYear}
+                                                    onChange={e => this.setState({hireYear: e.target.value})}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    inputProps={{
+                                                        min: today // 오늘 날짜 이후만 선택 가능
                                                     }}
                                                     fullWidth
                                                 />
@@ -399,6 +408,17 @@ const styles = (theme) =>({
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    <Snackbar
+                        open={this.state.snackbarOpen}
+                        autoHideDuration={6000}
+                        onClose={this.handleSnackbarClose}
+                        anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                    >
+                        <Alert onClose={this.handleSnackbarClose} severity="warning">
+                            {this.state.snackbarMessage}
+                        </Alert>
+                    </Snackbar>
+
                 </Box>
             );
         }

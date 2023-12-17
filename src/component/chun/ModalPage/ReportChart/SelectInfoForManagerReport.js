@@ -106,7 +106,9 @@ class SelectInfoForManagerReport extends Component {
 
     allClick = () => {
         if (this.state.inputYear === "") {
-            alert("년도를 반드시 선택하세요");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "년도를 반드시 선택해주세요"
+            });
             return;
         }
 
@@ -171,6 +173,9 @@ class SelectInfoForManagerReport extends Component {
         });
 
         if (selectedMonths.length === 0) {
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "월을 한개 이상 반드시 선택해주세요"
+            });
             return;
         }
         // doReportGenerated();

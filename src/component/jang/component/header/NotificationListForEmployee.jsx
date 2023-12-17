@@ -224,7 +224,7 @@ class NotificationListForEmployee extends Component {
                     anchorEl={anchorEl}
                     onClose={this.handleCloseList}
                     anchorOrigin={{
-                        vertical: 'bottom', horizontal: 'left',
+                        vertical:'top', horizontal: 'left',
                     }}
                     transformOrigin={{
                         vertical: 'top', horizontal: 'left',

@@ -307,7 +307,7 @@ class InnerCalendar extends Component {
                         }
                         return (
                             <>
-                                <div className="flex justify-center items-center absoluteDiv">{html}</div>
+                                <div className="justify-center items-center absoluteDiv" style={{display:"flex"}}>{html}</div>
                             </>
                         );
                     }}

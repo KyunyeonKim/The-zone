@@ -9,7 +9,7 @@ import {
     DialogTitle,
     MenuItem,
     Paper,
-    Select,
+    Select, Snackbar,
     Table,
     TableBody,
     TableCell,
@@ -22,6 +22,7 @@ import axios from "axios";
 import defaultPersonImage from '../static/defaultPersonImage.png'
 import {withStyles} from '@material-ui/core/styles';
 import Container from "@material-ui/core/Container";
+import {Alert} from "@material-ui/lab";
 
 const styles = theme => ({
     container: {
@@ -145,7 +146,8 @@ class CreateEmployee extends Component {
             hireYear: "",
             uploadFile: null,
             isModalOpen: false,
-            formError: "",
+            snackbarOpen:false,
+            snackbarMessage:"",
             defaultPersonImage: defaultPersonImage,
             dialogOpen: false,
             dialogTitle: '',
@@ -171,45 +173,47 @@ class CreateEmployee extends Component {
             attendanceManager,
             uploadFile,
             hireYear,
+
         } = this.state;
 
 
         if (!name.trim()) {
             this.setState({
-                formError: "이름을 입력해주세요.",
-                isModalOpen: false,
+               snackbarOpen:true, snackbarMessage : "이름을 입력해주세요"
             });
             return;
         } else if (/\d/.test(name) || /[^a-zA-Z\s가-힣]/.test(name)) {
             this.setState({
-                formError: "이름에는 숫자나 특수문자를 입력할 수 없습니다.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "이름에는 숫자나 특수문자를 입력할수없습니다"
             });
             return;
         } else if (name.length > 10) {
             this.setState({
-                formError: "이름은 10자 이내로 입력해야 합니다.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "이름을 10자 이내로 입력하세요"
             });
             return;
         }
 
         if (!employeeId.trim()) {
             this.setState({
-                formError: "사원ID를 입력해주세요.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "사원 ID을 입력하세요"
             });
             return;
         } else if (!/^\d+$/.test(employeeId)) {
             this.setState({
-                formError: "사원ID는 숫자만 입력할 수 있습니다.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "사원 ID는 숫자만 입력할 수 있습니다"
             });
             return;
         } else if (employeeId.length > 10) {
             this.setState({
-                formError: "사원ID는 10자 이내로 입력해야 합니다.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "사원 ID는 10자 이내로 입력할 수 있습니다"
+            });
+            return;
+        }
+
+        if(!hireYear.trim()){
+            this.setState({
+                snackbarOpen:true, snackbarMessage:"입사 날짜를 선택하시오"
             });
             return;
         }
@@ -217,39 +221,29 @@ class CreateEmployee extends Component {
 // 비밀번호 검증
         if (!passWord.trim()) {
             this.setState({
-                formError: "비밀번호를 입력해주세요.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "바밀번호를 입력해주세요"
+
             });
             return;
         } else if (passWord.length > 10) {
             this.setState({
-                formError: "비밀번호는 10자 이내로 입력해야 합니다.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "비밀번호를 10자 이내로 입력하세요"
             });
             return;
         } else if (/[^a-zA-Z0-9\s]/.test(passWord)) {
             this.setState({
-                formError: "비밀번호에는 특수문자를 입력할 수 없습니다.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "비밀번호는 특수문자를 입력하면 안됩니다"
             });
             return;
         }
 
         if (!this.state.uploadFile) {
             this.setState({
-                formError: "이미지를 업로드해주세요.",
-                isModalOpen: false,
+                snackbarOpen:true, snackbarMessage : "이미지를 업로드 하세요"
             });
             return;
         }
         try {
-
-            // axios.defaults.withCredentials = true;
-            // let loginForm = new FormData();
-            // await axios.get("http://localhost:8080/logout");
-            // loginForm.append("loginId", "admin");
-            // loginForm.append("password", "admin");
-            // await axios.post("http://localhost:8080/login", loginForm);
 
             const employeeAddUrl = "http://localhost:8080/admin/register";
             const createForm = new FormData();
@@ -260,7 +254,6 @@ class CreateEmployee extends Component {
             createForm.append("hireYear", hireYear);
 
             const response = await axios.post(employeeAddUrl, createForm);
-            console.log("직원 생성 결과", response.data);
 
             if (uploadFile instanceof File) {
                 const uploadFileUrl = "http://localhost:8080/admin/upload";
@@ -269,16 +262,12 @@ class CreateEmployee extends Component {
                 uploadFormData.append("uploadFile", uploadFile);
 
                 const uploadResponse = await axios.post(uploadFileUrl, uploadFormData);
-                console.log("이미지 업로드 결과", uploadResponse.data);
             }
 
             this.showSuccessDialog("요청이 성공적으로 처리되었습니다.");
 
             // 상태 초기화 또는 업데이트
-            this.setState({
-                formError: "",
-                // 다른 상태 업데이트 (생략됨)
-            });
+
 
         } catch (error) {
             let errorMessage = "error";
@@ -319,10 +308,15 @@ class CreateEmployee extends Component {
         this.setState({uploadFile: imageFile});
     };
 
-    handleCancel = () => {
-        this.setState({isModalOpen: false});
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
+    }
 
-    };
+
+
 
     showSuccessDialog = (message) => {
         this.setState({
@@ -430,7 +424,7 @@ class CreateEmployee extends Component {
                                     fontWeight: 'bold',
                                     margin: 'auto',
                                     marginTop: '40px',
-                                    marginBottom: '20px',// 여기에 marginBottom 추가
+                                    marginBottom: '20px',// 여기에 marginBoxttom 추가
                                 }}>
                                 기본 정보
                             </Box>
@@ -577,7 +571,18 @@ class CreateEmployee extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </Box>
+
         );
     }
 }

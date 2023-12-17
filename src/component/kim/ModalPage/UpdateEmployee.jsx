@@ -7,14 +7,13 @@ import {
     DialogContentText,
     DialogTitle,
     MenuItem,
-    Select,
+    Select, Snackbar,
     Typography,
     withStyles
 } from "@material-ui/core";
 import axios from "axios";
 import "../static/CreateEmployee.css";
 import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
@@ -22,6 +21,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TextField from "@material-ui/core/TextField";
+import {Alert} from "@material-ui/lab";
 // const {closeModal} = this.props
 const styles = theme => ({
     container: {
@@ -121,6 +121,8 @@ class UpdateEmployee extends Component {
             dialogMessage: '',
             uploadFile: null, // 실제 파일 객체를 위한 상태
             previewUrl: null, // 이미지 미리보기 URL을 위한 상태
+            snackbarOpen:false,
+            snackbarMessage:"",
         };
 
     }
@@ -210,22 +212,18 @@ class UpdateEmployee extends Component {
 
                 if (!allowedFormats.includes(fileType)) {
                     this.setState({
-                        formError: '올바른 이미지 형식이 아닙니다. (jpeg, png, gif 중 하나를 선택하세요.)',
+                        snackbarOpen:true, snackbarMessage: '올바른 이미지 형식이 아닙니다. (jpeg, png, gif 중 하나를 선택하세요.)',
                     });
                     return;
                 }
             }
 
-            if (this.state.formError) {
-                this.setState({isModalOpen: false});
-                return;
-            }
 
 
             // 이름 유효성 검사: 문자열만 허용
             if (!/^\p{L}+$/u.test(name)) {
                 this.setState({
-                    formError: '올바른 이름 형식이 아닙니다. (숫자와 특수기호를 제외한 문자만 허용됩니다.)',
+                    snackbarOpen:true, snackbarMessage: '올바른 이름 형식이 아닙니다. (숫자와 특수기호를 제외한 문자만 허용됩니다.)',
                 });
                 return;
             }
@@ -244,21 +242,35 @@ class UpdateEmployee extends Component {
                     updateForm.append("hireYear", formattedHireYear);
                 } else {
                     this.setState({
-                        formError: "유효하지 않은 입사연도 형식입니다. (예: YYYY-MM-dd)",
+                        snackbarOpen:true, snackbarMessage: "유효하지 않은 입사연도 형식입니다. (예: YYYY-MM-dd)",
                     });
                     return;
                 }
             } else {
                 this.setState({
-                    formError: "입사연도를 입력해주세요.",
+                    snackbarOpen:true, snackbarMessage: "입사연도를 입력해주세요.",
+                });
+                return;
+            }
+            if (!passWord.trim()) {
+                this.setState({
+                    snackbarOpen:true, snackbarMessage : "바밀번호를 입력해주세요"
+
+                });
+                return;
+            } else if (passWord.length > 10) {
+                this.setState({
+                    snackbarOpen:true, snackbarMessage : "비밀번호를 10자 이내로 입력하세요"
+                });
+                return;
+            } else if (/[^a-zA-Z0-9\s]/.test(passWord)) {
+                this.setState({
+                    snackbarOpen:true, snackbarMessage : "비밀번호는 특수문자를 입력하면 안됩니다"
                 });
                 return;
             }
 
-            // 모든 유효성 검사가 통과되면 오류 메시지 초기화
-            this.setState({
-                formError: "",
-            });
+
 
             const response = await axios.post(employeeUpdateUrl, updateForm);
             if (response.status === 200 || response.status === 201) {
@@ -277,7 +289,6 @@ class UpdateEmployee extends Component {
                     "http://localhost:8080/admin/upload",
                     uploadFileData
                 );
-                console.log("파일 업로드 성공", uploadResponse.data);
             }
             this.showSuccessDialog("요청이 성공적으로 처리되었습니다.");
 
@@ -567,6 +578,16 @@ class UpdateEmployee extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </Box>
 
 

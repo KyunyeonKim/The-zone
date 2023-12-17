@@ -1,12 +1,15 @@
 import React, {Component} from "react";
-import {Box, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
+import {Box, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Snackbar, TextField} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import {Alert} from "@material-ui/lab";
 
 class SearchYearMonthDay extends Component {
     state = {
         year: '',
         month: '',
-        day: ''
+        day: '',
+        snackbarOpen:false,
+        snackbarMessage:"",
 
     };
 
@@ -25,15 +28,27 @@ class SearchYearMonthDay extends Component {
         const specialCharRegex = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 
         if (specialCharRegex.test(searchParameter)) {
-            alert("검색어에 특수문자를 사용할 수 없습니다.");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "검색에 특수문자를 적을수 없습니다"
+            });
             return;
         }
+        if (searchParameter.length > 12) {
+            this.setState({
+                snackbarOpen: true,
+                snackbarMessage: "검색어는 12자 이하로 입력해주세요."
+            });
+            return;
+        }
+
 
         if (day === "월별 검색") {
             day = '0';
         }
         if (!year || !month) {
-            alert("년도와 월을 선택해주세요.");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "년도와 월을 선택해주세요 "
+            });
             return;
         }
 
@@ -112,6 +127,16 @@ class SearchYearMonthDay extends Component {
                     </Grid>
 
                 </Grid>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </Box>
         );
     }

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {Typography, withStyles, Container, Paper, Grid} from "@material-ui/core";
 import EmployeeReport from "../component/ReportChart/EmployeeReport";
 
-import TableCell from "@material-ui/core/TableCell";
 import SelectInfoForEmployeeReport from "../component/SearchComponent/SelectInfoForEmployeeReport";
 
 

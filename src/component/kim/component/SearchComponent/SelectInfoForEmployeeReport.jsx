@@ -1,8 +1,18 @@
 import React, {Component} from "react";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select} from "@material-ui/core";
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    InputLabel,
+    MenuItem,
+    Select,
+    Snackbar
+} from "@material-ui/core";
 import BlackButtonComponent from "../../../chun/Component/Button/BlackButtonComponent";
 import {Typography, withStyles} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
+import {Alert} from "@material-ui/lab";
 
 const styles = theme => ({
     root: {
@@ -46,7 +56,9 @@ class SelectInfoForEmployeeReport extends Component {
                 9: false,
                 10: false,
                 11: false,
-                12: false
+                12: false,
+                snackbarOpen:false,
+                snackbarMessage:"",
             }
 
         }
@@ -109,7 +121,9 @@ class SelectInfoForEmployeeReport extends Component {
 
     allClick = () => {
         if (this.state.inputYear === "") {
-            alert("년도를 반드시 선택하세요");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "년도를 반드시 선택해주세요"
+            });
             return;
         }
 
@@ -164,7 +178,9 @@ class SelectInfoForEmployeeReport extends Component {
         const selectedMonths = Object.keys(Months).filter(month => Months[month]);
 
         if (selectedMonths.length === 0) {
-            alert("한 개 이상의 월을 선택해야 합니다.");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "월을 한개 이상 반드시 선택해주세요"
+            });
             return;
         }
 
@@ -198,6 +214,16 @@ class SelectInfoForEmployeeReport extends Component {
                     <Grid item>
                         <BlackButtonComponent title={"보고서 생성"} onButtonClick={this.makeReport} />
                     </Grid>
+                    <Snackbar
+                        open={this.state.snackbarOpen}
+                        autoHideDuration={6000}
+                        onClose={this.handleSnackbarClose}
+                        anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                    >
+                        <Alert onClose={this.handleSnackbarClose} severity="warning">
+                            {this.state.snackbarMessage}
+                        </Alert>
+                    </Snackbar>
                 </Grid>
 
 

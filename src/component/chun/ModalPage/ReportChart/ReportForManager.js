@@ -18,6 +18,11 @@ const styles = theme => ({
         marginBottom: theme.spacing(2),
         textAlign: 'center',
     },
+    reportTitle: {
+        marginTop: '50px', // 이 값을 조정하여 제목의 위치를 변경
+        lineHeight: '100px',
+        fontFamily: 'IBM Plex Sans KR, sans-serif',
+    },
     // 추가적인 스타일을 여기에 정의할 수 있습니다.
 });
 
@@ -63,7 +68,7 @@ class EmployeeReport extends Component {
         return (
             <div className={classes.root}>
                 <Typography variant="h4" className={classes.title}>
-                    전사원에 대한 통계 보고서
+                    전 사원에 대한 통계 보고서
                 </Typography>
                 <SelectInfoForManagerReport saveSelectYearAndMonth = {this.saveSelectYearAndMonth}/>
                 {this.state.reportGenerated && this.state.month.map((element) => (
