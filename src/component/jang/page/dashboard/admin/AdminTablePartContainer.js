@@ -9,7 +9,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
 import Pagination from "react-js-pagination";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon} from "@material-ui/core";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+    SvgIcon
+} from "@material-ui/core";
 import BlackButtonComponent from "../../../../chun/Component/Button/BlackButtonComponent";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
@@ -57,17 +65,12 @@ const styles = (theme) => ({
         backgroundColor: '#C2DCF0', borderTop: '1.5px solid black',
     },
     createbutton :{
-        fontSize:'16px',
+        fontSize:'18px',
         whiteSpace: 'nowrap',
-
-        border:'1px solid #2055E8',
         fontFamily:'IBM Plex Sans KR',
         height:"45px",
         fontWeight:'bold',
-        width:"160px",
-        marginRight:'750px',
-        marginTop:'15px',
-        backgroundColor:"#FFCA6E", borderTop: '1.5px solid black',
+        backgroundColor:"#FFCA6E"
     }
 
 
@@ -277,59 +280,82 @@ class AdminTablePartContainer extends Component {
                         사원 관리
                     </Box>
 
-                    <Box id={"사원 검색 입력 필드"} style={{
-                        border: '3px solid #1D89DB', padding: '10px 10px 10px 10px', borderRadius: '10px'
-                    }}>
-                        <Box component="span" sx={{marginRight: '10px', flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined"
-                                       InputProps={{style: {height: "50px"}}} style={{width: "95%"}}
-                                       onChange={this.searchKeywordChange}/>
-                        </Box>
-                        <Box component="span">
-                            <SvgIcon style={{
-                                borderRadius: '6px', width: "3.5%", height: 'fit-content', border: '1px solid #c1c1c1'
-                            }}
-                                     cursor="pointer" component={SearchIcon}
-                                     onClick={this.handleSearchButtonClick}/>
-                        </Box>
+                    {/*<Box id={"사원 검색 입력 필드"} style={{*/}
+                    {/*    border: '3px solid #1D89DB', padding: '10px 10px 10px 10px', borderRadius: '10px'*/}
+                    {/*}}>*/}
+                    {/*    <Box component="span" sx={{marginRight: '10px', flex: 1}}>*/}
+                    {/*        <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined"*/}
+                    {/*                   InputProps={{style: {height: "50px"}}} style={{width: "95%"}}*/}
+                    {/*                   onChange={this.searchKeywordChange}/>*/}
+                    {/*    </Box>*/}
+                    {/*    <Box component="span">*/}
+                    {/*        <SvgIcon style={{*/}
+                    {/*            borderRadius: '6px', width: "3.5%", height: 'fit-content', border: '1px solid #c1c1c1'*/}
+                    {/*        }}*/}
+                    {/*                 cursor="pointer" component={SearchIcon}*/}
+                    {/*                 onClick={this.handleSearchButtonClick}/>*/}
+                    {/*    </Box>*/}
+                    {/*</Box>*/}
+
+                    <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
+                        <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"56px"}} onChange={this.searchKeywordChange}/>
+
+                        <IconButton
+                            onClick={this.handleSearchButtonClick}
+                            style={{
+                                borderRadius: '6px',
+                                width: "4%",
+                                border: '1px solid #c1c1c1',
+                                height: "56px"}}>
+                            <SearchIcon />
+                        </IconButton>
+
+                        {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
+                        {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
+                        {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                     </Box>
 
-                    <Box component=""
-                         style={{display: "flex", justifyContent: "flex-end", marginBottom: '10px'}}>
+                    <Box
+                         style={{display: "flex", justifyContent: "space-between"}}>
+                        <Box style={{display:"flex",alignItems:"center"}}>
+                            <Button variant="contained" className={classes.createbutton} onClick={this.CreateModalShow}>사원 생성</Button>
+                        </Box>
 
-                        <Button variant="contained" className={classes.createbutton} onClick={this.CreateModalShow}>사원 생성</Button>
+                        <Box style={{display:"flex",alignItems:"center"}}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.sort}
+                                    onChange={this.sortChange}>
+                                    <MenuItem value={"employee_id"}>사원 번호</MenuItem>
+                                    <MenuItem value={"name"}>사원 이름</MenuItem>
+                                </Select>
+                            </FormControl>
 
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>정렬 기준</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.sort}
-                                onChange={this.sortChange}>
-                                <MenuItem value={"employee_id"}>사원 번호</MenuItem>
-                                <MenuItem value={"name"}>사원 이름</MenuItem>
-                            </Select>
-                        </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
+                                <Select
+                                    labelId={`demo-simple-select-label`}
+                                    id={`demo-simple-select`}
+                                    value={this.state.desc}
+                                    onChange={this.descChange}>
+                                    <MenuItem value={"asc"}>오름차순</MenuItem>
+                                    <MenuItem value={"desc"}>내림차순</MenuItem>
+                                </Select>
+                            </FormControl>
 
-                        <FormControl className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>정렬 방식</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={`demo-simple-select`}
-                                value={this.state.desc}
-                                onChange={this.descChange}>
-                                <MenuItem value={"asc"}>오름차순</MenuItem>
-                                <MenuItem value={"desc"}>내림차순</MenuItem>
-                            </Select>
-                        </FormControl>
+                            <ToggleButton
+                                value="check"
+                                selected={this.isManager}
+                                onChange={this.isManagerToggle}
+                                style={{width:"48px",height:"48px"}}
+                            >
+                                <CheckIcon/>
+                            </ToggleButton>
+                        </Box>
 
-                        <ToggleButton
-                            value="check"
-                            selected={this.isManager}
-                            onChange={this.isManagerToggle}
-                        >
-                            <CheckIcon/>
-                        </ToggleButton>
 
                     </Box>
                    <TablePartContainer parentState={this.state} reRender={this.fetchData} toggleModalShowing={this.props.toggleModalShowing}>
