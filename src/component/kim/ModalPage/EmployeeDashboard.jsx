@@ -8,6 +8,7 @@ import SelectInfoForEmployeeReport from "../component/SearchComponent/SelectInfo
 
 
 
+
 const styles = theme => ({
     root: {
       width:"1048px"
@@ -76,8 +77,6 @@ class EmployeeDashboard extends Component {
     state = {
         selectedYear: new Date().getFullYear(), selectedMonths: [], // 초기 상태에서는 빈 객체로 설정
     };
-
-
 
     handleSelectionChange = (year, months) => {
         this.setState({ selectedYear: year, selectedMonths: months });

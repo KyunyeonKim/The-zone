@@ -199,7 +199,7 @@ class InnerCalendar extends Component {
             );
             let mappedAttendance = []
 
-            if(attendanceInfo.status!==204){
+            if (attendanceInfo.status !== 204) {
                 mappedAttendance = attendanceInfo.data.data.map((data) => {
                         switch (data.attendanceStatusCategory) {
                             case '정상 근태':
@@ -307,7 +307,7 @@ class InnerCalendar extends Component {
                         }
                         return (
                             <>
-                                <div className="justify-center items-center absoluteDiv" style={{display:"flex"}}>{html}</div>
+                                <div className="flex justify-center items-center absoluteDiv">{html}</div>
                             </>
                         );
                     }}

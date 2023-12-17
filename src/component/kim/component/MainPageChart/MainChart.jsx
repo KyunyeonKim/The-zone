@@ -45,7 +45,7 @@ class MainChart extends Component {
     }
 
     initChart = () => {
-        const { data } = this.props;
+        const {data} = this.props;
         const chart = echarts.init(this.chartRef.current);
         const usedVacation = data[0].value;
         const totalVacation = usedVacation + data[1].value;
@@ -63,8 +63,8 @@ class MainChart extends Component {
                     type: 'pie',
                     radius: ['50%', '70%'],
                     data: [
-                        { value: data[0].value, name: data[0].name, itemStyle: { color: '#5984CE' } }, // 연차 사용 갯수
-                        { value: data[1].value, name: data[1].name, itemStyle: { color: '#F2F2F2' } } // 연차 잔여 갯수
+                        {value: data[0].value, name: data[0].name, itemStyle: {color: '#5984CE'}}, // 연차 사용 갯수
+                        {value: data[1].value, name: data[1].name, itemStyle: {color: '#F2F2F2'}} // 연차 잔여 갯수
                     ],
                     label: {
                         normal: {
@@ -78,7 +78,7 @@ class MainChart extends Component {
             ],
             title: {
                 show: true,
-                text:  `${usedPercentage}%`,
+                text: `${usedPercentage}%`,
                 left: 'center',
                 top: 'center',
                 textStyle: {
@@ -94,14 +94,26 @@ class MainChart extends Component {
     renderDetails = (data) => {
         return data.map((item, index) => (
 
-                <Box key={index} display="flex" justifyContent="space-between">
-                        <Typography variant="subtitle1" style={ {fontFamily:'IBM Plex Sans KR',fontSize:'17px',whiteSpace:'nowrap' ,fontWeight: 'bold',marginBottom:"10px"}}>
-                            {item.name}&nbsp;
-                        </Typography>
-                        <Typography variant="subtitle1" style={{fontFamily:'IBM Plex Sans KR',fontSize:'18px',whiteSpace:'nowrap',marginBottom:"10px",fontWeight: 'bold' }}>
-                            {item.value} 개
-                        </Typography>
-                </Box>
+            <Box key={index} display="flex" justifyContent="space-between">
+                <Typography variant="subtitle1" style={{
+                    fontFamily: 'IBM Plex Sans KR',
+                    fontSize: '17px',
+                    whiteSpace: 'nowrap',
+                    fontWeight: 'bold',
+                    marginBottom: "10px"
+                }}>
+                    {item.name}&nbsp;
+                </Typography>
+                <Typography variant="subtitle1" style={{
+                    fontFamily: 'IBM Plex Sans KR',
+                    fontSize: '18px',
+                    whiteSpace: 'nowrap',
+                    marginBottom: "10px",
+                    fontWeight: 'bold'
+                }}>
+                    {item.value} 개
+                </Typography>
+            </Box>
 
         ));
     };

@@ -61,7 +61,7 @@ const styles = theme => ({
         "&:hover": {
             border: "1px solid #ddd",
         },
-    },vacationPendingButton: {
+    }, vacationPendingButton: {
 
         backgroundColor: '#FFFACD', // 부드러운 노란색
         color: '#000',
@@ -81,7 +81,7 @@ const styles = theme => ({
 
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-        textAlign:'center',
+        textAlign: 'center',
     },
 
     vacationApprovedButton: {
@@ -103,7 +103,7 @@ const styles = theme => ({
 
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-        textAlign:'center',
+        textAlign: 'center',
     },
 
     vacationDeniedButton: {
@@ -125,17 +125,16 @@ const styles = theme => ({
 
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-        textAlign:'center',
+        textAlign: 'center',
 
     },
-
 
 
     titleText: {
         fontSize: '22px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-        textAlign:'center'
+        textAlign: 'center'
     },
 
     TableHead: {
@@ -146,15 +145,15 @@ const styles = theme => ({
     text: {
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-        textAlign:'center',
-        fontSize:'16px'
+        textAlign: 'center',
+        fontSize: '16px'
     },
-    button:{
+    button: {
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-        textAlign:'center',
-        display:"flex",
-        justifyContent:"center",
+        textAlign: 'center',
+        display: "flex",
+        justifyContent: "center",
 
     }
 
@@ -164,7 +163,7 @@ class ListVacationYearMonthDay extends Component {
 
 
     getVacationStatusButton = (item) => {
-        const { classes } = this.props;
+        const {classes} = this.props;
         let buttonProps = {
             className: '',
             startIcon: null,
@@ -173,15 +172,15 @@ class ListVacationYearMonthDay extends Component {
         switch (item.vacationRequestStateCategoryKey) {
             case '연차 요청 중':
                 buttonProps.className = classes.vacationPendingButton;
-                buttonProps.startIcon = <EventNoteIcon />;
+                buttonProps.startIcon = <EventNoteIcon/>;
                 break;
             case '연차 요청 승인':
                 buttonProps.className = classes.vacationApprovedButton;
-                buttonProps.startIcon = <EventAvailableIcon />;
+                buttonProps.startIcon = <EventAvailableIcon/>;
                 break;
             case '연차 요청 반려':
                 buttonProps.className = classes.vacationDeniedButton;
-                buttonProps.startIcon = <EventBusyIcon />;
+                buttonProps.startIcon = <EventBusyIcon/>;
                 break;
             default:
                 // 기본적으로는 아이콘 없이 클래스만 적용
@@ -196,57 +195,57 @@ class ListVacationYearMonthDay extends Component {
     }
 
 
-        render() {
+    render() {
         const {data, totalElement, size, page, onPageChange, classes} = this.props;
 
         return (
             <ThemeProvider theme={theme}>
-            <div className="some-root-class">
-                <TableContainer component={Paper} className="table-container-class">
-                    <Table>
-                        <TableHead className={classes.TableHead}>
-                            <TableRow>
-                                <TableCell className={classes.titleText}>사원이름</TableCell>
-                                <TableCell className={classes.titleText}>사원번호</TableCell>
-                                <TableCell className={classes.titleText}>상태</TableCell>
-                                <TableCell className={classes.titleText}>연차시작날짜</TableCell>
-                                <TableCell className={classes.titleText}>연차끝날짜</TableCell>
-                                <TableCell className={classes.titleText}>사유</TableCell>
-                                <TableCell className={classes.titleText}>신청한 요청 날짜</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.length > 0 ? data.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className={classes.text}>{item.name}</TableCell>
-                                    <TableCell className={classes.text}>{item.employeeId}</TableCell>
-                                    <TableCell className={classes.button}>
-                                        {this.getVacationStatusButton(item)}
-                                    </TableCell>
-                                    <TableCell className={classes.text}>{item.vacationStartDate}</TableCell>
-                                    <TableCell className={classes.text}>{item.vacationEndDate}</TableCell>
-                                    <TableCell className={classes.text}>{item.reason}</TableCell>
-                                    <TableCell className={classes.text}>{item.vacationRequestTime}</TableCell>
-                                </TableRow>
-                            )) : (
+                <div className="some-root-class">
+                    <TableContainer component={Paper} className="table-container-class">
+                        <Table>
+                            <TableHead className={classes.TableHead}>
                                 <TableRow>
-                                    <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
+                                    <TableCell className={classes.titleText}>사원이름</TableCell>
+                                    <TableCell className={classes.titleText}>사원번호</TableCell>
+                                    <TableCell className={classes.titleText}>상태</TableCell>
+                                    <TableCell className={classes.titleText}>연차시작날짜</TableCell>
+                                    <TableCell className={classes.titleText}>연차끝날짜</TableCell>
+                                    <TableCell className={classes.titleText}>사유</TableCell>
+                                    <TableCell className={classes.titleText}>신청한 요청 날짜</TableCell>
                                 </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Pagination
-                    activePage={page}
-                    itemsCountPerPage={size}
-                    totalItemsCount={totalElement}
-                    pageRangeDisplayed={5}
-                    onChange={onPageChange}
-                    innerClass={classes.pagination}
-                    itemClass={classes.pageItem}
-                    activeClass={classes.activePageItem}
-                />
-            </div>
+                            </TableHead>
+                            <TableBody>
+                                {data.length > 0 ? data.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className={classes.text}>{item.name}</TableCell>
+                                        <TableCell className={classes.text}>{item.employeeId}</TableCell>
+                                        <TableCell className={classes.button}>
+                                            {this.getVacationStatusButton(item)}
+                                        </TableCell>
+                                        <TableCell className={classes.text}>{item.vacationStartDate}</TableCell>
+                                        <TableCell className={classes.text}>{item.vacationEndDate}</TableCell>
+                                        <TableCell className={classes.text}>{item.reason}</TableCell>
+                                        <TableCell className={classes.text}>{item.vacationRequestTime}</TableCell>
+                                    </TableRow>
+                                )) : (
+                                    <TableRow>
+                                        <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination
+                        activePage={page}
+                        itemsCountPerPage={size}
+                        totalItemsCount={totalElement}
+                        pageRangeDisplayed={5}
+                        onChange={onPageChange}
+                        innerClass={classes.pagination}
+                        itemClass={classes.pageItem}
+                        activeClass={classes.activePageItem}
+                    />
+                </div>
             </ThemeProvider>
         );
     }

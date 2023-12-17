@@ -50,7 +50,7 @@ const styles = theme => ({
 
     chartContainer: {
         flexGrow: 5,
-        height:"205px"
+        height: "205px"
 
     },
 
@@ -72,15 +72,15 @@ const styles = theme => ({
         // 새로운 스타일 추가
         margin: theme.spacing(1),
         fontWeight: 'bold',
-    },titleRight: {
+    }, titleRight: {
         // '근태현황' 제목에 적용할 스타일
         flex: 1, // 남는 공간을 차지하도록 flex-grow 값 설정
         textAlign: 'center', // 텍스트를 오른쪽 정렬
         paddingLeft: theme.spacing(1), // 왼쪽 패딩 추가
-        fontFamily:'IBM Plex Sans KR',
-        fontWeight:'bold',
-        color:"#2568ac",
-        fontSize:"23px"
+        fontFamily: 'IBM Plex Sans KR',
+        fontWeight: 'bold',
+        color: "#2568ac",
+        fontSize: "23px"
     },
 
 
@@ -96,18 +96,19 @@ class VacationMineEChart extends Component {
 
     constructor(props, context, state) {
         super(props, context);
-        stateStore.vacationChartStateSet = {state:this.state,setState:this.fetchDataAndSetState.bind(this)}
+        stateStore.vacationChartStateSet = {state: this.state, setState: this.fetchDataAndSetState.bind(this)}
     }
 
-    fetchDataAndSetState = function (){   axios.get('http://localhost:8080/chart/vacationmine')
-        .then(response => {
-            const data = this.transformData(response.data);
-            this.setState({chartData: data, loading: false});
-        })
-        .catch(error => {
-            console.error("Error fetching data: ", error);
-            this.setState({loading: false});
-        });
+    fetchDataAndSetState = function () {
+        axios.get('http://localhost:8080/chart/vacationmine')
+            .then(response => {
+                const data = this.transformData(response.data);
+                this.setState({chartData: data, loading: false});
+            })
+            .catch(error => {
+                console.error("Error fetching data: ", error);
+                this.setState({loading: false});
+            });
 
     }
 
@@ -131,7 +132,7 @@ class VacationMineEChart extends Component {
         return [
             {value: data.useVacation, name: '연차 사용 개수 '},
             {value: remainingVacation, name: '연차 잔여 개수 '},
-            {value: data.totalVacation, name:'연차 총 개수 '}
+            {value: data.totalVacation, name: '연차 총 개수 '}
 
         ];
     }

@@ -57,8 +57,8 @@ class SelectInfoForEmployeeReport extends Component {
                 10: false,
                 11: false,
                 12: false,
-                snackbarOpen:false,
-                snackbarMessage:"",
+                snackbarOpen: false,
+                snackbarMessage: "",
             }
 
         }
@@ -122,7 +122,7 @@ class SelectInfoForEmployeeReport extends Component {
     allClick = () => {
         if (this.state.inputYear === "") {
             this.setState({
-                snackbarOpen:true, snackbarMessage : "년도를 반드시 선택해주세요"
+                snackbarOpen: true, snackbarMessage: "년도를 반드시 선택해주세요"
             });
             return;
         }
@@ -174,12 +174,12 @@ class SelectInfoForEmployeeReport extends Component {
 
 
     makeReport = () => {
-        const { inputYear, Months } = this.state;
+        const {inputYear, Months} = this.state;
         const selectedMonths = Object.keys(Months).filter(month => Months[month]);
 
         if (selectedMonths.length === 0) {
             this.setState({
-                snackbarOpen:true, snackbarMessage : "월을 한개 이상 반드시 선택해주세요"
+                snackbarOpen: true, snackbarMessage: "월을 한개 이상 반드시 선택해주세요"
             });
             return;
         }
@@ -191,44 +191,43 @@ class SelectInfoForEmployeeReport extends Component {
     render() {
         return (<>
 
-                <Grid container spacing={4} alignItems="center">
-                    <Grid >
-                        <FormControl variant="outlined">
-                            <InputLabel id="attendance-hour-label">년도</InputLabel>
-                            <Select
-                                style={{height: "50px", width: "150px"}}
-                                labelId="attendance-hour-label"
-                                id="attendaceHour"
-                                onChange={this.clickYearChange}>
-                                {[...Array(5)].map((_, index) => (
-                                    <MenuItem key={this.currentYear - index} value={this.currentYear - index}>
-                                        {`${this.currentYear - index}년`}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <BlackButtonComponent title={"전체 선택"} onButtonClick={this.allClick} />
-                    </Grid>
-                    <Grid item>
-                        <BlackButtonComponent title={"보고서 생성"} onButtonClick={this.makeReport} />
-                    </Grid>
-                    <Snackbar
-                        open={this.state.snackbarOpen}
-                        autoHideDuration={6000}
-                        onClose={this.handleSnackbarClose}
-                        anchorOrigin={{ vertical:'top', horizontal: 'center' }}
-                    >
-                        <Alert onClose={this.handleSnackbarClose} severity="warning">
-                            {this.state.snackbarMessage}
-                        </Alert>
-                    </Snackbar>
+            <Grid container spacing={4} alignItems="center">
+                <Grid>
+                    <FormControl variant="outlined">
+                        <InputLabel id="attendance-hour-label">년도</InputLabel>
+                        <Select
+                            style={{height: "50px", width: "150px"}}
+                            labelId="attendance-hour-label"
+                            id="attendaceHour"
+                            onChange={this.clickYearChange}>
+                            {[...Array(5)].map((_, index) => (
+                                <MenuItem key={this.currentYear - index} value={this.currentYear - index}>
+                                    {`${this.currentYear - index}년`}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
+                <Grid item>
+                    <BlackButtonComponent title={"전체 선택"} onButtonClick={this.allClick}/>
+                </Grid>
+                <Grid item>
+                    <BlackButtonComponent title={"보고서 생성"} onButtonClick={this.makeReport}/>
+                </Grid>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
+            </Grid>
 
 
-
-                    {this.allMonths()}
+            {this.allMonths()}
 
 
         </>)
@@ -236,4 +235,4 @@ class SelectInfoForEmployeeReport extends Component {
 
 }
 
-export default withStyles(styles) (SelectInfoForEmployeeReport);
+export default withStyles(styles)(SelectInfoForEmployeeReport);

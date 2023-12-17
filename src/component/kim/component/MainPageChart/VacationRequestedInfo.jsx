@@ -14,31 +14,31 @@ const styles = theme => ({
         alignItems: 'center',
         flexGrow: 1,
         justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
-        width:"220px",
-        height:"50px"
+        width: "220px",
+        height: "50px"
     },
     title: {
         fontWeight: 'bold',
         color: '#FFA000', // Set the text color to the blue shade you were using
         flexGrow: 1,
-        fontFamily:'IBM Plex Sans KR',
-        fontSize:"16px"
+        fontFamily: 'IBM Plex Sans KR',
+        fontSize: "16px"
     },
     infoText: {
-        fontFamily:'IBM Plex Sans KR',
-        fontSize:"18px"
+        fontFamily: 'IBM Plex Sans KR',
+        fontSize: "18px"
     },
-    monthTitle:{
+    monthTitle: {
         fontWeight: 'bold',
-        fontFamily:'IBM Plex Sans KR',
+        fontFamily: 'IBM Plex Sans KR',
         verticalAlign: 'middle', // 수직 가운데 정렬
-        fontSize:"16px"
+        fontSize: "16px"
 
-    }, countMonthTitle:{
+    }, countMonthTitle: {
         fontWeight: 'bold',
-        fontFamily:'IBM Plex Sans KR',
-        color:'#2568ac',
-        fontSize:"16px"
+        fontFamily: 'IBM Plex Sans KR',
+        color: '#2568ac',
+        fontSize: "16px"
 
     }
 
@@ -50,13 +50,14 @@ class VacationRequestedInfo extends Component {
     state = {
         requestedVacationCount: null,
     };
+    loopStop = false;
 
     componentDidMount() {
         this.loadRequestedMonthVacationData();
     }
-    loopStop=false;
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(!this.loopStop){
+        if (!this.loopStop) {
             this.loadRequestedMonthVacationData();
         }
     }
@@ -77,7 +78,7 @@ class VacationRequestedInfo extends Component {
     }
 
     render() {
-        this.loopStop=!this.loopStop;
+        this.loopStop = !this.loopStop;
         const {requestedVacationCount} = this.state;
         const {classes, month} = this.props;
 
@@ -86,15 +87,15 @@ class VacationRequestedInfo extends Component {
 
         return (
             <Paper className={classes.paper}>
-                <span style={{ marginRight: '8px', verticalAlign: 'middle' }}>•</span>
-                <Typography variant="h6"  className={classes.countMonthTitle}>
+                <span style={{marginRight: '8px', verticalAlign: 'middle'}}>•</span>
+                <Typography variant="h6" className={classes.countMonthTitle}>
                     {monthName}
                 </Typography>
-                <Typography variant="h6"  className={classes.monthTitle}>
+                <Typography variant="h6" className={classes.monthTitle}>
                     &nbsp;연차&nbsp;
                 </Typography>
-                <Typography variant="h6"  className={classes.title}>
-                     요청중
+                <Typography variant="h6" className={classes.title}>
+                    요청중
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
                     {requestedVacationCount !== null ? requestedVacationCount : 'Loading...'}

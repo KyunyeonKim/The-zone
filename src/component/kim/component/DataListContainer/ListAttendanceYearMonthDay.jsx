@@ -122,25 +122,24 @@ const styles = theme => ({
     text: {
         fontFamily: `IBM Plex Sans KR, sans-serif`,
         fontWeight: 'bold',
-        textAlign:'center',
-        fontSize:'15px'
+        textAlign: 'center',
+        fontSize: '15px'
 
     },
-   titleText: {
+    titleText: {
         fontSize: '20px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
         fontWeight: 'bold',
-       textAlign:'center'
+        textAlign: 'center'
     },
 
 });
 
 
-
 class ListAttendanceYearMonthDay extends Component {
 
     getVacationStatusButton = (item) => {
-        const { classes } = this.props;
+        const {classes} = this.props;
         let buttonProps = {
             className: '',
             startIcon: null,
@@ -149,15 +148,15 @@ class ListAttendanceYearMonthDay extends Component {
         switch (item.status) {
             case '조정 요청 중':
                 buttonProps.className = classes.attendancePendingButton;
-                buttonProps.startIcon = <EventNoteIcon />;
+                buttonProps.startIcon = <EventNoteIcon/>;
                 break;
             case '조정 요청 승인':
                 buttonProps.className = classes.attendanceApprovedButton;
-                buttonProps.startIcon = <EventAvailableIcon />;
+                buttonProps.startIcon = <EventAvailableIcon/>;
                 break;
             case '조정 요청 반려':
                 buttonProps.className = classes.attendanceDeniedButton;
-                buttonProps.startIcon = <EventBusyIcon />;
+                buttonProps.startIcon = <EventBusyIcon/>;
                 break;
             default:
                 // 기본적으로는 아이콘 없이 클래스만 적용
@@ -177,52 +176,53 @@ class ListAttendanceYearMonthDay extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <div className="some-root-class">
-                <TableContainer  component={Paper} className="table-container-class">
-                    <Table>
-                        <TableHead className={classes.TableHead}>
-                            <TableRow>
-                                <TableCell className={classes.titleText}>사원이름</TableCell>
-                                <TableCell className={classes.titleText}>사원번호</TableCell>
-                                <TableCell className={classes.titleText}>상태</TableCell>
-                                <TableCell className={classes.titleText}>신청사유</TableCell>
-                                <TableCell className={classes.titleText}>조정출근시간</TableCell>
-                                <TableCell className={classes.titleText}>조정퇴근시간</TableCell>
-                                <TableCell className={classes.titleText}>요청시간</TableCell>
-                                <TableCell className={classes.titleText}>반려이유</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.length > 0 ? data.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className={classes.text}>{item.name}</TableCell>
-                                    <TableCell className={classes.text}>{item.employeeId}</TableCell>
-                                    <TableCell style={{display:"flex",justifyContent:"center"}}>
-                                        {this.getVacationStatusButton(item)}
-                                    </TableCell>
-                                    <TableCell className={classes.text}>{item.reason}</TableCell>
-                                    <TableCell className={classes.text}>{item.appealedStartTime}</TableCell>
-                                    <TableCell className={classes.text}>{item.appealedEndTime}</TableCell>
-                                    <TableCell className={classes.text}>{item.attendanceAppealRequestTime}</TableCell>
-                                    <TableCell className={classes.text}>{item.reasonForRejection}</TableCell>
-                                </TableRow>
-                            )) : (
+                    <TableContainer component={Paper} className="table-container-class">
+                        <Table>
+                            <TableHead className={classes.TableHead}>
                                 <TableRow>
-                                    <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
+                                    <TableCell className={classes.titleText}>사원이름</TableCell>
+                                    <TableCell className={classes.titleText}>사원번호</TableCell>
+                                    <TableCell className={classes.titleText}>상태</TableCell>
+                                    <TableCell className={classes.titleText}>신청사유</TableCell>
+                                    <TableCell className={classes.titleText}>조정출근시간</TableCell>
+                                    <TableCell className={classes.titleText}>조정퇴근시간</TableCell>
+                                    <TableCell className={classes.titleText}>요청시간</TableCell>
+                                    <TableCell className={classes.titleText}>반려이유</TableCell>
                                 </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Pagination
-                    activePage={page}
-                    itemsCountPerPage={size}
-                    totalItemsCount={totalElement}
-                    pageRangeDisplayed={5}
-                    onChange={onPageChange}
-                    innerClass={classes.pagination}
-                    itemClass={classes.pageItem}
-                    activeClass={classes.activePageItem}
-                />
+                            </TableHead>
+                            <TableBody>
+                                {data.length > 0 ? data.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className={classes.text}>{item.name}</TableCell>
+                                        <TableCell className={classes.text}>{item.employeeId}</TableCell>
+                                        <TableCell style={{display: "flex", justifyContent: "center"}}>
+                                            {this.getVacationStatusButton(item)}
+                                        </TableCell>
+                                        <TableCell className={classes.text}>{item.reason}</TableCell>
+                                        <TableCell className={classes.text}>{item.appealedStartTime}</TableCell>
+                                        <TableCell className={classes.text}>{item.appealedEndTime}</TableCell>
+                                        <TableCell
+                                            className={classes.text}>{item.attendanceAppealRequestTime}</TableCell>
+                                        <TableCell className={classes.text}>{item.reasonForRejection}</TableCell>
+                                    </TableRow>
+                                )) : (
+                                    <TableRow>
+                                        <TableCell colSpan={7} align="center">검색 결과가 없습니다.</TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Pagination
+                        activePage={page}
+                        itemsCountPerPage={size}
+                        totalItemsCount={totalElement}
+                        pageRangeDisplayed={5}
+                        onChange={onPageChange}
+                        innerClass={classes.pagination}
+                        itemClass={classes.pageItem}
+                        activeClass={classes.activePageItem}
+                    />
                 </div>
             </ThemeProvider>
         );

@@ -8,15 +8,14 @@ class SearchYearMonthDay extends Component {
         year: '',
         month: '',
         day: '',
-        snackbarOpen:false,
-        snackbarMessage:"",
+        snackbarOpen: false,
+        snackbarMessage: "",
 
     };
 
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     };
-
 
 
     handleSubmit = (event) => {
@@ -29,7 +28,7 @@ class SearchYearMonthDay extends Component {
 
         if (specialCharRegex.test(searchParameter)) {
             this.setState({
-                snackbarOpen:true, snackbarMessage : "검색에 특수문자를 적을수 없습니다"
+                snackbarOpen: true, snackbarMessage: "검색에 특수문자를 적을수 없습니다"
             });
             return;
         }
@@ -47,7 +46,7 @@ class SearchYearMonthDay extends Component {
         }
         if (!year || !month) {
             this.setState({
-                snackbarOpen:true, snackbarMessage : "년도와 월을 선택해주세요 "
+                snackbarOpen: true, snackbarMessage: "년도와 월을 선택해주세요 "
             });
             return;
         }
@@ -57,7 +56,8 @@ class SearchYearMonthDay extends Component {
 
     render() {
         return (
-            <Box component="form" onSubmit={this.handleSubmit} style={{border:'1px solid black', padding:'10px',borderRadius:'10px'}}>
+            <Box component="form" onSubmit={this.handleSubmit}
+                 style={{border: '1px solid black', padding: '10px', borderRadius: '10px'}}>
                 <Grid container spacing={1} alignItems="center" justify="flex-end">
 
                     <Grid item xs>
@@ -76,7 +76,7 @@ class SearchYearMonthDay extends Component {
                                 name="year"
                                 value={this.state.year}
                                 onChange={this.handleChange}
-                                style={{ minWidth: 80 }}
+                                style={{minWidth: 80}}
                             >
                                 {[2020, 2021, 2022, 2023].map(year => (
                                     <MenuItem key={year} value={year}>{year}</MenuItem>
@@ -92,9 +92,9 @@ class SearchYearMonthDay extends Component {
                                 name="month"
                                 value={this.state.month}
                                 onChange={this.handleChange}
-                                style={{ minWidth: 60 }}
+                                style={{minWidth: 60}}
                             >
-                                {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
+                                {Array.from({length: 12}, (_, i) => i + 1).map(month => (
                                     <MenuItem key={month} value={month}>{month}</MenuItem>
                                 ))}
                             </Select>
@@ -108,10 +108,10 @@ class SearchYearMonthDay extends Component {
                                 name="day"
                                 value={this.state.day}
                                 onChange={this.handleChange}
-                                style={{ minWidth: 60 }}
+                                style={{minWidth: 60}}
                             >
                                 <MenuItem value="월별 검색">월별 검색</MenuItem>
-                                {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
+                                {Array.from({length: 31}, (_, i) => i + 1).map(day => (
                                     <MenuItem key={day} value={day}>{day}</MenuItem>
                                 ))}
                             </Select>
@@ -119,10 +119,15 @@ class SearchYearMonthDay extends Component {
                     </Grid>
 
                     <Grid item>
-                        <Box >
-                        <IconButton type="submit" style={{borderRadius:'6px' , width: "100%",border:'1px solid #c1c1c1', height:"56px"}}>
-                            <SearchIcon />
-                        </IconButton>
+                        <Box>
+                            <IconButton type="submit" style={{
+                                borderRadius: '6px',
+                                width: "100%",
+                                border: '1px solid #c1c1c1',
+                                height: "56px"
+                            }}>
+                                <SearchIcon/>
+                            </IconButton>
                         </Box>
                     </Grid>
 
@@ -131,7 +136,7 @@ class SearchYearMonthDay extends Component {
                     open={this.state.snackbarOpen}
                     autoHideDuration={6000}
                     onClose={this.handleSnackbarClose}
-                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 >
                     <Alert onClose={this.handleSnackbarClose} severity="warning">
                         {this.state.snackbarMessage}

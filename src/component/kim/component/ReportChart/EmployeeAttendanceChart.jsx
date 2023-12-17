@@ -29,7 +29,7 @@ class EmployeeVacationChart extends Component {
 
 
     initChart() {
-        const { approvedCount, unapprovedVacationCount, approvalRequestedAttendance } = this.props;
+        const {approvedCount, unapprovedVacationCount, approvalRequestedAttendance} = this.props;
 
         // 차트 인스턴스가 없으면 생성합니다.
         if (!this.chartInstance) {
@@ -48,8 +48,8 @@ class EmployeeVacationChart extends Component {
     }
 
 
-    getOption  () {
-        const { approvedCount, unapprovedVacationCount, approvalRequestedAttendance } = this.props;
+    getOption() {
+        const {approvedCount, unapprovedVacationCount, approvalRequestedAttendance} = this.props;
 
         return {
             title: {
@@ -66,9 +66,9 @@ class EmployeeVacationChart extends Component {
                 left: 'center',
                 top: 'bottom',
                 data: [
-                    { name: '승인', icon: 'circle', textStyle: { color: 'black' } },
-                    { name: '반려', icon: 'circle', textStyle: { color: 'black' } },
-                    { name: '요청중', icon: 'circle', textStyle: { color: 'black' } }
+                    {name: '승인', icon: 'circle', textStyle: {color: 'black'}},
+                    {name: '반려', icon: 'circle', textStyle: {color: 'black'}},
+                    {name: '요청중', icon: 'circle', textStyle: {color: 'black'}}
                 ]
             },
             series: [
@@ -78,9 +78,9 @@ class EmployeeVacationChart extends Component {
                     radius: ['45%', '70%'],
                     avoidLabelOverlap: false, // 레이블 겹침을 방지합니다.
                     data: [
-                        { value: approvedCount, name: '승인', itemStyle: { color: '#78E8F7' } },
-                        { value: unapprovedVacationCount, name: '반려', itemStyle: { color: '#FFA6EC' } },
-                        { value: approvalRequestedAttendance, name: '요청중', itemStyle: { color: '#AAFFBC'  } }
+                        {value: approvedCount, name: '승인', itemStyle: {color: '#78E8F7'}},
+                        {value: unapprovedVacationCount, name: '반려', itemStyle: {color: '#FFA6EC'}},
+                        {value: approvalRequestedAttendance, name: '요청중', itemStyle: {color: '#AAFFBC'}}
                     ],
                     label: {
                         // 이 시리즈의 데이터 포인트 옆에 레이블을 표시하지 않도록 설정
@@ -120,7 +120,7 @@ class EmployeeVacationChart extends Component {
 
     render() {
         return (
-            <div ref={this.chartRef} style={{ width: '80%', height: '350px' }}></div> // 차트 컨테이너
+            <div ref={this.chartRef} style={{width: '80%', height: '350px'}}></div> // 차트 컨테이너
         );
     }
 }

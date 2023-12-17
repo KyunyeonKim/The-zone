@@ -23,10 +23,10 @@ const styles = theme => ({
         color: '#000000', // 제목 텍스트 색상을 검은색으로 설정합니다.
         fontWeight: 'bold', // 텍스트의 두께를 굵게 설정합니다.
         maxWidth: 400, // 최대 폭을 600px로 설정할 수도 있습니다.
-        height:'50%',
+        height: '50%',
         borderBottom: '2px solid black'
     },
-    subtitle1:{
+    subtitle1: {
         fontFamily: 'IBM Plex Sans KR, sans-serif', // 사용할 글꼴 설정
         fontSize: '20px', // 폰트 사이즈를 20px로 설정
     },
@@ -38,13 +38,14 @@ const styles = theme => ({
         justifyContent: 'center', // 가로 방향으로 중앙 정렬합니다.
         fontFamily: 'IBM Plex Sans KR, sans-serif', // 사용할 글꼴 설정
         fontSize: '20px', // 폰트 사이즈를 20px로 설정
-        height:'50%',
+        height: '50%',
     },
 
     borderSection: {
         borderLeft: '4px solid #000000', // 왼쪽에 1픽셀 굵기의 검은색 선을 추가합니다.
     },
 });
+
 class ReportVacationRequestedInfo extends Component {
     state = {
         requestedVacationCount: null,
@@ -56,10 +57,10 @@ class ReportVacationRequestedInfo extends Component {
 
 
     loadRequestedMonthVacationData = () => {
-        const { year, month } = this.props;
+        const {year, month} = this.props;
         axios.get(`http://localhost:8080/chart/requestedmonthvacation?year=${year}&month=${month}`)
             .then(response => {
-                this.setState({ requestedVacationCount: response.data });
+                this.setState({requestedVacationCount: response.data});
                 if (this.props.onDataLoaded) {
                     this.props.onDataLoaded(response.data);
                 }
@@ -70,8 +71,8 @@ class ReportVacationRequestedInfo extends Component {
     }
 
     render() {
-        const {  requestedVacationCount} = this.state;
-        const {classes,month} = this.props;
+        const {requestedVacationCount} = this.state;
+        const {classes, month} = this.props;
 
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
         const monthName = monthNames[month - 1]; // JavaScript에서 월은 0에서 시작하므로 1을 빼줍니다.

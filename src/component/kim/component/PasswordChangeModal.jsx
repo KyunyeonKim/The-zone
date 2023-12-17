@@ -19,8 +19,8 @@ class PasswordChangeModal extends Component {
             currentPassword: "",
             newPassword: "",
             confirmPassword: "",
-            snackbarOpen:false,
-            snackbarMessage:"",
+            snackbarOpen: false,
+            snackbarMessage: "",
             dialogOpen: false,
             dialogTitle: '',
             dialogMessage: '',
@@ -29,7 +29,7 @@ class PasswordChangeModal extends Component {
 
 
     submitNewPassword = async () => {
-        const { currentPassword, newPassword, confirmPassword } = this.state;
+        const {currentPassword, newPassword, confirmPassword} = this.state;
 
         // Check for special characters in the new password
         const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
@@ -108,7 +108,7 @@ class PasswordChangeModal extends Component {
     };
 
     closeDialog = () => {
-        this.setState({ dialogOpen: false });
+        this.setState({dialogOpen: false});
         this.props.onClose();
     };
 
@@ -172,7 +172,7 @@ class PasswordChangeModal extends Component {
                     open={this.state.snackbarOpen}
                     autoHideDuration={6000}
                     onClose={this.handleSnackbarClose}
-                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 >
                     <Alert onClose={this.handleSnackbarClose} severity="warning">
                         {this.state.snackbarMessage}

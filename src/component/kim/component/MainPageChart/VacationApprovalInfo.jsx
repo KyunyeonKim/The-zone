@@ -15,35 +15,35 @@ const styles = theme => ({
         alignItems: 'center',
         flexGrow: 1,
         justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
-        width:"220px",
-        height:"50px",
+        width: "220px",
+        height: "50px",
     },
     title: {
         fontWeight: 'bold',
         color: '#1976D2', // Ensure the title text is blue
         flexGrow: 1,
-        fontFamily:'IBM Plex Sans KR',
-        fontSize:"16px"
+        fontFamily: 'IBM Plex Sans KR',
+        fontSize: "16px"
 
     },
     infoText: {
-        fontFamily:'IBM Plex Sans KR',
-        fontSize:"18px"
+        fontFamily: 'IBM Plex Sans KR',
+        fontSize: "18px"
 
 
     },
-    monthTitle:{
+    monthTitle: {
         fontWeight: 'bold',
-        fontFamily:'IBM Plex Sans KR',
+        fontFamily: 'IBM Plex Sans KR',
         verticalAlign: 'middle', // 수직 가운데 정렬
-        fontSize:"16px"
+        fontSize: "16px"
 
     },
-    countMonthTitle:{
+    countMonthTitle: {
         fontWeight: 'bold',
-        fontFamily:'IBM Plex Sans KR',
-        color:'#2568ac',
-        fontSize:"16px"
+        fontFamily: 'IBM Plex Sans KR',
+        color: '#2568ac',
+        fontSize: "16px"
 
     }
     // If you had other styles, make sure they are included here
@@ -54,10 +54,10 @@ class VacationApprovedInfo extends Component {
         approvedVacationCount: null,
     };
 
-    loopStop=false;
+    loopStop = false;
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(!this.loopStop){
+        if (!this.loopStop) {
             this.loadApprovedMonthVacationData();
         }
     }
@@ -65,7 +65,6 @@ class VacationApprovedInfo extends Component {
     componentDidMount() {
         this.loadApprovedMonthVacationData();
     }
-
 
 
     loadApprovedMonthVacationData = () => {
@@ -91,18 +90,18 @@ class VacationApprovedInfo extends Component {
 
         const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
         const monthName = monthNames[month - 1]; // JavaScript에서 월은 0에서 시작하므로 1을 빼줍니다.
-        this.loopStop=!this.loopStop;
+        this.loopStop = !this.loopStop;
         return (
             <Paper className={classes.paper}>
-                <span style={{ marginRight: '8px', verticalAlign: 'middle' }}>•</span>
-                <Typography variant="h6"  className={classes.countMonthTitle}>
+                <span style={{marginRight: '8px', verticalAlign: 'middle'}}>•</span>
+                <Typography variant="h6" className={classes.countMonthTitle}>
                     {monthName}
                 </Typography>
-                <Typography variant="h6"  className={classes.monthTitle}>
+                <Typography variant="h6" className={classes.monthTitle}>
                     &nbsp;연차&nbsp;
                 </Typography>
-                <Typography variant="h6"  className={classes.title}>
-                     승인
+                <Typography variant="h6" className={classes.title}>
+                    승인
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
                     {approvedVacationCount !== null ? approvedVacationCount : 'Loading...'}

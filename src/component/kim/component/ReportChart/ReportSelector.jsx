@@ -29,19 +29,20 @@ const styles = theme => ({
     },
     button: {
         width: '10%',
-        height:'30%',
+        height: '30%',
     }
 });
+
 class ReportSelector extends Component {
     state = {
         selectedYear: new Date().getFullYear(),
-        selectedMonths: Array.from({ length: 12 }, () => false),
+        selectedMonths: Array.from({length: 12}, () => false),
     };
 
     handleYearChange = (event) => {
         this.setState({
             selectedYear: event.target.value,
-            selectedMonths: Array.from({ length: 12 }, () => false) // 월 선택 초기화
+            selectedMonths: Array.from({length: 12}, () => false) // 월 선택 초기화
         }, () => {
             // 년도 변경 후 새로운 년도와 초기화된 월 선택 상태를 부모 컴포넌트에 전달
             this.props.onSelectionChange(this.state.selectedYear, []);
@@ -56,9 +57,9 @@ class ReportSelector extends Component {
 
 
     render() {
-        const { classes } = this.props;
-        const { selectedYear, selectedMonths } = this.state;
-        const { onSelectionChange } = this.props;
+        const {classes} = this.props;
+        const {selectedYear, selectedMonths} = this.state;
+        const {onSelectionChange} = this.props;
 
         const selectedMonthIndices = selectedMonths
             .map((checked, index) => checked ? index + 1 : null)

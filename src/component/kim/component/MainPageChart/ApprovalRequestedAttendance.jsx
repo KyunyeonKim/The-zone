@@ -15,33 +15,33 @@ const styles = theme => ({
         alignItems: 'center',
         flexGrow: 1,
         justifyContent: 'flex-start', // 아이템을 왼쪽 정렬로 변경
-        width:"220px",
-        height:"50px"
+        width: "220px",
+        height: "50px"
     },
     title: {
         fontWeight: 'bold',
         color: '#FFA000', // Set the text color to the blue shade you were using
         flexGrow: 1,
-        fontFamily:'IBM Plex Sans KR',
+        fontFamily: 'IBM Plex Sans KR',
         verticalAlign: 'middle', // 수직 가운데 정렬
-        fontSize:"16px"
+        fontSize: "16px"
     },
     infoText: {
-        fontFamily:'IBM Plex Sans KR',
-        fontSize:"18px"
+        fontFamily: 'IBM Plex Sans KR',
+        fontSize: "18px"
     },
-    monthTitle:{
+    monthTitle: {
         fontWeight: 'bold',
-        fontFamily:'IBM Plex Sans KR',
+        fontFamily: 'IBM Plex Sans KR',
         verticalAlign: 'middle', // 수직 가운데 정렬
-        fontSize:"16px"
+        fontSize: "16px"
 
     },
-    countMonthTitle:{
+    countMonthTitle: {
         fontWeight: 'bold',
-        fontFamily:'IBM Plex Sans KR',
-        color:'#2568ac',
-        fontSize:"16px"
+        fontFamily: 'IBM Plex Sans KR',
+        color: '#2568ac',
+        fontSize: "16px"
 
     }
     // If you had other styles, make sure they are included here
@@ -51,19 +51,20 @@ class ApprovalRequestedAttendance extends Component {
     state = {
         approvalRequestedAttendance: null,
     };
+    loopStop = false;
 
     constructor(props, context) {
         super(props, context);
-        stateStore.appealRequestStateSet={state:this.state,setState:this.setState}
+        stateStore.appealRequestStateSet = {state: this.state, setState: this.setState}
         this.loadrequestAttendanceCount = this.loadrequestAttendanceCount.bind(this)
     }
 
     componentDidMount() {
         this.loadrequestAttendanceCount();
     }
-    loopStop=false;
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(!this.loopStop){
+        if (!this.loopStop) {
             this.loadrequestAttendanceCount();
         }
     }
@@ -85,7 +86,7 @@ class ApprovalRequestedAttendance extends Component {
     }
 
     render() {
-        this.loopStop=!this.loopStop;
+        this.loopStop = !this.loopStop;
         const {approvalRequestedAttendance} = this.state;
         const {classes, month} = this.props;
 
@@ -94,19 +95,19 @@ class ApprovalRequestedAttendance extends Component {
 
         return (
             <Paper className={classes.paper}>
-                <span style={{ marginRight: '8px', verticalAlign: 'middle' }}>•</span>
-                    <Typography variant="h6"  className={classes.countMonthTitle}>
-                        {monthName}
-                    </Typography>
-                    <Typography variant="h6"  className={classes.monthTitle}>
-                        &nbsp;근태&nbsp;
-                    </Typography>
-                    <Typography variant="h6"  className={classes.title}>
-                        이상 요청중
-                    </Typography>
-                    <Typography variant="h5" className={classes.infoText}>
-                        {approvalRequestedAttendance !== null ? approvalRequestedAttendance : 'Loading...'}
-                    </Typography>
+                <span style={{marginRight: '8px', verticalAlign: 'middle'}}>•</span>
+                <Typography variant="h6" className={classes.countMonthTitle}>
+                    {monthName}
+                </Typography>
+                <Typography variant="h6" className={classes.monthTitle}>
+                    &nbsp;근태&nbsp;
+                </Typography>
+                <Typography variant="h6" className={classes.title}>
+                    이상 요청중
+                </Typography>
+                <Typography variant="h5" className={classes.infoText}>
+                    {approvalRequestedAttendance !== null ? approvalRequestedAttendance : 'Loading...'}
+                </Typography>
 
             </Paper>
         );
