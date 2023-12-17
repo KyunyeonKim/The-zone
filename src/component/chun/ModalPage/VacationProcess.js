@@ -27,11 +27,12 @@ import {
     DialogContentText,
     DialogTitle,
     Grid,
-    IconButton,
+    IconButton, Snackbar,
     SvgIcon
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import {stateStore} from "../../../index";
+import {Alert} from "@material-ui/lab";
 
 // const {employeeId} = this.props;
 // const {closeModal} = this.props
@@ -117,6 +118,8 @@ class VacationProcess extends Component {
             dialogOpen: false,
             dialogTitle: '',
             dialogMessage: '',
+            inputCheckSnackbarOpen:false,
+            searchResultSnackbarOpen:false
 
         };
 
@@ -134,7 +137,28 @@ class VacationProcess extends Component {
         this.onRejectBtnClick = this.onRejectBtnClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.reRnderer = this.reRnderer.bind(this);
+        this.handleInputCheck=this.handleInputCheck.bind(this);
+        this.handleInputCheckClose=this.handleInputCheckClose.bind(this);
+        this.handleSearchResultCheck=this.handleSearchResultCheck.bind(this);
+        this.handleSearchResultCheckClose=this.handleSearchResultCheckClose.bind(this);
     }
+
+    handleInputCheck=()=>{
+        this.setState({inputCheckSnackbarOpen:true});
+    }
+
+    handleInputCheckClose=()=>{
+        this.setState({inputCheckSnackbarOpen:false});
+    }
+
+    handleSearchResultCheck=()=>{
+        this.setState({searchResultSnackbarOpen:true});
+    }
+
+    handleSearchResultCheckClose=()=>{
+        this.setState({searchResultSnackbarOpen:false});
+    }
+
 
     searchKeywordChange = (e) => {
         this.searchKeyword = e.target.value;
@@ -235,7 +259,8 @@ class VacationProcess extends Component {
         const searchKeyword = this.searchKeyword;
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
-            alert("올바르지 않은 입력입니다!");
+            this.handleInputCheck();
+            // alert("올바르지 않은 입력입니다!");
             return;
         }
 
@@ -248,7 +273,8 @@ class VacationProcess extends Component {
                 console.log("searchRawData :", searchRawData);
 
                 if (searchRawData.data === "") {
-                    alert("검색 결과가 없습니다!");
+                    this.handleSearchResultCheck();
+                    // alert("검색 결과가 없습니다!");
                     return;
                 }
 
@@ -377,6 +403,16 @@ class VacationProcess extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (
             <div>
+                <Snackbar open={this.state.inputCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
+                    <Alert onClose={this.handleInputCheckClose} severity="warning">
+                        올바르지 않은 입력입니다!
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={this.state.searchResultSnackbarOpen} autoHideDuration={2000} onClose={this.handleSearchResultCheckClose}>
+                    <Alert onClose={this.handleSearchResultCheckClose} severity="warning">
+                        검색 결과가 없습니다!
+                    </Alert>
+                </Snackbar>
                 <Dialog
                     open={dialogOpen}
                     onClose={this.closeDialog}

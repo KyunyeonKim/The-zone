@@ -9,7 +9,7 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select, Typography,
+    Select, Snackbar, Typography,
 } from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
@@ -21,6 +21,7 @@ import {stateStore} from "../../../index";
 import defaultPersonImage from "../../kim/static/defaultPersonImage.png";
 import SettingButtonComponent from "../Component/Button/SettingButtonComponent";
 import Button from "@material-ui/core/Button";
+import {Alert} from "@material-ui/lab";
 
 // const {closeModal} = this.props
 const styles = (theme) => ({
@@ -92,6 +93,8 @@ class AppealRequest extends Component {
             dialogTitle: '',
             dialogMessage: '',
             approveDialogOpen: false,
+            mustAllInputSnackbarOpen:false,
+            inputTimeSnackbarOpen:false,
         };
 
         this.attendanceHour = "";
@@ -110,7 +113,11 @@ class AppealRequest extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.approveAbnormal = this.approveAbnormal.bind(this);
-        this.doApprove = this.doApprove.bind(this)
+        this.doApprove = this.doApprove.bind(this);
+        this.handleMustAllInputCheck=this.handleMustAllInputCheck.bind(this);
+        this.handleMustAllInputCheckClose=this.handleMustAllInputCheckClose.bind(this);
+        this.handleInputCheck=this.handleInputCheck.bind(this);
+        this.handleInputCheckClose=this.handleInputCheckClose.bind(this);
 
     }
 
@@ -203,15 +210,33 @@ class AppealRequest extends Component {
         this.setState({uploadFile: imageFile});
     };
 
+    handleMustAllInputCheck=()=>{
+        this.setState({mustAllInputSnackbarOpen:true});
+    }
+
+    handleMustAllInputCheckClose=()=>{
+        this.setState({mustAllInputSnackbarOpen:false});
+    }
+
+    handleInputCheck=()=>{
+        this.setState({inputTimeSnackbarOpen:true});
+    }
+
+    handleInputCheckClose=()=>{
+        this.setState({inputTimeSnackbarOpen:false});
+    }
+
     submitForm = async (e) => {
-        if (this.attendanceHour === "" || this.attendanceMinute === "" || this.leavingHour === "" || this.leavingMinute === "" || this.reason === "") {
-            alert("모든 값을 입력해주세요!");
+        if (this.attendanceHour === "" || this.attendanceMinute === "" || this.leavingHour === "" || this.leavingMinute === "" || this.reason === ""||this.state.uploadFile===null) {
+            this.handleMustAllInputCheck();
+            // alert("모든 값을 입력해주세요!");
             return;
         }
 
         if (this.attendanceHour > this.leavingHour || (this.attendanceHour === this.leavingHour && this.attendanceMinute > this.leavingMinute)) {
             console.log(this.attendanceHour, this.leavingHour, this.attendanceMinute, this.leavingMinute)
-            alert("출근시간은 퇴근시간보다 빨라야 합니다.")
+            this.handleInputCheck();
+            // alert("출근시간은 퇴근시간보다 빨라야 합니다.");
             return;
         }
 
@@ -290,7 +315,20 @@ class AppealRequest extends Component {
     renderForm = () => {
         const {classes} = this.props;
         const uploadFile = this.state.uploadFile
-        return (<form onSubmit={this.submitForm}>
+        return (
+            <form onSubmit={this.submitForm}>
+                <Snackbar open={this.state.mustAllInputSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustAllInputCheckClose}>
+                    <Alert onClose={this.handleMustAllInputCheckClose} severity="warning">
+                        모든 칸을 채워주세요!
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar open={this.state.inputTimeSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
+                    <Alert onClose={this.handleInputCheckClose} severity="warning">
+                        출근 시간은 퇴근 시간보다 빨라야 합니다!
+                    </Alert>
+                </Snackbar>
+
                 <table className={classes.formTable}>
                     <tbody>
                     <tr>

@@ -227,7 +227,6 @@ export default class CalendarContainer extends React.Component {
     //선택한 날짜에서 가장 가까운 휴일과, 토요일과의 거리 측정
     getClosestSaturday(eventDate) {
         const today = new Date(eventDate);
-        alert(`${today}`)
         const currentDayOfWeek = today.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
         if (currentDayOfWeek === 6 || currentDayOfWeek === 0) {
             return 0;

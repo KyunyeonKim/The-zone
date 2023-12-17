@@ -5,7 +5,16 @@ import TextFieldComponent from "./TextFieldComponent";
 import axios from "axios";
 import AddButtonComponent from "./Button/AddButtonComponent";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Snackbar
+} from "@material-ui/core";
+import {Alert} from "@material-ui/lab";
 
 class ProcessAppealRequestListComponent extends Component {
 
@@ -27,6 +36,8 @@ class ProcessAppealRequestListComponent extends Component {
         this.sendRejectData=this.sendRejectData.bind(this);
         this.onApprovalButtonClick=this.onApprovalButtonClick.bind(this);
         this.onRejectButtonClick=this.onRejectButtonClick.bind(this);
+        this.handleRejectReasonOpen=this.handleRejectReasonOpen.bind(this);
+        this.handleRejectReasonOpenClose=this.handleRejectReasonOpenClose.bind(this);
 
     }
     inputValue;
@@ -141,6 +152,14 @@ class ProcessAppealRequestListComponent extends Component {
         this.sendApproveData(this.row.employeeId,this.row.attendanceAppealRequestId);
     };
 
+    handleRejectReasonOpen=()=>{
+        this.setState({rejectReasonSnackbarOpen:true})
+    }
+
+    handleRejectReasonOpenClose=()=>{
+        this.setState({rejectReasonSnackbarOpen:false})
+    }
+
     onRejectButtonClick = async(e)=>{
         if(!this.state.clickRejectBtn){
             console.log("onRejectButtonClick");
@@ -151,7 +170,7 @@ class ProcessAppealRequestListComponent extends Component {
         }
         else{
             if(this.inputValue === ""|| this.inputValue ===null){
-                alert("반려 사유를 반드시 입력하세요!");
+                this.handleRejectReasonOpen();
                 return;
             }
 
@@ -167,7 +186,12 @@ class ProcessAppealRequestListComponent extends Component {
         this.onApproveBtnClick=onApproveBtnClick;
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
-        return (
+        return (<>
+            <Snackbar open={this.state.rejectReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleRejectReasonOpenClose}>
+                <Alert onClose={this.handleRejectReasonOpenClose} severity="warning">
+                    반려 사유를 반드시 입력하세요!
+                </Alert>
+            </Snackbar>
             <TableRow key={keyData}>
                 <Dialog
                     open={dialogOpen}
@@ -239,6 +263,8 @@ class ProcessAppealRequestListComponent extends Component {
                 </TableCell>
 
             </TableRow>
+        </>
+
         );
     }
 }

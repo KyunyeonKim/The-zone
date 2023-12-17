@@ -6,13 +6,14 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, Snackbar,
     TextField,
 } from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import axios from "axios";
 import BlackButtonComponent from "../Component/Button/BlackButtonComponent";
 import SettingButtonComponent from "../Component/Button/SettingButtonComponent";
+import {Alert} from "@material-ui/lab";
 
 // const {closeModal} = this.props
 
@@ -76,9 +77,14 @@ class VacationDefaultSetting extends Component {
             dialogOpen: false,
             dialogTitle: '',
             dialogMessage: '',
+            canOnlyNumberSnackbarOpen:false,
+            // canOnlyNumberForSeniorSnackbarOpen:false,
+            mustAllInputSnackbarOpen:false
 
         };
-        this.targetYear = ""
+        this.targetYear = "";
+        this.newFreshMan="";
+        this.newSenior="";
 
 
         this.login = this.login.bind(this);
@@ -86,8 +92,44 @@ class VacationDefaultSetting extends Component {
         this.submitForm = this.submitForm.bind(this);
         this.buttonClick = this.buttonClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.getNewFreshManChange = this.getNewFreshManChange.bind(this);
-        this.getNewSeniorChange = this.getNewSeniorChange.bind(this);
+        // this.getNewFreshManChange = this.getNewFreshManChange.bind(this);
+        // this.getNewSeniorChange = this.getNewSeniorChange.bind(this);
+        this.handleCanOnlyNumberCheck=this.handleCanOnlyNumberCheck.bind(this);
+        this.handleCanOnlyNumberCheckClose=this.handleCanOnlyNumberCheckClose.bind(this);
+        // this.handleCanOnlyNumberCheckForSenior=this.handleCanOnlyNumberCheckForSenior.bind(this);
+        // this.handleCanOnlyNumberCheckForSeniorClose=this.handleCanOnlyNumberCheckForSeniorClose.bind(this);
+        this.handleMustAllInputCheck=this.handleMustAllInputCheck.bind(this);
+        this.handleMustAllInputCheckClose=this.handleMustAllInputCheckClose.bind(this);
+
+    }
+
+    targetYear
+    newFreshMan
+    newSenior
+
+    handleCanOnlyNumberCheck=(newFreshManChange)=>{
+        this.setState({canOnlyNumberSnackbarOpen:true});
+    }
+
+    handleCanOnlyNumberCheckClose=()=>{
+        this.setState({canOnlyNumberSnackbarOpen:false});
+    }
+
+    // handleCanOnlyNumberCheckForSenior=()=>{
+    //     this.setState({...this.state,canOnlyNumberForSeniorSnackbarOpen:true});
+    // }
+    //
+    // handleCanOnlyNumberCheckForSeniorClose=()=>{
+    //     this.setState({...this.state,canOnlyNumberForSeniorSnackbarOpen:false});
+    // }
+
+
+    handleMustAllInputCheck=()=>{
+        this.setState({...this.state,mustAllInputSnackbarOpen:true});
+    }
+
+    handleMustAllInputCheckClose=()=>{
+        this.setState({...this.state,mustAllInputSnackbarOpen:false});
     }
 
     componentDidMount() {
@@ -155,20 +197,36 @@ class VacationDefaultSetting extends Component {
         }
     };
 
+
     submitForm = async (e) => {
-        if (this.state.newSeniorCount === "" || this.state.newFreshManCount === "") {
-            alert("모든 값을 입력하세요!");
+        if (this.newSenior=== "" || this.newFreshMan === "") {
+            this.handleMustAllInputCheck();
+            // ("모든 값을 입력하세요!");
             return;
         }
+
+        if (!(/^[1-9]\d*$/).test(this.newFreshMan)) {
+            // alert("0이상 숫자만 입력가능합니다!");
+            this.handleCanOnlyNumberCheck();
+            return;
+        }
+
+            if (!(/^[1-9]\d*$/).test(this.newSenior)) {
+            // alert("0이상 숫자만 입력가능합니다!");
+            this.handleCanOnlyNumberCheck();
+            return;
+        }
+
+
 
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append("freshman", this.state.newFreshManCount);
-        formData.append("senior", this.state.newSeniorCount);
+        formData.append("freshman", this.newFreshMan);
+        formData.append("senior", this.newSenior);
         formData.append("targetDate", this.targetYear + "-01-01");
 
-        console.log("Form data:", this.state.newFreshManCount, this.state.newSeniorCount, this.targetYear + "-01-01");
+        console.log("Form data:", this.newFreshMan, this.newSenior, this.targetYear + "-01-01");
         //서버 요청 보낼 것
 
         try {
@@ -245,25 +303,7 @@ class VacationDefaultSetting extends Component {
         this.setState({...this.state, open: false});
     }
 
-    getNewFreshManChange = (e) => {
-        const newFreshManChange = e.target.value;
-        if (!(/^[1-9]\d*$/).test(newFreshManChange)) {
-            alert("0이상 숫자만 입력가능합니다!");
-            this.setState({...this.state, newFreshManCount: ""});
-            return;
-        }
-        this.setState({...this.state, newFreshManCount: newFreshManChange});
 
-    }
-    getNewSeniorChange = (e) => {
-        const newSeniorChange = e.target.value;
-        if (!(/^[1-9]\d*$/).test(newSeniorChange)) {
-            alert("0이상 숫자만 입력가능합니다!");
-            this.setState({...this.state, newSeniorCount: ""});
-            return;
-        }
-        this.setState({...this.state, newSeniorCount: newSeniorChange});
-    }
     showErrorDialog = (title, message) => {
         this.setState({
             dialogOpen: true,
@@ -293,6 +333,22 @@ class VacationDefaultSetting extends Component {
 
         return (
             <div>
+                <Snackbar open={this.state.mustAllInputSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustAllInputCheckClose}>
+                    <Alert onClose={this.handleMustAllInputCheckClose} severity="warning">
+                        모든 값을 입력하세요!
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={this.state.canOnlyNumberSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberCheckClose}>
+                    <Alert onClose={this.handleCanOnlyNumberCheckClose} severity="warning">
+                        1이상의 숫자만 입력가능합니다!
+                    </Alert>
+                </Snackbar>
+                {/*<Snackbar open={this.state.canOnlyNumberForSeniorSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberCheckForSeniorClose}>*/}
+                {/*    <Alert onClose={this.handleCanOnlyNumberCheckForSeniorClose} severity="warning">*/}
+                {/*        1이상의 숫자만 입력가능합니다!*/}
+                {/*    </Alert>*/}
+                {/*</Snackbar>*/}
+
                 <Dialog
                     open={dialogOpen}
                     onClose={this.closeDialog}
@@ -364,10 +420,15 @@ class VacationDefaultSetting extends Component {
                                         <TextField
                                             id={"getNewFreshManData"}
                                             className={classes.textField}
-                                            value={this.state.newFreshManCount}
+                                            // value={this.state.newFreshManCount}
+                                            onChange={(e)=>{
+
+                                                this.newFreshMan=e.target.value;
+                                            }}
                                             label="변경된 1년 미만연차 개수"
-                                            onChange={this.getNewFreshManChange}
+                                            // onChange={this.getNewFreshManChange}
                                         />
+
                                     </td>
                                 </tr>
 
@@ -383,9 +444,12 @@ class VacationDefaultSetting extends Component {
                                         <TextField
                                             id={"getNewSeniorData"}
                                             className={classes.textField}
-                                            value={this.state.newSeniorCount}
+                                            onChange={(e)=>{
+                                                this.newSenior=e.target.value;
+                                            }}
+                                            // value={this.state.newSeniorCount}
                                             label="변경된 1년 이상 연차 개수"
-                                            onChange={this.getNewSeniorChange}
+                                            // onChange={this.getNewSeniorChange}
                                         />
                                     </td>
                                 </tr>
