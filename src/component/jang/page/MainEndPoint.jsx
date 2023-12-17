@@ -94,7 +94,7 @@ class MainEndPoint extends Component {
                                         onClose={handleCloseAlert}
                                     >
                                         <Alert onClose={handleCloseAlert} severity="error">
-                                            '세션 로그인에 성공하였습니다'
+                                            '로그인에 성공하였습니다'
                                         </Alert>
                                     </Snackbar>
                                     <AdminMain userType={'admin'}/></>
@@ -106,7 +106,7 @@ class MainEndPoint extends Component {
                                             onClose={handleCloseAlert}
                                         >
                                             <Alert onClose={handleCloseAlert} severity="info">
-                                                '세션 로그인에 성공하였습니다'
+                                                '로그인에 성공하였습니다'
                                             </Alert>
 
                                         </Snackbar>
@@ -120,7 +120,7 @@ class MainEndPoint extends Component {
                                                 onClose={handleCloseAlert}
                                             >
                                                 <Alert onClose={handleCloseAlert} severity="info">
-                                                    '세션 로그인에 성공하였습니다'
+                                                    '로그인에 성공하였습니다'
                                                 </Alert>
 
                                             </Snackbar>
