@@ -120,7 +120,7 @@ class AppealInfo extends Component {
                                 <TableCell align="center" className={classes.titleText}>조정 퇴근 시간</TableCell>
                                 <TableCell align="center" className={classes.titleText}>조정 사유</TableCell>
                                 <TableCell align="center" className={classes.titleText}>조정 작성 시간</TableCell>
-                                <TableCell align="center" className={classes.titleText}>요청 반려 이유</TableCell>
+                                <TableCell align="center" className={classes.titleText}>요청 반려 사유</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

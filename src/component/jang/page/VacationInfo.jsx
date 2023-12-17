@@ -174,6 +174,7 @@ class VacationInfo extends Component {
                                 <TableCell align="center" className={classes.titleText}>요청 사유</TableCell>
                                 <TableCell align="center" className={classes.titleText}>요청 작성 시간</TableCell>
                                 <TableCell align="center" className={classes.titleText}>신청 상태</TableCell>
+                                <TableCell align="center" className={classes.titleText}>요청 반려 사유</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -185,6 +186,7 @@ class VacationInfo extends Component {
                                     <TableCell align="center" className={classes.text}>{item.reason}</TableCell>
                                     <TableCell align="center" className={classes.text}>{item.vacationRequestTime}</TableCell>
                                     <TableCell align="center" className={classes.text}>{item.vacationRequestStateCategoryKey}</TableCell>
+                                    <TableCell align="center" className={classes.text}>{item.reasonForRejection}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
