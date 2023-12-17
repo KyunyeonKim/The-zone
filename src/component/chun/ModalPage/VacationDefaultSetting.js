@@ -333,17 +333,17 @@ class VacationDefaultSetting extends Component {
 
         return (
             <div>
-                <Snackbar open={this.state.mustAllInputSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustAllInputCheckClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.mustAllInputSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustAllInputCheckClose}>
                     <Alert onClose={this.handleMustAllInputCheckClose} severity="warning">
                         모든 값을 입력하세요!
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.canOnlyNumberSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberCheckClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.canOnlyNumberSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberCheckClose}>
                     <Alert onClose={this.handleCanOnlyNumberCheckClose} severity="warning">
                         1이상의 숫자만 입력가능합니다!
                     </Alert>
                 </Snackbar>
-                {/*<Snackbar open={this.state.canOnlyNumberForSeniorSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberCheckForSeniorClose}>*/}
+                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.canOnlyNumberForSeniorSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberCheckForSeniorClose}>*/}
                 {/*    <Alert onClose={this.handleCanOnlyNumberCheckForSeniorClose} severity="warning">*/}
                 {/*        1이상의 숫자만 입력가능합니다!*/}
                 {/*    </Alert>*/}

@@ -200,13 +200,15 @@ class VacationRequest extends Component {
     submitForm = async (e) => {
         e.preventDefault();
 
-        if (this.reason === "" || this.reason === null) {
-            this.handleMustInputReasonSnackbarOpen();
-            return;
-        }
+
 
         if(!/^[1-9][0-9]*$/.test(this.state.getData)){
             this.handleCanOnlyNumberSnackbarOpen();
+            return;
+        }
+
+        if (this.reason === "" || this.reason === null) {
+            this.handleMustInputReasonSnackbarOpen();
             return;
         }
 
@@ -308,22 +310,22 @@ class VacationRequest extends Component {
         return (
             <Grid item lg={12}>
 
-                <Snackbar open={this.state.mustInputReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustInputReasonSnackbarOpenClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.mustInputReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustInputReasonSnackbarOpenClose}>
                     <Alert onClose={this.handleMustInputReasonSnackbarOpenClose} severity="warning">
                         신청 사유를 입력하세요!
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.canOnlyNumberSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberSnackbarOpenClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.canOnlyNumberSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanOnlyNumberSnackbarOpenClose}>
                     <Alert onClose={this.handleCanOnlyNumberSnackbarOpenClose} severity="warning">
                         개수에 0보다 큰 정수 데이터를 입력하세요!
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.maxCountSnackbarOpen} autoHideDuration={2000} onClose={this.handleMaxCountSnackbarOpenClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.maxCountSnackbarOpen} autoHideDuration={2000} onClose={this.handleMaxCountSnackbarOpenClose}>
                     <Alert onClose={this.handleMaxCountSnackbarOpenClose} severity="warning">
                         존재 연차 개수보다 작게 입력해주세요!
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.canUseCountSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanUseCountSnackbarOpenClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.canUseCountSnackbarOpen} autoHideDuration={2000} onClose={this.handleCanUseCountSnackbarOpenClose}>
                     <Alert onClose={this.handleCanUseCountSnackbarOpenClose} severity="warning">
                         최대 사용 연차 개수보다 작게 입력해주세요!
                     </Alert>

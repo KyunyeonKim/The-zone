@@ -5,7 +5,7 @@ import {Box} from "@material-ui/core";
 const NotFoundPage = () => {
     const styles = {
         container: {
-            backgroundImage:'url(../src/component/jang/component/images/2wave1.png)',
+            backgroundImage:'url(../src/component/jang/component/images/2wave1.webp)',
             backgroundSize:'cover',
             display: 'flex',
             flexDirection: 'column',

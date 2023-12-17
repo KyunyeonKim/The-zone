@@ -172,7 +172,7 @@ class VacationProcessListComponent extends Component {
 
         return (
             <>
-                <Snackbar open={this.state.rejectReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleRejectReasonOpenClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.rejectReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleRejectReasonOpenClose}>
                     <Alert onClose={this.handleRejectReasonOpenClose} severity="warning">
                         반려 사유를 반드시 입력하세요!
                     </Alert>

@@ -403,12 +403,12 @@ class VacationProcess extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         return (
             <div>
-                <Snackbar open={this.state.inputCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
                     <Alert onClose={this.handleInputCheckClose} severity="warning">
                         올바르지 않은 입력입니다!
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.searchResultSnackbarOpen} autoHideDuration={2000} onClose={this.handleSearchResultCheckClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.searchResultSnackbarOpen} autoHideDuration={2000} onClose={this.handleSearchResultCheckClose}>
                     <Alert onClose={this.handleSearchResultCheckClose} severity="warning">
                         검색 결과가 없습니다!
                     </Alert>

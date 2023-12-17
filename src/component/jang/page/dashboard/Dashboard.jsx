@@ -254,14 +254,13 @@ export default function Dashboard(props) {
             <div className={classes.appBarSpacer}/>
             {/*contents container*/}
             <Grid container>
-                   {/*style={{backgroundImage:'url(../src/component/jang/component/images/4wave1.png)',backgroundSize:'cover' }}>*/}
                 <Grid item style={{ width: '1200px', margin: '0 auto'}}>
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
                         {sessionStorage.getItem('userType') !== 'admin' ?
                             <Grid container xs={12} md={12} lg={12}>
                                 <Grid item xs={12} md={12} lg={12} >
-                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(../src/component/jang/component/images/wave11.png)',backgroundSize:'cover'}}>
+                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(../src/component/jang/component/images/wave11.webp)',backgroundSize:'cover'}}>
                                         <ChartContainer/>
                                     </Paper>
 
@@ -304,17 +303,6 @@ export default function Dashboard(props) {
                                                     <AttendanceInfoButtonContainer/>: <></>}
                                             </Paper>
                                         </Grid>
-                                        {/*<Grid item   xs={12} md={12} lg={12}>*/}
-                                        {/*    <Paper style={{marginTop:"8px"}}>*/}
-                                        {/*        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.paperTitle}>*/}
-                                        {/*            사용자 정보*/}
-                                        {/*        </Typography>*/}
-                                        {/*        <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}*/}
-                                        {/*                        employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}*/}
-                                        {/*                        profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}*/}
-                                        {/*                        toggleModalShowing={props.toggleModalShowing}/>*/}
-                                        {/*    </Paper>*/}
-                                        {/*</Grid>*/}
 
                                         <Grid item   xs={12} md={12} lg={12} style={{padding:"0px 8px 0px 8px"}}>
                                             <Paper>
@@ -336,7 +324,7 @@ export default function Dashboard(props) {
                                                 </Box>
                                                 <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                 employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
-                                                                profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/logo.png' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
+                                                                profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/photo1.webp' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                 toggleModalShowing={props.toggleModalShowing}/>
                                             </Paper>
                                         </Grid>
@@ -344,13 +332,13 @@ export default function Dashboard(props) {
                                         <Box component={'div'} className={classes.slickSlider}>
                                             <Slider  {...settings}>
                                                 <Box component={'div'}>
-                                                    <img src={"../src/component/jang/component/images/logo.png"} alt="logo" style={{width: '100%', height: '100px',}}/>
+                                                    <img src={"../src/component/jang/component/images/photo1.webp"} alt="logo" style={{width: '100%', height: '100px',}}/>
                                                 </Box>
                                                 <Box component={'div'}>
-                                                    <img src={"../src/component/jang/component/images/Amaranth10.png"}alt="logo" style={{width: '100%', height: '100px',}}/>
+                                                    <img src={"../src/component/jang/component/images/photo2.webp"}alt="logo" style={{width: '100%', height: '100px',}}/>
                                                 </Box>
                                                 <Box component={'div'}>
-                                                    <img src={"../src/component/jang/component/images/Amaranth101.png"} alt="logo" style={{width: '100%', height: '100px',  }}/>
+                                                    <img src={"../src/component/jang/component/images/photo3.webp"} alt="logo" style={{width: '100%', height: '100px',  }}/>
                                                 </Box>
                                             </Slider>
                                         </Box>

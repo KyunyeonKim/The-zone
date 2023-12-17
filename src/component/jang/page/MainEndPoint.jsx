@@ -88,7 +88,7 @@ class MainEndPoint extends Component {
                         path="/main"
                         element={loggedIn === "true" ? (userData.admin ?
                                 <>
-                                    <Snackbar
+                                    <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}} 
                                         open={openAlert}
                                         autoHideDuration={6000}
                                         onClose={handleCloseAlert}
@@ -100,7 +100,7 @@ class MainEndPoint extends Component {
                                     <AdminMain userType={'admin'}/></>
                                 :
                                 userData.manager === true ? <>
-                                        <Snackbar
+                                        <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}} 
                                             open={openAlert}
                                             autoHideDuration={6000}
                                             onClose={handleCloseAlert}
@@ -114,7 +114,7 @@ class MainEndPoint extends Component {
 
                                     : !userData.manager && !userData.admin ?
                                         <>
-                                            <Snackbar
+                                            <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}} 
                                                 open={openAlert}
                                                 autoHideDuration={6000}
                                                 onClose={handleCloseAlert}

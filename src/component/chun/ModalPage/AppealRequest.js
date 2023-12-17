@@ -317,13 +317,13 @@ class AppealRequest extends Component {
         const uploadFile = this.state.uploadFile
         return (
             <form onSubmit={this.submitForm}>
-                <Snackbar open={this.state.mustAllInputSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustAllInputCheckClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.mustAllInputSnackbarOpen} autoHideDuration={2000} onClose={this.handleMustAllInputCheckClose}>
                     <Alert onClose={this.handleMustAllInputCheckClose} severity="warning">
                         모든 칸을 채워주세요!
                     </Alert>
                 </Snackbar>
 
-                <Snackbar open={this.state.inputTimeSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputTimeSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
                     <Alert onClose={this.handleInputCheckClose} severity="warning">
                         출근 시간은 퇴근 시간보다 빨라야 합니다!
                     </Alert>

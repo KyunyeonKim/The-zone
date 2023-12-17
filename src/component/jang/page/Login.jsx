@@ -12,7 +12,7 @@ import Container from '@material-ui/core/Container';
 import axios from "axios";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import loginImg from './login.png';
+
 
 function Copyright() {
     return (<Typography variant="body2" color="textSecondary" align="center">
@@ -105,8 +105,7 @@ function Login() {
 
         <div style={styles}>
                 <div style={{display:"flex",width:"60%",height:"70%",justifyContent:'center',alignItems:'center',boxShadow: '0px 4px 8px gray'}}>
-                    <Box component={"div"} style={{backgroundImage:'url(../src/component/jang/component/images/building.png)',width:"40%",height:"100%"}}/>
-                    {/*'url(../src/component/jang/component/images/wave11.png)'*/}
+                    <Box component={"div"} style={{backgroundImage:'url(../src/component/jang/component/images/building.webp)',width:"40%",height:"100%"}}/>
 
                     <Box component={"div"} style={{backgroundColor:"#F6FAFD",width:"60%",height:"100%",display:"flex",justifyContent:"center"}}>
                             <div className={classes.paper}>
@@ -143,7 +142,7 @@ function Login() {
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                     {/* 알림창 */}
-                                    <Snackbar
+                                    <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}} 
                                         open={openAlert}
                                         autoHideDuration={6000}
                                         onClose={handleCloseAlert}
