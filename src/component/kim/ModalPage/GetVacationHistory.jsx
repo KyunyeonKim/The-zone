@@ -131,7 +131,7 @@ class GetVacationHistory extends Component {
                         margin: '20px 0',
                         paddingBottom: '10px'
                     }}>
-                    연차 사용 요청 이력 조회
+                    전사원 연차 사용 내역
                 </Box>
                 <Box my={4}>
                     <SearchYearMonthDay onSearch={this.handleSearchSubmit}/>

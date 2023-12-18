@@ -15,10 +15,19 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon,} from '@material-ui/core';
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton, Snackbar,
+    SvgIcon,
+} from '@material-ui/core';
 import Pagination from "react-js-pagination";
-import EmployeeVacationSettingListComponent from "./EmployeeVacationSettingListComponent";
+import EmployeeVacationSettingListComponent from "../Component/EmployeeVacationSettingListComponent";
 import SearchIcon from '@material-ui/icons/Search';
+import {Alert} from "@material-ui/lab";
 
 /*TODO : 리스트 한줄을 컴포넌트로 변경할 것*/
 const styles = (theme) => ({
@@ -28,11 +37,11 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'1rem',
+        fontSize:'16px',
         fontFamily:'IBM Plex Sans KR'
     },
     titleText:{
-        fontSize:'1.2rem',
+        fontSize:'22px',
         fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold'
     },
@@ -94,6 +103,8 @@ class EmployeeVacationSetting extends Component {
             desc:'',
             sort:'',
             isSearch:false,
+            searchNoContentSnackbarOpen:false,
+            inputDataCheckSnackbarOpen:false
         };
         this.searchKeyword="";
         this.desc="";
@@ -109,6 +120,10 @@ class EmployeeVacationSetting extends Component {
         this.DeleteHandleOpen = this.DeleteHandleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.searchKeywordChange=this.searchKeywordChange.bind(this);
+        this.handleSearchNoContentSnackbarOpen=this.handleSearchNoContentSnackbarOpen.bind(this);
+        this.handleSearchNoContentSnackbarOpenClose=this.handleSearchNoContentSnackbarOpenClose.bind(this);
+        this.handleInputDataCheckSnackbarOpen=this.handleInputDataCheckSnackbarOpen.bind(this);
+        this.handleInputDataCheckSnackbarOpenClose=this.handleInputDataCheckSnackbarOpenClose.bind(this);
 
     }
 
@@ -116,6 +131,23 @@ class EmployeeVacationSetting extends Component {
     desc;
     sort;
     loginId;
+
+    handleInputDataCheckSnackbarOpen=()=>{
+        this.setState({inputDataCheckSnackbarOpen:true});
+    }
+
+    handleInputDataCheckSnackbarOpenClose=()=>{
+        this.setState({inputDataCheckSnackbarOpen:false});
+    }
+
+    handleSearchNoContentSnackbarOpen=()=>{
+        this.setState({searchNoContentSnackbarOpen:true});
+    }
+
+    handleSearchNoContentSnackbarOpenClose=()=>{
+        this.setState({searchNoContentSnackbarOpen:false});
+    }
+
 
     AddHandleOpen = () => {
         this.setState({...this.state,addOpen:true});
@@ -318,7 +350,7 @@ class EmployeeVacationSetting extends Component {
 
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
-            this.showDialog("올바르지 않는 입력입니다")
+            this.handleInputDataCheckSnackbarOpen();
             return;
         }
 
@@ -334,7 +366,7 @@ class EmployeeVacationSetting extends Component {
                 console.log("searchResponse : ",searchResponse);
 
                 if(searchResponse===""){
-                    this.showDialog("검색 결과가 없습니다 ")
+                    this.handleSearchNoContentSnackbarOpen();
                     return;
                 }
 
@@ -411,6 +443,17 @@ class EmployeeVacationSetting extends Component {
 
         return (
             <Box>
+
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputDataCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputDataCheckSnackbarOpenClose}>
+                    <Alert onClose={this.handleInputDataCheckSnackbarOpenClose} severity="warning">
+                        입력 값이 올바른 형식이 아닙니다!
+                    </Alert>
+                </Snackbar>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.searchNoContentSnackbarOpen} autoHideDuration={2000} onClose={this.handleSearchNoContentSnackbarOpenClose}>
+                    <Alert onClose={this.handleSearchNoContentSnackbarOpenClose} severity="warning">
+                        검색 결과가 없습니다!
+                    </Alert>
+                </Snackbar>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 개수 추가</DialogTitle>
                     <DialogContent>
@@ -440,24 +483,43 @@ class EmployeeVacationSetting extends Component {
                 </Dialog>
 
 
-                <Box  style={{ width: '80%', margin: 'auto' }}>
+                <Box  style={{ width: '1600px',margin:"10px 30px 30px 30px"}}>
                     <Box
-                         sx={{fontSize:'1.5rem', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                         sx={{fontSize:'30px', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                              paddingBottom: '10px'
                          }} >
                         사원 연차 설정
                     </Box>
 
-                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
-                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
-                        </Box>
-                        <Box component="span" >
-                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
-                            cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
-                                {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
-                        </Box>
+                    {/*<Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >*/}
+                    {/*    <Box component="span" sx={{ marginRight: '10px',flex: 1}}>*/}
+                    {/*        <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>*/}
+                    {/*    </Box>*/}
+                    {/*    <Box component="span" >*/}
+                    {/*        <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}*/}
+                    {/*        cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
+                    {/*            /!*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*!/*/}
+                    {/*    </Box>*/}
+                    {/*</Box>*/}
+
+                    <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
+                        <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"56px"}} onChange={this.searchKeywordChange}/>
+
+                        <IconButton
+                            onClick={this.handleSearchButtonClick}
+                            style={{
+                                borderRadius: '6px',
+                                width: "4%",
+                                border: '1px solid #c1c1c1',
+                                height: "56px"}}>
+                            <SearchIcon />
+                        </IconButton>
+
+                        {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
+                        {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
+                        {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                     </Box>
+
 
                     <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
                         <FormControl className={classes.formControl}>
@@ -486,7 +548,7 @@ class EmployeeVacationSetting extends Component {
                     </Box>
 
 
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} style={{overflowX:'unset'}}>
                         <Table>
                             <TableHead className={classes.tableHead}>
                                 <TableRow >
