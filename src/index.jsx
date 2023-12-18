@@ -4,6 +4,7 @@ import { render } from 'react-dom'
 import './index.css'
 import MainEndPoint from "./component/jang/page/MainEndPoint";
 import ErrorBoundary from "./component/jang/page/ErrorBoundary";
+import axios from "axios";
 
 export const stateStore={}
 export const IntegratedChartOfVacationStore=[]
@@ -19,7 +20,7 @@ export const chartDataStore = {store: {
 
 
 
-
+axios.defaults.baseURL = 'http://localhost:8080';
 document.addEventListener('DOMContentLoaded', function() {
     render(<>
         <ErrorBoundary>
