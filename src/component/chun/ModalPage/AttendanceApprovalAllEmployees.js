@@ -369,15 +369,15 @@ class AttendanceApprovalAllEmployees extends Component{
                             전 사원 근태 승인 내역 조회
                         </Box>
                         <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"56px"}} onChange={this.searchKeywordChange}/>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"1300px",height:"55px"}} onChange={this.searchKeywordChange}/>
 
                             <IconButton
                                 onClick={this.handleSearchButtonClick}
                                 style={{
                                     borderRadius: '6px',
-                                    width: "4%",
+                                    width: "55px",
                                     border: '1px solid #c1c1c1',
-                                    height: "62px"}}>
+                                    height: "55px"}}>
                                 <SearchIcon />
                             </IconButton>
 

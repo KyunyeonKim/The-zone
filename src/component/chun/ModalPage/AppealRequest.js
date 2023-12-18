@@ -233,7 +233,7 @@ class AppealRequest extends Component {
             return;
         }
 
-        if (this.attendanceHour > this.leavingHour || (this.attendanceHour === this.leavingHour && this.attendanceMinute > this.leavingMinute)) {
+        if (this.attendanceHour > this.leavingHour || (this.attendanceHour === this.leavingHour && this.attendanceMinute >= this.leavingMinute)) {
             console.log(this.attendanceHour, this.leavingHour, this.attendanceMinute, this.leavingMinute)
             this.handleInputCheck();
             // alert("출근시간은 퇴근시간보다 빨라야 합니다.");
