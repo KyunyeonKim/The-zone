@@ -264,6 +264,7 @@ class AttendanceApprovalEmployee extends Component {
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
 
+
         return (
             <div>
                 <Box style={{width:"1400px"}}>

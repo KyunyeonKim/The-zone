@@ -305,7 +305,7 @@ const styles = (theme) =>({
                                         {/* 날짜 선택 필드 */}
                                         <TableRow>
                                             <TableCell className={classes.subText}>
-                                                정규 퇴근 시간
+                                                근무 시간 적용 날짜
                                             </TableCell>
                                             <TableCell colSpan={4}>
                                                 <TextField

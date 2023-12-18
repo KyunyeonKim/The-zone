@@ -264,6 +264,8 @@ class AppealRequest extends Component {
                 uploadFormData.append("identifier", this.props.args[1]);
                 uploadFormData.append("uploadFile", this.state.uploadFile);
 
+                console.log("Image data:" , uploadFormData);
+
                 const uploadResponse = await axios.post(uploadFileUrl, uploadFormData);
             }
             this.buttonClick();

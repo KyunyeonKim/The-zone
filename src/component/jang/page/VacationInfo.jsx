@@ -104,6 +104,7 @@ class VacationInfo extends Component {
         try {
             let response = await axios.get(`http://localhost:8080/employee/vacation/historyOf/${this.identifier}`);
 
+
             this.setState({ data: response.data });
         } catch (error) {
             let errorMessage = "An error occurred!";
@@ -148,7 +149,25 @@ class VacationInfo extends Component {
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
         const {classes}=this.props;
         let {data} = this.state;
+
+        const formatDate = (dateString) =>{
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = (date.getMonth()+1).toString().padStart(2,'0');
+            const day = date.getDate().toString().padStart(2,'0');
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        };
+
+
+
         data = [data]
+        data = data.map(item => ({
+            ...item,
+            vacationRequestTime: formatDate(item.vacationRequestTime)
+        }));
         return (
             <Box style={{width:"1400px",paddingBottom:'50px'}}>
                 <Box

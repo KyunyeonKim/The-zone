@@ -15,13 +15,13 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    IconButton,
+    IconButton, Snackbar,
     SvgIcon
 } from "@material-ui/core";
 import BlackButtonComponent from "../../../../chun/Component/Button/BlackButtonComponent";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
-import {ToggleButton} from "@material-ui/lab";
+import {Alert, ToggleButton} from "@material-ui/lab";
 import CheckIcon from "@material-ui/icons/Check";
 import TablePartContainer from "../TablePartContainer";
 
@@ -87,7 +87,9 @@ class AdminTablePartContainer extends Component {
         super(props);
         this.state = {
             searchKeyword: "", employeeNumberList: [], activePage: 1, // showPagiNation: 'flex',
-            size: 10, hasNext: false, totalElements: 0, desc: "", sort: "", isManager: false
+            size: 10, hasNext: false, totalElements: 0, desc: "", sort: "", isManager: false,
+            snackbarOpen:false,
+            snackbarMessage:"",
         };
 
         this.page = 1
@@ -120,7 +122,6 @@ class AdminTablePartContainer extends Component {
     fetchData = async (searchKeyword, page) => {
 
         const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
-        alert("pagedEmployeeNumberListData : "+ JSON.stringify(pagedEmployeeNumberListData.data))
         this.page = page!==null?page:this.page;
         this.searchKeyword = searchKeyword!==null||searchKeyword==''?searchKeyword:this.searchKeyword;
 
@@ -138,13 +139,21 @@ class AdminTablePartContainer extends Component {
         });
     }
 
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return; // 클릭이 아닌 다른 이유로 닫힐 때는 반응하지 않도록 함
+        }
+        this.setState({ snackbarOpen: false }); // 스낵바 상태를 닫힘으로 설정
+    };
 
     handleSearchButtonClick = async (e) => {
         // 검색 버튼 클릭 시 수행할 로직
         const searchKeyword = this.searchKeyword!==undefined || this.searchKeyword!== null?this.searchKeyword.trim():"";
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
-            alert("올바르지 않은 입력입니다!");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "올바르지 않는 입력입니다"
+            });
             return;
         }
         this.page = 1;
@@ -376,6 +385,16 @@ class AdminTablePartContainer extends Component {
                         />
                     </Box>
                 </Box>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={5000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </div>
         </Grid>)
     }

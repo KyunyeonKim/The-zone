@@ -170,6 +170,8 @@ class VacationProcessListComponent extends Component {
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
         console.log(JSON.stringify(this.state));
 
+
+
         return (
             <>
                 <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.rejectReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleRejectReasonOpenClose}>

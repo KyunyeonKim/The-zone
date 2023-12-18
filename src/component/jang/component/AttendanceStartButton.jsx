@@ -1,19 +1,31 @@
 import React, {Component} from 'react';
 import Button from "@material-ui/core/Button";
-import {Dialog, DialogActions, DialogContent, DialogTitle,} from '@material-ui/core';
+import {Dialog, DialogActions, DialogContent, DialogTitle, Snackbar,} from '@material-ui/core';
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
-import {stateStore} from "../../../index";
+import {Alert} from "@material-ui/lab";
 
 class AttendanceStartButton extends Component {
-    state = {dialogOn :false ,dialogOff:true,startTime:null}
+
+
+
+
+    state = {dialogOn :false ,dialogOff:true,startTime:null,  snackbarOpen:false,
+        snackbarMessage:"",}
     dialogOn=false
     dialogOff=true
+
     dialogShowToggle = () => {
         this.dialogOn=!this.dialogOn
         this.dialogOff=!this.dialogOff
         this.setState({dialogOn :false})
     }
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return; // 클릭이 아닌 다른 이유로 닫힐 때는 반응하지 않도록 함
+        }
+        this.setState({ snackbarOpen: false }); // 스낵바 상태를 닫힘으로 설정
+    };
 
     attendanceStarted = async () => {
         this.dialogOn=!this.dialogOn
@@ -21,7 +33,9 @@ class AttendanceStartButton extends Component {
 
         try{
             let response = await axios.post('http://localhost:8080/employee/attendance')
-            alert("업무 시작!!")
+            this.setState({
+                snackbarOpen:true , snackbarMessage:"업무를 시작합니다!"
+            });
             axios.defaults.withCredentials=true;
             let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
             let {startTime} = responseOfTodayInfo.data;
@@ -68,7 +82,16 @@ class AttendanceStartButton extends Component {
                 }}>
                     출근 <br/> {startTime}
             </Typography>}
-
+            <Snackbar
+                open={this.state.snackbarOpen}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+            >
+                <Alert onClose={this.handleSnackbarClose} severity="info">
+                    {this.state.snackbarMessage}
+                </Alert>
+            </Snackbar>
 
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 시작</DialogTitle>

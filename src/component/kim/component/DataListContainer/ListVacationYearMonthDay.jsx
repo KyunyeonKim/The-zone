@@ -18,15 +18,7 @@ import EventBusyIcon from '@material-ui/icons/EventBusy';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 
 
-const theme = createMuiTheme({
-    typography: {
-        fontFamily: [
-            'IBM Plex Sans KR',
-            'sans-serif',
-        ].join(','),
-    },
-    // 여기에 다른 테마 설정을 추가할 수 있습니다.
-});
+
 
 
 // 스타일 정의
@@ -199,7 +191,6 @@ class ListVacationYearMonthDay extends Component {
         const {data, totalElement, size, page, onPageChange, classes} = this.props;
 
         return (
-            <ThemeProvider theme={theme}>
                 <div className="some-root-class">
                     <TableContainer component={Paper} className="table-container-class">
                         <Table>
@@ -246,7 +237,7 @@ class ListVacationYearMonthDay extends Component {
                         activeClass={classes.activePageItem}
                     />
                 </div>
-            </ThemeProvider>
+
         );
     }
 }

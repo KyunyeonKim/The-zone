@@ -18,14 +18,6 @@ import EventBusyIcon from '@material-ui/icons/EventBusy';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 
 
-const theme = createMuiTheme({
-    typography: {
-        fontFamily: [
-            'IBM Plex Sans KR',
-            'sans-serif',
-        ].join(','),
-    },
-});
 
 // 스타일 정의
 const styles = theme => ({
@@ -174,7 +166,7 @@ class ListAttendanceYearMonthDay extends Component {
         const {data, totalElement, size, page, onPageChange, classes} = this.props;
 
         return (
-            <ThemeProvider theme={theme}>
+
                 <div className="some-root-class">
                     <TableContainer component={Paper} className="table-container-class">
                         <Table>
@@ -224,7 +216,6 @@ class ListAttendanceYearMonthDay extends Component {
                         activeClass={classes.activePageItem}
                     />
                 </div>
-            </ThemeProvider>
         );
     }
 }

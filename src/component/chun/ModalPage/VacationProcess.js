@@ -291,7 +291,6 @@ class VacationProcess extends Component {
 
                     };
                 });
-                console.log("getSearchAllVacationRequest : ", searchRawData);
 
 
                 this.setState({
@@ -401,6 +400,7 @@ class VacationProcess extends Component {
         const {searchKeyword, data} = this.state;
         const {classes} = this.props;
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
+
         return (
             <div>
                 <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
