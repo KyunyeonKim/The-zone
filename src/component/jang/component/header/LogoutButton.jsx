@@ -19,15 +19,40 @@ class LogoutButton extends Component {
             axios.defaults.withCredentials = true;
             await axios.get('http://localhost:8080/logout');
             sessionStorage.clear();
-            alert('logout success')
-            window.location.href = 'http://localhost:3000/login';
+            this.setState({
+                snackbarOpen: true,
+                snackbarMessage: "Logout successful",
+                snackbarSeverity: "info",
+            });
+            setTimeout(() => {
+                window.location.href = 'http://localhost:3000/login';
+            }, 1000); // 2초 후에 로그인 페이지로 이동
         } catch (error) {
             console.error('로그아웃 에러:', error);
+            this.setState({
+                snackbarOpen: true,
+                snackbarMessage: "Logout failed",
+                snackbarSeverity: "error",
+            });
         }
     };
 
+    handleSnackbarClose = () => {
+        this.setState({ snackbarOpen: false });
+    };
+
     render() {
-        return (<ExitToAppIcon onClick={this.handleLogout.bind(this)} fontSize={'large'}/>);
+        const { snackbarOpen, snackbarMessage, snackbarSeverity } = this.state;
+        return (
+            <>
+                <ExitToAppIcon onClick={this.handleLogout.bind(this)} fontSize={'large'}/>
+                <Snackbar open={snackbarOpen}  anchorOrigin={{ vertical:'top', horizontal: 'center' }} autoHideDuration={6000} onClose={this.handleSnackbarClose}>
+                    <Alert severity="info" onClose={this.handleSnackbarClose} severity={snackbarSeverity}>
+                        {snackbarMessage}
+                    </Alert>
+                </Snackbar>
+            </>
+        );
     }
 }
 

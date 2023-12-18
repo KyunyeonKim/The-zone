@@ -53,6 +53,13 @@ class SearchYearMonthDay extends Component {
 
         this.props.onSearch({year, month, day, searchParameter});
     }
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
+    }
+
 
     render() {
         return (

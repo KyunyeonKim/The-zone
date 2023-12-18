@@ -1,10 +1,20 @@
 import React, {Component} from "react";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select} from "@material-ui/core";
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    InputLabel,
+    MenuItem,
+    Select,
+    Snackbar
+} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import BlackButtonComponent from "../../Component/Button/BlackButtonComponent";
 import {chartDataStore} from "../../../../index";
 import {Typography, withStyles} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
+import {Alert} from "@material-ui/lab";
 
 const styles = theme => ({
     root: {
@@ -29,7 +39,10 @@ class SelectInfoForManagerReport extends Component {
     constructor(props) {
         super(props);
 
+
         this.state = {
+            snackbarOpen: false,
+            snackbarMessage: "",
             inputYear: "", // Jan:false, Feb:false, Mar:false, Apr:false, May:false, Jun:false, Jul:false, Aug:false,Sep:false, Oct:false, Nov:false, Dec:false
             Months: {
                 1: false,
@@ -103,6 +116,12 @@ class SelectInfoForManagerReport extends Component {
                 label={`${month}월`}
             />));
     };
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
+    }
 
     allClick = () => {
         if (this.state.inputYear === "") {
@@ -111,6 +130,7 @@ class SelectInfoForManagerReport extends Component {
             });
             return;
         }
+
 
         if (!this.isChecked) {
             this.setState({
@@ -215,6 +235,16 @@ class SelectInfoForManagerReport extends Component {
                 <FormGroup row>
                     {this.allMonths()}
                 </FormGroup>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </Box>
         </>)
     }

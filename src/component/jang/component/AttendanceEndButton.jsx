@@ -84,7 +84,7 @@ class AttendanceEndButton extends Component {
                 onClose={this.handleSnackbarClose}
                 anchorOrigin={{ vertical:'top', horizontal: 'center' }}
             >
-                <Alert onClose={this.handleSnackbarClose} severity="info">
+                <Alert onClose={this.handleSnackbarClose} severity="warning">
                     {this.state.snackbarMessage}
                 </Alert>
             </Snackbar>

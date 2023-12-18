@@ -236,6 +236,8 @@ const styles = (theme) =>({
         }
 
 
+
+
         render() {
             const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;
             const {classes} = this.props;
@@ -415,9 +417,11 @@ const styles = (theme) =>({
                             </Button>
                         </DialogActions>
                     </Dialog>
+
+
                     <Snackbar
                         open={this.state.snackbarOpen}
-                        autoHideDuration={6000}
+                        autoHideDuration={5000}
                         onClose={this.handleSnackbarClose}
                         anchorOrigin={{ vertical:'top', horizontal: 'center' }}
                     >
