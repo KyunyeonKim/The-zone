@@ -58,9 +58,9 @@ class MainEndPoint extends Component {
             this.setState(this.loginData)
             // this.state=this.loginData
         } catch (error) {
-            if (error.response.status === 403) {
-                alert('로그인 정보 검색 실패')
-            }
+            // if (error.response.status === 403) {
+            //     alert('로그인 정보 검색 실패')
+            // }
             console.log(" MainEndPoint error " + JSON.stringify(this.state))
             this.setState({loggedIn: false, userData: {manager: 'dddd'}, openAlert: true})
             // this.state={loggedIn:false,userData: null}
