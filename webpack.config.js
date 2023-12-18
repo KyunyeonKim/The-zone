@@ -53,6 +53,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: packageMeta.title
     }),
-    new CopyPlugin({ patterns: [{ from: 'public/images', to: 'images/' }] })
+    new CopyPlugin({ patterns: [{ from: 'src/images', to: 'images/' }] })
   ]
 }

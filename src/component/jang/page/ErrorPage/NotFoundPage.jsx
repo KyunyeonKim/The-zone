@@ -5,7 +5,7 @@ import {Box} from "@material-ui/core";
 const NotFoundPage = () => {
     const styles = {
         container: {
-            backgroundImage:'url(localhost:3000/public/images/2wave1.webp)',
+            backgroundImage:'url(https://douzone-front-server-wonyong92.vercel.app/images/2wave1.webp)',
             backgroundSize:'cover',
             display: 'flex',
             flexDirection: 'column',
