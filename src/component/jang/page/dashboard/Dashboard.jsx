@@ -260,7 +260,7 @@ export default function Dashboard(props) {
                         {sessionStorage.getItem('userType') !== 'admin' ?
                             <Grid container xs={12} md={12} lg={12}>
                                 <Grid item xs={12} md={12} lg={12} >
-                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(../public/images/wave11.webp)',backgroundSize:'cover'}}>
+                                    <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(https://douzone-front-server-wonyong92.vercel.app/images/wave11.webp)',backgroundSize:'cover'}}>
                                         <ChartContainer/>
                                     </Paper>
 
@@ -324,7 +324,7 @@ export default function Dashboard(props) {
                                                 </Box>
                                                 <TopBarUserInfo employeeNumber={JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                 employeeName={JSON.parse(sessionStorage.getItem('userData')).employeeName}
-                                                                profilePicture={sessionStorage.getItem('userType') === 'admin' ? '../src/component/jang/images/photo1.webp' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
+                                                                profilePicture={sessionStorage.getItem('userType') === 'admin' ? 'https://douzone-front-server-wonyong92.vercel.app/images/photo1.webp' : 'http://localhost:8080/admin/download/' + JSON.parse(sessionStorage.getItem('userData')).loginId}
                                                                 toggleModalShowing={props.toggleModalShowing}/>
                                             </Paper>
                                         </Grid>
@@ -332,13 +332,13 @@ export default function Dashboard(props) {
                                         <Box component={'div'} className={classes.slickSlider}>
                                             <Slider  {...settings}>
                                                 <Box component={'div'}>
-                                                    <img src={"../public/images/photo1.webp"} alt="logo" style={{width: '100%', height: '100px',}}/>
+                                                    <img src={"https://douzone-front-server-wonyong92.vercel.app/images/photo1.webp"} alt="logo" style={{width: '100%', height: '100px',}}/>
                                                 </Box>
                                                 <Box component={'div'}>
-                                                    <img src={"../public/images/photo2.webp"}alt="logo" style={{width: '100%', height: '100px',}}/>
+                                                    <img src={"https://douzone-front-server-wonyong92.vercel.app/images/photo2.webp"}alt="logo" style={{width: '100%', height: '100px',}}/>
                                                 </Box>
                                                 <Box component={'div'}>
-                                                    <img src={"../public/images/photo3.webp"} alt="logo" style={{width: '100%', height: '100px',  }}/>
+                                                    <img src={"https://douzone-front-server-wonyong92.vercel.app/images/photo3.webp"} alt="logo" style={{width: '100%', height: '100px',  }}/>
                                                 </Box>
                                             </Slider>
                                         </Box>
