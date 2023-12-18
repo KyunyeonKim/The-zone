@@ -9,7 +9,7 @@ class LogoutButton extends Component {
             await axios.get('http://localhost:8080/logout');
             sessionStorage.clear();
             alert('logout success')
-            window.location.href = 'http://localhost:3000/login';
+            window.location.href = 'https://douzone-front-server-wonyong92.vercel.app/login';
         } catch (error) {
             console.error('로그아웃 에러:', error);
         }
