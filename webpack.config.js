@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const packageMeta = require('./package.json')
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -51,6 +52,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: packageMeta.title
-    })
+    }),
+    new CopyPlugin({ patterns: [{ from: 'public/images', to: 'images/' }] })
   ]
 }
