@@ -228,6 +228,13 @@ const styles = (theme) =>({
             });
         };
 
+        handleSnackbarClose = (event , reason) =>{
+            if(reason ==='clickawy'){
+                return;
+            }
+            this.setState({snackbarOpen : false});
+        }
+
 
         render() {
             const { adjustedStartHour, adjustedStartMinute, adjustedEndHour, adjustedEndMinute, reason, targetDate } = this.state;

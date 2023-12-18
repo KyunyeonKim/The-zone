@@ -186,6 +186,12 @@ class SelectInfoForEmployeeReport extends Component {
 
         this.props.onSelectionChange(inputYear, selectedMonths);
     };
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
+    }
 
 
     render() {

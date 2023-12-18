@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import Button from "@material-ui/core/Button";
-import {Dialog, DialogActions, DialogContent, DialogTitle,} from '@material-ui/core';
+import {Dialog, DialogActions, DialogContent, DialogTitle, Snackbar,} from '@material-ui/core';
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
+import {Alert} from "@material-ui/lab";
 
 class AttendanceEndButton extends Component {
-    state = {dialogOn :false ,dialogOff:true,endTime:null}
+    state = {dialogOn :false ,dialogOff:true,endTime:null,snackbarOpen:false,
+        snackbarMessage:""}
     dialogOn=false
     dialogOff=true
     dialogShowToggle = () => {
@@ -20,7 +22,9 @@ class AttendanceEndButton extends Component {
 
         try{
             let response = await axios.post('http://localhost:8080/employee/leave')
-            alert("업무 종료!!")
+            this.setState({
+                snackbarOpen:true , snackbarMessage:"업무를 종료합니다!"
+            })
             axios.defaults.withCredentials=true;
             let responseOfTodayInfo = await axios.get('http://localhost:8080/employee/attendance/today')
             let {endTime} = responseOfTodayInfo.data;
@@ -28,13 +32,21 @@ class AttendanceEndButton extends Component {
                 this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
 
         }catch(error) {
-            alert(`출근 요청 도중 문제 발생 : ${error.response.data.message}`)
+            this.setState({
+                snackbarOpen:true , snackbarMessage:"퇴근 요청 도중 문제 발생"
+            })
             axios.defaults.withCredentials=true;
             let response = await axios.get('http://localhost:8080/employee/attendance/today')
             let {endTime} = response.data;
             if(endTime!=="null")
                 this.setState({endTime:endTime,dialogOn :false ,dialogOff:true})
         }
+    }
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
     }
 
     async componentDidMount() {
@@ -66,6 +78,16 @@ class AttendanceEndButton extends Component {
             }}>
                 퇴근 <br/> {endTime}
             </Typography>}
+            <Snackbar
+                open={this.state.snackbarOpen}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+            >
+                <Alert onClose={this.handleSnackbarClose} severity="info">
+                    {this.state.snackbarMessage}
+                </Alert>
+            </Snackbar>
             <Dialog open={this.dialogOn} onClose={this.dialogShowToggle} aria-labelledby="update-modal-title">
                 <DialogTitle id="update-modal-title">업무 종료</DialogTitle>
                 <DialogContent>

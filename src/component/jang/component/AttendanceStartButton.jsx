@@ -4,6 +4,7 @@ import {Dialog, DialogActions, DialogContent, DialogTitle, Snackbar,} from '@mat
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 import {Alert} from "@material-ui/lab";
+import {stateStore} from "../../../index";
 
 class AttendanceStartButton extends Component {
 
@@ -43,7 +44,9 @@ class AttendanceStartButton extends Component {
                 this.setState({startTime:startTime,dialogOn :false ,dialogOff:true})
                 stateStore.calendarContainerStateSet.setState()
         }catch(error) {
-            alert(`출근 요청 도중 문제 발생 : ${error.response.data.message}`)
+            this.setState({
+                snackbarOpen:true , snackbarMessage:"출근 요청 도중 에러 발생"
+            })
             axios.defaults.withCredentials=true;
             let response = await axios.get('http://localhost:8080/employee/attendance/today')
             let {startTime} = response.data;
