@@ -10,7 +10,16 @@ import axios from "axios";
 import {withStyles} from "@material-ui/core/styles";
 import SubstractButtonComponent from "./Button/SubstractButtonComponent";
 import AddButtonComponent from "./Button/AddButtonComponent";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Snackbar,
+} from "@material-ui/core";
+import {Alert} from "@material-ui/lab";
 
 const styles = (theme) => ({
     formControl: {
@@ -29,6 +38,16 @@ class EmployeeVacationSettingListComponent extends Component {
             dialogOpen: false,
             dialogTitle: '',
             dialogMessage: '',
+
+            processMineSnackbarOpen:false,
+            inputRangeSnackbarOpen:false,
+            inputVacationCountNotOverSnackbarOpen:false,
+            inputReasonSnackbarOpen:false,
+            cantChooseVacationTypeSnackbarOpen:false,
+            cantAddCountVacationTypeSnackbarOpen:false,
+            cantDeleteCountVacationTypeSnackbarOpen:false
+
+
         }
 
         this.vacationTypeChange = this.vacationTypeChange.bind(this);
@@ -36,6 +55,87 @@ class EmployeeVacationSettingListComponent extends Component {
         this.reasonInputChange = this.reasonInputChange.bind(this);
         this.sendData = this.sendData.bind(this);
         this.handleButtonClick = this.handleButtonClick.bind(this);
+
+        this.handleProcessMineSnackbarOpen =this.handleProcessMineSnackbarOpen.bind(this);
+        this.handleProcessMineSnackbarOpenClose =this.handleProcessMineSnackbarOpenClose.bind(this);
+
+        this.handleInputRangeSnackbarOpen=this.handleInputRangeSnackbarOpen.bind(this);
+        this.handleInputRangeSnackbarOpenClose=this.handleInputRangeSnackbarOpenClose.bind(this);
+
+        this.handleInputVacationCountNotOverSnackbarOpen=this.handleInputVacationCountNotOverSnackbarOpen.bind(this);
+        this.handleInputVacationCountNotOverSnackbarOpenClose=this.handleInputVacationCountNotOverSnackbarOpenClose.bind(this);
+
+        this.handleInputReasonSnackbarOpen=this.handleInputReasonSnackbarOpen.bind(this);
+        this.handleInputReasonSnackbarOpenClose=this.handleInputReasonSnackbarOpenClose.bind(this);
+
+        this.handleCantChooseVacationTypeSnackbarOpen=this.handleCantChooseVacationTypeSnackbarOpen.bind(this);
+        this.handleCantChooseVacationTypeSnackbarOpenClose=this.handleCantChooseVacationTypeSnackbarOpenClose.bind(this);
+
+        this.handleCantAddCountVacationTypeSnackbarOpen=this.handleCantAddCountVacationTypeSnackbarOpen.bind(this);
+        this.handleCantAddCountVacationTypeSnackbarOpenClose=this.handleCantAddCountVacationTypeSnackbarOpenClose.bind(this);
+
+        this.handleCantDeleteCountVacationTypeSnackbarOpen=this.handleCantDeleteCountVacationTypeSnackbarOpen.bind(this);
+        this.handleCantDeleteCountVacationTypeSnackbarOpenClose=this.handleCantDeleteCountVacationTypeSnackbarOpenClose.bind(this);
+    }
+
+    handleCantDeleteCountVacationTypeSnackbarOpen=()=>{
+        this.setState({cantDeleteCountVacationTypeSnackbarOpen:true});
+    }
+
+    handleCantDeleteCountVacationTypeSnackbarOpenClose=()=>{
+        this.setState({cantDeleteCountVacationTypeSnackbarOpen:false});
+    }
+
+
+    handleCantAddCountVacationTypeSnackbarOpen=()=>{
+        this.setState({cantAddCountVacationTypeSnackbarOpen:true});
+    }
+
+    handleCantAddCountVacationTypeSnackbarOpenClose=()=>{
+        this.setState({cantAddCountVacationTypeSnackbarOpen:false});
+    }
+
+
+    handleCantChooseVacationTypeSnackbarOpen=()=>{
+        this.setState({cantChooseVacationTypeSnackbarOpen:true});
+    }
+
+    handleCantChooseVacationTypeSnackbarOpenClose=()=>{
+        this.setState({cantChooseVacationTypeSnackbarOpen:false});
+    }
+
+
+    handleInputReasonSnackbarOpen=()=>{
+        this.setState({inputReasonSnackbarOpen:true});
+    }
+
+    handleInputReasonSnackbarOpenClose=()=>{
+        this.setState({inputReasonSnackbarOpen:false});
+    }
+
+
+    handleInputVacationCountNotOverSnackbarOpen=()=>{
+        this.setState({inputVacationCountNotOverSnackbarOpen:true});
+    }
+
+    handleInputVacationCountNotOverSnackbarOpenClose=()=>{
+        this.setState({inputVacationCountNotOverSnackbarOpen:false});
+    }
+
+    handleInputRangeSnackbarOpen=()=>{
+        this.setState({inputRangeSnackbarOpen:true});
+    }
+
+    handleInputRangeSnackbarOpenClose=()=>{
+        this.setState({inputRangeSnackbarOpen:false});
+    }
+
+    handleProcessMineSnackbarOpen=()=>{
+        this.setState({processMineSnackbarOpen:true});
+    }
+
+    handleProcessMineSnackbarOpenClose=()=>{
+        this.setState({processMineSnackbarOpen:false});
     }
 
     vacationTypeChange=(e)=>{
@@ -56,7 +156,7 @@ class EmployeeVacationSettingListComponent extends Component {
     handleButtonClick =  async (employeeId, action) => {
         console.log("this.props.isButtinDisabled : ",this.props.isButtonDisabled);
         if (this.props.isButtonDisabled) {
-            alert("본인에 대한 처리는 불가능합니다.");
+            this.handleProcessMineSnackbarOpen();
             return;
         }
 
@@ -65,14 +165,12 @@ class EmployeeVacationSettingListComponent extends Component {
         const countValue = this.state.countInput;
         // 숫자가 아닌 경우 메시지 표시
         if (!/^\d{1,3}$/.test(countValue)) {
-            console.log("countValue:", countValue); // 디버깅을 위한 콘솔 로그 추가
-            alert("입력개수는 1에서 세자리 까지 가능합니다!");
+            this.handleInputRangeSnackbarOpen();
             return;
         }
 
         if (isAddButton === false && parseInt(countValue, 10) >this.props.data.remainVacation) {
-            console.log("남은 연차 개수보다 많은 개수입니다!");
-            alert("남은 연차 개수보다 많이 입력할 수 없습니다!");
+           this.handleInputVacationCountNotOverSnackbarOpen();
             return;
         }
 
@@ -80,23 +178,26 @@ class EmployeeVacationSettingListComponent extends Component {
 
 
         if (this.state.reasonInput === "" || this.state.reasonInput === null) {
-            alert("사유를 입력하세요!");
+            this.handleInputReasonSnackbarOpen();
             return;
         }
 
         // 연차 종류 가져오기
         if (this.state.vacationType === "" || this.state.vacationType == null) {
-            alert("연차 종류를 입력하세요!");
+            this.handleCantChooseVacationTypeSnackbarOpen();
+            // alert("연차 종류를 입력하세요!");
             return;
         }
 
         if (isAddButton === true && this.state.vacationType === "근태 불량") {
-            alert("연차 추가 불가능한 연차 종류입니다.");
+            this.handleCantAddCountVacationTypeSnackbarOpen();
+            // alert("연차 추가 불가능한 연차 종류입니다.");
             return;
         }
 
         if (isAddButton === false && this.state.vacationType !== "근태 불량") {
-            alert("연차 삭제 불가능한 연차 종류입니다.");
+            // alert("연차 삭제 불가능한 연차 종류입니다.");
+            this.handleCantDeleteCountVacationTypeSnackbarOpen();
             return;
         }
 
@@ -155,81 +256,129 @@ class EmployeeVacationSettingListComponent extends Component {
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
         return (
-            <TableRow key={keyData} >
-                <TableCell align="center" className={className}>
-                    {data.employeeId}
-                </TableCell>
-                <TableCell align="center" className={className}>{data.name}</TableCell>
-                <TableCell align="center" className={className}> {data.remainVacation}</TableCell>
-                <TableCell align="center" className={className}>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
-                        <Select
-                            labelId={`demo-simple-select-label`}
-                            id={"vacationType"}
-                            onChange={this.vacationTypeChange}
-                            value={this.state.vacationType}
-                            disabled={isButtonDisabled} // 본인 아이디와 비교하여 비활성화
-                        >
-                            <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
-                            <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
-                            <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
+            <>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantDeleteCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose}>
+                    <Alert onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose} severity="warning">
+                        연차 삭제 불가능한 연차 종류입니다!
+                    </Alert>
+                </Snackbar>
 
-                        </Select>
-                    </FormControl>
-                </TableCell>
-                <TableCell align="center">
-                    <TextField
-                        variant="outlined"
-                        id={"countInput"}
-                        label={isButtonDisabled?"본인의 정보 처리 불가":"추가 및 삭제 개수"}
-                        onChange={this.countInputChange}
-                        value={this.state.countInput}
-                        disabled={isButtonDisabled}/>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantAddCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose}>
+                    <Alert onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose} severity="warning">
+                        연차 추가 불가능한 연차 종류입니다!
+                    </Alert>
+                </Snackbar>
 
-                </TableCell>
-                <TableCell align="center">
-                    <TextField
-                        id={"reasonInput"}
-                        label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}
-                        onChange={this.reasonInputChange}
-                        value={this.state.reasonInput}
-                        disabled={isButtonDisabled} />
-                </TableCell>
-                <TableCell align="center">
-                    <AddButtonComponent
-                        disabled={isButtonDisabled}
-                        onButtonClick={() =>this.handleButtonClick(data.employeeId, 'add')}
-                        title={title[0]}
-                    />
-                </TableCell>
-                <TableCell align="center">
-                    <SubstractButtonComponent
-                        disabled={isButtonDisabled}
-                        onButtonClick={() =>this.handleButtonClick(data.employeeId, 'minus')}
-                        title={title[1]}
-                    />
-                    {/*<Button className={classes.button} variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>*/}
-                </TableCell>
-                <Dialog
-                    open={dialogOpen}
-                    onClose={this.closeDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            {dialogMessage}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.closeDialog} color="primary">
-                            확인
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </TableRow>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantChooseVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantChooseVacationTypeSnackbarOpenClose}>
+                    <Alert onClose={this.handleCantChooseVacationTypeSnackbarOpenClose} severity="warning">
+                        연차 종류를 입력하세요!
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputReasonSnackbarOpenClose}>
+                    <Alert onClose={this.handleInputReasonSnackbarOpenClose} severity="warning">
+                        사유를 입력하세요!
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputVacationCountNotOverSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputVacationCountNotOverSnackbarOpenClose}>
+                    <Alert onClose={this.handleInputVacationCountNotOverSnackbarOpenClose} severity="warning">
+                        남은 연차 개수보다 많이 입력할 수 없습니다!
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputRangeSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputRangeSnackbarOpenClose}>
+                    <Alert onClose={this.handleInputRangeSnackbarOpenClose} severity="warning">
+                        입력개수는 1에서 세자리 까지 가능합니다!
+                    </Alert>
+                </Snackbar>
+
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.processMineSnackbarOpen} autoHideDuration={2000} onClose={this.handleProcessMineSnackbarOpenClose}>
+                    <Alert onClose={this.handleProcessMineSnackbarOpenClose} severity="warning">
+                        본인에 대한 처리는 불가능합니다!
+                    </Alert>
+                </Snackbar>
+
+
+
+                <TableRow key={keyData} >
+                    <TableCell align="center" className={className}>
+                        {data.employeeId}
+                    </TableCell>
+                    <TableCell align="center" className={className}>{data.name}</TableCell>
+                    <TableCell align="center" className={className}> {data.remainVacation}</TableCell>
+                    <TableCell align="center" className={className}>
+                        <FormControl variant="outlined" className={classes.formControl}>
+                            <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
+                            <Select
+                                labelId={`demo-simple-select-label`}
+                                id={"vacationType"}
+                                onChange={this.vacationTypeChange}
+                                value={this.state.vacationType}
+                                disabled={isButtonDisabled} // 본인 아이디와 비교하여 비활성화
+                            >
+                                <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
+                                <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
+                                <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </TableCell>
+                    <TableCell align="center">
+                        <TextField
+                            variant="outlined"
+                            id={"countInput"}
+                            label={isButtonDisabled?"본인의 정보 처리 불가":"추가 및 삭제 개수"}
+                            onChange={this.countInputChange}
+                            value={this.state.countInput}
+                            disabled={isButtonDisabled}/>
+
+                    </TableCell>
+                    <TableCell align="center">
+                        <TextField
+                            id={"reasonInput"}
+                            label={isButtonDisabled?"본인의 정보 처리 불가":"사유"}
+                            onChange={this.reasonInputChange}
+                            value={this.state.reasonInput}
+                            disabled={isButtonDisabled} />
+                    </TableCell>
+                    <TableCell align="center">
+                        <AddButtonComponent
+                            disabled={isButtonDisabled}
+                            onButtonClick={() =>this.handleButtonClick(data.employeeId, 'add')}
+                            title={title[0]}
+                        />
+                    </TableCell>
+                    <TableCell align="center">
+                        <SubstractButtonComponent
+                            disabled={isButtonDisabled}
+                            onButtonClick={() =>this.handleButtonClick(data.employeeId, 'minus')}
+                            title={title[1]}
+                        />
+                        {/*<Button className={classes.button} variant="contained" color="secondary" onClick={(e) => handleButtonClick(e, data.employeeId,'minus')}>삭제</Button>*/}
+                    </TableCell>
+                    <Dialog
+                        open={dialogOpen}
+                        onClose={this.closeDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {dialogMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.closeDialog} color="primary">
+                                확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </TableRow>
+
+
+            </>
 
         );
     }

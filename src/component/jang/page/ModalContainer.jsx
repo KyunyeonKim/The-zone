@@ -24,6 +24,7 @@ import {withStyles} from "@material-ui/core/styles";
 import VacationInfo from "./VacationInfo";
 import AppealInfo from "./AppealInfo";
 import ReportForManager from "../../chun/ModalPage/ReportChart/ReportForManager";
+import EmployeeVacationSetting from "../../chun/ModalPage/EmployeeVacationSetting";
 // const {closeModal} = this.props
 
 const styles = theme => ({
@@ -108,6 +109,14 @@ class ModalContainer extends Component {
                 return <>
                     <Grid container lg={12} justifyContent={'center'}>
                         <AppealRequest args={this.state.args}></AppealRequest>
+                    </Grid>
+                </>
+                break;
+
+            case 'EmployeeVacationSetting':
+                return <>
+                    <Grid container lg={12} justifyContent={'center'}>
+                        <EmployeeVacationSetting args={this.state.args}></EmployeeVacationSetting>
                     </Grid>
                 </>
                 break;
