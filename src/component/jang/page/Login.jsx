@@ -106,7 +106,7 @@ function Login() {
 
         <div style={styles}>
                 <div style={{display:"flex",width:"1000px",height:"660px",justifyContent:'center',alignItems:'center',boxShadow: '0px 4px 8px gray'}}>
-                    <Box component={"div"} style={{backgroundImage:'url(../src/component/jang/component/images/building.webp)', backgroundSize:'cover',width:"400px",height:"660px"}}/>
+                    <Box component={"div"} style={{backgroundImage:'url(https://douzone-front-server-wonyong92.vercel.app/public/images/building.webp)', backgroundSize:'cover',width:"400px",height:"660px"}}/>
 
                     <Box component={"div"} style={{backgroundColor:"#F6FAFD",width:"600px",height:"660px",display:"flex",justifyContent:"center"}}>
                             <div className={classes.paper}>
