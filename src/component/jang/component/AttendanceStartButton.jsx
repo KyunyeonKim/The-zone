@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import {Dialog, DialogActions, DialogContent, DialogTitle,} from '@material-ui/core';
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
+import {stateStore} from "../../../index";
 
 class AttendanceStartButton extends Component {
     state = {dialogOn :false ,dialogOff:true,startTime:null}
@@ -26,7 +27,7 @@ class AttendanceStartButton extends Component {
             let {startTime} = responseOfTodayInfo.data;
             if(startTime!=="null")
                 this.setState({startTime:startTime,dialogOn :false ,dialogOff:true})
-
+                stateStore.calendarContainerStateSet.setState()
         }catch(error) {
             alert(`출근 요청 도중 문제 발생 : ${error.response.data.message}`)
             axios.defaults.withCredentials=true;
