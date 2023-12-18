@@ -555,7 +555,7 @@ class EmployeeVacationSetting extends Component {
                                     <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사원 명</TableCell>
                                     <TableCell align="center" className={classes.titleText}>남은 연차 개수</TableCell>
-                                    <TableCell align="center" className={classes.titleText}>연차 종류</TableCell>
+                                    {/*<TableCell align="center" className={classes.titleText}>연차 종류</TableCell>*/}
                                     <TableCell align="center" className={classes.titleText}>추가 및 삭제 개수</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사유</TableCell>
                                     <TableCell align="center" className={classes.titleText}>추가</TableCell>
@@ -563,15 +563,17 @@ class EmployeeVacationSetting extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {combineData.map((row) => (
-                                        <EmployeeVacationSettingListComponent
-                                            className={classes.text}
-                                            isButtonDisabled={row.employeeId===this.loginId}
-                                            data={row}
-                                            keyData={row.employeeId}
-                                            AddHandleOpen={this.AddHandleOpen}
-                                            DeleteHandleOpen={this.DeleteHandleOpen}
-                                            title={["추가","삭제"]}/>
+                                {combineData.map((row, index) => (
+                                    <EmployeeVacationSettingListComponent
+                                        className={classes.text}
+                                        isButtonDisabled={row.employeeId === this.loginId}
+                                        data={row}
+                                        key={`${row.employeeId}_${index}`} // Update the key based on the sorting criteria
+                                        AddHandleOpen={this.AddHandleOpen}
+                                        DeleteHandleOpen={this.DeleteHandleOpen}
+                                        title={["추가", "삭제"]}
+                                        showErrorDialog={this.showErrorDialog}
+                                    />
                                 ))}
                             </TableBody>
                         </Table>

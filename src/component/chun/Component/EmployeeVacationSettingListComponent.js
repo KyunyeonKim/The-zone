@@ -32,7 +32,7 @@ class EmployeeVacationSettingListComponent extends Component {
     constructor(props) {
         super(props);
         this.state={
-            vacationType:"",
+            // vacationType:"",
             countInput:"",
             reasonInput:"",
             dialogOpen: false,
@@ -43,14 +43,14 @@ class EmployeeVacationSettingListComponent extends Component {
             inputRangeSnackbarOpen:false,
             inputVacationCountNotOverSnackbarOpen:false,
             inputReasonSnackbarOpen:false,
-            cantChooseVacationTypeSnackbarOpen:false,
-            cantAddCountVacationTypeSnackbarOpen:false,
-            cantDeleteCountVacationTypeSnackbarOpen:false
+            // cantChooseVacationTypeSnackbarOpen:false,
+            // cantAddCountVacationTypeSnackbarOpen:false,
+            // cantDeleteCountVacationTypeSnackbarOpen:false
 
 
         }
 
-        this.vacationTypeChange = this.vacationTypeChange.bind(this);
+        // this.vacationTypeChange = this.vacationTypeChange.bind(this);
         this.countInputChange = this.countInputChange.bind(this);
         this.reasonInputChange = this.reasonInputChange.bind(this);
         this.sendData = this.sendData.bind(this);
@@ -67,42 +67,42 @@ class EmployeeVacationSettingListComponent extends Component {
 
         this.handleInputReasonSnackbarOpen=this.handleInputReasonSnackbarOpen.bind(this);
         this.handleInputReasonSnackbarOpenClose=this.handleInputReasonSnackbarOpenClose.bind(this);
+        //
+        // this.handleCantChooseVacationTypeSnackbarOpen=this.handleCantChooseVacationTypeSnackbarOpen.bind(this);
+        // this.handleCantChooseVacationTypeSnackbarOpenClose=this.handleCantChooseVacationTypeSnackbarOpenClose.bind(this);
 
-        this.handleCantChooseVacationTypeSnackbarOpen=this.handleCantChooseVacationTypeSnackbarOpen.bind(this);
-        this.handleCantChooseVacationTypeSnackbarOpenClose=this.handleCantChooseVacationTypeSnackbarOpenClose.bind(this);
-
-        this.handleCantAddCountVacationTypeSnackbarOpen=this.handleCantAddCountVacationTypeSnackbarOpen.bind(this);
-        this.handleCantAddCountVacationTypeSnackbarOpenClose=this.handleCantAddCountVacationTypeSnackbarOpenClose.bind(this);
-
-        this.handleCantDeleteCountVacationTypeSnackbarOpen=this.handleCantDeleteCountVacationTypeSnackbarOpen.bind(this);
-        this.handleCantDeleteCountVacationTypeSnackbarOpenClose=this.handleCantDeleteCountVacationTypeSnackbarOpenClose.bind(this);
+        // this.handleCantAddCountVacationTypeSnackbarOpen=this.handleCantAddCountVacationTypeSnackbarOpen.bind(this);
+        // this.handleCantAddCountVacationTypeSnackbarOpenClose=this.handleCantAddCountVacationTypeSnackbarOpenClose.bind(this);
+        //
+        // this.handleCantDeleteCountVacationTypeSnackbarOpen=this.handleCantDeleteCountVacationTypeSnackbarOpen.bind(this);
+        // this.handleCantDeleteCountVacationTypeSnackbarOpenClose=this.handleCantDeleteCountVacationTypeSnackbarOpenClose.bind(this);
     }
 
-    handleCantDeleteCountVacationTypeSnackbarOpen=()=>{
-        this.setState({cantDeleteCountVacationTypeSnackbarOpen:true});
-    }
-
-    handleCantDeleteCountVacationTypeSnackbarOpenClose=()=>{
-        this.setState({cantDeleteCountVacationTypeSnackbarOpen:false});
-    }
-
-
-    handleCantAddCountVacationTypeSnackbarOpen=()=>{
-        this.setState({cantAddCountVacationTypeSnackbarOpen:true});
-    }
-
-    handleCantAddCountVacationTypeSnackbarOpenClose=()=>{
-        this.setState({cantAddCountVacationTypeSnackbarOpen:false});
-    }
+    // handleCantDeleteCountVacationTypeSnackbarOpen=()=>{
+    //     this.setState({cantDeleteCountVacationTypeSnackbarOpen:true});
+    // }
+    //
+    // handleCantDeleteCountVacationTypeSnackbarOpenClose=()=>{
+    //     this.setState({cantDeleteCountVacationTypeSnackbarOpen:false});
+    // }
 
 
-    handleCantChooseVacationTypeSnackbarOpen=()=>{
-        this.setState({cantChooseVacationTypeSnackbarOpen:true});
-    }
+    // handleCantAddCountVacationTypeSnackbarOpen=()=>{
+    //     this.setState({cantAddCountVacationTypeSnackbarOpen:true});
+    // }
+    //
+    // handleCantAddCountVacationTypeSnackbarOpenClose=()=>{
+    //     this.setState({cantAddCountVacationTypeSnackbarOpen:false});
+    // }
 
-    handleCantChooseVacationTypeSnackbarOpenClose=()=>{
-        this.setState({cantChooseVacationTypeSnackbarOpen:false});
-    }
+
+    // handleCantChooseVacationTypeSnackbarOpen=()=>{
+    //     this.setState({cantChooseVacationTypeSnackbarOpen:true});
+    // }
+    //
+    // handleCantChooseVacationTypeSnackbarOpenClose=()=>{
+    //     this.setState({cantChooseVacationTypeSnackbarOpen:false});
+    // }
 
 
     handleInputReasonSnackbarOpen=()=>{
@@ -138,10 +138,10 @@ class EmployeeVacationSettingListComponent extends Component {
         this.setState({processMineSnackbarOpen:false});
     }
 
-    vacationTypeChange=(e)=>{
-        this.setState({...this.state,vacationType:e.target.value});
-        console.log("vacationTypeChange: ",e.target.value);
-    }
+    // vacationTypeChange=(e)=>{
+    //     this.setState({...this.state,vacationType:e.target.value});
+    //     console.log("vacationTypeChange: ",e.target.value);
+    // }
 
     countInputChange=(e)=>{
         this.setState({countInput:e.target.value});
@@ -170,7 +170,7 @@ class EmployeeVacationSettingListComponent extends Component {
         }
 
         if (isAddButton === false && parseInt(countValue, 10) >this.props.data.remainVacation) {
-           this.handleInputVacationCountNotOverSnackbarOpen();
+            this.handleInputVacationCountNotOverSnackbarOpen();
             return;
         }
 
@@ -182,41 +182,42 @@ class EmployeeVacationSettingListComponent extends Component {
             return;
         }
 
-        // 연차 종류 가져오기
-        if (this.state.vacationType === "" || this.state.vacationType == null) {
-            this.handleCantChooseVacationTypeSnackbarOpen();
-            // alert("연차 종류를 입력하세요!");
-            return;
-        }
+        // // 연차 종류 가져오기
+        // if (this.state.vacationType === "" || this.state.vacationType == null) {
+        //     this.handleCantChooseVacationTypeSnackbarOpen();
+        //     // alert("연차 종류를 입력하세요!");
+        //     return;
+        // }
 
-        if (isAddButton === true && this.state.vacationType === "근태 불량") {
-            this.handleCantAddCountVacationTypeSnackbarOpen();
-            // alert("연차 추가 불가능한 연차 종류입니다.");
-            return;
-        }
-
-        if (isAddButton === false && this.state.vacationType !== "근태 불량") {
-            // alert("연차 삭제 불가능한 연차 종류입니다.");
-            this.handleCantDeleteCountVacationTypeSnackbarOpen();
-            return;
-        }
+        // if (isAddButton === true && this.state.vacationType === "근태 불량") {
+        //     this.handleCantAddCountVacationTypeSnackbarOpen();
+        //     // alert("연차 추가 불가능한 연차 종류입니다.");
+        //     return;
+        // }
+        //
+        // if (isAddButton === false && this.state.vacationType !== "근태 불량") {
+        //     // alert("연차 삭제 불가능한 연차 종류입니다.");
+        //     this.handleCantDeleteCountVacationTypeSnackbarOpen();
+        //     return;
+        // }
 
         // sendData 함수 호출
-        await this.sendData(count, this.state.reasonInput, this.state.vacationType, employeeId, isAddButton);
+        await this.sendData(count, this.state.reasonInput, employeeId, isAddButton);
 
         // 상태 초기화
         this.setState({
             countInput: "",
             reasonInput: "",
-            vacationType: ""
+            // vacationType: ""
         });
     };
 
-    sendData = async(count,reason,vacationType,employeeId,isAddButton) => {
+    sendData = async(count,reason,employeeId,isAddButton) => {
+        const {showErrorDialog} = this.props;
         const formData = new FormData();
         formData.append('adjustQuantity',count);
         formData.append('reason',reason);
-        formData.append('adjustType',vacationType);
+        formData.append('adjustType','undefined');
 
         try{
             const response = await axios.post('http://localhost:8080/manager/vacation/modify/'+employeeId,formData,{
@@ -248,7 +249,7 @@ class EmployeeVacationSettingListComponent extends Component {
                 console.error('Error:', error);
                 errorMessage = "An error occurred while fetching data!";
             }
-            this.showErrorDialog('Error', errorMessage);
+            showErrorDialog('Error', errorMessage);
         }
     }
     render() {
@@ -257,23 +258,23 @@ class EmployeeVacationSettingListComponent extends Component {
 
         return (
             <>
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantDeleteCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose}>
-                    <Alert onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose} severity="warning">
-                        연차 삭제 불가능한 연차 종류입니다!
-                    </Alert>
-                </Snackbar>
+                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantDeleteCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose}>*/}
+                {/*    <Alert onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose} severity="warning">*/}
+                {/*        연차 삭제 불가능한 연차 종류입니다!*/}
+                {/*    </Alert>*/}
+                {/*</Snackbar>*/}
 
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantAddCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose}>
-                    <Alert onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose} severity="warning">
-                        연차 추가 불가능한 연차 종류입니다!
-                    </Alert>
-                </Snackbar>
+                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantAddCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose}>*/}
+                {/*    <Alert onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose} severity="warning">*/}
+                {/*        연차 추가 불가능한 연차 종류입니다!*/}
+                {/*    </Alert>*/}
+                {/*</Snackbar>*/}
 
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantChooseVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantChooseVacationTypeSnackbarOpenClose}>
-                    <Alert onClose={this.handleCantChooseVacationTypeSnackbarOpenClose} severity="warning">
-                        연차 종류를 입력하세요!
-                    </Alert>
-                </Snackbar>
+                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantChooseVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantChooseVacationTypeSnackbarOpenClose}>*/}
+                {/*    <Alert onClose={this.handleCantChooseVacationTypeSnackbarOpenClose} severity="warning">*/}
+                {/*        연차 종류를 입력하세요!*/}
+                {/*    </Alert>*/}
+                {/*</Snackbar>*/}
 
                 <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputReasonSnackbarOpenClose}>
                     <Alert onClose={this.handleInputReasonSnackbarOpenClose} severity="warning">
@@ -307,23 +308,23 @@ class EmployeeVacationSettingListComponent extends Component {
                     </TableCell>
                     <TableCell align="center" className={className}>{data.name}</TableCell>
                     <TableCell align="center" className={className}> {data.remainVacation}</TableCell>
-                    <TableCell align="center" className={className}>
-                        <FormControl variant="outlined" className={classes.formControl}>
-                            <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>
-                            <Select
-                                labelId={`demo-simple-select-label`}
-                                id={"vacationType"}
-                                onChange={this.vacationTypeChange}
-                                value={this.state.vacationType}
-                                disabled={isButtonDisabled} // 본인 아이디와 비교하여 비활성화
-                            >
-                                <MenuItem value={"근태 불량"}>근태 불량</MenuItem>
-                                <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>
-                                <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>
+                    {/*<TableCell align="center" className={className}>*/}
+                    {/*    <FormControl variant="outlined" className={classes.formControl}>*/}
+                    {/*        <InputLabel id={`demo-simple-select-label`}>연차 종류</InputLabel>*/}
+                    {/*        <Select*/}
+                    {/*            labelId={`demo-simple-select-label`}*/}
+                    {/*            id={"vacationType"}*/}
+                    {/*            onChange={this.vacationTypeChange}*/}
+                    {/*            value={this.state.vacationType}*/}
+                    {/*            disabled={isButtonDisabled} // 본인 아이디와 비교하여 비활성화*/}
+                    {/*        >*/}
+                    {/*            <MenuItem value={"근태 불량"}>근태 불량</MenuItem>*/}
+                    {/*            <MenuItem value={"연차 추가 제공"}>연차 추가 제공</MenuItem>*/}
+                    {/*            <MenuItem value={"포상 연차 제공"}>포상 연차 제공</MenuItem>*/}
 
-                            </Select>
-                        </FormControl>
-                    </TableCell>
+                    {/*        </Select>*/}
+                    {/*    </FormControl>*/}
+                    {/*</TableCell>*/}
                     <TableCell align="center">
                         <TextField
                             variant="outlined"
