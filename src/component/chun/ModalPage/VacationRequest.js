@@ -89,6 +89,7 @@ class VacationRequest extends Component {
         this.startDate = `${year}-${month}-${day}`;
         this.reason = "";
         this.vacationCount = "";
+        this.vacationType="";
         // this.getData="";
 
         // this.remainVacation="";
@@ -222,7 +223,7 @@ class VacationRequest extends Component {
 
 
         const formData = new FormData();
-        formData.append("vacationCategoryKey", this.vacationType);
+        formData.append("vacationCategoryKey", 'undefined');
         formData.append("vacationQuantity", this.state.getData);
         formData.append("reason", this.reason);
         formData.append("vacationStartDate", this.startDate);
