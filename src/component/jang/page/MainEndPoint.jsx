@@ -8,6 +8,7 @@ import AdminMain from './EmployeeMainContainer';
 import NotFoundPage from "./ErrorPage/NotFoundPage";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
+import ExceptionPage from "./ErrorPage/ExceptionPage";
 
 
 class MainEndPoint extends Component {
@@ -132,6 +133,8 @@ class MainEndPoint extends Component {
                             <Navigate to="/login"/></>)}
                     />
                     <Route path="/" element={<Navigate to="/main"/>}/>
+
+                    <Route path="/error" element={<ExceptionPage/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </Router>
