@@ -72,7 +72,7 @@ export default class CalendarContainer extends React.Component {
                         // }} // 이벤트 삭제 후 수행되는 콜백
                         events={this.state.currentEvents}
                         //TODO : 동적 처리가 필요한 부분 - 올해로 한정
-                        validRange={{start: '2023-01-01', end: '2024-01-01'}}
+                        validRange={{start: '2022-01-01', end: '2024-01-01'}}
                         viewDidMount={this.calendarMountedEventHandler.bind(this)}
                         initialDate={this.state.initDate}
                     />

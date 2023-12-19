@@ -42,10 +42,12 @@ class NotificationListForEmployee extends Component {
             let id = this.state.requests.length + 1
             let getTotalCount = requests.data.totalElement
             let hasNext = requests.data.hasNext
+            alert('message get!');
             this.setState({
                 anchorEl: this.state.anchorEl, requests: this.state.requests.concat({
                     id: event.id, content: event.data, unread: event.data.readTime == null
-                }), totalCount: getTotalCount, hasNext: hasNext
+                }), totalCount: getTotalCount, hasNext: hasNext,
+                snackbarOpen:true, snackbarMessage : "요청이 처리되었습니다!"
 
             })
         }.bind(this);
@@ -77,7 +79,8 @@ class NotificationListForEmployee extends Component {
 
             this.setState({
                 anchorEl: null, requests: mappedUnreadMsg,//state에 담아서 유지
-                totalCount: getTotalCount, hasNext: hasNext
+                totalCount: getTotalCount, hasNext: hasNext,
+                snackbarOpen:true, snackbarMessage : "요청이 처리되었습니다!"
             });
 
 
@@ -109,11 +112,13 @@ class NotificationListForEmployee extends Component {
             let id = this.state.requests.length + 1
             let getTotalCount = response.data.totalElement
             let hasNext = response.data.hasNext
+
             this.setState({
                 anchorEl: this.state.anchorEl,
                 requests: this.state.requests,
                 totalCount: getTotalCount,
-                hasNext: hasNext
+                hasNext: hasNext,
+                snackbarOpen:true, snackbarMessage : "요청이 처리 되었습니다!"
             })
         } // 새로운 eventSource로 변경 발생하면 다시 onMessage에 대한 처리 등록 필요 -> 다른 코드 없을까?
 
@@ -186,6 +191,13 @@ class NotificationListForEmployee extends Component {
     // 다이얼로그 닫기 함수
     closeDialog = () => {
         this.setState({ dialogOpen: false });
+    };
+
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return; // 클릭이 아닌 다른 이유로 닫힐 때는 반응하지 않도록 함
+        }
+        this.setState({ snackbarOpen: false }); // 스낵바 상태를 닫힘으로 설정
     };
 
     render() {
