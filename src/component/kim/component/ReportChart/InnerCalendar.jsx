@@ -301,7 +301,7 @@ class InnerCalendar extends Component {
                     className={`mx-auto w-full text-sm border-b ${classes.calendar}`}
                     tileContent={({date}) => {
                         const html = [];
-                        let find = mark.find((x) => x.date === moment(date).format('YYYY-MM-DD'))
+                        let find = mark.find((x) => ( x!=undefined?x.date === moment(date).format('YYYY-MM-DD') : false))
                         if (find) {
                             html.push(<div className={find.category}></div>);
                         }
