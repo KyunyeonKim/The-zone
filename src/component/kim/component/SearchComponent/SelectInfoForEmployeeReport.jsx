@@ -197,7 +197,7 @@ class SelectInfoForEmployeeReport extends Component {
     render() {
         return (<>
 
-            <Grid container spacing={4} alignItems="center">
+            <Grid container spacing={4} alignItems="center" style={{margin:'0px'}}>
                 <Grid>
                     <FormControl variant="outlined">
                         <InputLabel id="attendance-hour-label">년도</InputLabel>

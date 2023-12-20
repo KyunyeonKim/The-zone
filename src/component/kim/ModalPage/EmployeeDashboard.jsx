@@ -23,7 +23,6 @@ const styles = theme => ({
         color: 'white',
         padding: theme.spacing(0, 2),
     }, reportTitle: {
-        marginTop: '50px', // 이 값을 조정하여 제목의 위치를 변경
         lineHeight: '100px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
     }, MainPaper: {

@@ -17,6 +17,7 @@ const styles = theme => ({
     title: {
         marginBottom: theme.spacing(2),
         textAlign: 'center',
+        fontSize:'50px'
     },
     reportTitle: {
         marginTop: '50px', // 이 값을 조정하여 제목의 위치를 변경
@@ -67,7 +68,7 @@ class EmployeeReport extends Component {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
-                <Typography variant="h4" className={classes.title}>
+                <Typography className={classes.title}>
                     전 사원에 대한 통계 보고서
                 </Typography>
                 <SelectInfoForManagerReport saveSelectYearAndMonth = {this.saveSelectYearAndMonth}/>
