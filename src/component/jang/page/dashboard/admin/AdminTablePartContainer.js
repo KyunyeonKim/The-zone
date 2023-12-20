@@ -70,7 +70,8 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         height:"45px",
         fontWeight:'bold',
-        backgroundColor:"#FFCA6E"
+        backgroundColor:"#FFCA6E",
+        border:'1px solid black'
     }
 
 
@@ -359,9 +360,9 @@ class AdminTablePartContainer extends Component {
                                 value="check"
                                 selected={this.isManager}
                                 onChange={this.isManagerToggle}
-                                style={{width:"48px",height:"48px"}}
+                                style={{width:"48px",height:"48px", color:"black",fontWeight:'bold'}}
                             >
-                                <CheckIcon/>
+                                관리자
                             </ToggleButton>
                         </Box>
 

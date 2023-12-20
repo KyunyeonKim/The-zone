@@ -94,7 +94,7 @@ class MainEndPoint extends Component {
                                         autoHideDuration={6000}
                                         onClose={handleCloseAlert}
                                     >
-                                        <Alert onClose={handleCloseAlert} severity="error">
+                                        <Alert onClose={handleCloseAlert} severity="info">
                                             '로그인에 성공하였습니다'
                                         </Alert>
                                     </Snackbar>
