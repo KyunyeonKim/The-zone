@@ -122,7 +122,7 @@ class AdminTablePartContainer extends Component {
     //searchText.trim()
     fetchData = async (searchKeyword, page) => {
 
-        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
+        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page=${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
         this.page = page!==null?page:this.page;
         this.searchKeyword = searchKeyword!==null||searchKeyword==''?searchKeyword:this.searchKeyword;
 
@@ -158,7 +158,7 @@ class AdminTablePartContainer extends Component {
             return;
         }
         this.page = 1;
-        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
+        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page=${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
 
         this.setState({
             page: 1,
@@ -379,7 +379,7 @@ class AdminTablePartContainer extends Component {
                             itemsCountPerPage={this.state.size}
                             totalItemsCount={this.state.totalElements === 0 ? 1 : this.state.totalElements}
                             pageRangeDisplayed={10}
-                            onChange={(page) => this.fetchData(page)}
+                            onChange={(page) => this.fetchData(this.searchKeyword,page)}
                             innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
                             itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
                             activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일

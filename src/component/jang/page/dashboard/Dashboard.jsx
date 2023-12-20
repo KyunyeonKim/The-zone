@@ -200,7 +200,7 @@ export default function Dashboard(props) {
                     </IconButton>
                     : <></>}
                     <Box style={{display:"flex",height:"100%",alignItems:"center"}}>
-                        <SvgIcon component={AccessTimeIcon} inheritViewBox style={{marginLeft:"10px",marginRight:"10px",fontSize:"25px"}}/>
+                        <SvgIcon component={AccessTimeIcon} inheritviewbox style={{marginLeft:"10px",marginRight:"10px",fontSize:"25px"}}/>
                     </Box>
 
                     <Typography color="inherit" noWrap className={classes.title}>
