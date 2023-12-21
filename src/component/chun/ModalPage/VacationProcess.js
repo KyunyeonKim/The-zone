@@ -182,7 +182,7 @@ class VacationProcess extends Component {
 
         try {
             const getVacationAllRequest = await axios.get('http://localhost:8080/manager/vacation/all/requested' + getPage);
-            console.log("getVacationAllRequest.data.data : ", getVacationAllRequest.data.data);
+            //console.log("getVacationAllRequest.data.data : ", getVacationAllRequest.data.data);
 
             const getVacationAllRequestData = getVacationAllRequest.data.data.map(item => {
                 return {
@@ -197,7 +197,7 @@ class VacationProcess extends Component {
                 };
             });
 
-            console.log("1. getVacationAllRequestData : ", getVacationAllRequestData);
+            //console.log("1. getVacationAllRequestData : ", getVacationAllRequestData);
 
 
             this.setState({
@@ -270,7 +270,7 @@ class VacationProcess extends Component {
         } else {
             try {
                 const searchRawData = await axios.get(`http://localhost:8080/manager/search/vacation/all/requested?searchParameter=${searchKeyword}`);
-                console.log("searchRawData :", searchRawData);
+                //console.log("searchRawData :", searchRawData);
 
                 if (searchRawData.data === "") {
                     this.handleSearchResultCheck();
@@ -557,9 +557,9 @@ class VacationProcess extends Component {
                         <Box component="section"
                              sx={{display: this.state.showPagiNation, alignItems: 'center', justifyContent: 'center'}}>
                             <Pagination
-                                activePage={this.state.activePage}
+                                activePage={parseInt(this.state.activePage)}
                                 itemsCountPerPage={this.state.pageData['size']}
-                                totalItemsCount={this.state.pageData['totalElement']}
+                                totalItemsCount={this.state.pageData['totalElement']||0}
                                 pageRangeDisplayed={10}
                                 onChange={(page) => this.fetchData(page)}
                                 innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일

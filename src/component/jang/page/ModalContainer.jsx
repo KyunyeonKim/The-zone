@@ -36,7 +36,7 @@ const styles = theme => ({
 class ModalContainer extends Component {
     // constructor() {
     //   super();
-    //   console.log(`ModalContainer constructor`)
+    //   //console.log(`ModalContainer constructor`)
     //   this.state = {
     //     modalShow : false,
     //     innerContainerName : '',
@@ -107,7 +107,7 @@ class ModalContainer extends Component {
             case 'AppealRequest':
                 // 처리 로직
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <AppealRequest args={this.state.args}></AppealRequest>
                     </Grid>
                 </>
@@ -115,7 +115,7 @@ class ModalContainer extends Component {
 
             case 'EmployeeVacationSetting':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <EmployeeVacationSetting args={this.state.args}></EmployeeVacationSetting>
                     </Grid>
                 </>
@@ -123,7 +123,7 @@ class ModalContainer extends Component {
 
             case 'AttendanceApprovalAllEmployees':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <AttendanceApprovalAllEmployees args={this.state.args}></AttendanceApprovalAllEmployees>
                     </Grid>
                 </>
@@ -131,7 +131,7 @@ class ModalContainer extends Component {
 
             case 'AttendanceApprovalEmployee':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <AttendanceApprovalEmployee args={this.state.args}></AttendanceApprovalEmployee>
                     </Grid>
                 </>
@@ -139,7 +139,7 @@ class ModalContainer extends Component {
 
             case 'ProcessAppealRequest':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <ProcessAppealRequest args={this.state.args}></ProcessAppealRequest>
                     </Grid>
                 </>
@@ -147,7 +147,7 @@ class ModalContainer extends Component {
 
             case 'VacationDefaultSetting':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <VacationDefaultSetting args={this.state.args}></VacationDefaultSetting>
                     </Grid>
                 </>
@@ -155,7 +155,7 @@ class ModalContainer extends Component {
 
             case 'VacationProcess':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <VacationProcess args={this.state.args}></VacationProcess>
                     </Grid>
                 </>
@@ -163,7 +163,7 @@ class ModalContainer extends Component {
 
             case 'VacationRequest':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <VacationRequest args={this.state.args}></VacationRequest>
                     </Grid>
                 </>
@@ -171,7 +171,7 @@ class ModalContainer extends Component {
 
             case 'CreateEmployee':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <CreateEmployee args={this.state.args}></CreateEmployee>
                     </Grid>
                 </>
@@ -180,7 +180,7 @@ class ModalContainer extends Component {
             case 'EmployeeDashboard':
                 return <>
                     <Box>
-                        <Grid container lg={12} justifyContent={'center'}>
+                        <Grid container justifyContent={'center'}>
                             <Grid item>
                                 <EmployeeDashboard args={this.state.args.concat(this.handleResize)}></EmployeeDashboard>
                             </Grid>
@@ -191,7 +191,7 @@ class ModalContainer extends Component {
 
             case 'EmployeeMine':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <EmployeeMine args={this.state.args}></EmployeeMine>
                     </Grid>
                 </>
@@ -199,7 +199,7 @@ class ModalContainer extends Component {
 
             case 'GetAttendanceHistory':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <GetAttendanceHistory args={this.state.args}></GetAttendanceHistory>
                     </Grid>
                 </>
@@ -207,7 +207,7 @@ class ModalContainer extends Component {
 
             case 'GetHistoryOfVacationDefaultSetting':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <GetHistoryOfVacationDefaultSetting args={this.state.args}></GetHistoryOfVacationDefaultSetting>
                     </Grid>
                 </>
@@ -215,7 +215,7 @@ class ModalContainer extends Component {
 
             case 'GetVacationHistory':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <GetVacationHistory args={this.state.args}></GetVacationHistory>
                     </Grid>
                 </>
@@ -223,7 +223,7 @@ class ModalContainer extends Component {
 
             case 'PostSetWorkTime':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <PostSetWorkTime args={this.state.args}></PostSetWorkTime>
                     </Grid>
                 </>
@@ -231,7 +231,7 @@ class ModalContainer extends Component {
 
             case 'SetWorkTime':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <SetWorkTime args={this.state.args}></SetWorkTime>
                     </Grid>
                 </>
@@ -239,7 +239,7 @@ class ModalContainer extends Component {
 
             case 'UpdateEmployee':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <UpdateEmployee args={this.state.args}></UpdateEmployee>
                     </Grid>
                 </>
@@ -247,7 +247,7 @@ class ModalContainer extends Component {
 
             case 'VacationDashBoard':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <VacationDashBoard args={this.state.args}></VacationDashBoard>
                     </Grid>
                 </>
@@ -255,7 +255,7 @@ class ModalContainer extends Component {
 
             case 'AppealRequestedInfo':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <AppealInfo args={this.state.args}></AppealInfo>
                     </Grid>
                 </>
@@ -264,28 +264,28 @@ class ModalContainer extends Component {
 
             case 'VacationRequested':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <VacationInfo args={this.state.args}></VacationInfo>
                     </Grid>
                 </>
                 break;
             case 'EmployeeDashboard':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <EmployeeDashboard args={this.state.args}></EmployeeDashboard>
                     </Grid>
                 </>
                 break;
             case 'ReportForManager':
                 return <>
-                    <Grid container lg={12} justifyContent={'center'}>
+                    <Grid container justifyContent={'center'}>
                         <ReportForManager args={this.state.args}></ReportForManager>
                     </Grid>
                 </>
                 break;
 
             default:
-                console.log('지원하지 않는 Inner Container 이름입니다.');
+                //console.log('지원하지 않는 Inner Container 이름입니다.');
         }
 
     }
@@ -336,10 +336,10 @@ class ModalContainer extends Component {
 
 
         if (this.state.modalShow) {
-            console.log(`modal Toggled. current status : ${this.state.modalShow}`)
+            //console.log(`modal Toggled. current status : ${this.state.modalShow}`)
             return (
                 // <Dialog open={true} maxWidth="false" fullWidth='true'>
-                <Dialog open={true} maxWidth="false">
+                <Dialog open={true} maxWidth={false}>
 
                     <DialogContent>
                         <div style={{ position: 'relative' }}>

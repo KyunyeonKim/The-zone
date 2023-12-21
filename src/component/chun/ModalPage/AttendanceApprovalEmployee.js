@@ -136,10 +136,10 @@ class AttendanceApprovalEmployee extends Component {
         });
     };
     fetchData = async (page) => {
-        // console.log("PageNationStyle",PageNationStyle);
+        // //console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
-        console.log("page : ", page);
+        //console.log("page : ", page);
 
         if (page != '') {
             getPage = '?page=' + getPage
@@ -155,16 +155,16 @@ class AttendanceApprovalEmployee extends Component {
 
         try {
             const getData = await axios.get('http://localhost:8080/manager/approve/' + this.state.employeeId);
-            console.log("employeeData.data : ", getData.data)
+            //console.log("employeeData.data : ", getData.data)
             const pageData = getData.data //페이지 객체 데이터
             const approvalData = getData.data.data;
-            console.log("approvalData : ", approvalData);
+            //console.log("approvalData : ", approvalData);
             const newData = approvalData.map(({employeeId, attendanceDate, attendanceApprovalDate}) => ({
                 employeeId,
                 attendanceDate,
                 attendanceApprovalDate
             }))
-            console.log("newData : ", newData);
+            //console.log("newData : ", newData);
 
 
             this.setState({
@@ -175,7 +175,7 @@ class AttendanceApprovalEmployee extends Component {
                 showPagiNation: 'flex',
                 isSearch: false,
             });
-            console.log(this.state);
+            //console.log(this.state);
 
         } catch (error) {
             let errorMessage = "An error occurred!";
@@ -224,12 +224,12 @@ class AttendanceApprovalEmployee extends Component {
                 } else {
                     const dateA = new Date(a.attendanceApprovalDate);
                     const dateB = new Date(b.attendanceApprovalDate);
-                    console.log(dateA);
+                    //console.log(dateA);
                     return dateA - dateB;
 
                 }
             });
-            console.log("approvalData - asc 정렬 : ", approvalData);
+            //console.log("approvalData - asc 정렬 : ", approvalData);
         } else {
             approvalData = this.state.data.sort((a, b) => {
                 if (this.sort === "attendanceDate") {
@@ -240,13 +240,13 @@ class AttendanceApprovalEmployee extends Component {
                 } else {
                     const dateA = new Date(a.attendanceApprovalDate);
                     const dateB = new Date(b.attendanceApprovalDate);
-                    console.log(dateA);
+                    //console.log(dateA);
                     return dateB - dateA;
 
 
                 }
             });
-            console.log("approvalData - desc 정렬 : ", approvalData);
+            //console.log("approvalData - desc 정렬 : ", approvalData);
         }
         this.setState({...this.state, data: approvalData, desc: this.desc});
 

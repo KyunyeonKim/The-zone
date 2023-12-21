@@ -135,10 +135,10 @@ class AttendanceApprovalAllEmployees extends Component{
 
 
     fetchData=async(page)=> {
-        // console.log("PageNationStyle",PageNationStyle);
+        // //console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
-        console.log("page : ", page);
+        //console.log("page : ", page);
 
         if (page != '') {
             getPage = '?page=' + getPage
@@ -153,16 +153,16 @@ class AttendanceApprovalAllEmployees extends Component{
 
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
-            console.log("employeeData.data : ", employeeData.data)
+            //console.log("employeeData.data : ", employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data; //사원정보 데이터
 
             const newData = empData.map(({employeeId,name})=>({employeeId,name}))
-            console.log("newData : ",newData);
+            //console.log("newData : ",newData);
 
             const input = this.state.isSearch===false?"sort":"search";
             if(input==="sort"){
-                console.log("sort");
+                //console.log("sort");
                 this.setState({
                     ...this.state,
                     empPageData: empPageData,
@@ -172,7 +172,7 @@ class AttendanceApprovalAllEmployees extends Component{
                     desc:this.desc
                 });
             }else{
-                console.log("search");
+                //console.log("search");
                 this.setState({
                     ...this.state,
                     empPageData:empPageData,
@@ -248,7 +248,7 @@ class AttendanceApprovalAllEmployees extends Component{
                 }
 
                 const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
-                console.log("newData : ",newData);
+                //console.log("newData : ",newData);
 
                 this.setState({
                     ...this.state,
@@ -433,7 +433,7 @@ class AttendanceApprovalAllEmployees extends Component{
 
                         <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
                             <Pagination
-                                activePage={this.state.activePage}
+                                activePage={parseInt(this.state.activePage)}
                                 itemsCountPerPage={this.state.empPageData['size']}
                                 totalItemsCount={this.state.empPageData['totalElement']}
                                 pageRangeDisplayed={10}

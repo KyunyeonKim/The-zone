@@ -42,8 +42,8 @@ class SelectAllMonthesOutPutForReport extends Component {
         };
 
         // const data = chartDataStore.store
-        console.log("넘어온 data : ", data);
-        // console.log(Object.keys(data));
+        // //console.log("넘어온 data : ", data);
+        // //console.log(Object.keys(data));
 
         //approvedVacationCount : 연차 승인
         // rejectedVacationCount: 연차 반려
@@ -64,7 +64,7 @@ class SelectAllMonthesOutPutForReport extends Component {
         for(let element of Object.keys(data))
         {
             const atom = data[element];
-            console.log(`atom : ${JSON.stringify(atom)} ${JSON.stringify(typeof atom)}`);
+            // //console.log(`atom : ${JSON.stringify(atom)} ${JSON.stringify(typeof atom)}`);
             if ( Array.isArray(atom) && atom.length === 0) {
                 if (kindOf === 'attendance') {
                     this.approvalRequestedAttendance.push(0);

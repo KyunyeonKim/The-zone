@@ -200,7 +200,7 @@ export default function Dashboard(props) {
                     </IconButton>
                     : <></>}
                     <Box style={{display:"flex",height:"100%",alignItems:"center"}}>
-                        <SvgIcon component={AccessTimeIcon} inheritviewbox style={{marginLeft:"10px",marginRight:"10px",fontSize:"25px"}}/>
+                        <SvgIcon component={AccessTimeIcon} inheritviewbox="false" style={{marginLeft:"10px",marginRight:"10px",fontSize:"25px"}}/>
                     </Box>
 
                     <Typography color="inherit" noWrap className={classes.title}>
@@ -258,7 +258,7 @@ export default function Dashboard(props) {
                     <Grid container  className={classes.container} >
                         {/* inernal container*/}
                         {sessionStorage.getItem('userType') !== 'admin' ?
-                            <Grid container xs={12} md={12} lg={12}>
+                            <Grid container >
                                 <Grid item xs={12} md={12} lg={12} >
                                     <Paper style={{padding:'20px 10px 5px 20px',backgroundImage:'url(https://douzone-front-server-wonyong92.vercel.app/images/wave11.webp)',backgroundSize:'cover'}}>
                                         <ChartContainer/>
@@ -268,10 +268,10 @@ export default function Dashboard(props) {
                             </Grid>:<></>}
 
 
-                        <Grid container xs={12} md={12} lg={12} style={{flexDirection:'row', marginTop:'10px'}}>
+                        <Grid container  style={{flexDirection:'row', marginTop:'10px'}}>
                             {sessionStorage.getItem('userType') !== 'admin' ?
                                 <Grid item xs={3} md={3} lg={3}>
-                                    <Grid container  spacing={2} xs={12} md={12} lg={12} style={{flexDirection:'column'}}>
+                                    <Grid container  spacing={2} style={{flexDirection:'column'}}>
                                         {sessionStorage.getItem('userType') !== 'admin' ?
                                             // <Grid container xs={12} md={12} lg={12}>
                                             //     <Grid item xs={12} md={12} lg={12} style={{margin:"10px 0px 0px 0px",padding:"8px",display:"flex",justifyContent:"center"}}>
@@ -294,7 +294,7 @@ export default function Dashboard(props) {
                                                     출근 정보
                                                 </Typography>
 
-                                                <Grid container xs={12} me={12}  lg={12} justifyContent={"center"} >
+                                                <Grid container  justifyContent={"center"} >
                                                     <Box style={{ borderRadius: '50%', width: '150px', height: '150px',border:"1px solid #EFEFEF" }}>
                                                         <DigitalClock/>
                                                     </Box>
@@ -346,7 +346,7 @@ export default function Dashboard(props) {
                                     </Grid>
                                 </Grid>:<></>}
                             <Grid item xs={9} md={9} lg={9}>
-                                <Grid container  xs={12} md={12} lg={12}>
+                                <Grid container >
                                     {sessionStorage.getItem('userType') !== 'admin' ?
                                         <Grid item xs={12} md={12} lg={12} >
                                             <Paper>

@@ -200,9 +200,9 @@ class AdminTablePartContainer extends Component {
                     return dateB - dateA;
                 });
             }
-            console.log("this.desc : ", this.desc);
+            //console.log("this.desc : ", this.desc);
             this.setState({...this.state, data: data, desc: this.desc});
-            console.log("data : ", data);
+            //console.log("data : ", data);
         }
     };
 

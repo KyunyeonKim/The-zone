@@ -95,7 +95,7 @@ class SelectInfoForManagerReport extends Component {
                 12: false
             }
         }, () => {
-            console.log(this.state);
+            // //console.log(this.state);
         });
     }
 
@@ -149,7 +149,7 @@ class SelectInfoForManagerReport extends Component {
                     12: true
                 }
             }, () => {
-                console.log(this.state);
+                // //console.log(this.state);
             });
 
         } else {
@@ -169,7 +169,7 @@ class SelectInfoForManagerReport extends Component {
                     12: false
                 }
             }, () => {
-                console.log(this.state);
+                // //console.log(this.state);
             });
 
         }
@@ -214,6 +214,7 @@ class SelectInfoForManagerReport extends Component {
                                 style={{height: "50px", width: "150px"}}
                                 labelId="attendance-hour-label"
                                 id="attendaceHour"
+                                value={this.state.inputYear||""}
                                 onChange={this.clickYearChange}>
                                 {[...Array(5)].map((_, index) => (
                                     <MenuItem key={this.currentYear - index} value={this.currentYear - index}>

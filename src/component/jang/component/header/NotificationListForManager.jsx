@@ -30,7 +30,7 @@ class NotificationListForManager extends Component {
 
     constructor(props, context) {
         super(props, context);
-        console.log('constructor Notification')
+        //console.log('constructor Notification')
         // TODO : 하드코딩 없애기
         this.userType = sessionStorage.getItem('userType')
         this.employeeNumber = JSON.parse(sessionStorage.getItem('userData')).loginId
@@ -131,14 +131,14 @@ class NotificationListForManager extends Component {
 
 
     handleToggleList = (handleEvent) => {
-        console.log(`handleToggleList`)
+        //console.log(`handleToggleList`)
         this.registerAgain()
         this.anchorEl = handleEvent.currentTarget
         this.setState({anchorEl: this.anchorEl, requests: this.state.requests, totalCount: this.state.totalCount});
     };
 
     handleCloseList = () => {
-        console.log(`handleCloseList`)
+        //console.log(`handleCloseList`)
         this.registerAgain()
         this.setState({anchorEl: null, requests: this.state.requests, totalCount: this.state.totalCount});
     };
@@ -210,11 +210,11 @@ class NotificationListForManager extends Component {
     render() {
         const {anchorEl, requests, totalCount} = this.state;
         const isOpen = Boolean(anchorEl);
-        console.log(`SSE 실행!!!!! requests ${JSON.stringify(requests)} ${totalCount}`)
-        console.log('SSE 실행 끝!!!!!')
+        //console.log(`SSE 실행!!!!! requests ${JSON.stringify(requests)} ${totalCount}`)
+        //console.log('SSE 실행 끝!!!!!')
         return (<div>
                 <Badge badgeContent={totalCount} color="secondary">
-                    <AssignmentIcon variant="contained" color="white" onClick={this.handleToggleList}
+                    <AssignmentIcon variant="contained" onClick={this.handleToggleList}
                                     fontSize={"large"}>
                     </AssignmentIcon>
                 </Badge>

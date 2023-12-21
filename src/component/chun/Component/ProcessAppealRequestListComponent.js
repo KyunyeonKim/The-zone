@@ -76,7 +76,7 @@ class ProcessAppealRequestListComponent extends Component {
                 }
             });
 
-            console.log("전송 성공");
+            //console.log("전송 성공");
             this.onApproveBtnClick();
         }catch (error) {
             let errorMessage = "An error occurred!";
@@ -118,8 +118,8 @@ class ProcessAppealRequestListComponent extends Component {
                 }
             });
 
-            console.log("전송 성공");
-            console.log(this.onRejectBtnClick);
+            //console.log("전송 성공");
+            //console.log(this.onRejectBtnClick);
             this.onRejectBtnClick();
             // this.setState({clickRejectBtn:false});
             this.props.parentRerender()
@@ -162,7 +162,7 @@ class ProcessAppealRequestListComponent extends Component {
 
     onRejectButtonClick = async(e)=>{
         if(!this.state.clickRejectBtn){
-            console.log("onRejectButtonClick");
+            //console.log("onRejectButtonClick");
 
             this.setState({clickRejectBtn:true},()=>{
             });

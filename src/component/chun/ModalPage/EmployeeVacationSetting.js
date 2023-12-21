@@ -30,6 +30,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import {Alert} from "@material-ui/lab";
 
 /*TODO : 리스트 한줄을 컴포넌트로 변경할 것*/
+
+
 const styles = (theme) => ({
 
     formControl: {
@@ -150,11 +152,11 @@ class EmployeeVacationSetting extends Component {
 
 
     AddHandleOpen = () => {
-        this.setState({...this.state,addOpen:true});
+        this.setState({addOpen:true});
     };
 
     DeleteHandleOpen=()=>{
-        this.setState({...this.state,deleteOpen:true});
+        this.setState({deleteOpen:true});
     }
 
     handleClose =() => {
@@ -202,12 +204,12 @@ class EmployeeVacationSetting extends Component {
         //
         // }
     //     catch(error){
-    //         console.log("error 발생 !");
+    //         //console.log("error 발생 !");
     //     }
     }
 
     fetchData=async(page)=> {
-        // console.log("PageNationStyle",PageNationStyle);
+        // //console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
 
@@ -220,12 +222,12 @@ class EmployeeVacationSetting extends Component {
 
         if (this.desc !== '' && this.sort !== '') {
             getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.desc + '&sort=' + this.sort;
-            console.log("getPage : ",getPage);
+            //console.log("getPage : ",getPage);
         }
 
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
-            console.log("employeeData.data : ", employeeData.data)
+            //console.log("employeeData.data : ", employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data.map(data => ({ employeeId: data.employeeId, name: data.name }));
 
@@ -288,17 +290,17 @@ class EmployeeVacationSetting extends Component {
 
     // sortChange,descChange 참고해서 정렬 다시 할것
     sortChange =  (e) =>{
-        console.log("sortChange 실행됨")
-        console.log("e.target.value : ",e.target.value);
+        //console.log("sortChange 실행됨")
+        //console.log("e.target.value : ",e.target.value);
         this.sort=e.target.value;
         this.setState({...this.state,sort: this.sort,desc:""});
     }
 
     descChange =  (e) => {
-        console.log("descChange 실행됨");
+        //console.log("descChange 실행됨");
         // if(this.state.sort==="") {
         //     alert("정렬 기준을 먼저 선택하세요 !");
-        //     console.log("this.desc : ",this.desc);
+        //     //console.log("this.desc : ",this.desc);
         // }
 
         this.desc=e.target.value;
@@ -320,7 +322,7 @@ class EmployeeVacationSetting extends Component {
                         return a.name.localeCompare(b.name);
                     }
                 });
-                console.log("empData - asc 정렬 : ", empData);
+                //console.log("empData - asc 정렬 : ", empData);
             } else {
                 empData = this.state.empData.sort((a, b) => {
                     if (this.sort === "employee_id") {
@@ -329,16 +331,16 @@ class EmployeeVacationSetting extends Component {
                         return b.name.localeCompare(a.name);
                     }
                 });
-                console.log("empData - desc 정렬 : ", empData);
+                //console.log("empData - desc 정렬 : ", empData);
             }
 
-            console.log("정렬 - this.state.remainVacation : ", this.state.remainVacation);
+            //console.log("정렬 - this.state.remainVacation : ", this.state.remainVacation);
             const combineData = empData.map((first) => ({...first,
                 // remainVacation: this.state.remainVacation[first.employeeId],
                 remainVacation :this.state.remainVacation.find((data) => Object.keys(data)[0] === first.employeeId)[first.employeeId]
 
             }));
-            console.log("정렬 - combineData : ", combineData);
+            //console.log("정렬 - combineData : ", combineData);
 
             this.setState({ ...this.state,empData: empData, combineData: combineData,desc:this.desc});
         }
@@ -346,7 +348,7 @@ class EmployeeVacationSetting extends Component {
 
     handleSearchButtonClick = async(e) => {
         const searchKeyword = this.searchKeyword;
-        console.log("searchKeyword : ", searchKeyword);
+        //console.log("searchKeyword : ", searchKeyword);
 
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
@@ -363,7 +365,7 @@ class EmployeeVacationSetting extends Component {
             try {
                 // 가져온 검색 결과에서 데이터가 들어있는 객체 배열만 들고옴
                 const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
-                console.log("searchResponse : ",searchResponse);
+                //console.log("searchResponse : ",searchResponse);
 
                 if(searchResponse===""){
                     this.handleSearchNoContentSnackbarOpen();
@@ -372,14 +374,14 @@ class EmployeeVacationSetting extends Component {
 
                 const empData = searchResponse.map(data => ({ employeeId: data.employeeId, name: data.name }));
                 const employeeIds = empData.map((item) => item.employeeId);  //모든 id를 뽑아서 배열로 모음
-                console.log("employeeIds : ",employeeIds);
+                //console.log("employeeIds : ",employeeIds);
                 const remainVacation = await Promise.all( //id에 대해서 남은 연차 수를 병렬로 모두 계산-> 결과는 배열
                     employeeIds.map(async (employeeId) => {
                         const response = await axios.get(`http://localhost:8080/manager/vacation/remain/${employeeId}`);
                         return {[employeeId]:response.data};
                     })
                 );
-                console.log("remainVacation : ",remainVacation);
+                //console.log("remainVacation : ",remainVacation);
 
                 const combineData = searchResponse.map((first) => ({
                     ...first,
@@ -396,7 +398,7 @@ class EmployeeVacationSetting extends Component {
                     sort: '',
                     desc: ''
                 });
-                console.log("this.state",this.state);
+                //console.log("this.state",this.state);
 
             } catch (error) {
                 let errorMessage = "An error occurred!";
@@ -581,9 +583,9 @@ class EmployeeVacationSetting extends Component {
 
                     <Box  sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
                         <Pagination
-                            activePage={this.state.activePage}
+                            activePage={parseInt(this.state.activePage)}
                             itemsCountPerPage={this.state.empPageData['size']}
-                            totalItemsCount={this.state.empPageData['totalElement']}
+                            totalItemsCount={this.state.empPageData['totalElement']||0}
                             pageRangeDisplayed={10}
                             onChange={(page) => this.fetchData(page)}
                             innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일

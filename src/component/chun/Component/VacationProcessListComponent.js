@@ -61,7 +61,7 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log("전송 성공");
+            //console.log("전송 성공");
             this.onApproveBtnClick();
             this.props.parentRerender()
         } catch (error) {
@@ -102,7 +102,7 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log("전송 성공");
+            //console.log("전송 성공");
             this.onRejectBtnClick();
             this.props.parentRerender()
 
@@ -145,7 +145,7 @@ class VacationProcessListComponent extends Component {
         if(!this.state.clickRejectBtn){
 
             this.setState({clickRejectBtn:true},()=>{
-                console.log("this.state.clickRejectBtn : ",this.state.clickRejectBtn);
+                //console.log("this.state.clickRejectBtn : ",this.state.clickRejectBtn);
             });
 
         }
@@ -168,7 +168,7 @@ class VacationProcessListComponent extends Component {
         this.onRejectBtnClick=onRejectBtnClick;
         this.onApproveBtnClick=onApproveBtnClick;
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
-        console.log(JSON.stringify(this.state));
+        //console.log(JSON.stringify(this.state));
 
 
 

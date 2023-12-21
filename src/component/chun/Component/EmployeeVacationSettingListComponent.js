@@ -67,43 +67,8 @@ class EmployeeVacationSettingListComponent extends Component {
 
         this.handleInputReasonSnackbarOpen=this.handleInputReasonSnackbarOpen.bind(this);
         this.handleInputReasonSnackbarOpenClose=this.handleInputReasonSnackbarOpenClose.bind(this);
-        //
-        // this.handleCantChooseVacationTypeSnackbarOpen=this.handleCantChooseVacationTypeSnackbarOpen.bind(this);
-        // this.handleCantChooseVacationTypeSnackbarOpenClose=this.handleCantChooseVacationTypeSnackbarOpenClose.bind(this);
 
-        // this.handleCantAddCountVacationTypeSnackbarOpen=this.handleCantAddCountVacationTypeSnackbarOpen.bind(this);
-        // this.handleCantAddCountVacationTypeSnackbarOpenClose=this.handleCantAddCountVacationTypeSnackbarOpenClose.bind(this);
-        //
-        // this.handleCantDeleteCountVacationTypeSnackbarOpen=this.handleCantDeleteCountVacationTypeSnackbarOpen.bind(this);
-        // this.handleCantDeleteCountVacationTypeSnackbarOpenClose=this.handleCantDeleteCountVacationTypeSnackbarOpenClose.bind(this);
     }
-
-    // handleCantDeleteCountVacationTypeSnackbarOpen=()=>{
-    //     this.setState({cantDeleteCountVacationTypeSnackbarOpen:true});
-    // }
-    //
-    // handleCantDeleteCountVacationTypeSnackbarOpenClose=()=>{
-    //     this.setState({cantDeleteCountVacationTypeSnackbarOpen:false});
-    // }
-
-
-    // handleCantAddCountVacationTypeSnackbarOpen=()=>{
-    //     this.setState({cantAddCountVacationTypeSnackbarOpen:true});
-    // }
-    //
-    // handleCantAddCountVacationTypeSnackbarOpenClose=()=>{
-    //     this.setState({cantAddCountVacationTypeSnackbarOpen:false});
-    // }
-
-
-    // handleCantChooseVacationTypeSnackbarOpen=()=>{
-    //     this.setState({cantChooseVacationTypeSnackbarOpen:true});
-    // }
-    //
-    // handleCantChooseVacationTypeSnackbarOpenClose=()=>{
-    //     this.setState({cantChooseVacationTypeSnackbarOpen:false});
-    // }
-
 
     handleInputReasonSnackbarOpen=()=>{
         this.setState({inputReasonSnackbarOpen:true});
@@ -140,21 +105,21 @@ class EmployeeVacationSettingListComponent extends Component {
 
     // vacationTypeChange=(e)=>{
     //     this.setState({...this.state,vacationType:e.target.value});
-    //     console.log("vacationTypeChange: ",e.target.value);
+    //     //console.log("vacationTypeChange: ",e.target.value);
     // }
 
     countInputChange=(e)=>{
         this.setState({countInput:e.target.value});
-        console.log("countInputChange: ",e.target.value);
+        //console.log("countInputChange: ",e.target.value);
     }
 
     reasonInputChange=(e)=>{
         this.setState({reasonInput:e.target.value});
-        console.log("reasonInputChange: ",e.target.value);
+        //console.log("reasonInputChange: ",e.target.value);
     }
 
     handleButtonClick =  async (employeeId, action) => {
-        console.log("this.props.isButtinDisabled : ",this.props.isButtonDisabled);
+        //console.log("this.props.isButtinDisabled : ",this.props.isButtonDisabled);
         if (this.props.isButtonDisabled) {
             this.handleProcessMineSnackbarOpen();
             return;
@@ -227,7 +192,7 @@ class EmployeeVacationSettingListComponent extends Component {
             });
 
             isAddButton===true?this.props.AddHandleOpen(employeeId):this.props.DeleteHandleOpen(employeeId);
-            console.log("전송 성공");
+            //console.log("전송 성공");
         }catch (error) {
             let errorMessage = "An error occurred!";
             if (error.response) {

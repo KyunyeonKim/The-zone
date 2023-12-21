@@ -15,7 +15,7 @@ export default class CalendarContainer extends React.Component {
 
     constructor() {
         super();
-        console.log("constructor")
+        //console.log("constructor")
         this.state = {
             weekendsVisible: true,
             //초기화를 위하여  axios에서 공휴일 정보 받아오기
@@ -30,7 +30,7 @@ export default class CalendarContainer extends React.Component {
         //[{"title":"임시공휴일","date":"2023-10-02","backgroundColor":"red","extendedProps":{"kind":"holiday"}}]
         // stateStore.push(this.state,this.setState)
         stateStore.calendarContainerStateSet = {state: this.state, setState: this.refreshDataAndSetState}
-        console.log(`current stateStore : ${JSON.stringify(stateStore)}`)
+        //console.log(`current stateStore : ${JSON.stringify(stateStore)}`)
     }
 
     componentDidMount() {
@@ -64,7 +64,7 @@ export default class CalendarContainer extends React.Component {
                         eventClick={this.handleEventClick}
                         eventsSet={this.handleEvents}
                         // eventAdd={function (e) {
-                        //   console.log(e.event.title)
+                        //   //console.log(e.event.title)
                         // }} // 이벤트 추가 후 수행되는 콜백
                         // eventChange={function () {
                         // }} // 이벤트 변경 후 수행되는 콜백
@@ -84,14 +84,14 @@ export default class CalendarContainer extends React.Component {
     }
 
     toggleModalShowingWithCurrentDate() {
-        console.log(`currentYear = ${this.currentYear} currentMonth = ${this.currentMonth}  new initDate = ${new Date(this.currentYear + '-' + this.currentMonth)}`)
+        //console.log(`currentYear = ${this.currentYear} currentMonth = ${this.currentMonth}  new initDate = ${new Date(this.currentYear + '-' + this.currentMonth)}`)
         // this.props.toggleModalShowing(new Date(this.currentYear+'-'+this.currentMonth))
         this.props.toggleModalShowing()
     }
 
     refreshDataAndSetState = function (year, month, initDate) {
         this.refreshCurrentDate()
-        console.log("calendar loaded!")
+        //console.log("calendar loaded!")
         // //TODO: 로그인 로직 분리하기
         // axios.defaults.withCredentials = true;
         //
@@ -111,7 +111,7 @@ export default class CalendarContainer extends React.Component {
 
     async calendarMountedEventHandler() {
         this.refreshCurrentDate.bind(this)()
-        console.log("calendar loaded!")
+        //console.log("calendar loaded!")
         // //TODO: 로그인 로직 분리하기
         // axios.defaults.withCredentials = true;
         //
@@ -131,8 +131,8 @@ export default class CalendarContainer extends React.Component {
 
     //달력에 표시되어야 하는 내용을 불러오고, 컴포넌트 내부에 저장
     async refreshData() {
-        console.log("===================================================================================================")
-        console.log("refreshData")
+        //console.log("===================================================================================================")
+        //console.log("refreshData")
         this.refreshCurrentDate.bind(this)()
         this.vacationableData = []
         //연차 요청 버튼 활성화를 위하여 이벤트 생성
@@ -141,9 +141,9 @@ export default class CalendarContainer extends React.Component {
         const month = this.currentMonth;
         const lastDayOfMonth = new Date(year, month, 0).getDate();
 
-        // console.log(`lastDayOfMonth ${lastDayOfMonth}`)
+        // //console.log(`lastDayOfMonth ${lastDayOfMonth}`)
         const lastDate = new Date(year, month - 1, lastDayOfMonth)
-        // console.log(`lastDate ${lastDate}`)
+        // //console.log(`lastDate ${lastDate}`)
         let currentDate = new Date(today.getFullYear(), this.currentMonth - 1, 1);
         //현재날짜 +3일보다 더 빠른 날짜에 대해서는 연차 요청 불가능
         if (currentDate < today) {
@@ -153,7 +153,7 @@ export default class CalendarContainer extends React.Component {
         //정확한 비교 연산을 위하여 시간 초기화
         currentDate.setHours(0, 0, 0, 0)
         while (currentDate <= lastDate) {
-            // console.log(`currentDate ${currentDate}`)
+            // //console.log(`currentDate ${currentDate}`)
             const year = currentDate.getFullYear();
             const month = String(this.currentMonth).padStart(2, '0');
             const day = String(currentDate.getDate()).padStart(2, '0');
@@ -170,8 +170,8 @@ export default class CalendarContainer extends React.Component {
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        // console.log(`while result ${JSON.stringify(this.vacationableData)}`)
-        // console.log(`check ${currentDate} ${lastDate} ${currentDate===lastDate}`)
+        // //console.log(`while result ${JSON.stringify(this.vacationableData)}`)
+        // //console.log(`check ${currentDate} ${lastDate} ${currentDate===lastDate}`)
         //휴일 데이터와 ,근태 기록 불러우기
         axios.defaults.withCredentials = true;
         const holidayData = await axios.get(`http://localhost:8080/system/calendar/holiday?year=${this.currentYear}&month=${this.currentMonth}`)
@@ -182,7 +182,7 @@ export default class CalendarContainer extends React.Component {
         if (holidayData.data.body !== undefined) {
             holidayData.data = holidayData.data.body
         }
-        console.log('vacationInfo' + JSON.stringify(vacationRequestedInfo.data))
+        //console.log('vacationInfo' + JSON.stringify(vacationRequestedInfo.data))
 
         //this.vacationableData에서 유효한 데이터만 다시 추출하여 이벤트 생성
         outloop : for (let i = 0; i < this.vacationableData.length; i++) {
@@ -205,7 +205,7 @@ export default class CalendarContainer extends React.Component {
         }
 
         this.totalEvents = holidayData.data.concat(attendanceInfo.data).concat(newVacationableData).concat(vacationRequestedInfo.data)
-        console.log("total events " + JSON.stringify(this.totalEvents))
+        //console.log("total events " + JSON.stringify(this.totalEvents))
         stateStore.chartContainerStateSet.setState({
             year: this.currentYear.toString(),
             month: this.currentMonth.toString()
