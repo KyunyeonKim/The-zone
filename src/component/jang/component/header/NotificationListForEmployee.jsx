@@ -206,7 +206,7 @@ class NotificationListForEmployee extends Component {
         //console.log(`SSE 실행!!!!! requests ${JSON.stringify(requests)} ${totalCount}`)
         //console.log('SSE 실행 끝!!!!!')
         return (<div>
-                <Badge badgeContent={totalCount} color="secondary">
+                <Badge badgeContent={totalCount} color="secondary" overlap="rectangular">
                     <NotificationsIcon variant="contained" onClick={this.handleToggleList}
                                        fontSize={"large"}>
                     </NotificationsIcon>

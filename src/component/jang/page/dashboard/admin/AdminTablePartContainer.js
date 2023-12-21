@@ -91,6 +91,8 @@ class AdminTablePartContainer extends Component {
             size: 10, hasNext: false, totalElements: 0, desc: "", sort: "", isManager: false,
             snackbarOpen:false,
             snackbarMessage:"",
+            approveOpen: false, // Ensure this is initialized
+            rejectOpen: false,  // Ensure this is initialized
         };
 
         this.page = 1
