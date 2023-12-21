@@ -209,6 +209,10 @@ class EmployeeMine extends Component {
         this.setState({isPasswordModalOpen: false});
     };
 
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
     render() {
         const {
             employeeId,  passWord ,name, attendanceManager, hireYear, isPasswordModalOpen, formError, uploadFile
@@ -237,11 +241,11 @@ class EmployeeMine extends Component {
                         <Box className={classes.uploadContainer} justifyContent="center" alignItems="center">
 
                             <label htmlFor="upload-file" className={classes.uploadLabel}>
-                                    <img
-                                        src={uploadFile}
-                                        alt="Employee"
-                                        className={classes.uploadIcon}
-                                    />
+                                <img
+                                    src={uploadFile}
+                                    alt="Employee"
+                                    className={classes.uploadIcon}
+                                />
                             </label>
                             <Box display="flex" flexDirection="column" marginRight={'100px'} marginTop={'50px'}>
                                 <Typography variant="h5" style={{color: 'white', marginTop: '30px',fontFamily:'IBM Plex Sans KR'}}>
@@ -362,7 +366,7 @@ class EmployeeMine extends Component {
                     </Button>
                     <PasswordChangeModal isOpen={isPasswordModalOpen} onClose={this.closePasswordModal}/>
 
-                    <Dialog open={isOpen} onClose={onClose}>
+                    <Dialog open={dialogOpen} onClose={this.closeDialog}>
                         <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">

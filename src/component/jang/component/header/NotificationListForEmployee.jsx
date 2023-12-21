@@ -26,6 +26,8 @@ class NotificationListForEmployee extends Component {
     anchorEl
     messageEventHandler
 
+    
+
     constructor(props, context) {
         super(props, context);
         console.log('constructor Notification')
@@ -207,7 +209,7 @@ class NotificationListForEmployee extends Component {
         console.log('SSE 실행 끝!!!!!')
         return (<div>
                 <Badge badgeContent={totalCount} color="secondary">
-                    <NotificationsIcon variant="contained" color="white" onClick={this.handleToggleList}
+                    <NotificationsIcon variant="contained" style={{ color: 'white' }} onClick={this.handleToggleList}
                                        fontSize={"large"}>
                     </NotificationsIcon>
                 </Badge>

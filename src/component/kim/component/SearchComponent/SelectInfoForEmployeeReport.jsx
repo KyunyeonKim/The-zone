@@ -3,7 +3,6 @@ import {
     Checkbox,
     FormControl,
     FormControlLabel,
-    FormGroup,
     InputLabel,
     MenuItem,
     Select,
@@ -28,11 +27,8 @@ const styles = theme => ({
         textAlign: 'center',
     },
     gridContainer: {
-        // border: '1px solid #000', // 이 줄을 제거하거나 주석 처리
-        padding: theme.spacing(2), // 안쪽 여백은 유지
-        // 기타 필요한 스타일
+        padding: theme.spacing(2),
     },
-    // 추가적인 스타일을 여기에 정의할 수 있습니다.
 });
 
 class SelectInfoForEmployeeReport extends Component {
@@ -41,9 +37,10 @@ class SelectInfoForEmployeeReport extends Component {
 
     constructor(props) {
         super(props);
+        this.currentYear = new Date().getFullYear();
 
         this.state = {
-            inputYear: "", // Jan:false, Feb:false, Mar:false, Apr:false, May:false, Jun:false, Jul:false, Aug:false,Sep:false, Oct:false, Nov:false, Dec:false
+            inputYear: String(this.currentYear), // Jan:false, Feb:false, Mar:false, Apr:false, May:false, Jun:false, Jul:false, Aug:false,Sep:false, Oct:false, Nov:false, Dec:false
             Months: {
                 1: false,
                 2: false,
@@ -202,9 +199,11 @@ class SelectInfoForEmployeeReport extends Component {
                     <FormControl variant="outlined">
                         <InputLabel id="attendance-hour-label">년도</InputLabel>
                         <Select
+
                             style={{height: "50px", width: "150px"}}
                             labelId="attendance-hour-label"
                             id="attendaceHour"
+                            value={this.state.inputYear} // 이 부분을 추가
                             onChange={this.clickYearChange}>
                             {[...Array(5)].map((_, index) => (
                                 <MenuItem key={this.currentYear - index} value={this.currentYear - index}>

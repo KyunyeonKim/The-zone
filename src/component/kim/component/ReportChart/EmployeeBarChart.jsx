@@ -42,45 +42,45 @@ class EmployeeBarChart extends Component {
                 name: '승인된 연차',
                 type: 'bar',
                 stack: 'total',
-                itemStyle: {color: '#ADD8E6'},
+                itemStyle: {color: '#4F5DF8'},
                 data: yAxisData.map((_, index) => getMonthlyData('approvedVacationCount', index + 1))
             },
             {
                 name: '거절된 연차',
                 type: 'bar',
                 stack: 'total',
-                itemStyle: {color: '#FFB6C1'},
+                itemStyle: {color: '#F74F4F'},
                 data: yAxisData.map((_, index) => getMonthlyData('rejectedVacationCount', index + 1))
             },
             {
                 name: '요청중인 연차',
                 type: 'bar',
                 stack: 'total',
-                itemStyle: {color: '#FFFACD'},
+                itemStyle: {color: '#B3A62C'},
 
                 data: yAxisData.map((_, index) => getMonthlyData('requestedVacationCount', index + 1))
             },
             {
-                name: '승인된 근태',
+                name: '근태 정상',
                 type: 'bar',
                 stack: 'total',
-                itemStyle: {color: '#78E8F7'},
+                itemStyle: {color: '#1B46C6'},
                 data: yAxisData.map((_, index) => getMonthlyData('approvedCount', index + 1))
             },
             {
-                name: '거절된 근태',
+                name: '근태 불량',
                 type: 'bar',
                 stack: 'total',
-                itemStyle: {color: '#FFA6EC'},
+                itemStyle: {color: '#D643B7'},
 
                 data: yAxisData.map((_, index) => getMonthlyData('unapprovedVacationCount', index + 1))
 
             },
             {
-                name: '요청중인 근태',
+                name: '조정 요청',
                 type: 'bar',
                 stack: 'total',
-                itemStyle: {color: '#AAFFBC'},
+                itemStyle: {color: '#33CC4C'},
                 data: yAxisData.map((_, index) => getMonthlyData('approvalRequestedAttendance', index + 1))
             }
         ];

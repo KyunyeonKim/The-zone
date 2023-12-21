@@ -72,9 +72,9 @@ class EmployeeVacationChart extends Component {
                     radius: ['45%', '70%'],
                     avoidLabelOverlap: false, // 레이블 겹침을 방지합니다.
                     data: [
-                        {value: approvedVacationCount, name: '승인', itemStyle: {color: '#ADD8E6'}},
-                        {value: rejectedVacationCount, name: '반려', itemStyle: {color: '#FFB6C1'}},
-                        {value: requestedVacationCount, name: '요청중', itemStyle: {color: '#FFFACD'}}
+                        {value: approvedVacationCount, name: '승인', itemStyle: {color: '#4F5DF8'}},
+                        {value: rejectedVacationCount, name: '반려', itemStyle: {color: '#F74F4F'}},
+                        {value: requestedVacationCount, name: '요청중', itemStyle: {color: '#B3A62C'}}
                     ],
                     label: {
                         // 이 시리즈의 데이터 포인트 옆에 레이블을 표시하지 않도록 설정

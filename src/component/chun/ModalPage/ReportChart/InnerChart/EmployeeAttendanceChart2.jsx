@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import * as echarts from 'echarts';
 
 class EmployeeVacationChart2 extends Component {
@@ -29,7 +29,7 @@ class EmployeeVacationChart2 extends Component {
 
 
     initChart() {
-        const { attendanceNormal, attendanceAbnormal, approvalRequestedAttendance } = this.props;
+        const {attendanceNormal, attendanceAbnormal, approvalRequestedAttendance} = this.props;
 
         // 차트 인스턴스가 없으면 생성합니다.
         if (!this.chartInstance) {
@@ -48,8 +48,8 @@ class EmployeeVacationChart2 extends Component {
     }
 
 
-    getOption  () {
-        const { attendanceNormal, attendanceAbnormal, approvalRequestedAttendance } = this.props;
+    getOption() {
+        const {attendanceNormal, attendanceAbnormal, approvalRequestedAttendance} = this.props;
 
         return {
             title: {
@@ -66,9 +66,9 @@ class EmployeeVacationChart2 extends Component {
                 left: 'center',
                 top: 'bottom',
                 data: [
-                    { name: '승인', icon: 'circle', textStyle: { color:'#78E8F7' } },
-                    { name: '반려', icon: 'circle', textStyle: { color: '#FFA6EC' } },
-                    { name: '요청중', icon: 'circle', textStyle: { color: '#AAFFBC' } }
+                    {name: '승인', icon: 'circle', textStyle: {color: '#1B46C6'}},
+                    {name: '반려', icon: 'circle', textStyle: {color: '#D643B7'}},
+                    {name: '요청중', icon: 'circle', textStyle: {color: '#33CC4C'}}
                 ]
             },
             series: [
@@ -78,9 +78,9 @@ class EmployeeVacationChart2 extends Component {
                     radius: ['45%', '70%'],
                     avoidLabelOverlap: false, // 레이블 겹침을 방지합니다.
                     data: [
-                        { value: attendanceNormal, name: '승인', itemStyle: { color: '#78E8F7' } },
-                        { value:attendanceAbnormal, name: '반려', itemStyle: { color: '#FFA6EC' } },
-                        { value: approvalRequestedAttendance, name: '요청중', itemStyle: { color: '#AAFFBC' } }
+                        {value: attendanceNormal, name: '승인', itemStyle: {color: '#1B46C6'}},
+                        {value: attendanceAbnormal, name: '반려', itemStyle: {color: '#D643B7'}},
+                        {value: approvalRequestedAttendance, name: '요청중', itemStyle: {color: '#33CC4C'}}
                     ],
                     label: {
                         // 이 시리즈의 데이터 포인트 옆에 레이블을 표시하지 않도록 설정
@@ -120,7 +120,7 @@ class EmployeeVacationChart2 extends Component {
 
     render() {
         return (
-            <div ref={this.chartRef} style={{ width: '80%', height: '350px' }}></div> // 차트 컨테이너
+            <div ref={this.chartRef} style={{width: '80%', height: '350px'}}></div> // 차트 컨테이너
         );
     }
 }

@@ -82,7 +82,7 @@ class ReportApprovalRequestedAttendance extends Component {
             <Paper className={classes.paper}>
                 <div className={classes.titleSection}>
                     <Typography className={classes.subtitle1}>
-                        {monthName} 조정 요청
+                        {monthName} 조정 요청중
                     </Typography>
                 </div>
                 <div className={classes.dataSection}>

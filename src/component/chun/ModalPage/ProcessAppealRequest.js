@@ -24,7 +24,6 @@ import {
     DialogTitle,
     Grid,
     IconButton, Snackbar,
-    SvgIcon
 } from "@material-ui/core";
 import ProcessAppealRequestListComponent from "../Component/ProcessAppealRequestListComponent";
 import SearchIcon from "@material-ui/icons/Search";

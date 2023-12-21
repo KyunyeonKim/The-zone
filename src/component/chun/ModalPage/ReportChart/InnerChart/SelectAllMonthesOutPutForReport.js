@@ -130,7 +130,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    itemStyle: { color: '#ADD8E6' }, // 파란색
+                    itemStyle: { color: '#4F5DF8' }, // 파란색
                     data: this.approvedVacationCount
                 },
                 {
@@ -143,7 +143,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    itemStyle: { color: '#FFB6C1' }, // 분홍색
+                    itemStyle: { color: '#F74F4F' }, // 분홍색
                     data: this.rejectedVacationCount
                 },
                 {
@@ -156,7 +156,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    itemStyle: { color: '#FFFACD' }, // 연녹색
+                    itemStyle: { color: '#B3A62C' }, // 연녹색
                     data: this.requestedVacationCount
                 },
                 {
@@ -169,7 +169,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    itemStyle: { color: '#78E8F7' }, // 연녹색
+                    itemStyle: { color: '#1B46C6' }, // 연녹색
                     data: this.approvedCount
                 },
                 {
@@ -182,7 +182,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    itemStyle: { color: '#FFA6EC' },
+                    itemStyle: { color: '#D643B7' },
                     data: this.attendanceAbnormal
                 },
                 {
@@ -195,7 +195,7 @@ class SelectAllMonthesOutPutForReport extends Component {
                     emphasis: {
                         focus: 'series'
                     },
-                    itemStyle: { color: '#AAFFBC' }, // 연녹색
+                    itemStyle: { color: '#33CC4C' }, // 연녹색
                     data: this.approvalRequestedAttendance
                 }
             ]
