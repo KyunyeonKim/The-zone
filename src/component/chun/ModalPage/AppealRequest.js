@@ -293,11 +293,11 @@ class AppealRequest extends Component {
             this.showErrorDialog('Error', errorMessage);
         }
 
-        stateStore.calendarContainerStateSet.setState(this.state.selectedYear.toString(), this.state.selectedMonth.toString(), new Date(this.props.args[0]),()=>{
-            stateStore.appealRequestStateSet.setState();
-        })
+        stateStore.calendarContainerStateSet.setState(this.state.selectedYear.toString(), this.state.selectedMonth.toString(), new Date(this.props.args[0]));
+        stateStore.appealRequestStateSet.setState();
+        };
 
-    };
+
 
     reasonChange = (e) => {
         this.reason = e.target.value;

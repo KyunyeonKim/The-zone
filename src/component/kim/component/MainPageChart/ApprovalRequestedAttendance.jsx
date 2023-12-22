@@ -55,7 +55,8 @@ class ApprovalRequestedAttendance extends Component {
 
     constructor(props, context) {
         super(props, context);
-        stateStore.appealRequestStateSet = {state: this.state, setState: this.setState}
+        let thisState = this.state;
+        stateStore.appealRequestStateSet = {state: thisState, setState: function(){this.setState()}.bind(this)}
         this.loadrequestAttendanceCount = this.loadrequestAttendanceCount.bind(this)
     }
 

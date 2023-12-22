@@ -68,7 +68,23 @@ class EmployeeVacationSettingListComponent extends Component {
         this.handleInputReasonSnackbarOpen=this.handleInputReasonSnackbarOpen.bind(this);
         this.handleInputReasonSnackbarOpenClose=this.handleInputReasonSnackbarOpenClose.bind(this);
 
+        this.showErrorDialog=this.showErrorDialog.bind(this);
+        this.closeDialog=this.closeDialog.bind(this);
+
     }
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+    // 다이얼로그 닫기 함수
+    closeDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
 
     handleInputReasonSnackbarOpen=()=>{
         this.setState({inputReasonSnackbarOpen:true});
@@ -178,7 +194,6 @@ class EmployeeVacationSettingListComponent extends Component {
     };
 
     sendData = async(count,reason,employeeId,isAddButton) => {
-        const {showErrorDialog} = this.props;
         const formData = new FormData();
         formData.append('adjustQuantity',count);
         formData.append('reason',reason);
@@ -214,58 +229,14 @@ class EmployeeVacationSettingListComponent extends Component {
                 console.error('Error:', error);
                 errorMessage = "An error occurred while fetching data!";
             }
-            showErrorDialog('Error', errorMessage);
+            this.showErrorDialog('Error', errorMessage);
         }
     }
     render() {
-        const {isButtonDisabled,data,keyData,classes,title,className} = this.props;
+        const {isButtonDisabled,data,keyData,classes,title,className,id} = this.props;
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
 
         return (
-            <>
-                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantDeleteCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose}>*/}
-                {/*    <Alert onClose={this.handleCantDeleteCountVacationTypeSnackbarOpenClose} severity="warning">*/}
-                {/*        연차 삭제 불가능한 연차 종류입니다!*/}
-                {/*    </Alert>*/}
-                {/*</Snackbar>*/}
-
-                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantAddCountVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose}>*/}
-                {/*    <Alert onClose={this.handleCantAddCountVacationTypeSnackbarOpenClose} severity="warning">*/}
-                {/*        연차 추가 불가능한 연차 종류입니다!*/}
-                {/*    </Alert>*/}
-                {/*</Snackbar>*/}
-
-                {/*<Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.cantChooseVacationTypeSnackbarOpen} autoHideDuration={2000} onClose={this.handleCantChooseVacationTypeSnackbarOpenClose}>*/}
-                {/*    <Alert onClose={this.handleCantChooseVacationTypeSnackbarOpenClose} severity="warning">*/}
-                {/*        연차 종류를 입력하세요!*/}
-                {/*    </Alert>*/}
-                {/*</Snackbar>*/}
-
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputReasonSnackbarOpenClose}>
-                    <Alert onClose={this.handleInputReasonSnackbarOpenClose} severity="warning">
-                        사유를 입력하세요!
-                    </Alert>
-                </Snackbar>
-
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputVacationCountNotOverSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputVacationCountNotOverSnackbarOpenClose}>
-                    <Alert onClose={this.handleInputVacationCountNotOverSnackbarOpenClose} severity="warning">
-                        남은 연차 개수보다 많이 입력할 수 없습니다!
-                    </Alert>
-                </Snackbar>
-
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputRangeSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputRangeSnackbarOpenClose}>
-                    <Alert onClose={this.handleInputRangeSnackbarOpenClose} severity="warning">
-                        입력개수는 1에서 세자리 까지 가능합니다!
-                    </Alert>
-                </Snackbar>
-
-                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.processMineSnackbarOpen} autoHideDuration={2000} onClose={this.handleProcessMineSnackbarOpenClose}>
-                    <Alert onClose={this.handleProcessMineSnackbarOpenClose} severity="warning">
-                        본인에 대한 처리는 불가능합니다!
-                    </Alert>
-                </Snackbar>
-
-
 
                 <TableRow key={keyData} >
                     <TableCell align="center" className={className}>
@@ -341,10 +312,36 @@ class EmployeeVacationSettingListComponent extends Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    <TableCell>
+                        <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputReasonSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputReasonSnackbarOpenClose}>
+                            <Alert onClose={this.handleInputReasonSnackbarOpenClose} severity="warning">
+                                사유를 입력하세요!
+                            </Alert>
+                        </Snackbar>
+
+                        <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputVacationCountNotOverSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputVacationCountNotOverSnackbarOpenClose}>
+                            <Alert onClose={this.handleInputVacationCountNotOverSnackbarOpenClose} severity="warning">
+                                남은 연차 개수보다 많이 입력할 수 없습니다!
+                            </Alert>
+                        </Snackbar>
+
+                        <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputRangeSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputRangeSnackbarOpenClose}>
+                            <Alert onClose={this.handleInputRangeSnackbarOpenClose} severity="warning">
+                                입력개수는 1에서 세자리 까지 가능합니다!
+                            </Alert>
+                        </Snackbar>
+
+                        <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.processMineSnackbarOpen} autoHideDuration={2000} onClose={this.handleProcessMineSnackbarOpenClose}>
+                            <Alert onClose={this.handleProcessMineSnackbarOpenClose} severity="warning">
+                                본인에 대한 처리는 불가능합니다!
+                            </Alert>
+                        </Snackbar>
+                    </TableCell>
+
                 </TableRow>
 
 
-            </>
+
 
         );
     }

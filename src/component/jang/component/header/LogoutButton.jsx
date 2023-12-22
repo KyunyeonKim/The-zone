@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import {Snackbar} from "@material-ui/core";
+import {Grid, IconButton, Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 
 class LogoutButton extends Component {
@@ -44,14 +44,15 @@ class LogoutButton extends Component {
     render() {
         const { snackbarOpen, snackbarMessage, snackbarSeverity } = this.state;
         return (
-            <>
-                <ExitToAppIcon onClick={this.handleLogout.bind(this)} fontSize={'large'}/>
-                <Snackbar open={snackbarOpen}  anchorOrigin={{ vertical:'top', horizontal: 'center' }} autoHideDuration={6000} onClose={this.handleSnackbarClose}>
-                    <Alert severity="info" onClose={this.handleSnackbarClose} severity={snackbarSeverity}>
-                        {snackbarMessage}
-                    </Alert>
-                </Snackbar>
-            </>
+                <>
+                    <ExitToAppIcon onClick={this.handleLogout.bind(this)} fontSize={'large'} style={{cursor:"pointer"}}/>
+                    <Snackbar open={snackbarOpen}  anchorOrigin={{ vertical:'top', horizontal: 'center' }} autoHideDuration={6000} onClose={this.handleSnackbarClose}>
+                        <Alert severity="info" onClose={this.handleSnackbarClose} severity={snackbarSeverity}>
+                            {snackbarMessage}
+                        </Alert>
+                    </Snackbar>
+                </>
+
         );
     }
 }

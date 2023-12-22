@@ -106,12 +106,16 @@ class EmployeeVacationSetting extends Component {
             sort:'',
             isSearch:false,
             searchNoContentSnackbarOpen:false,
-            inputDataCheckSnackbarOpen:false
+            inputDataCheckSnackbarOpen:false,
+            dialogOpen:false,
+            dialogTitle:"",
+            dialogMessage:""
+
         };
         this.searchKeyword="";
         this.desc="";
         this.sort="";
-        this.loginId="";
+        this.loginId=JSON.parse(sessionStorage.getItem('userData')).loginId;
 
         this.login = this.login.bind(this);
         this.fetchData = this.fetchData.bind(this);
@@ -126,6 +130,8 @@ class EmployeeVacationSetting extends Component {
         this.handleSearchNoContentSnackbarOpenClose=this.handleSearchNoContentSnackbarOpenClose.bind(this);
         this.handleInputDataCheckSnackbarOpen=this.handleInputDataCheckSnackbarOpen.bind(this);
         this.handleInputDataCheckSnackbarOpenClose=this.handleInputDataCheckSnackbarOpenClose.bind(this);
+        this.showErrorDialog=this.showErrorDialog.bind(this);
+        this.closeDialog=this.closeDialog.bind(this);
 
     }
 
@@ -179,16 +185,6 @@ class EmployeeVacationSetting extends Component {
     closeDialog = () => {
         this.setState({ dialogOpen: false });
     };
-
-
-    showDialog = (title, message) => {
-        this.setState({
-            dialogOpen: true,
-            dialogTitle: title,
-            dialogMessage: message,
-        });
-    };
-
 
     login=async ()=>{
 
@@ -445,7 +441,6 @@ class EmployeeVacationSetting extends Component {
 
         return (
             <Box>
-
                 <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputDataCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputDataCheckSnackbarOpenClose}>
                     <Alert onClose={this.handleInputDataCheckSnackbarOpenClose} severity="warning">
                         입력 값이 올바른 형식이 아닙니다!
@@ -557,7 +552,6 @@ class EmployeeVacationSetting extends Component {
                                     <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사원 명</TableCell>
                                     <TableCell align="center" className={classes.titleText}>남은 연차 개수</TableCell>
-                                    {/*<TableCell align="center" className={classes.titleText}>연차 종류</TableCell>*/}
                                     <TableCell align="center" className={classes.titleText}>추가 및 삭제 개수</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사유</TableCell>
                                     <TableCell align="center" className={classes.titleText}>추가</TableCell>
@@ -574,7 +568,7 @@ class EmployeeVacationSetting extends Component {
                                         AddHandleOpen={this.AddHandleOpen}
                                         DeleteHandleOpen={this.DeleteHandleOpen}
                                         title={["추가", "삭제"]}
-                                        showErrorDialog={this.showErrorDialog}
+
                                     />
                                 ))}
                             </TableBody>

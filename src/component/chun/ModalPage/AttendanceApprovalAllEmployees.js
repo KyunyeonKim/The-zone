@@ -102,7 +102,7 @@ class AttendanceApprovalAllEmployees extends Component{
             activePage:1,
             showPagiNation: 'flex',
             data:[],
-            empPageData:{},
+            empPageData:{totalElement:0},
             desc:"",
             sort:"",
             dialogOpen: false,
@@ -434,8 +434,8 @@ class AttendanceApprovalAllEmployees extends Component{
                         <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
                             <Pagination
                                 activePage={parseInt(this.state.activePage)}
-                                itemsCountPerPage={this.state.empPageData['size']}
-                                totalItemsCount={this.state.empPageData['totalElement']}
+                                itemsCountPerPage={this.state.empPageData.size}
+                                totalItemsCount={this.state.empPageData.totalElement}
                                 pageRangeDisplayed={10}
                                 onChange={(page) => this.fetchData(page)}
                                 innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일

@@ -236,10 +236,9 @@ export default function Dashboard(props) {
                             </IconButton>
                         ) : null}
                     </Box>
-                    <Box style={{marginLeft:"10px"}}>
-                        <IconButton color="inherit">
+
+                    <Box style={{marginLeft:"20px",display:"flex",alignItems:"center"}}>
                             <LogoutButton onLogout={() => alert('logout success')} />
-                        </IconButton>
                     </Box>
 
                 </Box>
