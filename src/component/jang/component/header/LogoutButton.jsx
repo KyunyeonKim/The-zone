@@ -25,7 +25,7 @@ class LogoutButton extends Component {
                 snackbarSeverity: "info",
             });
             setTimeout(() => {
-                window.location.href = 'http://localhost:3000/login';
+                window.location.href = 'https://douzone-front-server-wonyong92.vercel.app/login';
             }, 1000); // 2초 후에 로그인 페이지로 이동
         } catch (error) {
             console.error('로그아웃 에러:', error);
