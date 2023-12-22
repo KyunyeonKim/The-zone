@@ -102,7 +102,7 @@ class TableCellContainer extends Component {
 
 
                 <TableCell align='center'>
-                <Button variant="contained" color="secondary" onClick={this.callDeleteDialog}style={{margin:5}}>
+                <Button variant="contained" color="secondary" onClick={this.callDeleteDialog} style={{margin:5, fontSize:'16px',height:'45px',fontWeight:'bold',borderRadius:'8px'}}>
                     DELETE
                 </Button></TableCell>
 

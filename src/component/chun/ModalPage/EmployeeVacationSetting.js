@@ -15,12 +15,23 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SvgIcon,} from '@material-ui/core';
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton, Snackbar,
+    SvgIcon,
+} from '@material-ui/core';
 import Pagination from "react-js-pagination";
-import EmployeeVacationSettingListComponent from "./EmployeeVacationSettingListComponent";
+import EmployeeVacationSettingListComponent from "../Component/EmployeeVacationSettingListComponent";
 import SearchIcon from '@material-ui/icons/Search';
+import {Alert} from "@material-ui/lab";
 
 /*TODO : 리스트 한줄을 컴포넌트로 변경할 것*/
+
+
 const styles = (theme) => ({
 
     formControl: {
@@ -28,11 +39,11 @@ const styles = (theme) => ({
         minWidth: 120,
     },
     text :{
-        fontSize:'1rem',
+        fontSize:'16px',
         fontFamily:'IBM Plex Sans KR'
     },
     titleText:{
-        fontSize:'1.2rem',
+        fontSize:'22px',
         fontFamily:'IBM Plex Sans KR',
         fontWeight:'bold'
     },
@@ -94,11 +105,17 @@ class EmployeeVacationSetting extends Component {
             desc:'',
             sort:'',
             isSearch:false,
+            searchNoContentSnackbarOpen:false,
+            inputDataCheckSnackbarOpen:false,
+            dialogOpen:false,
+            dialogTitle:"",
+            dialogMessage:""
+
         };
         this.searchKeyword="";
         this.desc="";
         this.sort="";
-        this.loginId="";
+        this.loginId=JSON.parse(sessionStorage.getItem('userData')).loginId;
 
         this.login = this.login.bind(this);
         this.fetchData = this.fetchData.bind(this);
@@ -109,6 +126,12 @@ class EmployeeVacationSetting extends Component {
         this.DeleteHandleOpen = this.DeleteHandleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.searchKeywordChange=this.searchKeywordChange.bind(this);
+        this.handleSearchNoContentSnackbarOpen=this.handleSearchNoContentSnackbarOpen.bind(this);
+        this.handleSearchNoContentSnackbarOpenClose=this.handleSearchNoContentSnackbarOpenClose.bind(this);
+        this.handleInputDataCheckSnackbarOpen=this.handleInputDataCheckSnackbarOpen.bind(this);
+        this.handleInputDataCheckSnackbarOpenClose=this.handleInputDataCheckSnackbarOpenClose.bind(this);
+        this.showErrorDialog=this.showErrorDialog.bind(this);
+        this.closeDialog=this.closeDialog.bind(this);
 
     }
 
@@ -117,12 +140,29 @@ class EmployeeVacationSetting extends Component {
     sort;
     loginId;
 
+    handleInputDataCheckSnackbarOpen=()=>{
+        this.setState({inputDataCheckSnackbarOpen:true});
+    }
+
+    handleInputDataCheckSnackbarOpenClose=()=>{
+        this.setState({inputDataCheckSnackbarOpen:false});
+    }
+
+    handleSearchNoContentSnackbarOpen=()=>{
+        this.setState({searchNoContentSnackbarOpen:true});
+    }
+
+    handleSearchNoContentSnackbarOpenClose=()=>{
+        this.setState({searchNoContentSnackbarOpen:false});
+    }
+
+
     AddHandleOpen = () => {
-        this.setState({...this.state,addOpen:true});
+        this.setState({addOpen:true});
     };
 
     DeleteHandleOpen=()=>{
-        this.setState({...this.state,deleteOpen:true});
+        this.setState({deleteOpen:true});
     }
 
     handleClose =() => {
@@ -146,16 +186,6 @@ class EmployeeVacationSetting extends Component {
         this.setState({ dialogOpen: false });
     };
 
-
-    showDialog = (title, message) => {
-        this.setState({
-            dialogOpen: true,
-            dialogTitle: title,
-            dialogMessage: message,
-        });
-    };
-
-
     login=async ()=>{
 
         // axios.defaults.withCredentials = true;
@@ -170,12 +200,12 @@ class EmployeeVacationSetting extends Component {
         //
         // }
     //     catch(error){
-    //         console.log("error 발생 !");
+    //         //console.log("error 발생 !");
     //     }
     }
 
     fetchData=async(page)=> {
-        // console.log("PageNationStyle",PageNationStyle);
+        // //console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
 
@@ -188,12 +218,12 @@ class EmployeeVacationSetting extends Component {
 
         if (this.desc !== '' && this.sort !== '') {
             getPage = getPage + (getPage.includes('?') ? '&' : '?') + 'desc=' + this.desc + '&sort=' + this.sort;
-            console.log("getPage : ",getPage);
+            //console.log("getPage : ",getPage);
         }
 
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
-            console.log("employeeData.data : ", employeeData.data)
+            //console.log("employeeData.data : ", employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data.map(data => ({ employeeId: data.employeeId, name: data.name }));
 
@@ -256,17 +286,17 @@ class EmployeeVacationSetting extends Component {
 
     // sortChange,descChange 참고해서 정렬 다시 할것
     sortChange =  (e) =>{
-        console.log("sortChange 실행됨")
-        console.log("e.target.value : ",e.target.value);
+        //console.log("sortChange 실행됨")
+        //console.log("e.target.value : ",e.target.value);
         this.sort=e.target.value;
         this.setState({...this.state,sort: this.sort,desc:""});
     }
 
     descChange =  (e) => {
-        console.log("descChange 실행됨");
+        //console.log("descChange 실행됨");
         // if(this.state.sort==="") {
         //     alert("정렬 기준을 먼저 선택하세요 !");
-        //     console.log("this.desc : ",this.desc);
+        //     //console.log("this.desc : ",this.desc);
         // }
 
         this.desc=e.target.value;
@@ -288,7 +318,7 @@ class EmployeeVacationSetting extends Component {
                         return a.name.localeCompare(b.name);
                     }
                 });
-                console.log("empData - asc 정렬 : ", empData);
+                //console.log("empData - asc 정렬 : ", empData);
             } else {
                 empData = this.state.empData.sort((a, b) => {
                     if (this.sort === "employee_id") {
@@ -297,16 +327,16 @@ class EmployeeVacationSetting extends Component {
                         return b.name.localeCompare(a.name);
                     }
                 });
-                console.log("empData - desc 정렬 : ", empData);
+                //console.log("empData - desc 정렬 : ", empData);
             }
 
-            console.log("정렬 - this.state.remainVacation : ", this.state.remainVacation);
+            //console.log("정렬 - this.state.remainVacation : ", this.state.remainVacation);
             const combineData = empData.map((first) => ({...first,
                 // remainVacation: this.state.remainVacation[first.employeeId],
                 remainVacation :this.state.remainVacation.find((data) => Object.keys(data)[0] === first.employeeId)[first.employeeId]
 
             }));
-            console.log("정렬 - combineData : ", combineData);
+            //console.log("정렬 - combineData : ", combineData);
 
             this.setState({ ...this.state,empData: empData, combineData: combineData,desc:this.desc});
         }
@@ -314,11 +344,11 @@ class EmployeeVacationSetting extends Component {
 
     handleSearchButtonClick = async(e) => {
         const searchKeyword = this.searchKeyword;
-        console.log("searchKeyword : ", searchKeyword);
+        //console.log("searchKeyword : ", searchKeyword);
 
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
-            this.showDialog("올바르지 않는 입력입니다")
+            this.handleInputDataCheckSnackbarOpen();
             return;
         }
 
@@ -331,23 +361,23 @@ class EmployeeVacationSetting extends Component {
             try {
                 // 가져온 검색 결과에서 데이터가 들어있는 객체 배열만 들고옴
                 const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${searchKeyword}`)).data;
-                console.log("searchResponse : ",searchResponse);
+                //console.log("searchResponse : ",searchResponse);
 
                 if(searchResponse===""){
-                    this.showDialog("검색 결과가 없습니다 ")
+                    this.handleSearchNoContentSnackbarOpen();
                     return;
                 }
 
                 const empData = searchResponse.map(data => ({ employeeId: data.employeeId, name: data.name }));
                 const employeeIds = empData.map((item) => item.employeeId);  //모든 id를 뽑아서 배열로 모음
-                console.log("employeeIds : ",employeeIds);
+                //console.log("employeeIds : ",employeeIds);
                 const remainVacation = await Promise.all( //id에 대해서 남은 연차 수를 병렬로 모두 계산-> 결과는 배열
                     employeeIds.map(async (employeeId) => {
                         const response = await axios.get(`http://localhost:8080/manager/vacation/remain/${employeeId}`);
                         return {[employeeId]:response.data};
                     })
                 );
-                console.log("remainVacation : ",remainVacation);
+                //console.log("remainVacation : ",remainVacation);
 
                 const combineData = searchResponse.map((first) => ({
                     ...first,
@@ -364,7 +394,7 @@ class EmployeeVacationSetting extends Component {
                     sort: '',
                     desc: ''
                 });
-                console.log("this.state",this.state);
+                //console.log("this.state",this.state);
 
             } catch (error) {
                 let errorMessage = "An error occurred!";
@@ -411,6 +441,16 @@ class EmployeeVacationSetting extends Component {
 
         return (
             <Box>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputDataCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputDataCheckSnackbarOpenClose}>
+                    <Alert onClose={this.handleInputDataCheckSnackbarOpenClose} severity="warning">
+                        입력 값이 올바른 형식이 아닙니다!
+                    </Alert>
+                </Snackbar>
+                <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.searchNoContentSnackbarOpen} autoHideDuration={2000} onClose={this.handleSearchNoContentSnackbarOpenClose}>
+                    <Alert onClose={this.handleSearchNoContentSnackbarOpenClose} severity="warning">
+                        검색 결과가 없습니다!
+                    </Alert>
+                </Snackbar>
                 <Dialog open={this.state.addOpen} onClose={this.handleClose}>
                     <DialogTitle>연차 개수 추가</DialogTitle>
                     <DialogContent>
@@ -440,24 +480,43 @@ class EmployeeVacationSetting extends Component {
                 </Dialog>
 
 
-                <Box  style={{ width: '80%', margin: 'auto' }}>
+                <Box  style={{ width: '1600px',margin:"10px 30px 30px 30px"}}>
                     <Box
-                         sx={{fontSize:'1.5rem', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
+                         sx={{fontSize:'30px', fontFamily:'IBM Plex Sans KR', fontWeight:'bold', borderBottom:'solid 1px black',  margin: '20px 0 20px 0',
                              paddingBottom: '10px'
                          }} >
                         사원 연차 설정
                     </Box>
 
-                    <Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >
-                        <Box component="span" sx={{ marginRight: '10px',flex: 1}}>
-                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>
-                        </Box>
-                        <Box component="span" >
-                            <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}
-                            cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />
-                                {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
-                        </Box>
+                    {/*<Box style={{border:'3px solid #1D89DB', padding:'20px 10px 20px 10px',borderRadius:'10px'}} >*/}
+                    {/*    <Box component="span" sx={{ marginRight: '10px',flex: 1}}>*/}
+                    {/*        <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%"}} onChange={this.searchKeywordChange}/>*/}
+                    {/*    </Box>*/}
+                    {/*    <Box component="span" >*/}
+                    {/*        <SvgIcon style={{borderRadius:'6px' , width: "3.5%",height: 'fit-content',border:'1px solid #c1c1c1'}}*/}
+                    {/*        cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
+                    {/*            /!*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*!/*/}
+                    {/*    </Box>*/}
+                    {/*</Box>*/}
+
+                    <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
+                        <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"56px"}} onChange={this.searchKeywordChange}/>
+
+                        <IconButton
+                            onClick={this.handleSearchButtonClick}
+                            style={{
+                                borderRadius: '6px',
+                                width: "4%",
+                                border: '1px solid #c1c1c1',
+                                height: "56px"}}>
+                            <SearchIcon />
+                        </IconButton>
+
+                        {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
+                        {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
+                        {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                     </Box>
+
 
                     <Box component="" style={{display:"flex",justifyContent:"flex-end",marginBottom: '10px'}}>
                         <FormControl className={classes.formControl}>
@@ -486,14 +545,13 @@ class EmployeeVacationSetting extends Component {
                     </Box>
 
 
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} style={{overflowX:'unset'}}>
                         <Table>
                             <TableHead className={classes.tableHead}>
                                 <TableRow >
                                     <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사원 명</TableCell>
                                     <TableCell align="center" className={classes.titleText}>남은 연차 개수</TableCell>
-                                    <TableCell align="center" className={classes.titleText}>연차 종류</TableCell>
                                     <TableCell align="center" className={classes.titleText}>추가 및 삭제 개수</TableCell>
                                     <TableCell align="center" className={classes.titleText}>사유</TableCell>
                                     <TableCell align="center" className={classes.titleText}>추가</TableCell>
@@ -501,15 +559,17 @@ class EmployeeVacationSetting extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {combineData.map((row) => (
-                                        <EmployeeVacationSettingListComponent
-                                            className={classes.text}
-                                            isButtonDisabled={row.employeeId===this.loginId}
-                                            data={row}
-                                            keyData={row.employeeId}
-                                            AddHandleOpen={this.AddHandleOpen}
-                                            DeleteHandleOpen={this.DeleteHandleOpen}
-                                            title={["추가","삭제"]}/>
+                                {combineData.map((row, index) => (
+                                    <EmployeeVacationSettingListComponent
+                                        className={classes.text}
+                                        isButtonDisabled={row.employeeId === this.loginId}
+                                        data={row}
+                                        key={`${row.employeeId}_${index}`} // Update the key based on the sorting criteria
+                                        AddHandleOpen={this.AddHandleOpen}
+                                        DeleteHandleOpen={this.DeleteHandleOpen}
+                                        title={["추가", "삭제"]}
+
+                                    />
                                 ))}
                             </TableBody>
                         </Table>
@@ -517,9 +577,9 @@ class EmployeeVacationSetting extends Component {
 
                     <Box  sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
                         <Pagination
-                            activePage={this.state.activePage}
+                            activePage={parseInt(this.state.activePage)}
                             itemsCountPerPage={this.state.empPageData['size']}
-                            totalItemsCount={this.state.empPageData['totalElement']}
+                            totalItemsCount={this.state.empPageData['totalElement']||0}
                             pageRangeDisplayed={10}
                             onChange={(page) => this.fetchData(page)}
                             innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일

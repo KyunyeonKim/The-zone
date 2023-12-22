@@ -8,7 +8,9 @@ class ErrorBoundary extends Component {
         window.onerror = function (message, source, lineno, colno, error) {
             console.error(error);
             this.setState({ hasError: true, errorMessage: 'Synchronous error occurred' });
-            this.openModal();
+            let currentLocation = window.location;
+            // 새로운 URL로 리다이렉트
+            window.location.href = currentLocation.protocol + '//' + currentLocation.host + '/error';
         }.bind(this);
     }
 
@@ -21,27 +23,18 @@ class ErrorBoundary extends Component {
     }
 
     openModal = () => {
-        this.setState({ showModal: true });
+        let currentLocation = window.location;
+        // 새로운 URL로 리다이렉트
+        window.location.href = currentLocation.protocol + '//' + currentLocation.host + '/error';
     };
 
-    closeModal = () => {
-        this.setState({ showModal: false });
-    };
 
     render() {
-        const { hasError, showModal, errorMessage } = this.state;
+        const { hasError } = this.state;
 
         if (hasError) {
             return (
-                <div>
-                    <h1>에러가 발생했습니다.</h1>
-                    <button onClick={this.openModal}>에러 창 열기</button>
-                    <Modal isOpen={showModal} onRequestClose={this.closeModal}>
-                        <h2>에러 발생</h2>
-                        <p>{errorMessage}</p>
-                        <button onClick={this.closeModal}>닫기</button>
-                    </Modal>
-                </div>
+                <>{this.openModal()}</>
             );
         }
         return this.props.children;

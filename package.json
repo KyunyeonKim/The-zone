@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@fullcalendar/react16-example",
-  "title": "FullCalendar React 16 Example Project",
+  "title": "douzone 근태관리 시스템",
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {

@@ -39,12 +39,22 @@ class VacationProcessListComponent extends Component {
         this.onRejectButtonClick=this.onRejectButtonClick.bind(this);
         this.handleRejectReasonOpen=this.handleRejectReasonOpen.bind(this);
         this.handleRejectReasonOpenClose=this.handleRejectReasonOpenClose.bind(this);
+        this.showErrorDialog=this.showErrorDialog.bind(this);
     }
 
     inputValue
     row;
     onRejectBtnClick;
     onApprovalBtnClick;
+
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
     reasonChange=(e)=>{
         this.inputValue=e.target.value;
     };
@@ -61,7 +71,7 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log("전송 성공");
+            //console.log("전송 성공");
             this.onApproveBtnClick();
             this.props.parentRerender()
         } catch (error) {
@@ -102,7 +112,7 @@ class VacationProcessListComponent extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log("전송 성공");
+            //console.log("전송 성공");
             this.onRejectBtnClick();
             this.props.parentRerender()
 
@@ -145,7 +155,7 @@ class VacationProcessListComponent extends Component {
         if(!this.state.clickRejectBtn){
 
             this.setState({clickRejectBtn:true},()=>{
-                console.log("this.state.clickRejectBtn : ",this.state.clickRejectBtn);
+                //console.log("this.state.clickRejectBtn : ",this.state.clickRejectBtn);
             });
 
         }
@@ -168,7 +178,9 @@ class VacationProcessListComponent extends Component {
         this.onRejectBtnClick=onRejectBtnClick;
         this.onApproveBtnClick=onApproveBtnClick;
         const { dialogOpen, dialogTitle, dialogMessage } = this.state;
-        console.log(JSON.stringify(this.state));
+        //console.log(JSON.stringify(this.state));
+
+
 
         return (
             <>
@@ -179,7 +191,7 @@ class VacationProcessListComponent extends Component {
                 </Snackbar>
 
                 <TableRow key={keyData}>
-                    {Object.entries(row).map(([key, value]) => (
+                    {Object.entries(row).filter(([key, value]) => key !== 'vacationCategoryKey').map(([key, value]) => (
                         <TableCell key={key} className={className} >
                             {value}
                         </TableCell>

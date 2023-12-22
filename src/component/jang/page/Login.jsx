@@ -76,7 +76,7 @@ function Login() {
 
                 if (data.message == null || data.message === '') {
                     // 로그인이 성공하면 응답 데이터를 sessionStorage에 저장
-                    console.log(`login data added in session storage ${JSON.stringify(data)}`)
+                    //console.log(`login data added in session storage ${JSON.stringify(data)}`)
                     sessionStorage.setItem('userData', JSON.stringify(data));
 
                     // 로그인 성공 후 페이지 이동

@@ -89,6 +89,10 @@ class LeftMenuBar extends Component {
             toggleModalShowing('SetWorkTime', this.props.toggleModalShowing, 'fff')
         }
 
+        const EmployeeVacationSettingHandler = () => {
+            toggleModalShowing('EmployeeVacationSetting', this.props.toggleModalShowing, 'fff')
+        }
+
 
         return (
             <div className={classes.forHeight}>
@@ -170,6 +174,7 @@ class LeftMenuBar extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="연차 요청 처리" classes={{primary:classes.listItemText}}/>
                             </ListItem>
+
                             <br/>
                             <Divider/>
                             <br/>
@@ -184,6 +189,12 @@ class LeftMenuBar extends Component {
                                     <BuildIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="근무 시간 조정" classes={{primary:classes.listItemText}}/>
+                            </ListItem>
+                            <ListItem button onClick={EmployeeVacationSettingHandler}>
+                                <ListItemIcon>
+                                    <BuildIcon style={{color:"#1B4986",fontSize:"25px",marginLeft:"7px"}}/>
+                                </ListItemIcon>
+                                <ListItemText primary="사원의 연차 개수 직접 설정" classes={{primary:classes.listItemText}}/>
                             </ListItem>
                             <br/>
                             <Divider/>

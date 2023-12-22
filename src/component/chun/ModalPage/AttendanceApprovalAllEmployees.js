@@ -6,7 +6,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Grid, IconButton,
+    Grid, IconButton, Snackbar,
     SvgIcon
 } from "@material-ui/core";
 import React, {Component} from "react";
@@ -27,70 +27,71 @@ import ButtonInListComponent from "../Component/ButtonInListComponent";
 import TableCell from "@material-ui/core/TableCell";
 import Pagination from "react-js-pagination";
 import SearchIcon from "@material-ui/icons/Search";
+import {Alert} from "@material-ui/lab";
 
 // const { employeeId } = this.props;
 // const {closeModal} = this.props
 
 const styles = (theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        text :{
-            fontSize:'16px',
-            fontFamily:'IBM Plex Sans KR',
-            textAlign: 'center',
-            padding:'0px',
-            fontWeight: 'bold'
-        },
-        titleText:{
-            fontSize:'22px',
-            fontFamily:'IBM Plex Sans KR',
-            fontWeight:'bold',
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    text :{
+        fontSize:'16px',
+        fontFamily:'IBM Plex Sans KR',
+        textAlign: 'center',
+        padding:'0px',
+        fontWeight: 'bold'
+    },
+    titleText:{
+        fontSize:'22px',
+        fontFamily:'IBM Plex Sans KR',
+        fontWeight:'bold',
 
-        },
-        button :{
-            height:"90%",
-            fontSize:'1rem'
-        },
-        pagination: {
+    },
+    button :{
+        height:"100%",
+        fontSize:'1rem'
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '10px',
+        listStyle: 'none',
+        padding: 0,
+    },
+    pageItem: {
+        margin: '0 8px',
+        '& a': {
+            textDecoration: 'none',
+            color: 'black',
             display: 'flex',
             justifyContent: 'center',
-            marginTop: '10px',
-            listStyle: 'none',
-            padding: 0,
+            alignItems: 'center',
+            height: '35px',
+            width: '35px',
+            borderRadius: '50%',
         },
-        pageItem: {
-            margin: '0 8px',
-            '& a': {
-                textDecoration: 'none',
-                color: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '35px',
-                width: '35px',
-                borderRadius: '50%',
-            },
-            '&:hover': {
-                border: '1px solid #ddd',
-            },
+        '&:hover': {
+            border: '1px solid #ddd',
         },
-        activePageItem: {
-            '& a': {
-                color: '#007bff', // 번호 색상을 파란색으로 변경
-            },
-            '&:hover': {
-                border: '1px solid #ddd',
-            },
-        },table: {
+    },
+    activePageItem: {
+        '& a': {
+            color: '#007bff', // 번호 색상을 파란색으로 변경
+        },
+        '&:hover': {
+            border: '1px solid #ddd',
+        },
+    },table: {
     },
     tableHead: {
         backgroundColor: '#F2F2F2',
         borderTop: '1.5px solid black',
     }
 
-    });
+});
 
 class AttendanceApprovalAllEmployees extends Component{
 
@@ -101,12 +102,14 @@ class AttendanceApprovalAllEmployees extends Component{
             activePage:1,
             showPagiNation: 'flex',
             data:[],
-            empPageData:{},
+            empPageData:{totalElement:0},
             desc:"",
             sort:"",
             dialogOpen: false,
             dialogTitle: '',
             dialogMessage: '',
+            snackbarOpen:false,
+            snackbarMessage:"",
 
         };
         this.searchKeyword="";
@@ -131,11 +134,11 @@ class AttendanceApprovalAllEmployees extends Component{
 
 
 
-     fetchData=async(page)=> {
-        // console.log("PageNationStyle",PageNationStyle);
+    fetchData=async(page)=> {
+        // //console.log("PageNationStyle",PageNationStyle);
 
         let getPage = page;
-        console.log("page : ", page);
+        //console.log("page : ", page);
 
         if (page != '') {
             getPage = '?page=' + getPage
@@ -150,16 +153,16 @@ class AttendanceApprovalAllEmployees extends Component{
 
         try {
             const employeeData = await axios.get('http://localhost:8080/manager/employees' + getPage);
-            console.log("employeeData.data : ", employeeData.data)
+            //console.log("employeeData.data : ", employeeData.data)
             const empPageData = employeeData.data //페이지 객체 데이터
             const empData = employeeData.data.data; //사원정보 데이터
 
             const newData = empData.map(({employeeId,name})=>({employeeId,name}))
-            console.log("newData : ",newData);
+            //console.log("newData : ",newData);
 
             const input = this.state.isSearch===false?"sort":"search";
             if(input==="sort"){
-                console.log("sort");
+                //console.log("sort");
                 this.setState({
                     ...this.state,
                     empPageData: empPageData,
@@ -169,8 +172,8 @@ class AttendanceApprovalAllEmployees extends Component{
                     desc:this.desc
                 });
             }else{
-                console.log("search");
-                 this.setState({
+                //console.log("search");
+                this.setState({
                     ...this.state,
                     empPageData:empPageData,
                     data: newData,
@@ -213,11 +216,12 @@ class AttendanceApprovalAllEmployees extends Component{
     handleSearchButtonClick = async(e) => {
         // 검색 버튼 클릭 시 수행할 로직
         const keyword=this.searchKeyword;
-        console.log("searchKeyword : ", keyword);
 
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(keyword)) {
-            alert("올바르지 않은 입력입니다!");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "올바르지 않는 입력입니다"
+            });
             return;
         }
 
@@ -234,16 +238,17 @@ class AttendanceApprovalAllEmployees extends Component{
             this.fetchData(page);
         }else{
             try{
-                console.log("나갔다");
                 const searchResponse = (await axios.get(`http://localhost:8080/employee/search?searchParameter=${keyword}`)).data;
 
                 if(searchResponse===""){
-                    alert("검색 결과가 없습니다!");
+                    this.setState({
+                        snackbarOpen:true, snackbarMessage : "검색 결과가 없습니다!"
+                    });
                     return;
                 }
 
                 const newData = searchResponse.map(({employeeId,name})=>({employeeId,name}))
-                console.log("newData : ",newData);
+                //console.log("newData : ",newData);
 
                 this.setState({
                     ...this.state,
@@ -289,39 +294,36 @@ class AttendanceApprovalAllEmployees extends Component{
 
     descChange =  (e) => {
 
-            this.desc=e.target.value;
-            if (!this.state.isSearch) {
-                this.fetchData(1);
-            } else {
-                let empData = "";
+        this.desc=e.target.value;
+        if (!this.state.isSearch) {
+            this.fetchData(1);
+        } else {
+            let empData = "";
 
-                if (this.desc === "asc") {
-                    empData = this.state.data.sort((a, b) => {
-                        if (this.sort === "employee_id") {
-                            return a.employeeId - b.employeeId;
-                        } else {
-                            return a.name.localeCompare(b.name);
-                        }
-                    });
-                    console.log("empData - asc 정렬 : ", empData);
-                } else {
-                    empData = this.state.data.sort((a, b) => {
-                        if (this.sort === "employee_id") {
-                            return b.employeeId - a.employeeId;
-                        } else {
-                            return b.name.localeCompare(a.name);
-                        }
-                    });
-                    console.log("empData - desc 정렬 : ", empData);
-                }
-                console.log("this.desc : ",this.desc)
-                this.setState({...this.state,data: empData,desc:this.desc});
-``
+            if (this.desc === "asc") {
+                empData = this.state.data.sort((a, b) => {
+                    if (this.sort === "employee_id") {
+                        return a.employeeId - b.employeeId;
+                    } else {
+                        return a.name.localeCompare(b.name);
+                    }
+                });
+            } else {
+                empData = this.state.data.sort((a, b) => {
+                    if (this.sort === "employee_id") {
+                        return b.employeeId - a.employeeId;
+                    } else {
+                        return b.name.localeCompare(a.name);
+                    }
+                });
+            }
+            this.setState({...this.state,data: empData,desc:this.desc});
+            ``
         };
     };
 
     componentDidMount(){
-         const { employeeId } = this.props;
+        const { employeeId } = this.props;
 
         const page='';
         this.fetchData(page);
@@ -338,6 +340,13 @@ class AttendanceApprovalAllEmployees extends Component{
     // 다이얼로그 닫기 함수
     closeDialog = () => {
         this.setState({ dialogOpen: false });
+    };
+
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({ snackbarOpen: false });
     };
 
 
@@ -360,21 +369,21 @@ class AttendanceApprovalAllEmployees extends Component{
                             전 사원 근태 승인 내역 조회
                         </Box>
                         <Box style={{border:'1px solid black', padding:'10px',borderRadius:'10px',display:"flex",justifyContent:'space-evenly'}} >
-                                <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"95%",height:"56px"}} onChange={this.searchKeywordChange}/>
+                            <TextField id="outlined-basic" label="사원 명/사원번호(최대 12자리)" variant="outlined" style={{width:"1300px",height:"55px"}} onChange={this.searchKeywordChange}/>
 
                             <IconButton
                                 onClick={this.handleSearchButtonClick}
                                 style={{
                                     borderRadius: '6px',
-                                    width: "4%",
+                                    width: "55px",
                                     border: '1px solid #c1c1c1',
-                                    height: "56px"}}>
+                                    height: "55px"}}>
                                 <SearchIcon />
                             </IconButton>
 
-                                {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
-                                {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
-                                {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
+                            {/*<SvgIcon style={{borderRadius:'6px' , width: "4%",border:'1px solid #c1c1c1', height:"56px"}}*/}
+                            {/*         cursor="pointer" component={SearchIcon} onClick={this.handleSearchButtonClick} />*/}
+                            {/*<Button className={classes.button} variant="outlined" onClick={this.handleSearchButtonClick} >검색</Button>*/}
                         </Box>
 
 
@@ -423,17 +432,17 @@ class AttendanceApprovalAllEmployees extends Component{
                         </TableContainer>
 
                         <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
-                                <Pagination
-                                    activePage={this.state.activePage}
-                                    itemsCountPerPage={this.state.empPageData['size']}
-                                    totalItemsCount={this.state.empPageData['totalElement']}
-                                    pageRangeDisplayed={10}
-                                    onChange={(page) => this.fetchData(page)}
-                                    innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
-                                    itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                                    activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                            <Pagination
+                                activePage={parseInt(this.state.activePage)}
+                                itemsCountPerPage={this.state.empPageData.size}
+                                totalItemsCount={this.state.empPageData.totalElement}
+                                pageRangeDisplayed={10}
+                                onChange={(page) => this.fetchData(page)}
+                                innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
+                                itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
+                                activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
 
-                                />
+                            />
                         </Box>
                     </Box>
                     <Dialog
@@ -454,6 +463,16 @@ class AttendanceApprovalAllEmployees extends Component{
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    <Snackbar
+                        open={this.state.snackbarOpen}
+                        autoHideDuration={6000}
+                        onClose={this.handleSnackbarClose}
+                        anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                    >
+                        <Alert onClose={this.handleSnackbarClose} severity="warning">
+                            {this.state.snackbarMessage}
+                        </Alert>
+                    </Snackbar>
                 </Grid>
             </div>
         )

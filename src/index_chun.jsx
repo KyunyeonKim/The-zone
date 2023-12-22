@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EmployeeVacationSetting from "./component/chun/Component/EmployeeVacationSetting";
+import EmployeeVacationSetting from "./component/chun/ModalPage/EmployeeVacationSetting";
 import {render} from "react-dom";
 
 

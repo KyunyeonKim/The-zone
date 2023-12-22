@@ -15,13 +15,13 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    IconButton,
+    IconButton, Snackbar,
     SvgIcon
 } from "@material-ui/core";
 import BlackButtonComponent from "../../../../chun/Component/Button/BlackButtonComponent";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
-import {ToggleButton} from "@material-ui/lab";
+import {Alert, ToggleButton} from "@material-ui/lab";
 import CheckIcon from "@material-ui/icons/Check";
 import TablePartContainer from "../TablePartContainer";
 
@@ -70,7 +70,8 @@ const styles = (theme) => ({
         fontFamily:'IBM Plex Sans KR',
         height:"45px",
         fontWeight:'bold',
-        backgroundColor:"#FFCA6E"
+        backgroundColor:"#FFCA6E",
+        border:'1px solid black'
     }
 
 
@@ -87,7 +88,11 @@ class AdminTablePartContainer extends Component {
         super(props);
         this.state = {
             searchKeyword: "", employeeNumberList: [], activePage: 1, // showPagiNation: 'flex',
-            size: 10, hasNext: false, totalElements: 0, desc: "", sort: "", isManager: false
+            size: 10, hasNext: false, totalElements: 0, desc: "", sort: "", isManager: false,
+            snackbarOpen:false,
+            snackbarMessage:"",
+            approveOpen: false, // Ensure this is initialized
+            rejectOpen: false,  // Ensure this is initialized
         };
 
         this.page = 1
@@ -119,8 +124,7 @@ class AdminTablePartContainer extends Component {
     //searchText.trim()
     fetchData = async (searchKeyword, page) => {
 
-        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
-        alert("pagedEmployeeNumberListData : "+ JSON.stringify(pagedEmployeeNumberListData.data))
+        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page=${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
         this.page = page!==null?page:this.page;
         this.searchKeyword = searchKeyword!==null||searchKeyword==''?searchKeyword:this.searchKeyword;
 
@@ -138,17 +142,25 @@ class AdminTablePartContainer extends Component {
         });
     }
 
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return; // 클릭이 아닌 다른 이유로 닫힐 때는 반응하지 않도록 함
+        }
+        this.setState({ snackbarOpen: false }); // 스낵바 상태를 닫힘으로 설정
+    };
 
     handleSearchButtonClick = async (e) => {
         // 검색 버튼 클릭 시 수행할 로직
         const searchKeyword = this.searchKeyword!==undefined || this.searchKeyword!== null?this.searchKeyword.trim():"";
         const regex = /^[a-zA-Z0-9가-힣]{0,12}$/;
         if (!regex.test(searchKeyword)) {
-            alert("올바르지 않은 입력입니다!");
+            this.setState({
+                snackbarOpen:true, snackbarMessage : "올바르지 않는 입력입니다"
+            });
             return;
         }
         this.page = 1;
-        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
+        const pagedEmployeeNumberListData = await axios.get(`http://localhost:8080/admin/employee/search?searchText=${this.searchKeyword}&page=${this.page}${this.sort !== null && this.sort.trim() !== "" ? '&sort=' + this.sort : ''}${this.desc !== null && this.desc.trim() !== "" ? '&desc=' + this.desc : ''}&isManager=${this.isManager}`);
 
         this.setState({
             page: 1,
@@ -190,9 +202,9 @@ class AdminTablePartContainer extends Component {
                     return dateB - dateA;
                 });
             }
-            console.log("this.desc : ", this.desc);
+            //console.log("this.desc : ", this.desc);
             this.setState({...this.state, data: data, desc: this.desc});
-            console.log("data : ", data);
+            //console.log("data : ", data);
         }
     };
 
@@ -350,9 +362,9 @@ class AdminTablePartContainer extends Component {
                                 value="check"
                                 selected={this.isManager}
                                 onChange={this.isManagerToggle}
-                                style={{width:"48px",height:"48px"}}
+                                style={{width:"48px",height:"48px", color:"black",fontWeight:'bold'}}
                             >
-                                <CheckIcon/>
+                                관리자
                             </ToggleButton>
                         </Box>
 
@@ -369,13 +381,24 @@ class AdminTablePartContainer extends Component {
                             itemsCountPerPage={this.state.size}
                             totalItemsCount={this.state.totalElements === 0 ? 1 : this.state.totalElements}
                             pageRangeDisplayed={10}
-                            onChange={(page) => this.fetchData(page)}
+                            onChange={(page) => this.fetchData(this.searchKeyword,page)}
                             innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
                             itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타npm start
+
                         />
                     </Box>
                 </Box>
+                <Snackbar
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={5000}
+                    onClose={this.handleSnackbarClose}
+                    anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={this.handleSnackbarClose} severity="warning">
+                        {this.state.snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </div>
         </Grid>)
     }

@@ -8,6 +8,7 @@ import AdminMain from './EmployeeMainContainer';
 import NotFoundPage from "./ErrorPage/NotFoundPage";
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
+import ExceptionPage from "./ErrorPage/ExceptionPage";
 
 
 class MainEndPoint extends Component {
@@ -22,26 +23,26 @@ class MainEndPoint extends Component {
             userData: {manager: false, admin: false},
             openAlert: false
         }
-        console.log(" MainEndPoint constructor" + JSON.stringify(this.state))
+        //console.log(" MainEndPoint constructor" + JSON.stringify(this.state))
         this.setOpenAlert = this.setOpenAlert.bind(this)
         this.handleCloseAlert = this.handleCloseAlert.bind(this)
     }
 
     async componentDidMount() {
         await this.checkLoginStatus();
-        console.log(" MainEndPoint componentDidMount " + JSON.stringify(this.state))
+        //console.log(" MainEndPoint componentDidMount " + JSON.stringify(this.state))
     }
 
     checkLoginStatus = async () => {
         try {
-            console.log(" MainEndPoint checkLoginStatus")
+            //console.log(" MainEndPoint checkLoginStatus")
             axios.defaults.withCredentials = true;
             const response = await axios.get('http://localhost:8080/system/isLogin'); // Adjust the API endpoint
             const {success, userData} = response.data;
 
             this.loggedIn = success
             this.userData = userData
-            console.log(`'session login response' ${JSON.stringify({success, userData})}`)
+            //console.log(`'session login response' ${JSON.stringify({success, userData})}`)
             sessionStorage.setItem('userData', JSON.stringify(userData))
             let userType;
             if (userData.manager) {
@@ -54,14 +55,14 @@ class MainEndPoint extends Component {
             sessionStorage.setItem('userType', userType)
 
             this.loginData = {loggedIn: this.loggedIn, userData: this.userData, openAlert: true}
-            console.log(`${JSON.stringify(this.loginData)}`)
+            //console.log(`${JSON.stringify(this.loginData)}`)
             this.setState(this.loginData)
             // this.state=this.loginData
         } catch (error) {
-            if (error.response.status === 403) {
-                alert('로그인 정보 검색 실패')
-            }
-            console.log(" MainEndPoint error " + JSON.stringify(this.state))
+            // if (error.response.status === 403) {
+            //     alert('로그인 정보 검색 실패')
+            // }
+            //console.log(" MainEndPoint error " + JSON.stringify(this.state))
             this.setState({loggedIn: false, userData: {manager: 'dddd'}, openAlert: true})
             // this.state={loggedIn:false,userData: null}
         }
@@ -93,7 +94,7 @@ class MainEndPoint extends Component {
                                         autoHideDuration={6000}
                                         onClose={handleCloseAlert}
                                     >
-                                        <Alert onClose={handleCloseAlert} severity="error">
+                                        <Alert onClose={handleCloseAlert} severity="info">
                                             '로그인에 성공하였습니다'
                                         </Alert>
                                     </Snackbar>
@@ -132,6 +133,8 @@ class MainEndPoint extends Component {
                             <Navigate to="/login"/></>)}
                     />
                     <Route path="/" element={<Navigate to="/main"/>}/>
+
+                    <Route path="/error" element={<ExceptionPage/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </Router>

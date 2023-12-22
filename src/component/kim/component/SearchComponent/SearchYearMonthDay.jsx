@@ -13,22 +13,37 @@ class SearchYearMonthDay extends Component {
 
     };
 
+
+    componentDidMount() {
+        // 페이지 로드 시 바로 기본 검색 실행
+        // 년, 월, 일, 검색어는 모두 빈 값으로 설정
+        this.handleSearch({ year: '', month: '', day: '', searchParameter: '' });
+    }
+
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     };
 
 
+    handleSearch = ({ year, month, day, searchParameter }) => {
+        // 상위 컴포넌트의 onSearch 콜백을 호출한다
+        this.props.onSearch({ year, month, day, searchParameter });
+    }
+
+
+
     handleSubmit = (event) => {
         event.preventDefault();
-        let {year, month, day} = this.state;
+        let { year, month, day } = this.state;
         const searchParameter = event.target.elements.search.value;
 
-        // 특수문자 검증을 위한 정규 표현식
+        // Special character validation
         const specialCharRegex = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 
         if (specialCharRegex.test(searchParameter)) {
             this.setState({
-                snackbarOpen: true, snackbarMessage: "검색에 특수문자를 적을수 없습니다"
+                snackbarOpen: true,
+                snackbarMessage: "검색에 특수문자를 적을수 없습니다"
             });
             return;
         }
@@ -40,25 +55,40 @@ class SearchYearMonthDay extends Component {
             return;
         }
 
-
-        if (day === "월별 검색") {
-            day = '0';
+        // Set day to empty string if '월별 검색' is selected
+        if (day === '월별 검색') {
+            day = '';
         }
-        if (!year || !month) {
-            this.setState({
-                snackbarOpen: true, snackbarMessage: "년도와 월을 선택해주세요 "
-            });
+
+        // Proceed with the search
+        this.props.onSearch({ year, month, day, searchParameter });
+    }
+
+
+        // if (day === "월별 검색") {
+        //     day = '0';
+        // }
+        // if (!year || !month) {
+        //     this.setState({
+        //         snackbarOpen: true, snackbarMessage: "년도와 월을 선택해주세요 "
+        //     });
+        //     return;
+        // }
+
+
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
             return;
         }
-
-        this.props.onSearch({year, month, day, searchParameter});
+        this.setState({snackbarOpen : false});
     }
+
 
     render() {
         return (
             <Box component="form" onSubmit={this.handleSubmit}
                  style={{border: '1px solid black', padding: '10px', borderRadius: '10px'}}>
-                <Grid container spacing={1} alignItems="center" justify="flex-end">
+                <Grid container spacing={1} alignItems="center"  justifyContent="flex-end">
 
                     <Grid item xs>
                         <TextField

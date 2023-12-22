@@ -8,7 +8,6 @@ import UnApprovalAttendance from "../component/MainPageChart/UnApprovalAttendanc
 import ApprovalAttendance from "../component/MainPageChart/ApprovalAttendance";
 import ApprovalRequestedAttendance from "../component/MainPageChart/ApprovalRequestedAttendance";
 
-// const {closeModal} = this.props
 
 const styles = theme => ({
     root: {

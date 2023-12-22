@@ -89,6 +89,7 @@ class VacationRequest extends Component {
         this.startDate = `${year}-${month}-${day}`;
         this.reason = "";
         this.vacationCount = "";
+        this.vacationType="";
         // this.getData="";
 
         // this.remainVacation="";
@@ -168,7 +169,7 @@ class VacationRequest extends Component {
             const getRemainVacation = await axios.get(`http://localhost:8080/employee/vacation/remain/request`);
             // 데이터를 가져온 후에 상태를 업데이트
             // this.remainVacation=getRemainVacation.data;
-            console.log("this.remainVacation : ", getRemainVacation.data);
+            //console.log("this.remainVacation : ", getRemainVacation.data);
             this.setState({remainVacation: getRemainVacation.data}); // 변경된 부분
         } catch (error) {
             if (error.response.status === 400 || error.response.status === 500) {
@@ -222,14 +223,14 @@ class VacationRequest extends Component {
 
 
         const formData = new FormData();
-        formData.append("vacationCategoryKey", this.vacationType);
+        formData.append("vacationCategoryKey", 'undefined');
         formData.append("vacationQuantity", this.state.getData);
         formData.append("reason", this.reason);
         formData.append("vacationStartDate", this.startDate);
         formData.append("vacationEndDate", this.state.endDate);
 
 
-        console.log("Form data:", this.vacationType, this.vacationCount, this.reason, this.startDate, this.state.endDate);
+        //console.log("Form data:", this.vacationType, this.vacationCount, this.reason, this.startDate, this.state.endDate);
         //서버 요청 보낼 것
 
         try {
@@ -298,7 +299,7 @@ class VacationRequest extends Component {
 
     async componentDidMount() {
         // await this.login();
-        // console.log("로그인함");
+        // //console.log("로그인함");
         this.getRemainVacationCount();
     }
 

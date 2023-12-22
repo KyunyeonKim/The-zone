@@ -9,7 +9,7 @@ class ChartContainer extends Component {
         super();
         this.state={year:new Date().getFullYear(),month:new Date().getMonth()+1}
         stateStore.chartContainerStateSet={state:this.state,setState:this.changeState.bind(this)}
-        console.log(`chart Container constructor ${JSON.stringify(stateStore)}`)
+        //console.log(`chart Container constructor ${JSON.stringify(stateStore)}`)
     }
 
     changeState(value){

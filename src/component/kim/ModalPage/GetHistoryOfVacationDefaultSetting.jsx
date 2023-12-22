@@ -160,7 +160,7 @@ class GetHistoryOfVacationDefaultSetting extends Component {
                 totalElements: totalElements,
                 currentPage: pageNumber,
             });
-            console.log(response);
+            //console.log(response);
         } catch (error) {
             let errorMessage = "An error occurred!";
             if (error.response) {

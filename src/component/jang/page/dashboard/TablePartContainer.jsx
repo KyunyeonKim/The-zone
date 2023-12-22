@@ -59,7 +59,7 @@ class TablePartContainer extends Component {
                         <TableRow>
                             <TableCell align="center"  className={classes.titleText}>사원 번호</TableCell>
                             <TableCell align="center" className={classes.titleText}>직급</TableCell>
-                            <TableCell align="center" className={classes.titleText}>입사 년도</TableCell>
+                            <TableCell align="center" className={classes.titleText}>입사 날짜</TableCell>
                             <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
                             <TableCell align="center" className={classes.titleText}>사원 수정</TableCell>
                             <TableCell align="center" className={classes.titleText}>사원 삭제</TableCell>

@@ -63,20 +63,25 @@ class GetVacationHistory extends Component {
 
     fetchData = async () => {
         const { year, month, day, page, searchParameter } = this.state;
-        const url = `http://localhost:8080/manager/vacation/history`;
+
+        // 년도와 월이 제공되었는지 확인
+        const isYearMonthProvided = year && month;
+        const url = isYearMonthProvided
+            ? `http://localhost:8080/manager/vacation/history`
+            : `http://localhost:8080/manager/vacation/alls?page=${page}&sort=vacationStartDate&desc=asc&searchParameter=${searchParameter}`;
 
         try {
-            const response = await axios.get(url, {
-                params: {
-                    year: year,
-                    month: month,
-                    day: day,
-                    page: page,
-                    sort: 'vacationRequestTime',
-                    desc: 'desc',
-                    searchParameter: searchParameter
-                }
-            });
+            const params = isYearMonthProvided ? {
+                year: year,
+                month: month,
+                day: day,
+                page: page,
+                sort: 'vacationStartDate',
+                desc: 'desc',
+                searchParameter: searchParameter
+            } : {};
+
+            const response = await axios.get(url, { params });
 
             this.setState({
                 data: response.data.data,
@@ -131,7 +136,7 @@ class GetVacationHistory extends Component {
                         margin: '20px 0',
                         paddingBottom: '10px'
                     }}>
-                    연차 사용 요청 이력 조회
+                    전사원 연차 사용 내역
                 </Box>
                 <Box my={4}>
                     <SearchYearMonthDay onSearch={this.handleSearchSubmit}/>

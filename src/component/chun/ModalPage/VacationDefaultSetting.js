@@ -134,7 +134,7 @@ class VacationDefaultSetting extends Component {
 
     componentDidMount() {
         this.login();
-        console.log("로그인함");
+        //console.log("로그인함");
 
         // 데이터를 가져오는 것은 componentDidMount에서 수행
         this.oldVacationCountAndYearSetting();
@@ -149,7 +149,7 @@ class VacationDefaultSetting extends Component {
         // try {
         //     const login = await axios.post("http://localhost:8080/login", loginForm);
         // } catch (error) {
-        //     console.log("error 발생 !");
+        //     //console.log("error 발생 !");
         // }
     }
 
@@ -166,7 +166,7 @@ class VacationDefaultSetting extends Component {
                 }
             });
             this.targetYear = new Date().getFullYear() + 1;
-            console.log("이전 oldFreshManCount : ", oldFreshManCount);
+            //console.log("이전 oldFreshManCount : ", oldFreshManCount);
             await this.setState({
                 ...this.state,
                 oldFreshManCount: oldFreshManCount.data,
@@ -226,7 +226,7 @@ class VacationDefaultSetting extends Component {
         formData.append("senior", this.newSenior);
         formData.append("targetDate", this.targetYear + "-01-01");
 
-        console.log("Form data:", this.newFreshMan, this.newSenior, this.targetYear + "-01-01");
+        //console.log("Form data:", this.newFreshMan, this.newSenior, this.targetYear + "-01-01");
         //서버 요청 보낼 것
 
         try {
@@ -235,7 +235,7 @@ class VacationDefaultSetting extends Component {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log("response : ", response);
+            //console.log("response : ", response);
 
             const oldFreshManCount = await axios.get("http://localhost:8080/manager/vacation/defaultSetting/latestInfo",
                 {
@@ -244,7 +244,7 @@ class VacationDefaultSetting extends Component {
                     }
                 });
 
-            console.log("oldFreshManCount입니다 : ", oldFreshManCount);
+            //console.log("oldFreshManCount입니다 : ", oldFreshManCount);
 
             const oldSeniorCount = await axios.get("http://localhost:8080/manager/vacation/defaultSetting/latestInfo", {
                 params: {
@@ -258,8 +258,8 @@ class VacationDefaultSetting extends Component {
             // document.getElementById("getNewSeniorData").value="";
 
             this.buttonClick();
-            // console.log("oldFreshManCount : ",oldFreshManCount);
-            // console.log("oldSeniorCount : ",oldSeniorCount);
+            // //console.log("oldFreshManCount : ",oldFreshManCount);
+            // //console.log("oldSeniorCount : ",oldSeniorCount);
             this.setState({
                 ...this.state,
                 oldFreshManCount: oldFreshManCount.data,

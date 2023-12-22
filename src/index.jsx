@@ -23,8 +23,8 @@ export const chartDataStore = {store: {
 axios.defaults.baseURL = 'http://localhost:8080';
 document.addEventListener('DOMContentLoaded', function() {
     render(<>
-        <ErrorBoundary>
+        {/*<ErrorBoundary>*/}
             <MainEndPoint/>
-        </ErrorBoundary>
+        {/*</ErrorBoundary>*/}
     </>, document.body.appendChild(document.createElement('div')))
 })

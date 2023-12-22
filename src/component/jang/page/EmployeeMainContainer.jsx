@@ -12,7 +12,7 @@ export default class EmployeeMainContainer extends React.Component {
       modalShow: false, innerContainerName: '', initDate: new Date()
     }
     this.callMakeJsx = this.makeJsx.bind(this)
-    console.log('constructor')
+    //console.log('constructor')
     this.toggleModalShow = this.toggleModalShowFunction.bind(this)
     this.userType= props.userType
   }
@@ -22,15 +22,15 @@ export default class EmployeeMainContainer extends React.Component {
 
   toggleModalShowFunction(innerContainerName, ...args) {
     if (stateStore.modalContainerStateSet !== undefined) {
-      console.log("toggleModalShow")
-      console.log(`${JSON.stringify(stateStore)}`)
+      //console.log("toggleModalShow")
+      //console.log(`${JSON.stringify(stateStore)}`)
 
       stateStore.modalContainerStateSet.setState(innerContainerName,...args)
     }
   }
 
   makeJsx() {
-    console.log('makeJsx() of ')
+    //console.log('makeJsx() of ')
     return (<>
         <ModalContainer></ModalContainer>
         <Dashboard toggleModalShowing={this.toggleModalShowFunction} userType={this.userType}>

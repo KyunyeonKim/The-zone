@@ -8,7 +8,7 @@ import {
     ListItem,
     ListItemText,
     Paper,
-    Popover,
+    Popover, Snackbar,
     Typography
 } from '@material-ui/core';
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -17,6 +17,7 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
+import {Alert} from "@material-ui/lab";
 
 class NotificationListForEmployee extends Component {
     employeeNumber
@@ -28,7 +29,7 @@ class NotificationListForEmployee extends Component {
 
     constructor(props, context) {
         super(props, context);
-        console.log('constructor Notification')
+        //console.log('constructor Notification')
         this.userType = sessionStorage.getItem('userType')
         this.employeeNumber = JSON.parse(sessionStorage.getItem('userData')).loginId
 
@@ -43,9 +44,8 @@ class NotificationListForEmployee extends Component {
             let getTotalCount = requests.data.totalElement
             let hasNext = requests.data.hasNext
             this.setState({
-                anchorEl: this.state.anchorEl, requests: this.state.requests.concat({
-                    id: event.id, content: event.data, unread: event.data.readTime == null
-                }), totalCount: getTotalCount, hasNext: hasNext
+                anchorEl: this.state.anchorEl, totalCount: getTotalCount, hasNext: hasNext,
+                snackbarOpen:true, snackbarMessage : "요청이 처리되었습니다!"
 
             })
         }.bind(this);
@@ -77,7 +77,7 @@ class NotificationListForEmployee extends Component {
 
             this.setState({
                 anchorEl: null, requests: mappedUnreadMsg,//state에 담아서 유지
-                totalCount: getTotalCount, hasNext: hasNext
+                totalCount: getTotalCount, hasNext: hasNext,
             });
 
 
@@ -95,7 +95,7 @@ class NotificationListForEmployee extends Component {
         let hasNext = requests.data.hasNext
         this.setState({
             anchorEl: null, requests: mappedUnreadMsg,//state에 담아서 유지
-            totalCount: getTotalCount, hasNext: hasNext
+            totalCount: getTotalCount, hasNext: hasNext, page: 1
         });
     }
 
@@ -109,11 +109,13 @@ class NotificationListForEmployee extends Component {
             let id = this.state.requests.length + 1
             let getTotalCount = response.data.totalElement
             let hasNext = response.data.hasNext
+
             this.setState({
                 anchorEl: this.state.anchorEl,
                 requests: this.state.requests,
                 totalCount: getTotalCount,
-                hasNext: hasNext
+                hasNext: hasNext,
+                snackbarOpen:true, snackbarMessage : "요청이 처리 되었습니다!"
             })
         } // 새로운 eventSource로 변경 발생하면 다시 onMessage에 대한 처리 등록 필요 -> 다른 코드 없을까?
 
@@ -122,16 +124,16 @@ class NotificationListForEmployee extends Component {
 
 
     handleToggleList = (handleEvent) => {
-        console.log(`handleToggleList`)
+        //console.log(`handleToggleList`)
         this.registerAgain()
         this.anchorEl = handleEvent.currentTarget
         this.setState({anchorEl: this.anchorEl, requests: this.state.requests, totalCount: this.state.totalCount});
     };
 
     handleCloseList = () => {
-        console.log(`handleCloseList`)
+        //console.log(`handleCloseList`)
         this.registerAgain()
-        this.setState({anchorEl: null, requests: this.state.requests, totalCount: this.state.totalCount});
+        this.setState({anchorEl: null, requests: this.state.requests, totalCount: this.state.totalCount, });
     };
 
 
@@ -172,7 +174,7 @@ class NotificationListForEmployee extends Component {
             } else {
             }
         } catch (error) {
-            alert(`메세지 읽기 실패 `)
+            this.setState({ snackbarOpen:true, snackbarMessage : `메세지 읽음 처리 실패. 새로고침 후 다시 시도해주세요`})
             this.registerAgain()
         }
     }.bind(this)
@@ -188,14 +190,21 @@ class NotificationListForEmployee extends Component {
         this.setState({ dialogOpen: false });
     };
 
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return; // 클릭이 아닌 다른 이유로 닫힐 때는 반응하지 않도록 함
+        }
+        this.setState({ snackbarOpen: false }); // 스낵바 상태를 닫힘으로 설정
+    };
+
     render() {
         const {anchorEl, requests, totalCount} = this.state;
         const isOpen = Boolean(anchorEl);
-        console.log(`SSE 실행!!!!! requests ${JSON.stringify(requests)} ${totalCount}`)
-        console.log('SSE 실행 끝!!!!!')
+        //console.log(`SSE 실행!!!!! requests ${JSON.stringify(requests)} ${totalCount}`)
+        //console.log('SSE 실행 끝!!!!!')
         return (<div>
-                <Badge badgeContent={totalCount} color="secondary">
-                    <NotificationsIcon variant="contained" color="white" onClick={this.handleToggleList}
+                <Badge badgeContent={totalCount} color="secondary" overlap="rectangular">
+                    <NotificationsIcon variant="contained" onClick={this.handleToggleList}
                                        fontSize={"large"}>
                     </NotificationsIcon>
                 </Badge>
@@ -218,6 +227,16 @@ class NotificationListForEmployee extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+            <Snackbar
+                open={this.state.snackbarOpen}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+            >
+                <Alert onClose={this.handleSnackbarClose} severity="info">
+                    {this.state.snackbarMessage}
+                </Alert>
+            </Snackbar>
 
                 <Popover
                     open={isOpen}

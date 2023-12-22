@@ -58,32 +58,28 @@ class GetAttendanceHistory extends Component {
     }
 
     fetchData = async () => {
-        const {year, month, day, page, searchParameter} = this.state;
-        const url = `http://localhost:8080/manager/attendance/history`;
+        const { year, month, day, page, searchParameter } = this.state;
 
+        // Check if year and month are provided
+        const isYearMonthProvided = year && month;
+        const url = isYearMonthProvided
+            ? `http://localhost:8080/manager/attendance/history`
+            : `http://localhost:8080/manager/attendance/alls?page=${page}&sort=attendanceAppealRequestTime&desc=asc&searchParameter=${searchParameter}`;
         try {
-            const response = await axios.get(url, {
-                params: {
-                    year: year,
-                    month: month,
-                    day: day,
-                    page: page,
-                    sort: 'attendanceAppealRequestTime',
-                    desc: 'desc',
-                    searchParameter: searchParameter
-                }
-            });
+            const params = isYearMonthProvided ? {
+                year: year,
+                month: month,
+                day: day,
+                page: page,
+                sort: 'attendanceAppealRequestTime',
+                desc: 'asc',
+                searchParameter: searchParameter
+            }:{};
 
-            const formattedData = response.data.data.map(item => {
-                return {
-                    ...item,
-                    attendanceAppealRequestTime: item.attendanceAppealRequestTime ? new Date(item.attendanceAppealRequestTime).toISOString().split("T")[0] : ''
-                    // 여기서 필요한 다른 필드들도 포매팅할 수 있습니다.
-                };
-            });
+            const response = await axios.get(url, { params });
 
             this.setState({
-                data: formattedData,
+                data: response.data.data,
                 totalElement: response.data.totalElement,
                 size: response.data.size,
                 page: response.data.page

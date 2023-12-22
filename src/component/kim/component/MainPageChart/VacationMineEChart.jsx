@@ -148,7 +148,7 @@ class VacationMineEChart extends Component {
                     <>
                         <div className={classes.chartContainer}>
                             <Typography variant="h5" className={classes.titleRight}>
-                                올해 연차 개수
+                                올해 연차 현황
                             </Typography>
                             <MainChart data={chartData}/>
                         </div>

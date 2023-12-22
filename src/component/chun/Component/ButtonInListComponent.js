@@ -35,7 +35,7 @@ class ButtonInListComponent extends Component {
         const {row, keyData, title, className} = this.props;
 
         return (<>
-                <Dialog open={this.state.isDialogOpen} onClose={this.handleCloseDialog} maxWidth="false">
+                <Dialog open={this.state.isDialogOpen} onClose={this.handleCloseDialog} maxWidth={false}>
                     <DialogActions>
                         <Button onClick={this.handleCloseDialog} color="primary">
                             닫기

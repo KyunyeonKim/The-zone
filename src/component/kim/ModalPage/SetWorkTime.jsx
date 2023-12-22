@@ -97,7 +97,7 @@ class SetWorkTime extends Component {
             currentPage: 1,
             pageSize: 10,
             orderBy: "targetDate",
-            order: "asc",
+            order: "desc",
             searchPerformed: false,
             dialogOpen: false,
             dialogTitle: '',

@@ -24,7 +24,6 @@ import {
     DialogTitle,
     Grid,
     IconButton, Snackbar,
-    SvgIcon
 } from "@material-ui/core";
 import ProcessAppealRequestListComponent from "../Component/ProcessAppealRequestListComponent";
 import SearchIcon from "@material-ui/icons/Search";
@@ -183,7 +182,7 @@ class ProcessAppealRequest extends Component{
             const getRawAppealAllRequest = await axios.get('http://localhost:8080/manager/appeal/all/requested' + getPage);
             const getAppealAllRequestPageData = getRawAppealAllRequest.data //페이지 객체 데이터
 
-            console.log("getAppealAllRequestPageData : ",getAppealAllRequestPageData)
+            //console.log("getAppealAllRequestPageData : ",getAppealAllRequestPageData)
             const getAppealAllRequest = getAppealAllRequestPageData.data.map(item => {
                 return {
                     attendanceAppealRequestId: item.attendanceAppealRequestId,
@@ -198,7 +197,7 @@ class ProcessAppealRequest extends Component{
                     reason: item.reason
                 };
             });
-            console.log("1. getAppealAllRequest : ",getAppealAllRequest);
+            //console.log("1. getAppealAllRequest : ",getAppealAllRequest);
             this.setState({
                 ...this.state,
                 isSearch:false,
@@ -218,7 +217,7 @@ class ProcessAppealRequest extends Component{
                         errorMessage = "400 Bad Request 에러!";
                         break;
                     case 500:
-                        errorMessage = "500 Internal Server 에러!";
+                        // errorMessage = "500 Internal Server 에러!";
                         break;
                     case 403:
                         errorMessage = "403 권한이 없습니다";
@@ -273,7 +272,7 @@ class ProcessAppealRequest extends Component{
         }else {
             try {
                 const searchRawData = await axios.get(`http://localhost:8080/manager/search/appeal/all/requested?searchParameter=${searchKeyword}`);
-                console.log("searchRawData : ", searchRawData);
+                //console.log("searchRawData : ", searchRawData);
                 if (searchRawData.data === "") {
                     this.handleSearchResultCheck();
                     // alert("검색 결과가 없습니다!");
@@ -354,9 +353,9 @@ class ProcessAppealRequest extends Component{
                     return dateB - dateA;
                 });
             }
-            console.log("this.desc : ",this.desc);
+            //console.log("this.desc : ",this.desc);
             this.setState({...this.state,data: data,desc:this.desc});
-            console.log("data : ", data);
+            //console.log("data : ", data);
         }
     };
 
@@ -521,7 +520,9 @@ class ProcessAppealRequest extends Component{
                                 <TableBody>
                                     {data.map((row) => (
                                         /* TODO : id는 모달 띄울때 넘겨받은 것으로 수정해야함 */
-                                        <ProcessAppealRequestListComponent className={classes.text} parentRerender = {this.setState} id={JSON.parse(sessionStorage.getItem('userData')).loginId} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
+                                        <ProcessAppealRequestListComponent className={classes.text} parentRerender = {function (){
+                                            this.setState();
+                                        }.bind(this)} id={JSON.parse(sessionStorage.getItem('userData')).loginId} onApproveBtnClick={this.onApproveBtnClick} onRejectBtnClick={this.onRejectBtnClick} key={row.attendanceAppealRequestId} row={row} keyData={row.attendanceAppealRequestId} title={["승인","반려"]} />
                                     ))}
                                 </TableBody>
                             </Table>
@@ -529,9 +530,9 @@ class ProcessAppealRequest extends Component{
 
                         <Box component="section" sx={{ display: this.state.showPagiNation,alignItems: 'center', justifyContent: 'center' }}>
                             <Pagination
-                                activePage={this.state.activePage}
+                                activePage={parseInt(this.state.activePage)}
                                 itemsCountPerPage={this.state.pageData['size']}
-                                totalItemsCount={this.state.pageData['totalElement']}
+                                totalItemsCount={this.state.pageData['totalElement']||0}
                                 pageRangeDisplayed={10}
                                 onChange={(page) => this.fetchData(page)}
                                 innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일

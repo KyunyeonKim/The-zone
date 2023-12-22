@@ -112,7 +112,7 @@ class VacationProcess extends Component {
             activePage: 1,
             showPagiNation: 'flex',
             data: [],
-            pageData: {},
+            pageData: {totalElement:0},
             approveOpen: false,
             rejectOpen: false,
             dialogOpen: false,
@@ -141,6 +141,7 @@ class VacationProcess extends Component {
         this.handleInputCheckClose=this.handleInputCheckClose.bind(this);
         this.handleSearchResultCheck=this.handleSearchResultCheck.bind(this);
         this.handleSearchResultCheckClose=this.handleSearchResultCheckClose.bind(this);
+        this.showErrorDialog=this.showErrorDialog.bind(this);
     }
 
     handleInputCheck=()=>{
@@ -164,6 +165,15 @@ class VacationProcess extends Component {
         this.searchKeyword = e.target.value;
     }
 
+    showErrorDialog = (title, message) => {
+        this.setState({
+            dialogOpen: true,
+            dialogTitle: title,
+            dialogMessage: message,
+        });
+    };
+
+
 
     fetchData = async (page) => {
 
@@ -182,7 +192,7 @@ class VacationProcess extends Component {
 
         try {
             const getVacationAllRequest = await axios.get('http://localhost:8080/manager/vacation/all/requested' + getPage);
-            console.log("getVacationAllRequest.data.data : ", getVacationAllRequest.data.data);
+            //console.log("getVacationAllRequest.data.data : ", getVacationAllRequest.data.data);
 
             const getVacationAllRequestData = getVacationAllRequest.data.data.map(item => {
                 return {
@@ -197,7 +207,7 @@ class VacationProcess extends Component {
                 };
             });
 
-            console.log("1. getVacationAllRequestData : ", getVacationAllRequestData);
+            //console.log("1. getVacationAllRequestData : ", getVacationAllRequestData);
 
 
             this.setState({
@@ -217,7 +227,7 @@ class VacationProcess extends Component {
                 if (status === 400) {
                     errorMessage = "400 잘못된 요청입니다";
                 } else if (status === 500) {
-                    errorMessage = "500 Internal Server Error!";
+                    // errorMessage = "500 Internal Server Error!";
                 } else if (status === 403) {
                     errorMessage = "403 Forbidden Error!";
                 }
@@ -232,13 +242,6 @@ class VacationProcess extends Component {
 
 
 
-    showErrorDialog = (title, message) => {
-        this.setState({
-            dialogOpen: true,
-            dialogTitle: title,
-            dialogMessage: message,
-        });
-    };
 
     // 다이얼로그 닫기 함수
     closeDialog = () => {
@@ -270,7 +273,7 @@ class VacationProcess extends Component {
         } else {
             try {
                 const searchRawData = await axios.get(`http://localhost:8080/manager/search/vacation/all/requested?searchParameter=${searchKeyword}`);
-                console.log("searchRawData :", searchRawData);
+                //console.log("searchRawData :", searchRawData);
 
                 if (searchRawData.data === "") {
                     this.handleSearchResultCheck();
@@ -291,7 +294,6 @@ class VacationProcess extends Component {
 
                     };
                 });
-                console.log("getSearchAllVacationRequest : ", searchRawData);
 
 
                 this.setState({
@@ -401,6 +403,7 @@ class VacationProcess extends Component {
         const {searchKeyword, data} = this.state;
         const {classes} = this.props;
         const {dialogOpen, dialogTitle, dialogMessage} = this.state;
+
         return (
             <div>
                 <Snackbar anchorOrigin={{horizontal: 'center',vertical:'top'}}  open={this.state.inputCheckSnackbarOpen} autoHideDuration={2000} onClose={this.handleInputCheckClose}>
@@ -529,7 +532,6 @@ class VacationProcess extends Component {
                                         <TableCell align="center" className={classes.titleText}>일련 번호</TableCell>
                                         <TableCell align="center" className={classes.titleText}>사원 번호</TableCell>
                                         <TableCell align="center" className={classes.titleText}>사원 이름</TableCell>
-                                        <TableCell align="center" className={classes.titleText}>연차 종류</TableCell>
                                         <TableCell align="center" className={classes.titleText}>연차 시작 날짜</TableCell>
                                         <TableCell align="center" className={classes.titleText}>연차 종료 날짜</TableCell>
                                         <TableCell align="center" className={classes.titleText}>신청 사유</TableCell>
@@ -557,9 +559,9 @@ class VacationProcess extends Component {
                         <Box component="section"
                              sx={{display: this.state.showPagiNation, alignItems: 'center', justifyContent: 'center'}}>
                             <Pagination
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={this.state.pageData['size']}
-                                totalItemsCount={this.state.pageData['totalElement']}
+                                activePage={parseInt(this.state.activePage)}
+                                itemsCountPerPage={this.state.pageData.size}
+                                totalItemsCount={this.state.pageData.totalElement}
                                 pageRangeDisplayed={10}
                                 onChange={(page) => this.fetchData(page)}
                                 innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일

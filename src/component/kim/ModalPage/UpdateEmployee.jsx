@@ -365,6 +365,12 @@ class UpdateEmployee extends Component {
     closeDialog = () => {
         this.setState({dialogOpen: false});
     };
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
+    }
 
     render() {
         const {

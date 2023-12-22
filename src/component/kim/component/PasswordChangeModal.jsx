@@ -111,6 +111,12 @@ class PasswordChangeModal extends Component {
         this.setState({dialogOpen: false});
         this.props.onClose();
     };
+    handleSnackbarClose = (event , reason) =>{
+        if(reason ==='clickawy'){
+            return;
+        }
+        this.setState({snackbarOpen : false});
+    }
 
 
     render() {

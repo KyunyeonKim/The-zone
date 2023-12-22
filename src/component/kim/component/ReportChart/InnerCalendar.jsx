@@ -88,7 +88,7 @@ const styles = (theme) => ({
     normal_attendance: {
         height: '10px',
         width: '10px',
-        backgroundColor: '#63A1FF',
+        backgroundColor: '#1B46C6',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
@@ -96,7 +96,7 @@ const styles = (theme) => ({
     abnormal_attendance: {
         height: '10px',
         width: '10px',
-        backgroundColor: '#474698',
+        backgroundColor: '#D643B7',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
@@ -104,7 +104,7 @@ const styles = (theme) => ({
     undefined_attendance: {
         height: '10px',
         width: '10px',
-        backgroundColor: '#3d8877',
+        backgroundColor: '#33CC4C',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
@@ -120,7 +120,7 @@ const styles = (theme) => ({
     permitted_vacation: {
         height: '10px',
         width: '10px',
-        backgroundColor: '#39a649',
+        backgroundColor: '#4F5DF8',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
@@ -128,7 +128,7 @@ const styles = (theme) => ({
     request_vacation: {
         height: '10px',
         width: '10px',
-        backgroundColor: '#883794',
+        backgroundColor: '#B3A62C',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
@@ -136,7 +136,7 @@ const styles = (theme) => ({
     rejected_vacation: {
         height: '10px',
         width: '10px',
-        backgroundColor: '#ff0000',
+        backgroundColor: '#F74F4F',
         borderRadius: '50%',
         display: 'flex',
         marginLeft: '1px',
@@ -301,13 +301,13 @@ class InnerCalendar extends Component {
                     className={`mx-auto w-full text-sm border-b ${classes.calendar}`}
                     tileContent={({date}) => {
                         const html = [];
-                        let find = mark.find((x) => x.date === moment(date).format('YYYY-MM-DD'))
+                        let find = mark.find((x) => ( x!=undefined?x.date === moment(date).format('YYYY-MM-DD') : false))
                         if (find) {
                             html.push(<div className={find.category}></div>);
                         }
                         return (
                             <>
-                                <div className="flex justify-center items-center absoluteDiv">{html}</div>
+                                <div className="justify-center items-center absoluteDiv" style={{display:"flex"}} >{html}</div>
                             </>
                         );
                     }}
