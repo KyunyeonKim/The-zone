@@ -227,7 +227,7 @@ class VacationProcess extends Component {
                 if (status === 400) {
                     errorMessage = "400 잘못된 요청입니다";
                 } else if (status === 500) {
-                    errorMessage = "500 Internal Server Error!";
+                    // errorMessage = "500 Internal Server Error!";
                 } else if (status === 403) {
                     errorMessage = "403 Forbidden Error!";
                 }

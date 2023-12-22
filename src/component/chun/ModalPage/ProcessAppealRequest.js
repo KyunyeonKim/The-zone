@@ -217,7 +217,7 @@ class ProcessAppealRequest extends Component{
                         errorMessage = "400 Bad Request 에러!";
                         break;
                     case 500:
-                        errorMessage = "500 Internal Server 에러!";
+                        // errorMessage = "500 Internal Server 에러!";
                         break;
                     case 403:
                         errorMessage = "403 권한이 없습니다";

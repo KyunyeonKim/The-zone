@@ -47,7 +47,12 @@ class NotificationListForManager extends Component {
             let hasNext = requests.data.hasNext
 
             this.setState({
-                anchorEl: this.state.anchorEl, totalCount: getTotalCount, hasNext: hasNext,
+                anchorEl: this.state.anchorEl, requests: this.state.requests.concat({
+                    id: event.id,
+                    content: event.data,
+                    unread: event.data.readTime == null,
+                    forManager: event.data.forManager
+                }), totalCount: getTotalCount, hasNext: hasNext,
                 snackbarOpen:true, snackbarMessage : "새로운 요청을 수신하였습니다!"
             })
         }.bind(this);
@@ -181,7 +186,8 @@ class NotificationListForManager extends Component {
             } else {
             }
         } catch (error) {
-            alert(`메세지 전환 실패 ${error.response.status}`)
+            this.setState({ snackbarOpen:true, snackbarMessage : `메세지 읽음 처리 실패. 새로고침 후 다시 시도해주세요`})
+            this.registerAgain()
         }
     }.bind(this)
 
@@ -213,16 +219,7 @@ class NotificationListForManager extends Component {
                                     fontSize={"large"}>
                     </AssignmentIcon>
                 </Badge>
-            <Snackbar
-                open={this.state.snackbarOpen}
-                autoHideDuration={6000}
-                onClose={this.handleSnackbarClose}
-                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
-            >
-                <Alert onClose={this.handleSnackbarClose} severity="info">
-                    {this.state.snackbarMessage}
-                </Alert>
-            </Snackbar>
+
                 <Dialog
                     open={this.state.dialogOpen}
                     onClose={this.closeDialog}
@@ -241,7 +238,16 @@ class NotificationListForManager extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-
+            <Snackbar
+                open={this.state.snackbarOpen}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+            >
+                <Alert onClose={this.handleSnackbarClose} severity="info">
+                    {this.state.snackbarMessage}
+                </Alert>
+            </Snackbar>
                 <Popover
                     open={isOpen}
                     anchorEl={anchorEl}
@@ -274,10 +280,11 @@ class NotificationListForManager extends Component {
                                             <ListItemText primary={request.content}/>
                                         </Grid>
                                         <Grid item>
-                                            <IconButton edge="end" aria-label="check"
-                                                        onClick={() => this.changeToRead(request.id)}>
-                                                <CheckIcon color={request.unread ? "primary" : "secondary"}/>
-                                            </IconButton>
+                                            {/*<IconButton edge="end" aria-label="check"*/}
+                                            {/*            onClick={() => this.changeToRead(request.id)}>*/}
+                                                <CheckIcon edge="end" aria-label="check"
+                                                           onClick={() => this.changeToRead(request.id)} color={request.unread ? "primary" : "secondary"}/>
+                                            {/*// </IconButton>*/}
                                         </Grid>
                                     </ListItem>))}
                             </Grid>

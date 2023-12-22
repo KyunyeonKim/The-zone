@@ -8,7 +8,7 @@ import {
     ListItem,
     ListItemText,
     Paper,
-    Popover,
+    Popover, Snackbar,
     Typography
 } from '@material-ui/core';
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -17,6 +17,7 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
+import {Alert} from "@material-ui/lab";
 
 class NotificationListForEmployee extends Component {
     employeeNumber
@@ -42,7 +43,6 @@ class NotificationListForEmployee extends Component {
             let id = this.state.requests.length + 1
             let getTotalCount = requests.data.totalElement
             let hasNext = requests.data.hasNext
-            alert('message get!');
             this.setState({
                 anchorEl: this.state.anchorEl, totalCount: getTotalCount, hasNext: hasNext,
                 snackbarOpen:true, snackbarMessage : "요청이 처리되었습니다!"
@@ -78,7 +78,6 @@ class NotificationListForEmployee extends Component {
             this.setState({
                 anchorEl: null, requests: mappedUnreadMsg,//state에 담아서 유지
                 totalCount: getTotalCount, hasNext: hasNext,
-                snackbarOpen:true, snackbarMessage : "요청이 처리되었습니다!"
             });
 
 
@@ -96,7 +95,7 @@ class NotificationListForEmployee extends Component {
         let hasNext = requests.data.hasNext
         this.setState({
             anchorEl: null, requests: mappedUnreadMsg,//state에 담아서 유지
-            totalCount: getTotalCount, hasNext: hasNext
+            totalCount: getTotalCount, hasNext: hasNext, page: 1
         });
     }
 
@@ -134,7 +133,7 @@ class NotificationListForEmployee extends Component {
     handleCloseList = () => {
         //console.log(`handleCloseList`)
         this.registerAgain()
-        this.setState({anchorEl: null, requests: this.state.requests, totalCount: this.state.totalCount});
+        this.setState({anchorEl: null, requests: this.state.requests, totalCount: this.state.totalCount, });
     };
 
 
@@ -175,7 +174,7 @@ class NotificationListForEmployee extends Component {
             } else {
             }
         } catch (error) {
-            alert(`메세지 읽기 실패 `)
+            this.setState({ snackbarOpen:true, snackbarMessage : `메세지 읽음 처리 실패. 새로고침 후 다시 시도해주세요`})
             this.registerAgain()
         }
     }.bind(this)
@@ -228,6 +227,16 @@ class NotificationListForEmployee extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+            <Snackbar
+                open={this.state.snackbarOpen}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+            >
+                <Alert onClose={this.handleSnackbarClose} severity="info">
+                    {this.state.snackbarMessage}
+                </Alert>
+            </Snackbar>
 
                 <Popover
                     open={isOpen}
