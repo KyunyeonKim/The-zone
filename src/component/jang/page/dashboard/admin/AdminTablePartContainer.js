@@ -384,7 +384,8 @@ class AdminTablePartContainer extends Component {
                             onChange={(page) => this.fetchData(this.searchKeyword,page)}
                             innerClass={classes.pagination} // 페이징 컨테이너에 대한 스타일
                             itemClass={classes.pageItem} // 각 페이지 항목에 대한 스타일
-                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타일
+                            activeClass={classes.activePageItem} // 활성 페이지 항목에 대한 스타npm start
+
                         />
                     </Box>
                 </Box>

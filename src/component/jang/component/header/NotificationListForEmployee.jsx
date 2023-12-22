@@ -44,9 +44,7 @@ class NotificationListForEmployee extends Component {
             let hasNext = requests.data.hasNext
             alert('message get!');
             this.setState({
-                anchorEl: this.state.anchorEl, requests: this.state.requests.concat({
-                    id: event.id, content: event.data, unread: event.data.readTime == null
-                }), totalCount: getTotalCount, hasNext: hasNext,
+                anchorEl: this.state.anchorEl, totalCount: getTotalCount, hasNext: hasNext,
                 snackbarOpen:true, snackbarMessage : "요청이 처리되었습니다!"
 
             })

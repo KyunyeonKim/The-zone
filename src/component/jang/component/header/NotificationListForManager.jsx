@@ -47,12 +47,7 @@ class NotificationListForManager extends Component {
             let hasNext = requests.data.hasNext
 
             this.setState({
-                anchorEl: this.state.anchorEl, requests: this.state.requests.concat({
-                    id: event.id,
-                    content: event.data,
-                    unread: event.data.readTime == null,
-                    forManager: event.data.forManager
-                }), totalCount: getTotalCount, hasNext: hasNext,
+                anchorEl: this.state.anchorEl, totalCount: getTotalCount, hasNext: hasNext,
                 snackbarOpen:true, snackbarMessage : "새로운 요청을 수신하였습니다!"
             })
         }.bind(this);
