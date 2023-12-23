@@ -272,21 +272,17 @@ class EmployeeReport extends Component {
 
                             </TableRow>
                             {/* 첫 번째 행: 연차 차트 및 정보 */}
-                            <StyledTableCell colSpan={1} style={{textAlign: 'center'}}
-                                             className={classes.subtitle}>
-                                {/* 달의 이름을 사용하여 제목 생성 */}
-                                {`${month}월 정보`}
-                            </StyledTableCell>
-                            <StyledTableCell colSpan={1} style={{textAlign: 'center'}}
-                                             className={classes.subtitle}>
-                                {/* 달의 이름을 사용하여 제목 생성 */}
-                                {`${month}월 차트 정보`}
-                            </StyledTableCell>
-                            <StyledTableCell colSpan={1} style={{textAlign: 'center'}}
-                                             className={classes.subtitle}>
-                                {/* 달의 이름을 사용하여 제목 생성 */}
-                                {`${month}월 달력 정보`}
-                            </StyledTableCell>
+                            <TableRow className={classes.spacedTableRow}>
+                                <StyledTableCell colSpan={1} style={{textAlign: 'center'}} className={classes.subtitle}>
+                                    {`${month}월 정보`}
+                                </StyledTableCell>
+                                <StyledTableCell colSpan={1} style={{textAlign: 'center'}} className={classes.subtitle}>
+                                    {`${month}월 차트 정보`}
+                                </StyledTableCell>
+                                <StyledTableCell colSpan={1} style={{textAlign: 'center'}} className={classes.subtitle}>
+                                    {`${month}월 달력 정보`}
+                                </StyledTableCell>
+                            </TableRow>
                             <TableRow>
                                 <StyleTableCell className={classes.BackGround}>
                                     {/* 연차 정보 */}
