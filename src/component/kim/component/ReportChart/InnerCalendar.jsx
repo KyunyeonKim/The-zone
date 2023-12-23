@@ -299,16 +299,14 @@ class InnerCalendar extends Component {
                     navigationLabel={null}
                     showNeighboringMonth={false}
                     className={`mx-auto w-full text-sm border-b ${classes.calendar}`}
-                    tileContent={({date}) => {
-                        const html = [];
-                        let find = mark.find((x) => ( x!=undefined?x.date === moment(date).format('YYYY-MM-DD') : false))
-                        if (find) {
-                            html.push(<div className={find.category}></div>);
-                        }
+                    tileContent={({ date }) => {
+                        const dateString = moment(date).format('YYYY-MM-DD');
+                        let find = mark.find((x) => x && x.date === dateString);
+                        const html = find ? <div key={dateString} className={find.category}></div> : null;
                         return (
-                            <>
-                                <div className="justify-center items-center absoluteDiv" style={{display:"flex"}} >{html}</div>
-                            </>
+                            <div className="justify-center items-center absoluteDiv" style={{display: "flex"}}>
+                                {html}
+                            </div>
                         );
                     }}
                 />
