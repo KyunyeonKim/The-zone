@@ -46,7 +46,12 @@ class MainChart extends Component {
 
     initChart = () => {
         const {data} = this.props;
-        const chart = echarts.init(this.chartRef.current);
+        let chart = echarts.getInstanceByDom(this.chartRef.current);
+        if (!chart) {
+            chart = echarts.init(this.chartRef.current);
+        } else {
+            chart.clear();
+        }
         const usedVacation = data[0].value;
         const totalVacation = usedVacation + data[1].value;
         const usedPercentage = totalVacation > 0 ? ((usedVacation / totalVacation) * 100).toFixed(0) : 0; // 정수로 반올림
@@ -67,9 +72,7 @@ class MainChart extends Component {
                         {value: data[1].value, name: data[1].name, itemStyle: {color: '#F2F2F2'}} // 연차 잔여 갯수
                     ],
                     label: {
-                        normal: {
-                            show: false // 각 데이터 포인트 주변의 라벨 숨김
-                        }
+                        show: false // Configure label styles directly here
                     },
                     labelLine: {
                         show: false // 라벨 라인 숨김
