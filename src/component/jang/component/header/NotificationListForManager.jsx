@@ -186,8 +186,7 @@ class NotificationListForManager extends Component {
             } else {
             }
         } catch (error) {
-            this.setState({ snackbarOpen:true, snackbarMessage : `메세지 읽음 처리 실패. 새로고침 후 다시 시도해주세요`})
-            this.registerAgain()
+            alert(`메세지 전환 실패 ${error.response.status}`)
         }
     }.bind(this)
 
@@ -219,7 +218,16 @@ class NotificationListForManager extends Component {
                                     fontSize={"large"}>
                     </AssignmentIcon>
                 </Badge>
-
+            <Snackbar
+                open={this.state.snackbarOpen}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+            >
+                <Alert onClose={this.handleSnackbarClose} severity="info">
+                    {this.state.snackbarMessage}
+                </Alert>
+            </Snackbar>
                 <Dialog
                     open={this.state.dialogOpen}
                     onClose={this.closeDialog}
@@ -238,16 +246,7 @@ class NotificationListForManager extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-            <Snackbar
-                open={this.state.snackbarOpen}
-                autoHideDuration={6000}
-                onClose={this.handleSnackbarClose}
-                anchorOrigin={{ vertical:'top', horizontal: 'center' }}
-            >
-                <Alert onClose={this.handleSnackbarClose} severity="info">
-                    {this.state.snackbarMessage}
-                </Alert>
-            </Snackbar>
+
                 <Popover
                     open={isOpen}
                     anchorEl={anchorEl}
@@ -284,7 +283,7 @@ class NotificationListForManager extends Component {
                                             {/*            onClick={() => this.changeToRead(request.id)}>*/}
                                                 <CheckIcon edge="end" aria-label="check"
                                                            onClick={() => this.changeToRead(request.id)} color={request.unread ? "primary" : "secondary"}/>
-                                            {/*// </IconButton>*/}
+                                            {/*</IconButton>*/}
                                         </Grid>
                                     </ListItem>))}
                             </Grid>
