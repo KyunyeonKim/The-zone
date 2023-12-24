@@ -93,8 +93,8 @@ const styles = theme => ({
     },
     uploadIcon: {
         borderRadius: '50%',
-        width: 240,
-        height: 1000,
+        width: '100%',
+        height: '100%',
         objectFit: 'cover',
     },
     submitButton: {
