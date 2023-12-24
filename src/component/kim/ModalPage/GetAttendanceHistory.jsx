@@ -64,14 +64,14 @@ class GetAttendanceHistory extends Component {
         const isYearMonthProvided = year && month;
         const url = isYearMonthProvided
             ? `http://localhost:8080/manager/attendance/history`
-            : `http://localhost:8080/manager/attendance/alls?page=${page}&sort=attendanceAppealRequestTime&desc=asc&searchParameter=${searchParameter}`;
+            : `http://localhost:8080/manager/attendance/alls?page=${page}&sort=attendanceDate&desc=asc&searchParameter=${searchParameter}`;
         try {
             const params = isYearMonthProvided ? {
                 year: year,
                 month: month,
                 day: day,
                 page: page,
-                sort: 'attendanceAppealRequestTime',
+                sort: 'attendanceDate',
                 desc: 'asc',
                 searchParameter: searchParameter
             }:{};

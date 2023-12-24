@@ -130,6 +130,7 @@ const styles = theme => ({
 
 class ListAttendanceYearMonthDay extends Component {
 
+
     getVacationStatusButton = (item) => {
         const {classes} = this.props;
         let buttonProps = {
@@ -178,7 +179,7 @@ class ListAttendanceYearMonthDay extends Component {
                                     <TableCell className={classes.titleText}>신청사유</TableCell>
                                     <TableCell className={classes.titleText}>조정출근시간</TableCell>
                                     <TableCell className={classes.titleText}>조정퇴근시간</TableCell>
-                                    <TableCell className={classes.titleText}>요청시간</TableCell>
+                                    <TableCell className={classes.titleText}>근태날짜</TableCell>
                                     <TableCell className={classes.titleText}>반려이유</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -194,7 +195,8 @@ class ListAttendanceYearMonthDay extends Component {
                                         <TableCell className={classes.text}>{item.appealedStartTime}</TableCell>
                                         <TableCell className={classes.text}>{item.appealedEndTime}</TableCell>
                                         <TableCell
-                                            className={classes.text}>{item.attendanceAppealRequestTime}</TableCell>
+                                            className={classes.text}>
+                                            {item.attendanceDate}</TableCell>
                                         <TableCell className={classes.text}>{item.reasonForRejection}</TableCell>
                                     </TableRow>
                                 )) : (

@@ -65,17 +65,6 @@ class SearchYearMonthDay extends Component {
     }
 
 
-        // if (day === "월별 검색") {
-        //     day = '0';
-        // }
-        // if (!year || !month) {
-        //     this.setState({
-        //         snackbarOpen: true, snackbarMessage: "년도와 월을 선택해주세요 "
-        //     });
-        //     return;
-        // }
-
-
     handleSnackbarClose = (event , reason) =>{
         if(reason ==='clickawy'){
             return;
