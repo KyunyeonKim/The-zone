@@ -69,7 +69,7 @@ class EmployeeReport extends Component {
         return (
             <div className={classes.root}>
                 <Typography className={classes.title}>
-                    전 사원에 대한 통계 보고서
+                    전 사원에 대한 보고서 생성
                 </Typography>
                 <SelectInfoForManagerReport saveSelectYearAndMonth = {this.saveSelectYearAndMonth}/>
                 {this.state.reportGenerated && this.state.month.map((element) => (
