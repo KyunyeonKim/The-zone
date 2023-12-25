@@ -148,7 +148,7 @@ export default class CalendarContainer extends React.Component {
         //현재날짜 +3일보다 더 빠른 날짜에 대해서는 연차 요청 불가능
         if (currentDate < today) {
             currentDate = today
-            currentDate.setDate(currentDate.getDate());
+            currentDate.setDate(currentDate.getDate()+1);
         }
         //정확한 비교 연산을 위하여 시간 초기화
         currentDate.setHours(0, 0, 0, 0)
