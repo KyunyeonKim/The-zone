@@ -104,7 +104,7 @@ class ApprovalRequestedAttendance extends Component {
                     &nbsp;근태&nbsp;
                 </Typography>
                 <Typography variant="h6" className={classes.title}>
-                    이상 요청중
+                    조정 요청중
                 </Typography>
                 <Typography variant="h5" className={classes.infoText}>
                     {approvalRequestedAttendance !== null ? approvalRequestedAttendance : 'Loading...'}

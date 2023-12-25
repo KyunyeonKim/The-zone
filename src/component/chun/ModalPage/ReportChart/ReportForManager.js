@@ -24,6 +24,13 @@ const styles = theme => ({
         lineHeight: '100px',
         fontFamily: 'IBM Plex Sans KR, sans-serif',
     },
+    charttitle: {
+        backgroundColor: '#f0f0f0', textAlign: 'center', border: '2px solid black', fontSize: '35px', // 이 값을 변경하여 글씨 크기 조절
+        lineHeight: '100px', // 이 값을 'height'와 동일하게 설정하여 글자를 수직 가운데 정렬
+        // Material-UI의 theme.spacing을 사용하여 양 옆에 패딩 추가 (옵션)
+        marginTop: '20px', padding: '0px'
+
+    },
     // 추가적인 스타일을 여기에 정의할 수 있습니다.
 });
 
@@ -71,15 +78,19 @@ class EmployeeReport extends Component {
                 <Typography className={classes.title}>
                     전 사원에 대한 보고서 생성
                 </Typography>
-                <SelectInfoForManagerReport saveSelectYearAndMonth = {this.saveSelectYearAndMonth}/>
+                <SelectInfoForManagerReport saveSelectYearAndMonth={this.saveSelectYearAndMonth}/>
                 {this.state.reportGenerated && this.state.month.map((element) => (
                     <OneMonthOutPutForReport key={element} year={this.state.year} month={element} appendData={this.appendData} />
                 ))}
-                {this.state.reportGenerated&& <SelectAllMonthesOutPutForReport />}
+                {this.state.reportGenerated && (
+                    <>
+                        <Typography variant="h4" className={classes.charttitle}>월별 전 사원 막대차트 현황</Typography>
+                        <SelectAllMonthesOutPutForReport />
+                    </>
+                )}
             </div>
         );
     }
-
 }
 
 export default withStyles(styles)(EmployeeReport);
