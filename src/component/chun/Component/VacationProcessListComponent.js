@@ -76,6 +76,7 @@ class VacationProcessListComponent extends Component {
             this.props.parentRerender()
         } catch (error) {
             let errorMessage = "An error occurred!";
+            alert(`vacation ${JSON.stringify(error.response)}`)
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
@@ -120,6 +121,7 @@ class VacationProcessListComponent extends Component {
 
         } catch (error) {
             let errorMessage = "An error occurred!";
+            alert(`vacation ${JSON.stringify(error.response)}`)
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
