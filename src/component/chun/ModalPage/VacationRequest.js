@@ -157,11 +157,12 @@ class VacationRequest extends Component {
     };
 
     handleDialogClose = () => {
-        this.setState({
-            isDialogOpen: false,
-            dialogTitle: '',
-            dialogMessage: '',
-        });
+        // this.setState({
+        //     isDialogOpen: false,
+        //     dialogTitle: '',
+        //     dialogMessage: '',
+        // });
+        this.props.args[0]();
     };
 
     getRemainVacationCount = async () => {
