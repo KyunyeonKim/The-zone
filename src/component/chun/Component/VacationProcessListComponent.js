@@ -178,6 +178,9 @@ class VacationProcessListComponent extends Component {
         }
 
     };
+    closeDialog =function(){
+        this.setState({dialogOpen: false,})
+    }.bind(this)
 
     render() {
         const {row,keyData,title,onApproveBtnClick,onRejectBtnClick,id,className} = this.props;
