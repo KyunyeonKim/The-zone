@@ -87,6 +87,8 @@ class VacationProcessListComponent extends Component {
                     case 403:
                         errorMessage = "403 권한이 없습니다!";
                         break;
+                    case 409 :
+                        errorMessage = "409 이미 진행 작업이 존재합니다!";
                     default:
                         errorMessage = "An error occurred while fetching data!";
                         break;
