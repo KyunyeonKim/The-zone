@@ -136,6 +136,7 @@ class VacationProcessListComponent extends Component {
                         break;
                     case 409:
                         errorMessage = "409 이미 진행 작업이 존재합니다!";
+                        break;
                     default:
                         errorMessage = "An error occurred while fetching data!";
                         break;
