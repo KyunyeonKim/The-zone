@@ -248,6 +248,7 @@ class VacationRequest extends Component {
                     case 400: errorMessage = "400 잘못된 요청입니다"; break;
                     case 500: errorMessage = "500 Internal Server Error!"; break;
                     case 403: errorMessage = "403 Forbidden - Access denied!"; break;
+                    case 409: errorMessage = "이미 진행 중인 요청이 있습니다(409)"; break;
                 }
             } else {
                 errorMessage = "An unexpected error occurred!";
