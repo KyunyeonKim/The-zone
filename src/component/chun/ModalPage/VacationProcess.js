@@ -220,7 +220,6 @@ class VacationProcess extends Component {
                 sort: this.sort
             });
         }catch (error) {
-
             let errorMessage = "데이터를 불러오는 중 오류가 발생했습니다.";
             if (error.response) {
                 const { status } = error.response;
@@ -230,6 +229,8 @@ class VacationProcess extends Component {
                     // errorMessage = "500 Internal Server Error!";
                 } else if (status === 403) {
                     errorMessage = "403 Forbidden Error!";
+                }else if (status === 409) {
+                    errorMessage = "409 진행 중인 요청이 있습니다!";
                 }
             } else {
                 console.error('Error:', error);
